@@ -1,0 +1,242 @@
+{
+  "region_name": "US",
+  "region_code": "us",
+  "merchant_id": "58007",
+  "currency_symbol": "$",
+  "report_date": "2026-04-16",
+  "home_screenshot": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/us_home.png",
+  "publishers_screenshot": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/us_publishers_full.png",
+
+  "exec_kpi": [
+    ["GMV (周)", "$3,755.47", "▼ 36.7%", "$5,500", "🔴 红"],
+    ["GMV (昨日)", "$265.44", "▼ 52.7%", "$420", "🔴 红"],
+    ["订单数 (周)", "62", "▼ 28.0%", "85", "🔴 红"],
+    ["订单数 (昨日)", "7", "▼ 30.0%", "12", "🔴 红"],
+    ["点击 (昨日)", "2,331", "▲ 1.79%", "2,200", "🟢 绿"],
+    ["MTD GMV", "$9,805", "—", "$15,000", "🟡 黄"],
+    ["MTD 订单", "99", "—", "140", "🟡 黄"],
+    ["MTD 点击", "21,682", "—", "20,000", "🟢 绿"],
+    ["活跃 Publisher (MTD)", "100", "▲ +18", "≥ 90", "🟢 绿"],
+    ["待审佣金", "328 笔", "—", "< 200", "🟡 黄"],
+    ["EPC ($/100 clicks)", "$45.22", "▼ 38.2%", "$60", "🔴 红"],
+    ["AOV", "$60.57", "▼ 8.5%", "$70", "🟡 黄"]
+  ],
+  "exec_takeaways": [
+    "GMV 周环比下滑 36.7%，主驱动来自单笔订单萎缩 — 流量基本面未变，问题在转化和客单价。",
+    "活跃 Publisher 数（100 家）+ 点击量（21K）创近月高位，但收入未跟上 — 漏斗下半段（落地页/优惠/购物车）漏水。",
+    "本周新增 30 家合作 Publisher（多为 coupon/cashback 网络），需在 7 天内安排激活物料投放，否则将进入'冷库存'。"
+  ],
+  "exec_diagnosis": "US 站点呈现典型的'流量在增、转化掉队'特征。点击微涨而 GMV 大幅下滑，意味着 Publisher 把对的人带到了错的页面，或站点价格没有竞争力。同时 328 笔未审佣金积压，正向激励信号正在向 Publisher 端弱化。",
+  "exec_suggestions": [
+    "本周内审完所有 328 笔积压佣金 — 直接给 Publisher 的'回款体验'打 +10 分。",
+    "对 GMV Top 5 Publisher 单独发战略邮件：提供独家 8% 增佣 + 独家 Coupon 促销窗口（48 小时）。",
+    "对新增 30 家 Publisher 启动 7 天激活包：欢迎邮件 + 产品 feed + 现成 banner + $5 测试佣金提升。",
+    "落地页 A/B 测试：当前站点 hero 价格 vs 折后价的展示方式。"
+  ],
+
+  "gmv_trend": [
+    ["周三", "$430.88", "$685.12", "▼ 37.1%", "周中疲软"],
+    ["周四", "$612.45", "$890.34", "▼ 31.2%", "Cashback 网络回报延迟"],
+    ["周五", "$498.22", "$720.18", "▼ 30.8%", "无促销活动"],
+    ["周六", "$520.66", "$810.44", "▼ 35.8%", "周末转化下滑"],
+    ["周日", "$595.10", "$1,020.55", "▼ 41.7%", "Yieldkit 单点峰值未复现"],
+    ["周一", "$832.72", "$1,820.24", "▼ 54.2%", "上周一为月初首单峰"],
+    ["周二", "$265.44", "$988.65", "▼ 73.2%", "异常低点 — 待排查 Tracking"]
+  ],
+  "channel_breakdown": [
+    ["内容/Editorial", "$3,432", "35.0%", "▼ 12%", "占比最高，需扩量"],
+    ["返现/Cashback", "$2,941", "30.0%", "▼ 28%", "Yieldkit 主导"],
+    ["优惠码/Discount", "$2,255", "23.0%", "▼ 41%", "Coupon 站佣金过低"],
+    ["其他/Other", "$1,078", "11.0%", "▼ 22%", "包含直链 / Influencer"],
+    ["Sub Networks", "$99", "1.0%", "—", "占比极小"]
+  ],
+  "geo_device_product": [
+    ["地域", "美国本土 92%", "无国际溢出 — 联盟仅服务本土流量"],
+    ["设备", "Mobile 64% / Desktop 32% / Tablet 4%", "Mobile 转化率落后 Desktop 28%，移动端落地页待优化"],
+    ["品类", "骑行配件 (Cycling) 主导，Top 3 SKU 占 62% GMV", "品类集中度高 — 露营/滑雪 SKU 流量浪费"]
+  ],
+  "gmv_diagnosis": "周二的 GMV 异常低点（环比 ▼73%）需第一时间排查：是否存在跟踪掉单 / Tag 失效 / Awin Pixel 异常。渠道侧，优惠码渠道贡献 23% 但环比 ▼41%，说明竞品的折扣策略更激进。",
+  "gmv_suggestions": [
+    "立刻检查 4/14 周二的 Awin Tracking Pixel 是否触发 — 若有掉单，向 Awin 提交 manual reconciliation。",
+    "优惠码渠道把 Coupon 价值从 5% 提升到 10%（限新客），并增加'最低订单 $50'门槛保 AOV。",
+    "内容渠道把骑行/露营/滑雪三类品分别建立专属 banner + landing page，避免 traffic 错配。",
+    "Mobile 落地页加'快捷支付（Apple Pay / Shop Pay）'按钮，预计提升 mCVR 8–12%。"
+  ],
+
+  "top_publishers": [
+    ["YIELDKIT GmbH - Content sites", "DE", "$156.75", "▼ 18%", "Cashback/Editorial", "维持 — 测试 8% 增佣"],
+    ["SHOPTASTIC PTE. LTD.", "SG", "$49.99", "▲ 12%", "Cashback", "增佣到 15%（行业基准）"],
+    ["Wildfire Systems, Inc.", "US", "$38.70", "▼ 8%", "Cashback", "保持，定期 newsletter"],
+    ["SeekShop LLC", "US", "$20.00", "新", "Editorial", "邀请共建测评内容"],
+    ["RetailMeNot", "US", "—", "—", "Coupon", "本周需重启 — 已 14 天无单"],
+    ["Slickdeals", "US", "—", "—", "Forum/Deal", "重启 outreach"],
+    ["Honey", "US", "—", "—", "Cashback", "提交独家 coupon"],
+    ["Capital One Shopping", "US", "—", "—", "Cashback", "请求 Top deal 推荐位"],
+    ["Cuelinks (US Sub)", "US", "—", "—", "Sub network", "审计点击质量"],
+    ["The Penny Hoarder", "US", "—", "—", "Editorial", "Pitch 'Best Cycling Gear 2026' 文章"]
+  ],
+  "concentration": [
+    ["Top 1 Publisher GMV 占比", "59.2%", "< 30%", "🔴 极高"],
+    ["Top 3 Publisher GMV 占比", "85.6%", "< 50%", "🔴 极高"],
+    ["Top 10 Publisher GMV 占比", "100%", "< 75%", "🔴 极高"],
+    ["活跃 Publisher 数 / 合作总数", "100/1,186", "≥ 15%", "🔴 8.4% — 严重低活"]
+  ],
+  "top3_concentration_pct": 85.6,
+  "lifecycle": [
+    ["合作总数 (All Partners)", "1186", "—"],
+    ["MTD 活跃 (产生点击)", "100", "8.4%"],
+    ["产生订单", "62", "62.0%"],
+    ["GMV ≥ $50", "28", "45.2%"],
+    ["GMV ≥ $200 (核心)", "8", "12.9%"]
+  ],
+  "pub_diagnosis": "US 站点 1186 家合作伙伴中仅 100 家活跃（8.4%），意味着 91% 的资产处于沉睡。Top 3 占 85% 的 GMV 是高危的'单点依赖'结构 — 任何一家流失立即影响 25% 以上收入。",
+  "pub_suggestions": [
+    "把 1086 家'冷库存' Publisher 按上次活跃时间分层：< 90 天可一键唤醒（产品 feed + 新 banner），> 90 天进入清退评估。",
+    "对 Top 3 Publisher 谈判'独家窗口'：48 小时独家 coupon 换取置顶推荐位 + 流量保底。",
+    "建立'Tier 2 培育池'：把 GMV 在 $50–$200 的 8 家提升到 $200+，本月目标 +5 家进入核心层。",
+    "把 Editorial 类 Publisher 单独运营 — 提供产品评测 KOC 物料包，目标 30 天内孵化 3 家月 GMV ≥ $500 的 Editorial 伙伴。"
+  ],
+
+  "new_publishers_count": 30,
+  "new_publishers": [
+    ["NextGen Shopping, Inc.", "couponfollow.com", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["Port & Parcel Holdings", "parcelperks.app", "Cashback", "Retail & Shopping", "Apr 16, 2026"],
+    ["Phia", "phia.com", "Discount Code", "Jewellery", "Apr 16, 2026"],
+    ["Muhammad Usman Javed", "diegutscheincode.de", "Discount Code", "Finance & Insurance", "Apr 16, 2026"],
+    ["Promocodeon.com", "promocodeon.com", "Discount Code", "Finance & Insurance", "Apr 16, 2026"],
+    ["Reachjunction Media Limited", "reachjunction.com", "Editorial Content", "Retail & Shopping", "Apr 16, 2026"],
+    ["Reach Media and Advertising", "planyourweddingni.com", "Landing Pages", "—", "Apr 16, 2026"],
+    ["advanced store - Smart Advertising", "ad4mat.com", "Sub Networks", "Finance & Insurance", "Apr 16, 2026"],
+    ["media.ventive GmbH (rebounce.ai)", "rebounce.ai", "Contextual Targeting", "Finance & Insurance", "Apr 16, 2026"],
+    ["Iron Rod Digital", "—", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["AARON FARIS (radicalsavings.com)", "radicalsavings.com", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["Spaarwinkelen.nl", "spaarwinkelen.nl", "Cashback", "Retail & Shopping", "Apr 16, 2026"],
+    ["Quantive Data (moneyraccoon.com)", "moneyraccoon.com", "Cashback", "Finance & Insurance", "Apr 16, 2026"],
+    ["MyBOOBRisk", "—", "Editorial Content", "Health", "Apr 16, 2026"],
+    ["JS W (besttarget.solutions)", "besttarget.solutions", "Sub Networks", "Retail & Shopping", "Apr 16, 2026"],
+    ["Uruz (cupomzeiros.com)", "cupomzeiros.com", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["TIKATO S.R.L (UK,US,BR)", "—", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["Winstar Marketing", "—", "Sub Networks", "Retail & Shopping", "Apr 16, 2026"],
+    ["Outleash.com", "outleash.com", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["SOULCARE", "—", "Editorial Content", "Health", "Apr 16, 2026"],
+    ["Reviews-On", "—", "Editorial Content", "Retail & Shopping", "Apr 16, 2026"],
+    ["Performance Vision (reviewtrusted.com)", "reviewtrusted.com", "Editorial Content", "Retail & Shopping", "Apr 16, 2026"],
+    ["The Bargain Community", "—", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["ColorMango.com", "colormango.com", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["TrustDeals", "trustdeals.com", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["Reviewsbuz", "—", "Editorial Content", "Retail & Shopping", "Apr 16, 2026"],
+    ["VR Marketing (gutschein-code-finden.de)", "gutschein-code-finden.de", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["Sensitivegift", "—", "Editorial Content", "Retail & Shopping", "Apr 16, 2026"],
+    ["Ströer Media Brands - Familie.de", "familie.de", "Editorial Content", "Family", "Apr 16, 2026"],
+    ["SeekShop LLC", "—", "Editorial Content", "Retail & Shopping", "Apr 16, 2026"]
+  ],
+  "new_pub_breakdown": [
+    ["Discount Code (优惠码)", "13", "43.3%", "提供独家 coupon + 设置 Top deal 优先级"],
+    ["Editorial Content (内容评测)", "9", "30.0%", "投递产品 feed + 高分辨率素材包"],
+    ["Cashback (返现)", "3", "10.0%", "提供有竞争力的佣金率（建议 ≥ 8%）"],
+    ["Sub Networks (子网络)", "3", "10.0%", "审计来源 traffic 质量后再激活"],
+    ["其他 (Landing/Contextual)", "2", "6.7%", "1 周观察期，无单则降低优先级"]
+  ],
+  "activation": [
+    ["NextGen Shopping (couponfollow.com)", "已邀请", "Pending", "$0", "Day-3 跟进，提供 8% 独家 coupon"],
+    ["Port & Parcel Holdings (Cashback)", "已邀请", "Pending", "$0", "Day-7 激活包：返现 6% + 产品 feed"],
+    ["TrustDeals", "已激活", "已上架", "$0", "Day-14 检查首单"],
+    ["The Bargain Community", "已激活", "已上架", "$0", "推送独家 coupon 测试"],
+    ["Ströer Media Brands - Familie.de", "已激活", "—", "$0", "Pitch'家庭骑行' 内容主题"]
+  ],
+  "recruit_diagnosis": "本周新增 30 家是阶段性高点（来自 4/16 单日批量 outreach），但类型集中于 Coupon/Discount（43%），缺少高价值 Cashback 与高曝光 Editorial。激活率即将进入考验期 — 若不在 7 日内推送物料，将转化为'僵尸 Publisher'。",
+  "recruit_suggestions": [
+    "建立'7 日激活 SLA'：所有新 Publisher 在加入后 24 小时内收到欢迎包，72 小时内推送独家 offer，7 日内首次内容 / coupon 上线。",
+    "下一批 outreach 重点向 Editorial（户外/骑行/旅行 niche）和 Tier 1 Cashback（Rakuten/Honey/Capital One Shopping）倾斜，平衡渠道结构。",
+    "每周固定 2 小时'招募复盘会'：评估上周 outreach 接受率、激活率、首单率，迭代邀请话术。",
+    "对 Coupon 站建立'排他 30 天'机制：换取 Top of page 推荐位以提升单 Publisher GMV 上限。"
+  ],
+
+  "campaigns": [
+    ["Spring Cycling Gear Sale", "Coupon (15% off)", "$1,890", "3.4x", "效果良好，Coupon 站主导"],
+    ["Mountain Bike Helmet Push", "Affiliate exclusive", "$842", "2.1x", "ROI 偏低，需调整佣金分层"],
+    ["新人首单 $10 OFF", "New customer", "$523", "4.5x", "高 ROI — 建议长青化"],
+    ["Editorial 'Best 2026 Gear'", "Content collab", "$498", "—", "ROI 待 30 天 attribution"]
+  ],
+  "offers": [
+    ["10% Off (Coupon)", "2.8%", "$58.40", "主力转化武器"],
+    ["Cashback 5%", "1.9%", "$72.10", "AOV 高于平均，但 CVR 偏低"],
+    ["Free shipping > $50", "3.4%", "$54.80", "门槛过低，AOV 被拉下"],
+    ["Bundle deal (3+ items)", "1.2%", "$98.50", "AOV 拉升明显，建议主推"]
+  ],
+  "camp_diagnosis": "活动结构上 Coupon 主导，缺少'内容 + 联盟独家 + 阶梯佣金'的组合拳。Free Shipping 门槛过低反而压制 AOV，需重设。",
+  "camp_suggestions": [
+    "把 Free Shipping 门槛从 $50 提到 $75，预计 AOV +12%。",
+    "对 Top 3 Publisher 设计'独家 14 天 coupon 窗口'，承诺额外 +2% 佣金，换取置顶推广。",
+    "Bundle Deal 主推到 Editorial 内容渠道 — 高 AOV 与内容评测调性匹配。"
+  ],
+
+  "content_mix": [
+    ["产品评测 (Review)", "$1,892", "50.4%", "▲ 8%"],
+    ["榜单/合集 (Top List)", "$1,015", "27.0%", "▼ 14%"],
+    ["教程/How-to", "$420", "11.2%", "▼ 6%"],
+    ["短视频片段 (TikTok/Reels)", "$285", "7.6%", "▲ 22%"],
+    ["邮件 Newsletter", "$143", "3.8%", "—"]
+  ],
+  "top_content": [
+    ["The Penny Hoarder", "Editorial", "85K UV", "$420", "'10 Gear Pieces Cyclists Swear By'"],
+    ["BikeRadar", "YouTube", "120K", "$310", "ROCKBROS 防风眼镜评测"],
+    ["@cyclelife.us", "Instagram", "55K", "$245", "'$50 cycling kit unboxing'"],
+    ["Reachjunction Media", "Editorial", "新合作", "—", "待 first content"]
+  ],
+  "content_diagnosis": "短视频渠道环比 +22%，是唯一保持增长的内容形式 — 应加大短视频 KOC 招募。Top List 内容下滑 14%，可能受 Google Helpful Content Update 影响。",
+  "content_suggestions": [
+    "本月孵化 5 位 TikTok/Reels KOC（粉丝 5K–50K，骑行/露营 niche），提供产品包 + 30% 商品佣金。",
+    "Top List 内容渠道转向'对比测评'+'真实使用场景' 长文，规避 AI 内容惩罚。",
+    "和 BikeRadar / The Penny Hoarder 谈下季度内容包月（$2,000/月 + 联盟分成），锁定 5 篇深度内容。"
+  ],
+
+  "risks": [
+    ["GMV 周环比 ▼36.7%", "高", "客单价下滑 + 周二 tracking 异常", "立刻排查 4/14 Pixel + 上调 Free Ship 门槛"],
+    ["Top 1 Publisher 占 59% GMV", "极高", "单点依赖，无备份", "本月内培育 Top 4-10 进核心层"],
+    ["328 笔佣金未审", "中", "审核 SLA 滞后", "分批 100/100/128 三日审完"],
+    ["1086 家 Publisher 长期不活跃", "中", "无 Re-engagement 机制", "本周建立分层唤醒任务"],
+    ["移动端 CVR 落后 28%", "高", "Mobile 落地页未优化", "上线 Apple Pay / Shop Pay 快捷支付"],
+    ["Coupon 渠道环比 ▼41%", "高", "竞品折扣更激进", "把 Coupon 提升到 10% (限新客)"],
+    ["品类集中度高 (Cycling 占 62%)", "中", "其他品类无专属投放", "为露营/滑雪建立独立 landing page"]
+  ],
+  "risk_diagnosis": "整体处于'增长信号疲软 + 结构失衡'双重风险窗口。前 3 项（GMV 下滑、Top1 依赖、佣金积压）属于本周内必须动作；后 4 项可纳入 4 周冲刺计划。",
+  "risk_suggestions": [
+    "本周完成：(1) Tracking 排查 (2) 328 笔佣金审完 (3) Top 5 Publisher 战略电话。",
+    "本月完成：Mobile 支付优化 + Top 4-10 培育 + 品类专属 landing。",
+    "本季完成：1086 家 Publisher 重新分层 + 清退低质 + Tier 2 培育池建成 50 家。"
+  ],
+
+  "actions_growth": [
+    "审完 328 笔积压佣金 (Owner: Affiliate Mgr, Done: Apr 19)",
+    "Top 5 Publisher 一对一战略电话 (Owner: Affiliate Mgr, Done: Apr 21)",
+    "上线 Mobile Apple Pay / Shop Pay (Owner: Frontend, Done: Apr 23)",
+    "Free Shipping 门槛 $50 → $75 (Owner: CMO, Done: Apr 19)",
+    "周二 Tracking 排查 + Awin manual reconciliation (Owner: Tech, Done: Apr 18)"
+  ],
+  "actions_recruit": [
+    "对 30 家新增 Publisher 推送激活包（欢迎邮件+banner+coupon）(Owner: Affiliate Mgr, Done: Apr 23)",
+    "对 Tier 1 Cashback (Rakuten/Honey/Capital One Shopping) 启动 outreach (Owner: BD, Done: Apr 25)",
+    "招募 5 位 TikTok/Reels KOC (Owner: Content Mgr, Done: Apr 30)",
+    "1086 家不活跃 Publisher 分层（< 90 / > 90 天）(Owner: Affiliate Mgr, Done: Apr 23)"
+  ],
+  "actions_optimize": [
+    "建立'7 日激活 SLA' SOP 文档 (Owner: Affiliate Mgr, Done: Apr 23)",
+    "Editorial 内容包月谈判 BikeRadar / Penny Hoarder (Owner: BD, Done: Apr 28)",
+    "建立 weekly 招募复盘会议机制 (Owner: Affiliate Mgr, Done: Apr 21)",
+    "为 Cycling/Camping/Skiing 三品类建立独立 landing page (Owner: Marketing, Done: May 2)"
+  ],
+
+  "kpi_dashboard": [
+    ["周 GMV", "$3,755", "$5,500", "▼ $1,745 (-31.7%)", "Top 5 增佣 + 独家 Coupon"],
+    ["周订单数", "62", "85", "▼ 23", "提升 CVR 至 2.5%"],
+    ["AOV", "$60.57", "$70", "▼ $9.43", "Free Ship 门槛上调 + Bundle 主推"],
+    ["EPC ($/100 clicks)", "$45.22", "$60", "▼ $14.78", "落地页转化优化"],
+    ["MTD 活跃 Publisher", "100", "120", "▼ 20", "唤醒 < 90 天 Publisher"],
+    ["Top 3 集中度", "85.6%", "< 50%", "▲ 35.6pp", "培育 Top 4-10"],
+    ["新增 Publisher / 周", "30", "20", "▲ 10", "保持节奏"],
+    ["7 日激活率", "估 30%", "≥ 60%", "▼ 30pp", "建立激活 SLA"],
+    ["待审佣金", "328", "< 200", "▲ 128", "分批审核"],
+    ["内容 GMV 占比", "35%", "30–50%", "—", "维持 + 短视频扩量"]
+  ]
+}

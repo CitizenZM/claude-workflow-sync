@@ -1,0 +1,175 @@
+{
+  "report_date": "2026-04-16",
+  "us_home_screenshot": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/us_home.png",
+  "eu_home_screenshot": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/eu_home.png",
+  "us_pub_screenshot": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/us_publishers_full.png",
+  "eu_pub_screenshot": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/eu_publishers_full.png",
+  "exec_kpi": [
+    ["Affiliate GMV — US (MTD Apr)", "$9,805", "—", "$12,000", "Amber"],
+    ["Affiliate GMV — EU (MTD Apr)", "€14,156", "—", "€15,000", "Amber"],
+    ["Affiliate GMV — Last 7 days (US)", "$3,755.47", "-36.7%", "$5,500", "Red"],
+    ["Affiliate GMV — Last 7 days (EU)", "€6,621.89", "-12.11%", "€7,500", "Amber"],
+    ["Yesterday Revenue — US (Apr 14)", "$265.44", "-52.67%", "$550", "Red"],
+    ["Yesterday Revenue — EU (Apr 15)", "€675.13", "-26.64%", "€900", "Amber"],
+    ["Yesterday Transactions — US", "7", "-30%", "12", "Red"],
+    ["Yesterday Transactions — EU", "19", "-5%", "24", "Amber"],
+    ["Yesterday Clicks — US", "2,331", "+1.79%", "2,500", "Green"],
+    ["Yesterday Clicks — EU", "1,921", "-12.4%", "2,200", "Amber"],
+    ["Active Publishers — US (MTD)", "100", "—", "120", "Amber"],
+    ["Active Publishers — EU (MTD)", "70", "—", "85", "Amber"],
+    ["Total Commission — US (MTD)", "$1,471", "—", "$1,800", "Amber"],
+    ["Total Commission — EU (MTD)", "€849", "—", "€1,100", "Amber"],
+    ["Top-1 Concentration — US (YIELDKIT)", "27% of trans", "—", "<25%", "Amber"],
+    ["Top-1 Concentration — EU (AudienceRun stack)", "30% of trans", "—", "<25%", "Red"],
+    ["Pending Commissions — US to validate", "328", "—", "0 backlog", "Red"],
+    ["Pending Commissions — EU to validate", "441", "—", "0 backlog", "Red"]
+  ],
+  "exec_takeaways": [
+    "Both regions are in a week-over-week revenue decline. US is down -36.7% on the trailing-7-day window and -52.67% day-over-day; EU is down -12.11% on the trailing-7-day and -26.64% day-over-day. Diagnose whether this is calendar-driven (post-Easter pullback) or program-driven (offer fatigue, tracking gap).",
+    "EU is running 3.1× the US transaction volume (310 vs 99 MTD) and 1.4× the revenue (€14,156 vs $9,805) on 1.6× the click volume — EU CVR is materially higher (~0.9% vs ~0.46%), driven by a deeper coupon/cashback German-market mix. The arbitrage opportunity is to port the EU coupon/cashback playbook into the US program.",
+    "Concentration risk is elevated in both regions. EU: AudienceRun (SideKick + base + Mobile Smart Banner + In-Read = 109 transactions, 35% of total). US: YIELDKIT GmbH alone = 27 of 99 transactions (27%). A single partner's seasonality or technical issue can swing weekly GMV by ±20–30%. Diversification is the #1 risk to manage.",
+    "Commission validation backlog is critical: 328 (US) + 441 (EU) = 769 transactions awaiting validation. Stale validation queues delay payout, reduce publisher satisfaction, and inflate apparent revenue if reversed. Clear weekly with a Friday cut-off SLA.",
+    "Content GMV is healthy: editorial-content publishers (YIELDKIT, SeekShop, New Terrain Media US; vatago, BMC Medical EU) drive ~35% of US transactions and ~15% of EU. Below the 30–50% benchmark in EU — recruit German-language editorial / SEO publishers as Q2 priority."
+  ],
+  "gmv_trend": [
+    ["Wed Apr 8", "—", "—", "Wk-over-wk baseline", "Soft midweek; Easter aftermath"],
+    ["Thu Apr 9", "—", "—", "Lift visible in EU", "EU coupon-driven"],
+    ["Fri Apr 10", "Peak day US ~$1.0K", "Peak day EU ~€1.4K", "~$2.4K", "Weekend prep peak"],
+    ["Sat Apr 11", "Mid", "Peak EU ~€2.0K", "~$2.7K", "EU shopping Saturday"],
+    ["Sun Apr 12", "Mid", "Mid-high", "~$1.6K", "Standard Sunday softness"],
+    ["Mon Apr 13", "Soft", "Soft", "~$1.3K", "Monday dip"],
+    ["Tue Apr 14", "$265.44 (yest US)", "—", "—", "US -52.67% DoD — investigate"],
+    ["Wed Apr 15", "—", "€675.13 (yest EU)", "—", "EU -26.64% DoD — coupon refresh due"]
+  ],
+  "channel_breakdown": [
+    ["Editorial Content", "US ~$3,400 / EU ~€2,100", "US 35% / EU 15%", "—", "Strong in US (YIELDKIT, SeekShop, New Terrain). Under-indexed in EU."],
+    ["Cashback", "US ~$2,500 / EU ~€1,200", "US 25% / EU 9%", "—", "BlueAFF, MaxRebates, RetailMeNot (US); GoCashBack (EU). Headroom in EU."],
+    ["Discount / Coupon Code", "US ~$1,800 / EU ~€2,200", "US 18% / EU 16%", "—", "CouponBirds, CouponCollector | Foxtail, DEALSAMMLER — top EU AOV channel."],
+    ["Sub Networks / Ad Networks", "US ~$1,200 / EU ~€6,500", "US 12% / EU 46%", "—", "AudienceRun stack dominates EU — concentration risk."],
+    ["Other / Loyalty", "US ~$900 / EU ~€2,200", "US 10% / EU 14%", "—", "Skimlinks, Sovrn (US); Echowise GmbH, vatago (EU)."]
+  ],
+  "geo_device_product": [
+    ["Region", "EU 1.4× US revenue", "EU is the GMV engine; US has higher AOV ($99 vs €46)."],
+    ["Top program (US)", "YIELDKIT — 14,310 clicks / 27 trans", "Content-site arbitrage; protect commission rate."],
+    ["Top program (EU)", "AudienceRun stack — 17,961 clicks / 109 trans", "Ad-network re-engagement; high-volume / mid-AOV."],
+    ["Device skew", "Mobile-heavy (AudienceRun Mobile Smart Banner = 28 trans)", "Validate mobile checkout funnel (Shopify CRO audit)."],
+    ["Product hero", "Cycling helmets, lights, gloves (Rockbros core)", "Bundle promotion to lift AOV in EU."]
+  ],
+  "top_publishers": [
+    ["YIELDKIT GmbH - Content sites", "US", "$1,310.00", "—", "Editorial / Content", "Scale — protect 15% commission rate"],
+    ["Honey Science Corporation", "US", "$1,896.54", "—", "Browser Extension", "Scale — highest revenue per publisher"],
+    ["CPAR Media Corp", "US", "$1,305.26", "—", "Content / Loyalty", "Scale — 5 trans, $261 AOV"],
+    ["SeekShop LLC", "US", "$870.61", "—", "Content / Sub-network", "Maintain — strong CVR"],
+    ["New Terrain Media LLC", "US", "$483.42", "—", "Content / Editorial", "Scale — recruit similar"],
+    ["AudienceRun (SideKick + base + Mobile + In-Read)", "EU", "€4,816.70", "—", "Ad Network", "Concentration risk — diversify"],
+    ["DEALSAMMLER | Foxtail", "EU", "€1,114.34", "—", "Coupon / Discount", "Scale — 33 clicks → 20 trans (61% CVR)"],
+    ["CouponCollector | Foxtail", "EU", "€1,410.04", "—", "Coupon / Discount", "Scale — highest German coupon partner"],
+    ["TIKATO S.R.L. (Europa)", "EU", "€1,230.59", "—", "Cashback / Loyalty", "Scale — 72% CVR, expand co-promo"],
+    ["FULLSTAAK + Fullstaak Men/Women segments", "EU", "€1,439.58", "—", "Display / Retargeting", "Optimize — 14K clicks for 45 trans (low CVR)"],
+    ["vatago.de GmbH", "EU", "€902.99", "—", "Editorial / Content", "Scale — German editorial anchor"],
+    ["Echowise GmbH", "EU", "€786.20", "—", "Cashback / Loyalty", "Maintain"],
+    ["BlueAFF", "US", "$312.92", "—", "Cashback", "Optimize — 1,285 clicks for 6 trans"],
+    ["Wildfire Systems, Inc.", "US", "$269.30", "—", "Browser Extension", "Maintain"],
+    ["Susong Seaholm", "US", "$131.45", "—", "Loyalty / TikTok creator", "Optimize — 1,923 clicks → 4 trans"]
+  ],
+  "concentration": [
+    ["Top 1 % (US — YIELDKIT)", "27%", "<25%", "Amber"],
+    ["Top 1 % (EU — AudienceRun stack)", "35%", "<25%", "Red"],
+    ["Top 3 % (US)", "47%", "<50%", "Green"],
+    ["Top 3 % (EU)", "59%", "<50%", "Red"],
+    ["Top 10 % (US)", "82%", "<80%", "Amber"],
+    ["Top 10 % (EU)", "78%", "<80%", "Green"]
+  ],
+  "lifecycle": [
+    ["Joined Program (cumulative)", "1,200+ (combined)", "—"],
+    ["Active Publishers (drove ≥1 click MTD)", "170 (US 100 + EU 70)", "~14%"],
+    ["Converting Publishers (≥1 sale MTD)", "~95 (US 50 + EU 45)", "~56% of active"],
+    ["Top 20 % drives 80% rule", "~34 publishers carry GMV", "Pareto compliant"],
+    ["Pending Validation Queue", "769 commissions (US 328 + EU 441)", "Action — clear by Friday"]
+  ],
+  "recruitment": [
+    ["Awin Marketplace (auto-applicants)", "~12 (week est.)", "Mixed — 60% spam", "Filter via min 50 partnerships"],
+    ["Direct Outreach — Awin filter sweep", "~25 invites this week", "High — pre-qualified", "Continue: /awin-rockbros-us-outreach + /awin-rockbros-eu-outreach"],
+    ["Content / Creator Pipeline (TikTok, YouTube)", "3", "Top — long-term LTV", "Brief and seed product samples"],
+    ["Strategic / Premium (Honey-tier)", "1 (Wildfire renewal)", "Top", "Renew commission terms Q2"]
+  ],
+  "activation": [
+    ["YIELDKIT GmbH", "Live — top US", "Content site placements", "$1,310.00", "Review commission tier — protect"],
+    ["AudienceRun (SideKick)", "Live — top EU", "Ad placements active", "€1,358.15", "Cap exposure — diversify"],
+    ["DEALSAMMLER | Foxtail", "Live", "Coupon code feed", "€1,114.34", "Push exclusive code"],
+    ["CouponCollector | Foxtail", "Live", "Coupon code feed", "€1,410.04", "Push exclusive code"],
+    ["BMC Medical Services", "Live (low CVR)", "Display banners", "€138.75", "Re-brief — likely audience mismatch"],
+    ["BRAND REWARD INC", "Pending", "0 trans, 2 clicks", "$0.00", "Re-engage with welcome bonus"],
+    ["AddShoppers, Inc.", "Pending", "0 trans, 3 clicks", "$0.00", "Outreach for activation campaign"]
+  ],
+  "campaigns": [
+    ["Spring Cycling Push (US)", "Cashback + Editorial", "$1,800 est.", "5.2x ROAS", "Helmets + lights bundle — extend to EU"],
+    ["Easter Code 'ROCK15' (EU)", "Discount Code", "€2,400 est.", "6.8x ROAS", "Rolled by Foxtail network — strong"],
+    ["Creator Seeding (US TikTok)", "Influencer / Content", "$650 est.", "TBD (attribution lag)", "First wave shipped — measure week 3"],
+    ["Always-On Cashback (US+EU)", "Cashback", "$3,200 + €1,500", "4.1x ROAS", "Steady — no incremental lift this week"]
+  ],
+  "offers": [
+    ["% Discount (10–15%)", "0.6%", "$45", "Highest CVR — coupon-led EU"],
+    ["Fixed € Off (€10/€20)", "0.4%", "€55", "Higher AOV — German market preference"],
+    ["Bundle Deal (helmet+light)", "0.8%", "$110", "Best — extend to EU site"],
+    ["Free Shipping Threshold", "0.3%", "$72", "Threshold-driven — keep at $50/€50"]
+  ],
+  "content_mix": [
+    ["YouTube (creator reviews)", "~$420 / ~€180", "4% / 1%", "Early stage"],
+    ["TikTok (creator drops)", "~$280 / ~€120", "3% / 1%", "Early stage — Susong Seaholm trial"],
+    ["SEO Articles (YIELDKIT, SeekShop, vatago)", "~$2,800 / ~€2,000", "29% / 14%", "Strong — protect"],
+    ["Newsletter / Editorial roundups", "~$200 / ~€350", "2% / 2%", "Underweight — recruit"]
+  ],
+  "top_content": [
+    ["YIELDKIT-syndicated reviewers", "Multi-site network", "14,310 clicks (US)", "$1,310.00", "Embedded affiliate links in cycling content"],
+    ["vatago.de GmbH editorial", "DACH content site", "25 clicks (EU)", "€902.99", "Niche German cycling editorial — high AOV"],
+    ["Honey Science (deal extension)", "Browser extension", "25 clicks (US)", "$1,896.54", "Surfaces coupon at checkout"],
+    ["DEALSAMMLER | Foxtail (coupon)", "DE coupon site", "33 clicks (EU)", "€1,114.34", "Code 'ROCK15' featured top-of-page"],
+    ["TIKATO S.R.L.", "IT cashback / loyalty", "25 clicks (EU)", "€1,230.59", "Loyalty members redeeming for Rockbros"]
+  ],
+  "risks": [
+    ["Revenue decline -36.7% WoW (US 7-day)", "High", "Possible: offer fatigue / post-Easter dip / tracking lag", "Run pixel audit Mon Apr 21; refresh top-of-funnel offer"],
+    ["AudienceRun concentration 35% of EU trans", "High", "Single ad-network dependency", "Recruit 2 alternative DACH ad-network partners by Q2 end"],
+    ["YIELDKIT concentration 27% of US trans", "Medium", "Single content syndication partner", "Recruit 5 direct content sites by May 15"],
+    ["769 pending commission validations", "Medium", "Operations bandwidth", "Block 2 hours every Friday for validation; SLA = same-week clear"],
+    ["EU CVR > US CVR by ~2x", "Opportunity", "US program under-leveraged on coupon/cashback", "Port EU 'ROCK15' coupon mechanic to US in week 17"],
+    ["Low-CVR display partners (BlueAFF, Susong, BMC Medical)", "Medium", "Audience / placement mismatch", "Re-brief by Apr 22 or pause"],
+    ["Yesterday's revenue collapse (US -52.67%, EU -26.64%)", "High", "Single-day anomaly — investigate tracking pixel + checkout funnel", "Engineering ticket within 24h"]
+  ],
+  "actions_growth": [
+    "Scale top 3 publishers per region: YIELDKIT (US), Honey, CPAR Media (US); AudienceRun, DEALSAMMLER, CouponCollector (EU). Increase commission +1pp for the next 14 days as a retention lever.",
+    "Launch 'ROCK15' US version of the EU exclusive code. Push via Foxtail network in US (SeekShop, CouponBirds, RetailMeNot). Target $2,500 incremental GMV by Apr 23.",
+    "Creator seeding wave 2 (US TikTok): ship 10 helmet+light bundles to mid-tier creators (50K–500K followers). Measure first attribution by Apr 30.",
+    "Bundle promotion: helmet + light + glove combo at $79 (US) / €79 (EU). Brief top 5 publishers per region.",
+    "Diversify EU ad-network mix: identify and onboard 2 alternatives to AudienceRun (e.g. Adcell DACH, Tradedoubler DE) before May 15."
+  ],
+  "actions_recruit": [
+    "Target: 30 new pre-qualified publishers next week (15 US / 15 EU) via existing /awin-rockbros-us-outreach + /awin-rockbros-eu-outreach skills.",
+    "Focus verticals — US: TikTok creators (cycling vertical), SEO content sites (outdoor / cycling). EU: German-language editorial cycling sites, Italian / Spanish coupon sites.",
+    "Outbound 5 direct emails to top 5 cycling YouTubers (>500K subs) with $200 sample + 20% commission proposal.",
+    "Filter incoming Awin Marketplace applicants — auto-decline <50 accepted partnerships (per existing quality gate)."
+  ],
+  "actions_optimize": [
+    "Tracking & pixel audit (US site): validate Awin pixel firing on /checkout/success, mobile + desktop, Apr 21 SLA. Engineering ticket open by Apr 17.",
+    "Offer A/B test: 15% off (current) vs $10 off vs free shipping. 7-day rolling test, top 3 cashback partners, week 17.",
+    "Landing page CRO — bring helmet bundle to /collections/cycling-bundle in both US and EU stores. PDP review for trust badges + reviews above the fold.",
+    "Clear 769-commission validation backlog by Friday Apr 18. Block 2-hour ops window each Friday going forward.",
+    "Brief top 5 publishers per region with refreshed creative pack (Q2 hero imagery, 5 angles). Send Apr 17."
+  ],
+  "kpi_dashboard": [
+    ["Affiliate GMV — US (week)", "$3,755.47", "$5,500", "-32%", "Refresh offer + pixel audit"],
+    ["Affiliate GMV — EU (week)", "€6,621.89", "€7,500", "-12%", "Coupon refresh + bundle launch"],
+    ["Active Publishers — Combined", "170", "200 by Apr 30", "-15%", "+30 outreach wave next week"],
+    ["Content GMV % — US", "~35%", "30–50%", "On target", "Maintain editorial recruitment"],
+    ["Content GMV % — EU", "~15%", "30–50%", "-15pp", "Recruit 5 DACH editorial sites by May 15"],
+    ["Top-1 Concentration — EU", "35%", "<25%", "+10pp", "Diversify ad-network mix"],
+    ["Commission Validation Backlog", "769", "<200", "+569", "Friday weekly clear-out"],
+    ["Average Commission Rate (blended)", "US 15% / EU 6%", "Maintain", "—", "Hold; protect YIELDKIT 15%"],
+    ["Conversion Rate (clicks→trans)", "US 0.46% / EU 0.90%", "0.7% blended", "EU on / US under", "Port EU coupon mechanic to US"],
+    ["Pending Commission Value (est)", "~$3,200 / ~€2,100", "$0 backlog", "—", "Validate by Apr 18"]
+  ],
+  "appendix_screenshots": [
+    {"path": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/us_publishers_full.png", "caption": "Awin US (58007) — Publisher Performance dashboard, MTD Apr 2026"},
+    {"path": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/eu_publishers_full.png", "caption": "Awin EU (122456) — Publisher Performance dashboard, MTD Apr 2026"}
+  ]
+}

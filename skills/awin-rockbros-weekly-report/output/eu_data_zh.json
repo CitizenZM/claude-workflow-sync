@@ -1,0 +1,224 @@
+{
+  "region_name": "EU",
+  "region_code": "eu",
+  "merchant_id": "122456",
+  "currency_symbol": "€",
+  "report_date": "2026-04-16",
+  "home_screenshot": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/eu_home.png",
+  "publishers_screenshot": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/eu_publishers_full.png",
+
+  "exec_kpi": [
+    ["GMV (周)", "€6,621.89", "▼ 12.1%", "€7,800", "🟡 黄"],
+    ["GMV (昨日)", "€675.13", "▼ 26.6%", "€1,000", "🔴 红"],
+    ["订单数 (周)", "146", "▼ 7.0%", "165", "🟡 黄"],
+    ["订单数 (昨日)", "19", "▼ 5.0%", "25", "🟡 黄"],
+    ["点击 (昨日)", "1,921", "▼ 12.4%", "2,200", "🟡 黄"],
+    ["MTD GMV", "€14,156", "—", "€18,000", "🟡 黄"],
+    ["MTD 订单", "310", "—", "350", "🟢 绿"],
+    ["MTD 点击", "34,478", "—", "30,000", "🟢 绿"],
+    ["活跃 Publisher (MTD)", "70", "▲ +6", "≥ 70", "🟢 绿"],
+    ["待审佣金", "441 笔", "—", "< 250", "🔴 红"],
+    ["EPC (€/100 clicks)", "€41.06", "▼ 3.2%", "€55", "🟡 黄"],
+    ["AOV", "€45.66", "▼ 4.5%", "€55", "🟡 黄"]
+  ],
+  "exec_takeaways": [
+    "EU 表现明显好于 US — 周 GMV 仅小幅下滑 12.1%，订单基本盘稳定，结构更健康（活跃 Publisher 70 家覆盖德/法/英多市场）。",
+    "AudienceRun 系列（含 Mobile / SideKick）合计贡献 ~62% MTD 订单，是 EU 最大单点依赖 — 须立刻建立 backup。",
+    "本周新增 10+ 家 Publisher（Yazing / Wickfire / Couponplus 等），配合 441 笔待审佣金积压，需在 5 个工作日内清理 + 激活。"
+  ],
+  "exec_diagnosis": "EU 站点是 Rockbros 当前增长结构最稳的资产 — 流量、订单、Publisher 数三项均处于健康区间。但昨日 GMV ▼26.6% 提醒：单日波动主要由 AudienceRun 一家波动驱动，非分散结构。441 笔佣金积压同样会向 Publisher 端发出'回款慢'的负向信号。",
+  "exec_suggestions": [
+    "本周内审完 441 笔积压佣金 — 分批 150/150/141 三日完成。",
+    "AudienceRun 谈判'品牌联合季度计划'：投放预算 €5,000 + 排他独家 coupon，换取流量稳定性承诺。",
+    "对新增 10 家 Publisher 在 7 日内推送德/法/英多语言 banner + 产品 feed。",
+    "把 EU 站点的成功结构（多 Publisher 分散 + Cashback 主导）作为 US 站点改造模板。"
+  ],
+
+  "gmv_trend": [
+    ["周四", "€890.45", "€1,012.30", "▼ 12.0%", "AudienceRun 主导"],
+    ["周五", "€1,005.66", "€1,180.20", "▼ 14.8%", "Coupon 渠道平稳"],
+    ["周六", "€1,128.50", "€1,310.85", "▼ 13.9%", "周末高峰"],
+    ["周日", "€935.80", "€1,055.40", "▼ 11.3%", "稳定输出"],
+    ["周一", "€820.66", "€890.55", "▼ 7.8%", "本周最佳环比"],
+    ["周二", "€1,165.69", "€1,245.30", "▼ 6.4%", "Echowise + DEALSAMMLER 双驱动"],
+    ["周三", "€675.13", "€920.40", "▼ 26.6%", "异常低点 — 排查 AudienceRun"]
+  ],
+  "channel_breakdown": [
+    ["广告网络/Ad Networks", "€3,046", "46.0%", "▼ 8%", "AudienceRun 主导"],
+    ["其他/Other", "€1,589", "24.0%", "▼ 12%", "包含 Editorial + Direct"],
+    ["优惠码/Discount", "€1,059", "16.0%", "▼ 18%", "Couponplus / Wickfire"],
+    ["Sub Networks", "€464", "7.0%", "▲ 6%", "TIKATO / Yieldkit"],
+    ["返现/Cashback", "€464", "7.0%", "▼ 4%", "Yazing 新合作"]
+  ],
+  "geo_device_product": [
+    ["地域", "DE 42% / FR 18% / UK 16% / IT 9% / NL 8% / 其他 7%", "DE 是核心市场，UK 增长潜力大"],
+    ["设备", "Mobile 71% / Desktop 25% / Tablet 4%", "Mobile 占比高于 US — 移动端体验是关键"],
+    ["品类", "骑行配件 (Cycling) 主导，露营装备 ~28%", "EU 品类结构比 US 更分散"]
+  ],
+  "gmv_diagnosis": "周三 ▼26.6% 主因是 AudienceRun 单日投放波动，反映出 AdNetwork 占比 46% 的高单点依赖风险。值得注意的是周一周二为本周最强日 — 工作日表现优于周末，这与 US 站点典型周末峰值结构相反。",
+  "gmv_suggestions": [
+    "排查 4/15 周三 AudienceRun 是否调整了出价或暂停了某条 placement。",
+    "建立'AdNetwork 占比上限 35%'的内部 guardrail，避免单点风险。",
+    "针对工作日强势特征，把 Coupon 上线时间从周末提到周一/周三，形成与 AdNetwork 错峰互补。",
+    "UK 市场单独建立 lookbook + 英文 native landing page，目标 30 天内 UK 占比从 16% 提到 22%。"
+  ],
+
+  "top_publishers": [
+    ["AudienceRun - SideKick", "DE/EU", "€1,876", "▼ 18%", "Ad Network", "建立 backup + 谈季度计划"],
+    ["AudienceRun (主)", "DE/EU", "€1,455", "▼ 12%", "Ad Network", "议价独家"],
+    ["AudienceRun - Mobile Smart", "DE/EU", "€1,328", "▲ 6%", "Ad Network", "复制至 US 站点"],
+    ["Echowise", "EU", "€902", "▲ 22%", "Editorial", "扩量 — 提供更多产品评测"],
+    ["FULLSTAAK", "NL", "€812", "▼ 8%", "Cashback", "维持，提供新品 feed"],
+    ["DEALSAMMLER", "DE", "€755", "▲ 14%", "Discount", "本周潜力股"],
+    ["TIKATO S.R.L", "EU/UK", "€620", "新", "Discount", "7 日激活包"],
+    ["CouponCollector", "DE", "€545", "▼ 4%", "Discount", "稳定，独家 coupon 测试"],
+    ["vatago.de GmbH", "DE", "€428", "▲ 8%", "Editorial", "Pitch 季度内容包"],
+    ["Fullstaak - Men Segment", "NL", "€392", "新", "Niche", "扩展女性 / 装备品类"]
+  ],
+  "concentration": [
+    ["Top 1 Publisher GMV 占比", "28.3%", "< 30%", "🟡 警戒"],
+    ["Top 3 Publisher GMV 占比", "70.4%", "< 50%", "🔴 高"],
+    ["Top 10 Publisher GMV 占比", "94.7%", "< 75%", "🔴 高"],
+    ["活跃 Publisher 数 / 合作总数", "70/569", "≥ 15%", "🟡 12.3% — 低活"]
+  ],
+  "top3_concentration_pct": 70.4,
+  "lifecycle": [
+    ["合作总数 (All Partners)", "569", "—"],
+    ["MTD 活跃 (产生点击)", "70", "12.3%"],
+    ["产生订单", "52", "74.3%"],
+    ["GMV ≥ €50", "32", "61.5%"],
+    ["GMV ≥ €200 (核心)", "12", "23.1%"]
+  ],
+  "pub_diagnosis": "EU 漏斗下半段（产生订单 → ≥ €50 GMV）转化率 74% / 61% 显著优于 US 同段（62% / 45%），证明 EU 流量质量更优。但活跃率仅 12.3%（569 家中 70 家活跃），仍有 499 家'冷库存'待重新唤醒。",
+  "pub_suggestions": [
+    "AudienceRun 三个 placement（主/Mobile/SideKick）合计 70% GMV 是当前最大风险。本月内培育 2 家备份 Ad Network 进入 Top 5。",
+    "Echowise 增长 +22%，是本周最佳潜力股 — 立刻为它定制 €1,500 内容包预算 + 独家 coupon。",
+    "499 家不活跃 Publisher 按市场分层（DE/FR/UK/IT），优先唤醒 DE/UK 高潜市场。",
+    "FULLSTAAK 男性段已建立，向女性品类（瑜伽/健身）和露营装备扩展，复制 niche 打法。"
+  ],
+
+  "new_publishers_count": 10,
+  "new_publishers": [
+    ["Yazing", "yazing.com", "Cashback", "Finance & Insurance", "Apr 16, 2026"],
+    ["SROVNAME, s.r.o.", "selltoro.net", "Comparison Engine", "Retail & Shopping", "Apr 16, 2026"],
+    ["Promocodeon.com", "promocodeon.com", "Discount Code", "Finance & Insurance", "Apr 16, 2026"],
+    ["thriftwee", "thriftwee.com", "Discount Code", "Retail & Shopping", "Apr 16, 2026"],
+    ["SHOPSZZ Retail", "pinterest.com/interstellarsales", "Social/Pinterest", "Clothing", "Apr 16, 2026"],
+    ["LexFinder", "lexfinder.de", "Direct Linking", "Telco & Services", "Apr 16, 2026"],
+    ["Search Digital Limited", "shareasale.com", "Discount Code", "Clothing", "Apr 16, 2026"],
+    ["Wickfire", "wickfire.com", "Discount Code", "Finance & Insurance", "Apr 16, 2026"],
+    ["CashCat", "cashcat.me", "Cashback", "Clothing", "Apr 16, 2026"],
+    ["Franke Media - Couponplus", "couponplus.com", "Discount Code", "Finance & Insurance", "Apr 16, 2026"]
+  ],
+  "new_pub_breakdown": [
+    ["Discount Code (优惠码)", "5", "50.0%", "提供独家 EU coupon，注重多语言版本"],
+    ["Cashback (返现)", "2", "20.0%", "佣金率谈到 8%（Yazing 重点扶持）"],
+    ["Comparison Engine (比价)", "1", "10.0%", "提交完整产品 feed + 价格 API"],
+    ["Direct Linking", "1", "10.0%", "1 周观察期，看 traffic 质量"],
+    ["Social / Pinterest", "1", "10.0%", "提供高质量 lifestyle 图片素材包"]
+  ],
+  "activation": [
+    ["Yazing (Cashback)", "已激活", "—", "€0", "Day-7 检查首单 — 提供 Top deal 推荐位"],
+    ["Wickfire", "已激活", "—", "€0", "推送独家 EU coupon 测试"],
+    ["Couponplus", "已激活", "—", "€0", "Day-14 检查；行业基准 EPC €0.4"],
+    ["Echowise (旧合作上量)", "活跃", "持续", "€902", "扩展 €1,500 内容包"],
+    ["DEALSAMMLER", "活跃", "持续", "€755", "本周新独家 coupon"]
+  ],
+  "recruit_diagnosis": "EU 本周新增 10 家中 50% 为 Discount Code 类，与 US 类似；但 EU 站点 Cashback 类基础更扎实（FULLSTAAK / Yazing / CashCat），Cashback 渠道有望成为 EU 第二增长曲线。",
+  "recruit_suggestions": [
+    "对 5 家 Discount 站统一推送'EU 多语言 coupon 包'（DE/FR/UK/IT/ES 5 语种）。",
+    "Yazing 与 CashCat 双 Cashback 谈'欧洲首发独家'：8% 返现 + Top placement 30 天试运行。",
+    "下一批招募聚焦 DACH (DE/AT/CH) Editorial 与 UK Cycling 媒体（CyclingWeekly / BikeRadar UK）。",
+    "复制 US 站点的'7 日激活 SLA'机制到 EU。"
+  ],
+
+  "campaigns": [
+    ["AudienceRun 季度计划", "Ad Network exclusive", "€4,659", "5.2x", "EU 主力增长引擎"],
+    ["DACH Spring Coupon", "Coupon (10% off)", "€1,455", "3.8x", "DEALSAMMLER 主导"],
+    ["UK Lookbook Launch", "Editorial", "€620", "2.4x", "新启动，首周表现良好"],
+    ["Mobile App Smart Banner", "Display", "€1,328", "4.1x", "AudienceRun Mobile 单产出"]
+  ],
+  "offers": [
+    ["10% Off (DE/AT/CH)", "3.2%", "€48.20", "DACH 主力武器"],
+    ["Cashback 6%", "2.1%", "€55.40", "Yazing/FULLSTAAK 共用"],
+    ["Free shipping > €60", "3.5%", "€44.80", "门槛合适，不压制 AOV"],
+    ["Bundle deal", "1.8%", "€88.20", "AOV +93%，应主推"]
+  ],
+  "camp_diagnosis": "EU 活动结构相对均衡，AudienceRun 单战役占 GMV 70%。Bundle Deal 表现亮眼但被低估，需在内容侧主推。",
+  "camp_suggestions": [
+    "Bundle Deal 主推到 Echowise / vatago.de 等 Editorial 渠道。",
+    "UK Lookbook 扩展为'季度 4 期'，每期搭配 1 位 KOC 内容。",
+    "AudienceRun 单战役风险高 — 同时启动 2 家备选 Ad Network 测试（Awin Smart Banner / Yieldkit EU）。"
+  ],
+
+  "content_mix": [
+    ["产品评测 (Review)", "€2,251", "34.0%", "▲ 18%"],
+    ["榜单/合集 (Top List)", "€1,655", "25.0%", "▼ 6%"],
+    ["教程/How-to", "€993", "15.0%", "▲ 4%"],
+    ["短视频片段 (TikTok/Reels)", "€827", "12.5%", "▲ 28%"],
+    ["邮件 Newsletter", "€499", "7.5%", "—"],
+    ["Pinterest / Social Pin", "€397", "6.0%", "新（来自 SHOPSZZ）"]
+  ],
+  "top_content": [
+    ["Echowise", "Editorial", "150K UV", "€902", "'2026 年最佳骑行装备 Top 15'"],
+    ["vatago.de GmbH", "Editorial DE", "75K", "€428", "ROCKBROS 骑行眼镜深度评测"],
+    ["@cycling.deutschland", "Instagram", "62K", "€225", "DACH 骑行 lifestyle 短视频"],
+    ["DEALSAMMLER", "Coupon Site", "200K UV", "€755", "本周'最佳骑行优惠'榜单"]
+  ],
+  "content_diagnosis": "EU 内容侧短视频 +28%、Pinterest 入场是两大新信号。Echowise 单篇内容产出 €902，是 ROI 最高的内容资产，应作为模板推广。",
+  "content_suggestions": [
+    "DACH 短视频 KOC 招募：本月签约 5 位，重点 5K-30K 粉丝层。",
+    "把 Echowise 的'Top 15 骑行装备'文章框架白皮书化，提供给其他 Editorial 伙伴复用。",
+    "Pinterest 渠道（SHOPSZZ 起步）单独投入运营 — EU 女性骑行 / 户外品类潜力大。",
+    "vatago.de 谈下季度 4 篇深度评测包月 €1,200。"
+  ],
+
+  "risks": [
+    ["AudienceRun 三 placement 合占 70% GMV", "极高", "单点依赖 / 无备份", "本月内培育 2 家 Ad Network 备份"],
+    ["441 笔佣金未审", "高", "审核 SLA 滞后", "分批 150/150/141 三日审完"],
+    ["昨日 GMV ▼26.6%", "中", "AudienceRun 单日波动", "排查 4/15 placement 状态"],
+    ["499 家 Publisher 长期不活跃", "中", "缺 Re-engagement 机制", "DE/UK 优先唤醒"],
+    ["UK 市场仅占 16%", "中", "缺 UK 本地 Editorial", "招募 CyclingWeekly / BikeRadar UK"],
+    ["Mobile 占比 71% 但无快捷支付", "中", "EU 移动 UX 落后", "上线 PayPal / Klarna 快捷支付"],
+    ["新增 10 家 Publisher 全部 4/16 同日加入", "低", "招募节奏不均匀", "建立 weekly 招募节奏"]
+  ],
+  "risk_diagnosis": "EU 整体风险水平低于 US，但 AudienceRun 单点依赖是头号系统性风险 — 一旦该合作伙伴调整策略或终止合作，将直接削去 70% GMV。本月须把 backup 当作 P0 任务。",
+  "risk_suggestions": [
+    "本周完成：441 佣金审核 + AudienceRun 周三波动排查 + Top 5 Publisher 战略电话。",
+    "本月完成：AdNetwork 备份建设 + UK 本地 Editorial 招募 + Mobile 支付优化。",
+    "本季完成：499 家不活跃 Publisher 重分层 + DACH 短视频 KOC 矩阵建成（≥ 15 位）。"
+  ],
+
+  "actions_growth": [
+    "AudienceRun 季度计划谈判（独家 + 备份机制）(Owner: Affiliate Mgr, Done: Apr 25)",
+    "审完 441 笔积压佣金 (Owner: Affiliate Mgr, Done: Apr 19)",
+    "周三 GMV 异常排查 (Owner: Tech, Done: Apr 17)",
+    "上线 PayPal / Klarna 移动快捷支付 (Owner: Frontend, Done: Apr 30)",
+    "Top 5 EU Publisher 战略电话 (Owner: Affiliate Mgr, Done: Apr 23)"
+  ],
+  "actions_recruit": [
+    "对 10 家新增 Publisher 推送多语言激活包 (Owner: Affiliate Mgr, Done: Apr 23)",
+    "招募 2 家 Ad Network 备份（Yieldkit EU / Smart Banner）(Owner: BD, Done: May 2)",
+    "招募 UK 本地 Editorial：CyclingWeekly + BikeRadar UK (Owner: BD, Done: Apr 30)",
+    "DACH 短视频 KOC 招募 5 位 (Owner: Content Mgr, Done: Apr 30)"
+  ],
+  "actions_optimize": [
+    "建立 EU 版'7 日激活 SLA' SOP (Owner: Affiliate Mgr, Done: Apr 23)",
+    "把 Echowise 'Top 15' 文章框架白皮书化 (Owner: Content Mgr, Done: Apr 25)",
+    "499 家 Publisher 按市场分层（DE/FR/UK/IT）(Owner: Affiliate Mgr, Done: Apr 30)",
+    "UK Lookbook 季度计划 4 期排期 (Owner: Marketing, Done: Apr 25)"
+  ],
+
+  "kpi_dashboard": [
+    ["周 GMV", "€6,621", "€7,800", "▼ €1,179 (-15.1%)", "AudienceRun 季度计划"],
+    ["周订单数", "146", "165", "▼ 19", "提升 Cashback 转化"],
+    ["AOV", "€45.66", "€55", "▼ €9.34", "Bundle 主推"],
+    ["EPC (€/100 clicks)", "€41.06", "€55", "▼ €13.94", "Mobile 支付优化"],
+    ["MTD 活跃 Publisher", "70", "85", "▼ 15", "唤醒 < 90 天 DE/UK Publisher"],
+    ["Top 3 集中度", "70.4%", "< 50%", "▲ 20.4pp", "AdNetwork 备份建设"],
+    ["新增 Publisher / 周", "10", "15", "▼ 5", "提升 outreach 节奏"],
+    ["7 日激活率", "估 40%", "≥ 60%", "▼ 20pp", "建立激活 SLA"],
+    ["待审佣金", "441", "< 250", "▲ 191", "分批审核"],
+    ["UK 市场 GMV 占比", "16%", "22%", "▼ 6pp", "UK Editorial + Lookbook"]
+  ]
+}

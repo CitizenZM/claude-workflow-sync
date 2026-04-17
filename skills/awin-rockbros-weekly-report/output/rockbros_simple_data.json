@@ -1,0 +1,149 @@
+{
+  "report_date": "2026-04-16",
+  "report_period": "2026-03-18 至 2026-04-16 (过去 30 天)",
+  "brand": "ROCKBROS",
+  "operator": "Cell Digital Technology Inc. — 联盟营销绩效办公室",
+
+  "screenshots": {
+    "us_home": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/us_home.png",
+    "eu_home": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/eu_home.png",
+    "us_publishers": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/us_publishers_full.png",
+    "eu_publishers": "/Users/xiaozuo/.claude/skills/awin-rockbros-weekly-report/output/eu_publishers_full.png"
+  },
+
+  "section1_new_publishers": [
+    ["NextGen Shopping, Inc.", "US", "couponfollow.com", "优惠码", "Apr 16"],
+    ["Port & Parcel Holdings", "US", "parcelperks.app", "返现", "Apr 16"],
+    ["Phia", "US", "phia.com", "优惠码", "Apr 16"],
+    ["Promocodeon.com", "US/EU", "promocodeon.com", "优惠码", "Apr 16"],
+    ["Reachjunction Media", "US", "reachjunction.com", "内容评测", "Apr 16"],
+    ["Reach Media (planyourwedding)", "US", "planyourweddingni.com", "落地页", "Apr 16"],
+    ["advanced store - Smart Advertising", "US", "ad4mat.com", "Sub Network", "Apr 16"],
+    ["media.ventive (rebounce.ai)", "US", "rebounce.ai", "Contextual", "Apr 16"],
+    ["Iron Rod Digital", "US", "—", "优惠码", "Apr 16"],
+    ["AARON FARIS (radicalsavings)", "US", "radicalsavings.com", "优惠码", "Apr 16"],
+    ["Spaarwinkelen.nl", "US", "spaarwinkelen.nl", "返现", "Apr 16"],
+    ["Quantive Data (moneyraccoon)", "US", "moneyraccoon.com", "返现", "Apr 16"],
+    ["MyBOOBRisk", "US", "—", "内容评测", "Apr 16"],
+    ["Uruz (cupomzeiros)", "US", "cupomzeiros.com", "优惠码", "Apr 16"],
+    ["TIKATO S.R.L (UK,US,BR)", "US/UK", "—", "优惠码", "Apr 16"],
+    ["Outleash.com", "US", "outleash.com", "优惠码", "Apr 16"],
+    ["Performance Vision (reviewtrusted)", "US", "reviewtrusted.com", "内容评测", "Apr 16"],
+    ["ColorMango.com", "US", "colormango.com", "优惠码", "Apr 16"],
+    ["TrustDeals", "US", "trustdeals.com", "优惠码", "Apr 16"],
+    ["VR Marketing", "US", "gutschein-code-finden.de", "优惠码", "Apr 16"],
+    ["Ströer Media - Familie.de", "US", "familie.de", "内容评测", "Apr 16"],
+    ["Yazing", "EU", "yazing.com", "返现", "Apr 16"],
+    ["SROVNAME, s.r.o.", "EU", "selltoro.net", "比价引擎", "Apr 16"],
+    ["thriftwee", "EU", "thriftwee.com", "优惠码", "Apr 16"],
+    ["SHOPSZZ Retail", "EU", "pinterest/interstellarsales", "Pinterest 社交", "Apr 16"],
+    ["LexFinder", "EU", "lexfinder.de", "Direct Linking", "Apr 16"],
+    ["Search Digital Limited", "EU", "shareasate.com", "优惠码", "Apr 16"],
+    ["Wickfire", "EU", "wickfire.com", "优惠码", "Apr 16"],
+    ["CashCat", "EU", "cashcat.me", "返现", "Apr 16"],
+    ["Franke Media - Couponplus", "EU", "couponplus.com", "优惠码", "Apr 16"]
+  ],
+  "section1_summary": {
+    "total_count": 30,
+    "us_count": 21,
+    "eu_count": 9,
+    "by_type": [
+      ["优惠码 (Discount Code)", 14, "46.7%"],
+      ["内容评测 (Editorial)", 5, "16.7%"],
+      ["返现 (Cashback)", 5, "16.7%"],
+      ["Sub Network / 子网络", 2, "6.7%"],
+      ["其他 (Pinterest / 比价 / Direct)", 4, "13.3%"]
+    ]
+  },
+
+  "section2_sales": {
+    "weekly": [
+      ["指标", "US (Awin 58007)", "EU (Awin 122456)", "合计"],
+      ["周 GMV", "$3,755.47", "€6,621.89", "≈ $10,800 USD"],
+      ["周订单数", "62", "146", "208"],
+      ["周点击量", "约 16,500", "约 14,200", "约 30,700"],
+      ["周环比", "▼ 36.7%", "▼ 12.1%", "▼ 19.8% (加权)"],
+      ["AOV (客单价)", "$60.57", "€45.66", "—"],
+      ["昨日 GMV", "$265.44 (Apr 14)", "€675.13 (Apr 15)", "—"],
+      ["昨日订单", "7", "19", "26"],
+      ["昨日环比", "▼ 52.7%", "▼ 26.6%", "—"]
+    ],
+    "monthly_mtd": [
+      ["指标", "US (Awin 58007)", "EU (Awin 122456)", "合计"],
+      ["MTD GMV", "$9,805", "€14,156", "≈ $25,800 USD"],
+      ["MTD 订单数", "99", "310", "409"],
+      ["MTD 点击量", "21,682", "34,478", "56,160"],
+      ["MTD 活跃 Publisher", "100", "70", "170"],
+      ["MTD 佣金支出", "$1,471", "€849", "≈ $2,400"],
+      ["待审佣金", "328 笔", "441 笔", "769 笔"]
+    ]
+  },
+  "section2_diagnosis": "US 站点周环比下滑 36.7% 是本月最关键负向信号；EU 站点表现相对稳健（▼12.1%）。两站合计 769 笔佣金积压形成结构性 Publisher 体验风险。",
+
+  "section3_top_publishers": [
+    ["1", "AudienceRun - SideKick", "EU", "€1,876", "Ad Network", "议价季度独家计划"],
+    ["2", "AudienceRun (主)", "EU", "€1,455", "Ad Network", "维持，扩展 Mobile placement"],
+    ["3", "AudienceRun - Mobile Smart", "EU", "€1,328", "Ad Network", "复制至 US 站点"],
+    ["4", "Echowise", "EU", "€902", "Editorial", "扩量 — €1,500 内容包"],
+    ["5", "FULLSTAAK", "EU/NL", "€812", "Cashback", "维持 + 新品 feed"],
+    ["6", "DEALSAMMLER", "EU/DE", "€755", "Discount", "本周潜力股，独家 coupon"],
+    ["7", "TIKATO S.R.L", "EU/UK", "€620", "Discount", "新合作 — 7 日激活包"],
+    ["8", "CouponCollector", "EU/DE", "€545", "Discount", "稳定，独家 coupon 测试"],
+    ["9", "vatago.de GmbH", "EU/DE", "€428", "Editorial", "Pitch 季度内容包月"],
+    ["10", "Fullstaak - Men Segment", "EU/NL", "€392", "Niche", "扩展女性品类"],
+    ["11", "YIELDKIT GmbH (US Content)", "US", "$156.75", "Cashback/Editorial", "测试 8% 增佣"],
+    ["12", "SHOPTASTIC PTE. LTD.", "US/SG", "$49.99", "Cashback", "增佣到 15%"],
+    ["13", "Wildfire Systems, Inc.", "US", "$38.70", "Cashback", "保持 + Newsletter"],
+    ["14", "SeekShop LLC", "US", "$20.00", "Editorial", "邀请共建测评"]
+  ],
+  "section3_diagnosis": "EU 集中度极高 — Top 3 (AudienceRun 三个 placement) 合计占 EU GMV 70%。US 头部断层明显（YIELDKIT 单家占 US GMV 59%）。两站均存在'单点依赖'结构性风险。",
+
+  "section4_emails": [
+    ["Honest Brand Reviews", "partners@honestbrandreviews.com", "Rockbros x HBR", "内容合作 (Q2 Packages)", "Apr 16", "已回复，待 HBR 详细 Q2 报价方案", "等待 HBR 提供 Q2 内容包价目表 + 案例"],
+    ["Golden Shopping Days (Jannik Westbomke)", "j.westbomke@golden-shopping-days.de", "Einladung zum Partnerprogramm ROCKBROS", "长期内容合作 + Landing Page", "Apr 15-16", "已确认 Apr 17 1:30am PT 通话", "Landing page 模板 + ROCKBROS 高分辨率素材包 + 季度内容主题表"],
+    ["Geizhals.at (Piotr Zakrzewski)", "piotr.zakrzewski@geizhals.at", "Re: Einladung zum Partnerprogramm Yiwu Rock Sports", "比价引擎集成 — 需产品 feed", "Apr 16", "已澄清品牌为 ROCKBROS（非 Yiwu Rock Sports）", "Awin 上线德文产品 feed（持续更新）"],
+    ["Geizhals.at/.de (Maciej Szmit)", "maciej.szmit@geizhals.at", "Kooperation von Rockbros und Geizhals Preisvergleich über AWIN", "比价集成 — 产品 feed + 跟踪问题", "Apr 15-16", "已回复说明跟踪修复进度", "Awin 修复 tracking + 产品 feed 上线"],
+    ["Coupons.de (Thomas Ott)", "tott@coupons4u.de", "ROCKBROS X COUPONS.DE", "优惠码合作 — 需 voucher codes + 永久折扣", "Apr 14-16", "已回复说明无永久 coupon", "周期性 coupon 计划（每月 1 个独家码）+ DACH 物料包"],
+    ["germanaffiliate (Mathias Kraft)", "mathias.kraft@web.de", "Einladung zum Partnerprogramm ROCKBROS — SEM/PPC", "SEM/PPC 品牌词合作请求", "Apr 14-16", "已批准 + 发布品牌词使用规则", "明确品牌词 bidding policy 文档（白名单关键词）"],
+    ["Coupons4u (Thorsten Latussek)", "tlatussek@coupons4u.de", "Automatische Antwort: ROCKBROS X COUPONS.DE", "Auto-reply 至 Apr 16", "Apr 16", "等待 Thorsten 回归后跟进", "同 Coupons.de — 周期 coupon + 物料包"],
+    ["Lahvi Solutions (Jack Itzkowitz)", "jack@lahvisolutions.com", "Aliexpress / Lahvi Solutions Intro", "Boutique Agency — DTC 流量管理", "Mar 23 - Apr 16", "已重新发出 Apr 17 通话邀请", "ROCKBROS DTC 站点 catalog + commission 框架"],
+    ["Couponjaguar (Mubashar)", "info@couponjaguar.com", "SEM PPC Campaign-Oufer (含 Rockbros 兴趣)", "PPC + Coupon", "Apr 16", "未回复", "评估是否纳入 ROCKBROS PPC 计划"]
+  ],
+  "section4_todo": [
+    ["P0 / 极紧急", "上线 Awin 德文产品 feed (DE)", "Affiliate Mgr + Tech", "Apr 19", "Geizhals.at, Geizhals.de, Coupons.de 三家依赖", "解锁约 €1,500-3,000/月 EU GMV 增量"],
+    ["P0 / 极紧急", "Apr 17 完成 Golden Shopping Days 通话", "Affiliate Mgr (Bob)", "Apr 17 01:30 PT", "已发出 Google Meet 邀请", "签下季度内容计划"],
+    ["P0 / 极紧急", "审完 769 笔 (US 328 + EU 441) 积压佣金", "Affiliate Mgr", "Apr 19", "分批 250/250/269", "提升 Publisher 回款体验"],
+    ["P1 / 高", "起草《ROCKBROS 品牌词 SEM/PPC Bidding Policy》文档", "Affiliate Mgr + 法务", "Apr 23", "germanaffiliate 已先行批准，需文档统一标准", "可批量发给所有 SEM 类 Publisher"],
+    ["P1 / 高", "构建 DACH 优惠码计划（每月 1 个独家 coupon）", "CMO + Affiliate Mgr", "Apr 25", "Coupons.de + DEALSAMMLER + Couponplus 三家受益", "EU Discount 渠道环比 ▼18% 修复"],
+    ["P1 / 高", "提供 ROCKBROS 高分辨率素材包（banner + lifestyle 图）", "品牌设计团队", "Apr 23", "Golden Shopping Days + Echowise + vatago.de 通用", "缩短新 Publisher TTFS 至 ≤ 7 天"],
+    ["P1 / 高", "30 家新增 Publisher 7 日激活包推送", "Affiliate Mgr", "Apr 23", "欢迎邮件 + 产品 feed + banner + 测试佣金", "新 Publisher 首单率目标 ≥ 60%"],
+    ["P2 / 中", "回复 Honest Brand Reviews Q2 内容包评估", "Affiliate Mgr", "Apr 21", "等 HBR 报价后评估 ROI", "决策是否签 Q2 包"],
+    ["P2 / 中", "Lahvi Solutions DTC 流量计划 Apr 17 通话", "Affiliate Mgr (Bob)", "Apr 17 10:00 PT", "Calendly 邀请已发", "评估 boutique agency 接入"],
+    ["P2 / 中", "Couponjaguar 评估纳入 ROCKBROS PPC", "Affiliate Mgr", "Apr 28", "需先与 OUFER 项目对齐", "增加 PPC 补充流量"]
+  ],
+  "section4_assets": [
+    ["素材文件", "来源 / 责任方", "用途", "状态"],
+    ["ROCKBROS 产品 feed (DE/EN/FR XML)", "品牌 + Tech (Awin Console)", "Geizhals 比价 / Coupons.de / Skroutz / Idealo", "🔴 缺失 — 必须立即上线"],
+    ["品牌 logo 高清包 (SVG/PNG 1024px+)", "品牌设计部", "所有 Editorial / Coupon 站推广", "🟡 部分缺失"],
+    ["Lifestyle 摄影图库 (50+ 张)", "品牌内容部", "Echowise / vatago.de / Golden Shopping Days 内容包", "🟡 数量不足"],
+    ["产品规格 PDF (Top 20 SKU)", "品牌产品部", "评测类 Publisher 内容引用", "🔴 缺失"],
+    ["品牌词 SEM Bidding Policy (PDF)", "Affiliate Mgr + 法务", "germanaffiliate / Couponjaguar / 所有 SEM 类", "🔴 待起草"],
+    ["独家 Coupon 月历 (PPT/Sheet)", "CMO + Affiliate Mgr", "Coupons.de / DEALSAMMLER / Couponplus / Promocodeon", "🔴 待规划"],
+    ["新人欢迎邮件模板 (中英德三语)", "Affiliate Mgr", "30 家新增 Publisher 激活", "🟡 仅英文版"],
+    ["Q2 内容主题日历 (PDF)", "CMO + Content Mgr", "Editorial 类 Publisher 同步", "🔴 缺失"]
+  ],
+
+  "section5_brand_actions": [
+    ["⛳ 必做 (P0) — 本周内", "Awin 上线 ROCKBROS 产品 feed (XML, 德/英/法 三语版本)", "品牌 Tech + Awin 客户经理", "Apr 19", "解锁 Geizhals/Coupons.de/Idealo 等 5+ 家 EU 比价/Coupon 站。预计带来 €1,500-3,000/月 EU GMV 增量。"],
+    ["⛳ 必做 (P0) — 本周内", "审批并下发 769 笔积压佣金 (US 328 + EU 441)", "品牌财务 + Affiliate Mgr", "Apr 19", "Publisher 回款慢直接影响推荐意愿，会向行业传递负向品牌信号。"],
+    ["⛳ 必做 (P0) — 本周内", "提供 ROCKBROS 高分辨率素材包：logo (SVG/PNG)、Top 20 SKU 产品图、10 张 lifestyle 摄影图", "品牌设计部 + 内容部", "Apr 21", "Golden Shopping Days/Echowise/vatago.de/HBR 共 4 家头部 Publisher 等待中。"],
+    ["🚀 高优 (P1) — 两周内", "撰写《ROCKBROS 品牌词 SEM/PPC Bidding Policy》文档", "品牌法务 + Affiliate Mgr", "Apr 23", "germanaffiliate 已开通先例；需文档化以避免品牌词内卷与商标纠纷。建议参考 TCL 已有版本。"],
+    ["🚀 高优 (P1) — 两周内", "确认 ROCKBROS 季度独家 Coupon 计划：每月 1 个 DACH 独家码 + 1 个 UK 独家码", "品牌 CMO + 财务", "Apr 25", "Coupons.de/DEALSAMMLER/Couponplus/Promocodeon 至少 4 家 EU Coupon 站等待。Coupon 渠道环比 ▼18% 急需修复。"],
+    ["🚀 高优 (P1) — 两周内", "提供 Top 20 SKU 产品规格 PDF（中/英 双语）", "品牌产品部", "Apr 25", "Editorial/评测类 Publisher（Echowise/vatago.de/Reachjunction Media）写测评必需。"],
+    ["📅 计划 (P2) — 本月内", "起草 ROCKBROS Q2 内容主题日历 (4-6 月) — 包含产品发布节点、活动节点、季节性主题", "品牌 CMO + 内容部", "Apr 30", "Editorial 类 Publisher 同步使用。降低 Publisher 内容创作摩擦。"],
+    ["📅 计划 (P2) — 本月内", "评估 Honest Brand Reviews Q2 内容包合作 (待 HBR 报价后决策)", "品牌 CMO", "Apr 30", "美国市场 Editorial 内容空白，HBR 是切入点之一。"],
+    ["📅 计划 (P2) — 本月内", "评估 Lahvi Solutions DTC 流量代理合作", "Affiliate Mgr (Apr 17 通话后) → CMO 决策", "Apr 30", "DTC 转化率提升专家，可与现有联盟形成互补。"],
+    ["🛡️ 长期 (P3) — 本季度", "建立 ROCKBROS Affiliate Brand Asset Hub（Notion 或 Google Drive 共享文件夹）", "Affiliate Mgr + 品牌设计部", "May 31", "替代每次单独发素材给 Publisher 的低效模式。可一键发链接给新 Publisher 自助下载。"]
+  ],
+  "section5_summary": "本期品牌侧最关键的三件事：(1) 立即上线 Awin 产品 feed，否则 Geizhals/Coupons 类 EU 比价 Publisher 全部卡住；(2) 完成 769 笔佣金审批，避免向行业传递负向信号；(3) 出齐 ROCKBROS 素材包（logo + lifestyle + SKU PDF），让头部内容 Publisher 能立刻动起来。"
+}
