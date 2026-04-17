@@ -1,5 +1,5 @@
 ---
-description: "Impact Ottocast full workflow — login + outreach + report (Haiku). Single command, auto model, 300 max/run. Usage: /impact-ottocast"
+description: "Impact Ottocast US Affiliate Outreach April162026 — full workflow (Haiku). Login + outreach + report, 300 max/run. Usage: /impact-ottocast"
 model: haiku
 ---
 

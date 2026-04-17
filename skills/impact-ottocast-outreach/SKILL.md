@@ -1,10 +1,10 @@
 ---
-name: impact-ottocast-affiliate-outreach
-description: Impact Ottocast Amazon Affiliate Outreach Apr162026. Playwright-based proposal sending on Impact.com. Sonnet for setup/login, Haiku for bulk proposal loop. Records publisher name + email per row.
-tags: [affiliate, impact, ottocast, amazon, outreach, automation]
+name: Impact Ottocast US Affiliate Outreach April162026
+description: Impact Ottocast US Affiliate Outreach April162026. Playwright-based proposal sending on Impact.com. Sonnet for setup/login, Haiku for bulk proposal loop. Records publisher name + email per row.
+tags: [affiliate, impact, ottocast, us, outreach, automation]
 ---
 
-# Impact Ottocast Amazon Affiliate Outreach Apr162026
+# Impact Ottocast US Affiliate Outreach April162026
 
 ## Architecture
 

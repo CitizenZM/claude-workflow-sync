@@ -1,5 +1,5 @@
 ---
-description: "Impact Ottocast proposal sending (Haiku). Run /impact-ottocast-setup first. 300/run limit + Obsidian report. Usage: /impact-ottocast-outreach"
+description: "Impact Ottocast US Affiliate Outreach April162026 — outreach loop (Haiku). 300/run limit + Obsidian report. Run /impact-ottocast-setup first."
 model: haiku
 ---
 

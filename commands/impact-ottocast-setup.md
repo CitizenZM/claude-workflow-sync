@@ -1,5 +1,5 @@
 ---
-description: "Impact Ottocast setup: login + navigate + inject helper (Sonnet). Run before /impact-ottocast-outreach. Usage: /impact-ottocast-setup"
+description: "Impact Ottocast US Affiliate Outreach April162026 — setup (Sonnet). Login + navigate + inject helper. Run before /impact-ottocast-outreach."
 model: sonnet
 ---
 

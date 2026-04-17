@@ -1,4 +1,4 @@
-# Impact Ottocast Amazon Outreach Ledger
+# Impact Ottocast US Affiliate Outreach April162026 — Ledger
 Date Created: 2026-04-16
 
 ## Contacted Publishers
