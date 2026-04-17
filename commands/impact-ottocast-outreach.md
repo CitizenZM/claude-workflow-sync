@@ -1,87 +1,98 @@
 ---
-description: "Impact Ottocast proposal sending (Haiku). Run /impact-ottocast-setup first. Usage: /impact-ottocast-outreach"
+description: "Impact Ottocast proposal sending (Haiku). Run /impact-ottocast-setup first. 300/run limit + Obsidian report. Usage: /impact-ottocast-outreach"
 model: haiku
 ---
 
-## MODEL GATE — MANDATORY FIRST CHECK
-This command REQUIRES model: **haiku**. If you are running on Sonnet or Opus, STOP: "⛔ Wrong model. Run `/model haiku` then re-run `/impact-ottocast-outreach`."
+## MODEL: haiku (auto-assigned)
+**Session limit**: 300 proposals. **Report**: written to Obsidian + console after completion.
 
-## Pre-flight Check
-Before starting, verify helper is injected:
+## Pre-flight
 ```js
-// browser_evaluate
 () => `helper=${typeof window.__otto_fill}, cards=${document.querySelectorAll('.discovery-card').length}`
 ```
-If `helper=undefined`, tell user to run `/impact-ottocast-setup` first.
+If `helper=undefined` → run `/impact-ottocast-setup` first (Sonnet handles SSO).
 
 ## Tab Order
 
-Process tabs in this order. Switch tab by setting hash:
-```js
-// browser_evaluate
-() => { window.location.hash = 'businessModels=CONTENT_REVIEWS&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC'; return 'navigated'; }
-```
-
-| # | Tab | Hash value |
-|---|-----|-----------|
+| # | Tab | Hash |
+|---|-----|------|
 | 1 | Content / Reviews | `businessModels=CONTENT_REVIEWS&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC` |
 | 2 | Deal / Coupons | `businessModels=DEAL_COUPON&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC` |
 | 3 | Email / Newsletter | `businessModels=EMAIL_NEWSLETTER&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC` |
 | 4 | Loyalty / Rewards | `businessModels=LOYALTY_REWARDS&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC` |
 | 5 | Network | `businessModels=NETWORK&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC` |
 
-Wait 3s after each hash change for the page to reload.
+Switch tab: `() => { window.location.hash = '{HASH}'; return 'navigated'; }` — wait 3s.
 
-## Per-Tab: Send All Proposals in ONE evaluate
+## Per-Tab Script
 
-Load the current ledger names into the `contacted` set before running.
+Set `SESSION_REMAINING = 300 - sent_so_far` before each tab.
 
 ```js
 async () => {
   const sleep = ms => new Promise(r => setTimeout(r, ms));
-  const contacted = new Set([/* paste current ledger Publisher Name values here, comma-separated quoted strings */]);
+  const SESSION_REMAINING = 300; // ← update per tab
+  const contacted = new Set([/* current ledger names */]);
   const cards = document.querySelectorAll('.discovery-card');
-  const results = [];
+  let sent = 0;
+  const ok = [], skipped = [], errors = [];
   for (let i = 0; i < cards.length; i++) {
+    if (sent >= SESSION_REMAINING) break;
     const name = cards[i].querySelector('[class*="name"]')?.textContent.trim() || '';
     const btns = Array.from(cards[i].querySelectorAll('button')).map(b => b.textContent.trim());
-    if (contacted.has(name) || !btns.includes('Send Proposal')) {
-      results.push(`${i}:${name}:skipped`); continue;
-    }
+    if (contacted.has(name) || !btns.includes('Send Proposal')) { skipped.push(name); continue; }
     try {
       const r = await window.__otto_fill(i);
-      results.push(`${i}:${r}`);
+      if (r.startsWith('OK|')) { ok.push(r); sent++; } else { skipped.push(r); }
     } catch(e) {
-      const closeBtn = document.querySelector('button[aria-label="close"], button[aria-label="Close"]');
-      if (closeBtn) closeBtn.click();
-      results.push(`${i}:error(${e.message})`);
+      const cb = document.querySelector('button[aria-label="close"], button[aria-label="Close"]');
+      if (cb) cb.click();
+      errors.push(`${i}:${e.message.slice(0,40)}`);
     }
     await sleep(500);
   }
-  return results.join('\n');
+  return JSON.stringify({ sent, ok, errors_count: errors.length });
 }
 ```
 
-## After Each Tab
+## After Each Tab — Context Compaction Protocol
 
-1. Parse all `OK|name|email` lines from the result
-2. Add ALL new rows to ledger in a **single Edit call**:
+1. Parse JSON result → extract `sent` + `ok` array
+2. **ONE Edit** → append new rows to `/Users/xiaozuo/impact-ottocast-ledger.md`
+3. **ONE Edit** → append new rows to Obsidian tracker (see Report section)
+4. **Discard** raw result — only keep counts in working memory
+5. Add `sent` to `session_total`; if `session_total >= 300` → stop, go to Report
+6. Move to next tab
+
+## Report (run after all tabs or 300 limit)
+
+### A. Obsidian Tracker — append to `/Volumes/workssd/ObsidianVault/06-Publishers/impact-ottocast-tracker.md`
 
 ```markdown
-| Publisher Name | | 2026-04-16 |
+### {YYYY-MM-DD} — Session {N} | Sent: {total} | Model: haiku
+
+| Publisher Name | Tab | Date |
+|---|---|---|
+| {name} | {tab} | {date} |
 ```
 
-3. Add skipped (Review Terms / no proposal) to the Skipped section
-4. Switch hash to next tab, wait 3s, run again
-
-## Ledger File
-
-`/Users/xiaozuo/impact-ottocast-ledger.md`
+### B. Console Summary
+```
+=== Ottocast Impact Outreach — Session Complete ===
+Date:         {today}
+Model:        haiku (setup: sonnet)
+Sent:         {session_total} / 300
+Tabs:         {completed_tabs}
+Ledger total: {grand_total}
+Obsidian:     /Volumes/workssd/ObsidianVault/06-Publishers/impact-ottocast-tracker.md
+Next run:     /impact-ottocast-outreach  (ledger deduplicates automatically)
+=================================================
+```
 
 ## Rules
-
-1. NEVER `browser_snapshot` — zero exceptions
-2. ONE evaluate per tab
-3. ONE Edit per tab for ledger updates
-4. On ANY error inside the loop: close modal, continue — NEVER abort
-5. Work nonstop through all 5 tabs without pausing or asking questions
+1. NEVER `browser_snapshot`
+2. ONE evaluate per tab — 300 hard limit across all tabs
+3. ONE Edit per tab for both ledger + Obsidian (batch all rows)
+4. Compact context: return JSON summary only, discard raw strings after writing
+5. On ANY error: close modal, continue — never abort
+6. Nonstop through all tabs — no pausing, no questions

@@ -1,30 +1,36 @@
 ---
-description: "Impact Ottocast setup: login + navigate to discover + inject helper (Sonnet). Run before /impact-ottocast-outreach. Usage: /impact-ottocast-setup"
+description: "Impact Ottocast setup: login + navigate + inject helper (Sonnet). Run before /impact-ottocast-outreach. Usage: /impact-ottocast-setup"
 model: sonnet
 ---
 
-## MODEL GATE — MANDATORY FIRST CHECK
-This command REQUIRES model: **sonnet**. If you are running on Opus, STOP: "⛔ Wrong model. Run `/model sonnet` then re-run `/impact-ottocast-setup`." Do NOT proceed on Opus.
+## MODEL GATE
+This command runs on **Sonnet** (auto-assigned). Handles login edge cases and SSO.  
+After this command completes, outreach switches to **Haiku** automatically via `/impact-ottocast-outreach`.
 
 ## Step 1: Login
 1. `browser_navigate` to `https://app.impact.com`
 2. `browser_snapshot` ONCE for login form
-3. Fill email `affiliate@celldigital.co` and password `Celldigital2024*` via `browser_evaluate`
-4. Click Sign In. If Google account chooser appears, click "Cell Affiliate Team affiliate@celldigital.co" then "Continue"
-5. Wait for dashboard to load
+3. Fill credentials via `browser_evaluate`:
+```js
+async () => {
+  const email = document.querySelector('input[name="username"], input[type="email"]');
+  const pass = document.querySelector('input[name="password"], input[type="password"]');
+  if (email) { const s = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; s.call(email,'affiliate@celldigital.co'); email.dispatchEvent(new Event('input',{bubbles:true})); }
+  if (pass) { const s = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; s.call(pass,'Celldigital2024*'); pass.dispatchEvent(new Event('input',{bubbles:true})); }
+  Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'Sign In')?.click();
+  return 'submitted';
+}
+```
+4. If Google account chooser appears → click "Cell Affiliate Team affiliate@celldigital.co" listitem → wait for redirect
 
-## Step 2: Navigate to Discover (Content/Reviews, prospecting only)
-
+## Step 2: Navigate to Discover
 ```
 browser_navigate → https://app.impact.com/secure/advertiser/discover/radius/fr/partner_discover.ihtml?page=marketplace&slideout_id_type=partner#businessModels=CONTENT_REVIEWS&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC
 ```
+Wait 3s.
 
-Wait 3s. If the page loads on a different tab or home, click the "Content / Reviews" tab button directly.
-
-## Step 3: Inject the Proposal Helper
-
+## Step 3: Inject Helper
 ```js
-// browser_evaluate — inject helper once
 () => {
   window.__otto_fill = async (cardIdx) => {
     const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -76,14 +82,16 @@ Wait 3s. If the page loads on a different tab or home, click the "Content / Revi
 ```
 
 ## Step 4: Verify
-
 ```js
-// browser_evaluate
 () => {
   const cards = document.querySelectorAll('.discovery-card');
-  const sendBtns = Array.from(document.querySelectorAll('button')).filter(b => b.textContent.trim() === 'Send Proposal');
-  return `${cards.length} cards, ${sendBtns.length} Send Proposal btns, helper=${typeof window.__otto_fill}`;
+  return `${cards.length} cards, helper=${typeof window.__otto_fill}`;
 }
 ```
 
-Report: "Impact Ottocast Setup complete. {N} publishers on Content/Reviews tab. Helper injected. Run `/impact-ottocast-outreach` to start."
+## AUTO-PROCEED
+Setup is complete. **Do NOT wait for user input.** Immediately continue with the outreach phase:
+- Model switches to **Haiku** for outreach (run `/impact-ottocast-outreach` OR proceed inline if already running in a unified session)
+- Report: "✓ Setup complete — {N} cards on Content/Reviews. Switching to Haiku outreach phase..."
+- If this command was invoked standalone, tell user: "Run `/impact-ottocast-outreach` to start (Haiku auto-assigned)."
+- If this command was invoked as part of `/impact-ottocast`, continue directly to Phase 2.
