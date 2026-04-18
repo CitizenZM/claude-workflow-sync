@@ -6,6 +6,11 @@ model: haiku
 ## MODEL GATE — MANDATORY FIRST CHECK
 This command REQUIRES model: **haiku**. Before doing ANY work, check your current model. If you are running on Opus or Sonnet, STOP IMMEDIATELY and tell the user: "⛔ Wrong model. This command requires Haiku. Run `/model haiku` then re-run `/awin-oufer-us-outreach`." Do NOT proceed on the wrong model — it wastes 10-20x credits for identical work.
 
+## BROWSER MCP: playwright-awin (port 3100)
+ALL browser tool calls MUST use the `playwright-awin` MCP server.
+Tool prefix: `mcp__playwright-awin__` (e.g., `mcp__playwright-awin__browser_navigate`, `mcp__playwright-awin__browser_snapshot`, `mcp__playwright-awin__browser_evaluate`).
+Do NOT use the default `playwright` or any other playwright server — each workflow has its own isolated browser.
+
 merchant_id=91941 | filters=25,15,22 | count=500 | commission=20.0 | min_partnerships=50 | target_per_page=25
 login: affiliate@celldigital.co / Celldigital2024*
 scripts: ~/.claude/skills/awin-oufer-us-outreach/scripts/

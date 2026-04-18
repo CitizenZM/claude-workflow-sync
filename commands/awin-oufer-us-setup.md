@@ -8,6 +8,11 @@ model: sonnet
 ## MODEL GATE — MANDATORY FIRST CHECK
 This command REQUIRES model: **sonnet**. Before doing ANY work, check your current model. If you are running on Opus, STOP IMMEDIATELY and tell the user: "⛔ Wrong model. This command requires Sonnet. Run `/model sonnet` then re-run `/awin-oufer-us-setup`." Do NOT proceed on Opus — it wastes 5-10x credits for a login/setup task.
 
+## BROWSER MCP: playwright-awin (port 3100)
+ALL browser tool calls MUST use the `playwright-awin` MCP server.
+Tool prefix: `mcp__playwright-awin__` (e.g., `mcp__playwright-awin__browser_navigate`, `mcp__playwright-awin__browser_snapshot`, `mcp__playwright-awin__browser_click`, `mcp__playwright-awin__browser_type`, `mcp__playwright-awin__browser_evaluate`).
+Do NOT use the default `playwright` or any other playwright server — each workflow has its own isolated browser.
+
 # Awin Oufer US Affiliate Outreach — Setup (Sonnet)
 
 Login to Awin and configure filters for Oufer Body Jewelry. Run this once, then use `/awin-oufer-us-outreach` for the invite loop on Haiku.

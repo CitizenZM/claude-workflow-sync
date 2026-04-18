@@ -3,6 +3,11 @@ description: "Greenhouse login + job search + queue builder (Sonnet). Run once p
 model: sonnet
 ---
 
+## BROWSER MCP: playwright-greenhouse (port 3101)
+ALL browser tool calls MUST use the `playwright-greenhouse` MCP server.
+Tool prefix: `mcp__playwright-greenhouse__` (e.g., `mcp__playwright-greenhouse__browser_navigate`, `mcp__playwright-greenhouse__browser_snapshot`, `mcp__playwright-greenhouse__browser_click`, `mcp__playwright-greenhouse__browser_type`, `mcp__playwright-greenhouse__browser_evaluate`).
+Do NOT use the default `playwright` or any other playwright server — each workflow has its own isolated browser.
+
 # Greenhouse Setup
 
 You are setting up a Greenhouse.io job application session. Follow these steps exactly.

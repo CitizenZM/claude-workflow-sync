@@ -3,6 +3,11 @@ description: "Greenhouse job application loop with tailored resume/CL generation
 model: sonnet
 ---
 
+## BROWSER MCP: playwright-greenhouse (port 3101)
+ALL browser tool calls MUST use the `playwright-greenhouse` MCP server.
+Tool prefix: `mcp__playwright-greenhouse__` (e.g., `mcp__playwright-greenhouse__browser_navigate`, `mcp__playwright-greenhouse__browser_snapshot`, `mcp__playwright-greenhouse__browser_click`, `mcp__playwright-greenhouse__browser_type`, `mcp__playwright-greenhouse__browser_evaluate`, `mcp__playwright-greenhouse__browser_file_upload`).
+Do NOT use the default `playwright` or any other playwright server — each workflow has its own isolated browser.
+
 # Greenhouse Apply
 
 You are applying to jobs on Greenhouse.io with tailored resumes and cover letters. Follow these steps for EACH job.

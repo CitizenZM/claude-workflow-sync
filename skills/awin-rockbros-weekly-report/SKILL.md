@@ -4,6 +4,11 @@ description: Awin Rockbros US+EU 联盟营销周报 — 自动登录 Awin 双账
 tags: [affiliate, awin, rockbros, report, weekly, playwright, docx, chinese, infographics]
 ---
 
+## BROWSER MCP: playwright-awin (port 3100)
+ALL browser tool calls MUST use the `playwright-awin` MCP server.
+Tool prefix: `mcp__playwright-awin__` (e.g., `mcp__playwright-awin__browser_navigate`, `mcp__playwright-awin__browser_evaluate`, `mcp__playwright-awin__browser_take_screenshot`).
+Do NOT use the default `playwright` or any other playwright server — each workflow has its own isolated browser.
+
 # Awin Rockbros US + EU 联盟营销周报（中文版）
 
 ## 架构概览

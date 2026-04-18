@@ -6,6 +6,11 @@ model: sonnet
 ## MODEL GATE — MANDATORY FIRST CHECK
 This command REQUIRES model: **sonnet**. If you are running on Opus, STOP: "⛔ Wrong model. Run `/model sonnet` then re-run `/impact-tcl-us-setup`." Do NOT proceed on Opus.
 
+## BROWSER MCP: playwright-impact (port 3102)
+ALL browser tool calls MUST use the `playwright-impact` MCP server.
+Tool prefix: `mcp__playwright-impact__` (e.g., `mcp__playwright-impact__browser_navigate`, `mcp__playwright-impact__browser_snapshot`, `mcp__playwright-impact__browser_click`, `mcp__playwright-impact__browser_type`, `mcp__playwright-impact__browser_evaluate`).
+Do NOT use the default `playwright` or any other playwright server — each workflow has its own isolated browser.
+
 ## Step 1: Login
 1. `browser_navigate` to `https://app.impact.com`
 2. `browser_snapshot` ONCE for login form
