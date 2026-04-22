@@ -1,0 +1,11 @@
+# Marketplace skills — excluded from repo sync, reinstalled via skills-lock.json
+# Add one skill name per line (must match directory name in ~/.claude/skills/)
+blaxel-cli
+blaxel-sdk
+subagent-driven-development
+supabase-postgres-best-practices
+systematic-debugging
+test-driven-development
+using-git-worktrees
+verification-before-completion
+web-design-guidelines

@@ -1,0 +1,55 @@
+# claude-workflow-sync .gitignore
+
+# Sync log
+.sync.log
+
+# Secrets & credentials (NEVER commit)
+.env
+.env.*
+*.key
+*.pem
+*.p12
+secrets/
+
+# Machine-specific (not synced)
+settings.local.json
+
+# Claude ephemeral state (lives in ~/.claude, not in repo)
+cache/
+sessions/
+history.jsonl
+telemetry/
+statsig/
+todos/
+shell-snapshots/
+downloads/
+browser-profiles/
+mcp-needs-auth-cache.json
+paste-cache/
+file-history/
+session-env/
+ide/
+chrome/
+
+# Playwright browser data
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+*.lock
+!skills-lock.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Temp
+/tmp/
+*.tmp
+*.bak
