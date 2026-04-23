@@ -73,11 +73,20 @@ Replace `DEDUP_ARRAY` with actual DEDUP_JSON array literal.
 Run via `mcp__playwright-awin-oufer-us__browser_evaluate`.
 Expected: `{ok:true, count:N}` — confirms window.__DEDUP is live.
 
-**C. Spawn fresh Haiku for this page:**
+**C. Pre-build script + spawn fresh Haiku for this page:**
+Sonnet builds the complete ready-to-run script string:
+1. Read `~/.claude/skills/awin-oufer-us-outreach/scripts/bulk-invite-opt-a.js`
+2. Replace `window.__DEDUP = ...` placeholder → inject full DEDUP_JSON array inline at top of function
+3. Replace `%%MSG%%` → message literal
+4. Replace `%%COMM%%` → `"20.0"`
+5. Replace `%%TARGET%%` → `25`
+6. Replace `%%MIN_PARTNERSHIPS%%` → `5`
+Result: a self-contained async function string with no placeholders. Call this `{SCRIPT}`.
+
 Invoke Agent tool:
 - `model`: `"haiku"`
 - `description`: `"Oufer US page {page_num} — up to 25 invites"`
-- `prompt`: the PER-PAGE HAIKU PROMPT below with `{page_num}` filled in
+- `prompt`: the PER-PAGE HAIKU PROMPT below with `{page_num}` and `{SCRIPT}` filled in
 
 **D. Parse Haiku result:**
 Haiku returns JSON: `{total, publishers:[{name,type,partnerships}], skippedLowQuality}`.
@@ -93,33 +102,33 @@ Run via `mcp__playwright-awin-oufer-us__browser_evaluate`.
 
 ---
 
-## PER-PAGE HAIKU PROMPT (fill {page_num} before spawning)
+## PER-PAGE HAIKU PROMPT (Sonnet fills {page_num} and {SCRIPT} before spawning)
+
+Sonnet builds {SCRIPT} by:
+1. Reading bulk-invite-opt-a.js
+2. Replacing %%MSG%%, %%COMM%%, %%TARGET%%, %%MIN_PARTNERSHIPS%% with literal values
+3. Replacing the `window.__DEDUP = ...` injection inline at the top of the function
+Then passing the complete ready-to-run string to Haiku — NO placeholders remain.
 
 ```
-You are the Awin Oufer US per-page invite agent (page {page_num}). Running on Haiku.
-Browser is already logged in on MCP: mcp__playwright-awin-oufer-us__
-The dedup list is already set in window.__DEDUP by Sonnet — do NOT re-read the ledger.
+You are the Awin Oufer US per-page invite agent (page {page_num}).
+MCP server: mcp__playwright-awin-oufer-us__ (vision mode — screenshots, not YAML)
+Browser is logged in and on the correct page. Dedup is pre-injected in the script.
 
-TASK: Invite up to 25 publishers from the current page only. Then return.
+TASK: Call browser_evaluate ONCE with the script below. Return the JSON result. Done.
 
-STEP 1 — Run invite script (ONE browser_evaluate):
-Read file: ~/.claude/skills/awin-oufer-us-outreach/scripts/bulk-invite-opt-a.js
-Replace these placeholders before running:
-  %%MSG%%              → "Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the NO.1 Piercing Body Jewelry you MUST see. We are offering 10-20% ultra high commission with limited time deal offer, Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer."
-  %%COMM%%             → "20.0"
-  %%TARGET%%           → 25
-  %%MIN_PARTNERSHIPS%% → 5
-Run via mcp__playwright-awin-oufer-us__browser_evaluate.
+Call mcp__playwright-awin-oufer-us__browser_evaluate with:
+function: {SCRIPT}
 
-STEP 2 — Return result:
-Parse the JSON returned by the evaluate. Output it directly as your final message:
+After the evaluate returns, output the JSON result as your final message:
 {"page":{page_num},"total":<n>,"publishers":[...],"skippedLowQuality":<n>}
 
-RULES:
-- ONE browser_evaluate call only
-- NO browser_snapshot
-- NO ledger reads or writes (Sonnet handles ledger)
-- FULLY AUTONOMOUS — complete and return immediately
+HARD RULES — no exceptions:
+- EXACTLY 1 tool call (browser_evaluate). Zero others.
+- Do NOT read any files. Do NOT snapshot. Do NOT navigate.
+- Do NOT check page state. Do NOT verify anything.
+- Just call browser_evaluate with the script above and return the result.
+- The script is complete and correct — trust it, run it, return it.
 ```
 
 ---
