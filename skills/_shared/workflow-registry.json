@@ -1,0 +1,56 @@
+{
+  "_comment": "Canonical registry of outreach workflow isolation. Each workflow gets a dedicated MCP server + Chrome profile + CDP port. init-workflow.sh validates callers against this file.",
+  "workflows": {
+    "awin-rockbros-us": {
+      "mcp": "playwright-awin-rockbros-us",
+      "port": "9301",
+      "profile_dir": "/Users/xiaozuo/.claude/browser-profiles/awin-rockbros-us",
+      "tool_namespace": "mcp__playwright-awin-rockbros-us__",
+      "ledger_path": "/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Awin-Rockbros-US-Outreach-Ledger.md",
+      "checkpoint_path": "/tmp/outreach-awin-rockbros-us-checkpoint.json",
+      "debug_log_path": "/tmp/outreach-awin-rockbros-us-debug.log"
+    },
+    "awin-rockbros-eu": {
+      "mcp": "playwright-awin-rockbros-eu",
+      "port": "9302",
+      "profile_dir": "/Users/xiaozuo/.claude/browser-profiles/awin-rockbros-eu",
+      "tool_namespace": "mcp__playwright-awin-rockbros-eu__",
+      "ledger_path": "/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Awin-Rockbros-EU-Outreach-Ledger.md",
+      "checkpoint_path": "/tmp/outreach-awin-rockbros-eu-checkpoint.json",
+      "debug_log_path": "/tmp/outreach-awin-rockbros-eu-debug.log"
+    },
+    "awin-oufer-us": {
+      "mcp": "playwright-awin-oufer-us",
+      "port": "9303",
+      "profile_dir": "/Users/xiaozuo/.claude/browser-profiles/awin-oufer-us",
+      "tool_namespace": "mcp__playwright-awin-oufer-us__",
+      "ledger_path": "/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Awin-Oufer-US-Outreach-Ledger.md",
+      "checkpoint_path": "/tmp/outreach-awin-oufer-us-checkpoint.json",
+      "debug_log_path": "/tmp/outreach-awin-oufer-us-debug.log"
+    },
+    "impact-ottocast": {
+      "mcp": "playwright-impact-ottocast",
+      "port": "9304",
+      "profile_dir": "/Users/xiaozuo/.claude/browser-profiles/impact-ottocast",
+      "tool_namespace": "mcp__playwright-impact-ottocast__",
+      "ledger_path": "/Users/xiaozuo/impact-ottocast-ledger.md",
+      "checkpoint_path": "/tmp/outreach-impact-ottocast-checkpoint.json",
+      "debug_log_path": "/tmp/outreach-impact-ottocast-debug.log"
+    },
+    "impact-tcl-us": {
+      "mcp": "playwright-impact-tcl-us",
+      "port": "9305",
+      "profile_dir": "/Users/xiaozuo/.claude/browser-profiles/impact-tcl-us",
+      "tool_namespace": "mcp__playwright-impact-tcl-us__",
+      "ledger_path": "/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Impact-TCL-US-Outreach-Ledger.md",
+      "checkpoint_path": "/tmp/outreach-impact-tcl-us-checkpoint.json",
+      "debug_log_path": "/tmp/outreach-impact-tcl-us-debug.log"
+    }
+  },
+  "model_policy": {
+    "setup": "sonnet",
+    "outreach_loop": "haiku",
+    "supervisor": "opus",
+    "recovery": "delegate-to-running-supervisor (do NOT spawn new Opus)"
+  }
+}
