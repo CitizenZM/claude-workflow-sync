@@ -1,11 +1,11 @@
 ---
-description: "Awin Oufer US — Full workflow. Sonnet login+setup → Haiku bulk invite loop. No manual model switch. Usage: /awin-oufer-us [count]"
+description: "Awin Oufer US — Full workflow. Sonnet login+setup+page-loop → fresh Haiku per page (Option A: window.__DEDUP). Usage: /awin-oufer-us [count]"
 model: sonnet
 ---
 
-# Awin Oufer US — Unified Outreach Workflow
+# Awin Oufer US — Unified Outreach Workflow (Option A)
 
-**Harness**: Sonnet (Phase 1: login + filter + sort) → Haiku subagent (Phase 2: bulk invite loop)
+**Harness**: Sonnet owns setup + page loop. Fresh Haiku per page — zero context accumulation.
 **MCP**: `mcp__playwright-awin-oufer-us__` for ALL browser calls
 **Fully autonomous**: no stops, no model-switch prompts, no user questions
 
@@ -34,104 +34,113 @@ msg         : "Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the 
 1. `mcp__playwright-awin-oufer-us__browser_navigate` → `https://ui.awin.com/awin/merchant/91941/affiliate-directory/index/tab/notInvited`
 2. `mcp__playwright-awin-oufer-us__browser_snapshot` ONCE — detect login form vs directory
 3. If login form: `browser_type` email → click Continue → `browser_type` password → click Sign In
-4. Wait for directory page to load (title contains "Affiliate Directory")
+4. Wait for directory page to load
 
 ### Step 2: Filter + Sort (ONE evaluate)
 Read `~/.claude/skills/awin-oufer-us-outreach/scripts/setup-filters.js`, replace `FILTER_IDS` → `['25','15','22']`, run via `mcp__playwright-awin-oufer-us__browser_evaluate`.
-Returns `{filters, perPage, rows}`. Verify: perPage=40, rows>0.
+Returns `{filters, perPage, rows, sortVerified, firstPartnership}`. Verify: perPage=40, sortVerified=true, rows>0.
+If sort not verified: reload + retry Step 2 once.
 
-### Step 3: Sort Verify (ONE evaluate)
-```js
-() => {
-  const rows = document.querySelectorAll('tr[data-publisher-id]');
-  const first = rows[0]?.querySelector('td:nth-child(3)')?.textContent?.trim();
-  return { rows: rows.length, firstPartnership: first };
-}
-```
-If first partnership < 50: click sort header once, wait 4s, re-check. If still fails, reload + re-run Step 2.
-
-### Step 4: Preflight Report
-Print: `"✓ Oufer US setup: {rows} publishers, sort verified (first={firstPartnership}). Spawning Haiku outreach loop..."`
+### Step 3: Preflight
+Print: `"✓ Oufer US ready: {rows} publishers, first={firstPartnership} partnerships. Starting Option A loop..."`
 
 ---
 
-## PHASE TRANSITION — Spawn Haiku Subagent
+## PHASE 2 — SONNET PAGE LOOP (Option A)
 
-**Immediately after Step 4 — do NOT pause.** Count ledger lines for dedup:
+**Do NOT spawn one big Haiku. Sonnet runs this loop — fresh Haiku per page.**
+
+### Loop Init
 ```
-Read ledger, extract names for merchant_id 91941 into JSON array → DEDUP_JSON
-Resolve COUNT from $ARGUMENTS (default 500)
+COUNT       = $ARGUMENTS or 500
+session_sent = 0
+page_num     = 1
 ```
 
-Then invoke the Agent tool:
+### Per-Page Sequence (repeat until session_sent >= COUNT or no next page):
+
+**A. Build dedup — Sonnet reads ledger:**
+```
+Read ledger file, extract all names where merchant_id=91941.
+Build JSON array: DEDUP_JSON = ["Name One","Name Two",...]
+```
+
+**B. Inject into window.__DEDUP — ONE tiny evaluate:**
+Read `~/.claude/skills/awin-oufer-us-outreach/scripts/dedup-inject.js`.
+Replace `DEDUP_ARRAY` with actual DEDUP_JSON array literal.
+Run via `mcp__playwright-awin-oufer-us__browser_evaluate`.
+Expected: `{ok:true, count:N}` — confirms window.__DEDUP is live.
+
+**C. Spawn fresh Haiku for this page:**
+Invoke Agent tool:
 - `model`: `"haiku"`
-- `description`: `"Awin Oufer US bulk invite — {COUNT} target"`
-- `prompt`: the PHASE 2 SUBAGENT PROMPT below with `{COUNT}` and `{DEDUP_JSON}` filled in
+- `description`: `"Oufer US page {page_num} — up to 25 invites"`
+- `prompt`: the PER-PAGE HAIKU PROMPT below with `{page_num}` filled in
+
+**D. Parse Haiku result:**
+Haiku returns JSON: `{total, publishers:[{name,type,partnerships}], skippedLowQuality}`.
+- If skippedLowQuality > total*2 on page 1: sort failed — reload, re-run Step 2, restart loop.
+- Append each publisher to ledger: `name||YYYY-MM-DD|91941`
+- `session_sent += total`
+
+**E. Next page — ONE evaluate:**
+Read `~/.claude/skills/awin-oufer-us-outreach/scripts/next-page.js`.
+Run via `mcp__playwright-awin-oufer-us__browser_evaluate`.
+- If `{ok:false}`: no more pages → go to FINAL REPORT.
+- If `{ok:true}`: `page_num++`, continue loop.
 
 ---
 
-## PHASE 2 SUBAGENT PROMPT (fill values before spawning)
+## PER-PAGE HAIKU PROMPT (fill {page_num} before spawning)
 
 ```
-You are the Awin Oufer US bulk invite agent running on Haiku.
-The browser is already logged in and ready on MCP: mcp__playwright-awin-oufer-us__
-Page is at the Awin Affiliate Directory for merchant 91941.
+You are the Awin Oufer US per-page invite agent (page {page_num}). Running on Haiku.
+Browser is already logged in on MCP: mcp__playwright-awin-oufer-us__
+The dedup list is already set in window.__DEDUP by Sonnet — do NOT re-read the ledger.
 
-CONFIG:
-merchant_id=91941 | commission=20.0 | min_partnerships=50 | target_per_page=25
-session_target={COUNT}
-scripts=~/.claude/skills/awin-oufer-us-outreach/scripts/
-ledger=/Volumes/workssd/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Ledger.md
-report=/Volumes/workssd/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Report-2026-04-15.md
-msg="Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the NO.1 Piercing Body Jewelry you MUST see. We are offering 10-20% ultra high commission with limited time deal offer, Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer."
-already_contacted={DEDUP_JSON}
+TASK: Invite up to 25 publishers from the current page only. Then return.
 
-MCP prefix for ALL browser calls: mcp__playwright-awin-oufer-us__
+STEP 1 — Run invite script (ONE browser_evaluate):
+Read file: ~/.claude/skills/awin-oufer-us-outreach/scripts/bulk-invite-opt-a.js
+Replace these placeholders before running:
+  %%MSG%%              → "Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the NO.1 Piercing Body Jewelry you MUST see. We are offering 10-20% ultra high commission with limited time deal offer, Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer."
+  %%COMM%%             → "20.0"
+  %%TARGET%%           → 25
+  %%MIN_PARTNERSHIPS%% → 50
+Run via mcp__playwright-awin-oufer-us__browser_evaluate.
 
-## STEP 0: Browser Check
-browser_evaluate: `() => document.title` — confirm on Awin.
-If not: navigate to https://ui.awin.com/awin/merchant/91941/affiliate-directory/index/tab/notInvited, snapshot once for login.
+STEP 2 — Return result:
+Parse the JSON returned by the evaluate. Output it directly as your final message:
+{"page":{page_num},"total":<n>,"publishers":[...],"skippedLowQuality":<n>}
 
-## STEP 1: Dedup + Invite (SEPARATE evaluate call)
-1a. Read ledger, parse names for merchant_id=91941 into dedup array (merge with already_contacted above).
-1b. Read bulk-invite.js. Replace placeholders inline before browser_evaluate (isolated scope — no globals):
-    %%MSG%% → msg | %%COMM%% → "20.0" | %%ALREADY%% → dedup JSON | %%TARGET%% → 25 | %%MIN_PARTNERSHIPS%% → 50
-Returns: {total, skippedLowQuality, publishers:[{name,type,partnerships,publisherId}]}
-If skippedLowQuality > 0 on first batch → sort failed, reload+re-sort before continuing.
+RULES:
+- ONE browser_evaluate call only
+- NO browser_snapshot
+- NO ledger reads or writes (Sonnet handles ledger)
+- FULLY AUTONOMOUS — complete and return immediately
+```
 
-## STEP 2: Save
-2a. Append to ledger: name|email|YYYY-MM-DD|91941
-2b. Append to report (write-only, never read back).
+---
 
-## STEP 3: Next Page
-Run next-page.js via browser_evaluate. If {ok:false} → done, go to REPORT.
+## FINAL REPORT (Sonnet prints after loop ends)
 
-## STEP 4: Every 20 invites — re-read ledger, rebuild dedup array.
-
-## STEP 5: Repeat STEP 1→4 until session_target reached or no pages.
-
-## REPORT: print this summary
-=== Awin Oufer US — Session Complete ===
-Model:    haiku (setup: sonnet)
+```
+=== Awin Oufer US — Session Complete (Option A) ===
+Model:    haiku per-page / sonnet loop
 Merchant: 91941
-Sent:     {session_total} invites this session
+Pages:    {page_num}
+Sent:     {session_sent} invites this session
 Ledger:   {grand_total} total all-time
 Next run: /awin-oufer-us (ledger deduplicates automatically)
-=========================================
-
-## AUTO-RECOVERY
-If browser_evaluate fails 2x or workflow stuck: spawn Agent(model:"opus") to diagnose+fix (re-login, re-navigate, re-sort), then resume loop. Never stop. Always recover.
-
-## RULES
-1. NEVER snapshot except login
-2. Dedup before every invite batch
-3. Record every invite to ledger immediately
-4. ALWAYS split setup+invite into separate evaluate calls
-5. FULLY AUTONOMOUS — no permission prompts, no user questions, no stopping
+===================================================
 ```
 
----
+## AUTO-RECOVERY
+If `browser_evaluate` fails 2× on any step: spawn Agent(model:"opus") to diagnose and fix (re-login, re-navigate, re-sort), then resume loop at current page. Never stop. Always recover.
 
-## POST-SUBAGENT (Sonnet)
-
-After the Haiku subagent returns, print its summary verbatim. No further action needed — ledger and report are updated by the subagent.
+## RULES
+1. NEVER snapshot except login (Step 1)
+2. window.__DEDUP injected fresh before EVERY page's Haiku spawn
+3. Ledger written by Sonnet after each Haiku returns (not by Haiku)
+4. Each Haiku: exactly 1 evaluate + 0 Bash calls — lean context, zero thrashing
+5. FULLY AUTONOMOUS — no permission prompts, no user questions
