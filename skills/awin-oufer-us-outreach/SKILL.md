@@ -45,17 +45,30 @@ INVITE_BTN     = [title="Invite Publisher"], [data-original-title="Invite Publis
 NEXT_PAGE_BTN  = #nextPage
 ```
 
-## Filter IDs
+## Filter IDs (verified 2026-04-23)
 
-| ID | Name |
-|----|------|
-| 3 | Content (parent — expand first) |
-| 5 | Email (parent — expand first) |
-| 25 | Content Creators |
-| 15 | Editorial |
-| 22 | Newsletters |
-| 19 | Coupon |
-| 24 | Cashback |
+| ID | Label | Relevance for Oufer |
+|----|-------|---------------------|
+| 21 | Content Creators & Influencers | ★★★ body art, beauty, fashion influencers |
+| 20 | Editorial Content | ★★★ lifestyle/fashion editorial blogs |
+| 23 | Communities & User-Generated Content | ★★★ body modification, piercing communities |
+| 29 | Newsletters | ★★ fashion/lifestyle newsletter publishers |
+| 14 | Social Traffic | ★★ social media traffic publishers |
+| 19 | Shopping Directory | ★★ jewelry/accessories shopping sites |
+| 26 | Coupon Code | ★ deal/promo sites (volume) |
+| 24 | Cashback | ★ cashback platforms (volume) |
+| 25 | Loyalty | ✗ wrong — was incorrectly used as "Content Creators" |
+| 15 | Mobile Traffic | ✗ wrong — was incorrectly used as "Editorial" |
+| 22 | Media Content | ✗ wrong — was incorrectly used as "Newsletters" |
+
+## Tier Strategy (setup-filters.js auto-selects)
+
+| Tier | IDs Applied | Triggers When |
+|------|-------------|---------------|
+| T1-Premium | 21, 20, 23, 29 | ≥5 publishers with 50+ partnerships |
+| T2-Broad | 21, 20, 23, 29, 14, 19 | ≥3 publishers with 50+ partnerships |
+| T3-Volume | 21, 20, 23, 29, 14, 19, 26, 24 | ≥1 publisher with 50+ partnerships |
+| T4-NoFilter | (none) | Always succeeds — full directory |
 
 ## Dedup Ledger
 

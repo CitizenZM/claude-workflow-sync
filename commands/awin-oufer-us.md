@@ -14,15 +14,15 @@ model: sonnet
 ## CONFIG
 ```
 merchant_id : 91941
-filters     : 25,15,22
+filters     : auto-tiered (setup-filters.js selects T1→T4 by partnership quality)
 count       : $ARGUMENTS (default 500)
 commission  : 20.0
-min_part    : 50
+min_part    : 5
 target_pp   : 25
 login       : affiliate@celldigital.co / Celldigital2024*
 scripts     : ~/.claude/skills/awin-oufer-us-outreach/scripts/
-ledger      : /Volumes/workssd/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Ledger.md
-report      : /Volumes/workssd/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Report-2026-04-15.md
+ledger      : ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Ledger.md
+report      : ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Report-2026-04-15.md
 msg         : "Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the NO.1 Piercing Body Jewelry you MUST see. We are offering 10-20% ultra high commission with limited time deal offer, Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer."
 ```
 
@@ -37,9 +37,11 @@ msg         : "Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the 
 4. Wait for directory page to load
 
 ### Step 2: Filter + Sort (ONE evaluate)
-Read `~/.claude/skills/awin-oufer-us-outreach/scripts/setup-filters.js`, replace `FILTER_IDS` → `['25','15','22']`, run via `mcp__playwright-awin-oufer-us__browser_evaluate`.
-Returns `{filters, perPage, rows, sortVerified, firstPartnership}`. Verify: perPage=40, sortVerified=true, rows>0.
-If sort not verified: reload + retry Step 2 once.
+Read `~/.claude/skills/awin-oufer-us-outreach/scripts/setup-filters.js` verbatim (no placeholder replacement needed — fully self-contained).
+Run via `mcp__playwright-awin-oufer-us__browser_evaluate`.
+Returns `{tier, filters:[{id,label}], perPage, rows, sortVerified, firstPartnership, above50}`.
+Verify: perPage=40, rows>0, sortVerified=true. Log which tier was selected.
+If sortVerified=false: reload + retry Step 2 once.
 
 ### Step 3: Preflight
 Print: `"✓ Oufer US ready: {rows} publishers, first={firstPartnership} partnerships. Starting Option A loop..."`
@@ -106,7 +108,7 @@ Replace these placeholders before running:
   %%MSG%%              → "Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the NO.1 Piercing Body Jewelry you MUST see. We are offering 10-20% ultra high commission with limited time deal offer, Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer."
   %%COMM%%             → "20.0"
   %%TARGET%%           → 25
-  %%MIN_PARTNERSHIPS%% → 50
+  %%MIN_PARTNERSHIPS%% → 5
 Run via mcp__playwright-awin-oufer-us__browser_evaluate.
 
 STEP 2 — Return result:
