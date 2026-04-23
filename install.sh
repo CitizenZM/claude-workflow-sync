@@ -93,15 +93,20 @@ else
   echo "  -> Fish not found, skipping fish wrapper"
 fi
 
-# 4. Zsh/Bash alias (fallback)
+# 4. Zsh/Bash alias (fallback for non-Fish shells)
 echo "[4/5] Installing shell alias (zsh/bash fallback)..."
-ALIAS_LINE="alias claude='bash $SYNC_REPO/sync.sh pull 2>/dev/null && command claude'"
 for rc in "$HOME/.zshrc" "$HOME/.bashrc"; do
   if [ -f "$rc" ] && ! grep -q "claude-workflow-sync" "$rc" 2>/dev/null; then
-    run "echo '' >> \"$rc\""
-    run "echo '# claude-workflow-sync auto-pull' >> \"$rc\""
-    run "echo '$ALIAS_LINE' >> \"$rc\""
-    echo "  -> Added alias to $rc"
+    if [ "$DRY" = "--dry-run" ]; then
+      echo "[DRY] append claude alias to $rc"
+    else
+      {
+        echo ''
+        echo '# claude-workflow-sync auto-pull'
+        printf "alias claude='bash %s/sync.sh pull 2>/dev/null && command claude'\n" "$SYNC_REPO"
+      } >> "$rc"
+      echo "  -> Added alias to $rc"
+    fi
   fi
 done
 
