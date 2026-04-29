@@ -1,0 +1,21 @@
+# Credentials & local config
+.env
+.env.local
+*.env
+
+# Real data (PII / business-sensitive)
+output/
+*.docx
+*.pdf
+*.png
+*.json
+!data/*.example.json
+
+# Vercel project link tokens
+.vercel/
+
+# OS
+.DS_Store
+node_modules/
+__pycache__/
+*.pyc

@@ -37,7 +37,7 @@ Two commands, two models:
 
 JS scripts live in `~/.claude/skills/awin-rockbros-us-outreach/scripts/`:
 - `setup-filters.js` — cookie accept, 40/page, filter checkboxes, sort desc (reused from EU skill)
-- `bulk-invite.js` — invite loop with dedup + quality gate (min 30 partnerships)
+- `bulk-invite.js` — invite loop with dedup + quality gate (min 50 partnerships)
 - `next-page.js` — click next, return row count
 
 ## Configuration
@@ -47,11 +47,11 @@ JS scripts live in `~/.claude/skills/awin-rockbros-us-outreach/scripts/`:
 | MERCHANT_ID | `58007` |
 | EMAIL | `affiliate@celldigital.co` |
 | PASSWORD | `Celldigital2024*` |
-| FILTER_IDS | `[]` (all promotional types — do NOT restrict by type) |
+| FILTER_IDS | `['25','15','22']` |
 | COMMISSION | `20.0` |
-| MIN_PARTNERSHIPS | `30` |
+| MIN_PARTNERSHIPS | `50` |
 | MESSAGE | Hi, this is Bob Zabel, reaching out from Rockbros – the NO.1 Sportmarke that you MUST see. We are offering 10-20% ultra high commission with limited time deal offer. Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer. |
-| OBSIDIAN_PATH | `/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/` |
+| OBSIDIAN_PATH | `/Volumes/workssd/ObsidianVault/01-Projects/` |
 | LEDGER_FILE | `Awin-Rockbros-US-Outreach-Ledger.md` |
 | REPORT_FILE | `Awin-Rockbros-US-Outreach-Report-2026-04-15.md` |
 
@@ -98,15 +98,15 @@ NEXT_PAGE_BTN  = #nextPage
 
 ## Dedup Ledger
 
-File: `/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Awin-Rockbros-US-Outreach-Ledger.md`
+File: `/Volumes/workssd/ObsidianVault/01-Projects/Awin-Rockbros-US-Outreach-Ledger.md`
 Format: `publisher_name|contact_email|YYYY-MM-DD|merchant_id`
 
 Separate ledger from EU — EU merchant ID 122456, US merchant ID 58007.
 
 ## Quality Rules
 
-1. **MANDATORY sort**: Always sort by Accepted Partnerships descending BEFORE inviting. Verify first row has 30+ partnerships.
-2. **Min partnerships gate**: Only invite publishers with 30+ accepted partnerships. Skip low-quality rows. All promotional types are allowed — do NOT apply type filters.
+1. **MANDATORY sort**: Always sort by Accepted Partnerships descending BEFORE inviting. Verify first row has 50+ partnerships.
+2. **Min partnerships gate**: Only invite publishers with 50+ accepted partnerships. Skip and remove low-quality rows.
 3. **Sort after page-length change**: Wait 4s after setting 40/page, THEN sort. Sort resets when page reloads.
 
 ## Token Rules

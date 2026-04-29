@@ -1,25 +1,51 @@
 # Outreach Workflow Isolation Standard
 
-Every affiliate outreach workflow MUST use a dedicated Playwright MCP server + Chrome profile so parallel workflows never collide. This file is the source of truth — individual SKILL.md / command .md files inherit from it.
+Every affiliate / application outreach workflow MUST use a dedicated Playwright MCP server + browser profile so parallel workflows do not collide.
 
-## Canonical registry
+## Supervisor contract (applies to ALL outreach workflows — no per-workflow opt-out)
 
-Machine-readable: `~/.claude/skills/_shared/workflow-registry.json`
-Script-validated: `init-workflow.sh` refuses to run if caller arguments disagree with the registry.
+Every outreach **setup** command MUST spawn an Opus supervisor before the first browser action:
+- Agent: `subagent_type: general-purpose`, `model: opus`, `run_in_background: true`
+- Prompt: `~/.claude/skills/_shared/outreach-supervisor-prompt.md`
+- Debug: ON by default — supervisor appends JSON events to `/tmp/outreach-<workflow>-debug.log` on every checkpoint, verdict, crash, halt, resume, and patch event (schema in the supervisor prompt)
+- Checkpoint cadence: every 10 confirmed invites/proposals, worker writes `/tmp/outreach-<workflow>-checkpoint.json` and messages the supervisor for a verdict
+- Standalone outreach commands (no matching setup run in this session): re-spawn the supervisor using the same contract before Step 0
 
-| Workflow | MCP Server | Profile Dir | Port | Tool Namespace |
-|----------|-----------|-------------|------|----------------|
-| awin-rockbros-us | `playwright-awin-rockbros-us` | `~/.claude/browser-profiles/awin-rockbros-us` | 9301 | `mcp__playwright-awin-rockbros-us__*` |
-| awin-rockbros-eu | `playwright-awin-rockbros-eu` | `~/.claude/browser-profiles/awin-rockbros-eu` | 9302 | `mcp__playwright-awin-rockbros-eu__*` |
-| awin-oufer-us    | `playwright-awin-oufer-us`    | `~/.claude/browser-profiles/awin-oufer-us`    | 9303 | `mcp__playwright-awin-oufer-us__*` |
-| impact-ottocast  | `playwright-impact-ottocast`  | `~/.claude/browser-profiles/impact-ottocast`  | 9304 | `mcp__playwright-impact-ottocast__*` |
-| impact-tcl-us    | `playwright-impact-tcl-us`    | `~/.claude/browser-profiles/impact-tcl-us`    | 9305 | `mcp__playwright-impact-tcl-us__*` |
+This contract is enforced centrally by the shared supervisor prompt. Individual commands inherit it — they must NOT downgrade the model, disable debug, skip the supervisor, or spawn redundant per-batch Opus agents (the background supervisor already handles batch reviews via the checkpoint file).
 
-## Activation
+**Single-source rule.** If a command file restates the supervisor mechanism, it must only restate the *interface* (checkpoint path, cadence, verdict semantics) and defer all logic to this shared file. Do not duplicate Opus spawn blocks.
 
-All 5 MCP servers are already registered in `~/.claude.json` under `mcpServers`. They auto-load at Claude Code startup — **no restart required between workflow runs**. A restart is only required the first time a new MCP server is added (or if `~/.claude.json` is edited manually).
+## Model assignment (cheapest viable per stage — enforced in command frontmatter)
 
-Each server runs with `--cdp-endpoint http://localhost:930X`, so it connects to a Chrome instance launched by `init-workflow.sh` with the matching profile + debug port.
+| Stage | Model | Why |
+|-------|-------|-----|
+| Login / filter setup / JD parsing | `sonnet` | Handles SSO edge cases, page layout variance, reasoning |
+| Bulk invite / bulk propose / pagination loop | `haiku` | Mechanical, deterministic — 10-20× cheaper at identical output |
+| Supervisor (background) | `opus` | Only spawned once per run; reviews batches; catches DOM rot |
+| Weekly / session reports | `haiku` | Aggregation + Markdown formatting only |
+
+Every command MUST declare its model in YAML frontmatter. A MODEL GATE at the top of the command must abort if the current session model is heavier than declared.
+
+## Registry (canonical — do NOT drift)
+
+| Workflow | MCP Server | Profile Dir | Port |
+|----------|-----------|-------------|------|
+| default (manual)  | `playwright`                  | `~/.claude/browser-profiles/default`         | 9300 |
+| awin-rockbros-us  | `playwright-awin-rockbros-us` | `~/.claude/browser-profiles/awin-rockbros-us`| 9301 |
+| awin-rockbros-eu  | `playwright-awin-rockbros-eu` | `~/.claude/browser-profiles/awin-rockbros-eu`| 9302 |
+| awin-oufer-us     | `playwright-awin-oufer-us`    | `~/.claude/browser-profiles/awin-oufer-us`   | 9303 |
+| impact-ottocast   | `playwright-impact-ottocast`  | `~/.claude/browser-profiles/impact-ottocast` | 9304 |
+| impact-tcl-us     | `playwright-impact-tcl-us`    | `~/.claude/browser-profiles/impact-tcl-us`   | 9305 |
+| wellfound         | `playwright-wellfound`        | `~/.claude/browser-profiles/wellfound`       | 9306 |
+| greenhouse        | `playwright-greenhouse`       | `~/.claude/browser-profiles/greenhouse`      | 9307 |
+
+The JSON source of truth is `~/.claude/scripts/outreach/workflow-registry.json`. The MCP registrations live in `~/.claude.json` under `mcpServers` and MUST match the registry by name, port, and user-data-dir. `init-workflow.sh` verifies both files match on every setup run.
+
+## Activation model (no-restart guarantee)
+
+Once an MCP server is registered in `~/.claude.json`, **Claude Code auto-starts it on the first tool call** for that server. You do NOT need to restart Claude Code each time a workflow starts. The only time a restart is required is when a *brand new* MCP server is being added to `~/.claude.json` for the first time — and that is a one-time operation per workflow.
+
+All 8 workflows in the registry above are already registered and active.
 
 ## Init sequence (first step of every setup command)
 
@@ -27,41 +53,36 @@ Each server runs with `--cdp-endpoint http://localhost:930X`, so it connects to 
 ~/.claude/scripts/outreach/init-workflow.sh <slug> <mcp-name> <port>
 ```
 
-Examples:
-- `init-workflow.sh awin-rockbros-us playwright-awin-rockbros-us 9301`
-- `init-workflow.sh impact-ottocast playwright-impact-ottocast 9304`
-
 The script:
-1. Validates caller arguments against `workflow-registry.json` (exit 3 if slug unknown, exit 4 if mcp/port disagree with registry).
-2. Verifies the workflow-specific MCP is registered in `~/.claude.json` (exit 2 with JSON block if missing).
-3. Ensures the profile directory exists.
-4. Kills stale Chrome processes holding that profile or CDP port.
-5. Launches Chrome with `--user-data-dir=<profile>` and `--remote-debugging-port=<port>`.
-6. Verifies CDP responds on the port.
+1. Verifies the caller args match the canonical registry.
+2. Verifies `~/.claude.json` has the MCP registered with matching port + profile.
+3. Creates the profile dir if missing (idempotent).
+4. Kills any stale Chrome process bound to that profile.
+5. Kills any stale `@playwright/mcp` process holding that port (safe: only kills playwright-mcp, never unrelated services).
+6. Prints `[init] ready — tools: mcp__<mcp-name>__*`.
 
-## Tool-namespace rule (non-negotiable)
+Exit codes: 2 (MCP not registered), 3 (workflow not in registry), 4/5/6 (drift). On any non-zero exit, surface the error and STOP — do not fall back to the generic `playwright` server.
 
-Inside a workflow, ALL browser calls MUST use `mcp__<server>__*`. Never fall back to `mcp__playwright__*` (the generic server). If the workflow-specific MCP server is missing, STOP and instruct the user to register it — do NOT degrade to the shared server, because a second workflow could hijack it mid-run.
+## Mid-session MCP recovery (no restart)
 
-## Supervisor contract (inherited by every outreach workflow)
+If the workflow-specific MCP dies mid-session (rare — typically only happens if Chromium crashes and takes the MCP with it):
+1. Run `init-workflow.sh` again to clear stale port/profile locks.
+2. Call any tool in the `mcp__<server>__*` namespace — Claude Code re-spawns the MCP on demand.
+3. Supervisor logs the `resume` event automatically.
 
-Every outreach setup command MUST spawn an Opus supervisor once per session, before the first browser action:
-- Agent tool: `subagent_type: general-purpose`, `model: opus`, `run_in_background: true`
-- Prompt: contents of `~/.claude/skills/_shared/outreach-supervisor-prompt.md` with bindings filled in (workflow, target_total, ledger_path, checkpoint_path, mcp_namespace)
-- The outreach command re-uses this supervisor — it does NOT spawn additional Opus agents for per-batch audits, auto-recovery, or diagnosis. All Opus work flows through the single supervisor via messages.
-- Checkpoint cadence: every 10 confirmed invites/proposals, the worker writes `/tmp/outreach-<slug>-checkpoint.json` and messages the supervisor for a verdict.
-- Debug log: `/tmp/outreach-<slug>-debug.log` — the supervisor appends one JSON line per event.
+No Claude Code restart required.
 
-**This contract is centrally enforced.** Individual workflows inherit it — they must NOT downgrade the model, disable the debug log, skip the supervisor, or spawn parallel Opus agents.
+## Tool-namespace rule
 
-## Model policy (summary)
+Inside a workflow, ALL browser calls MUST use `mcp__<server>__*`. Never fall back to `mcp__playwright__*` (the generic server). If the workflow-specific MCP server is missing, stop and fix registration — do NOT degrade to the shared server, because a second workflow could hijack the generic profile.
 
-| Phase | Model | Reason |
-|-------|-------|--------|
-| Setup (login, filters, navigate) | Sonnet | Handles SSO + DOM edge cases |
-| Outreach loop (batch invites/proposals) | Haiku | Mechanical loop — 10× cheaper than Sonnet |
-| Supervisor (background) | Opus | One per session, continuous oversight |
-| Auto-recovery | None new — delegate to running supervisor | Avoids duplicate Opus spawns |
-| Context handoff | Haiku → Haiku | spawn fresh Haiku at 120K ctx; pass state file path |
+## Zero-duplication checklist (for command authors)
 
-Every setup command has `model: sonnet` in its frontmatter. Every outreach command has `model: haiku`. The supervisor is always Opus via the Agent tool. Deviations MUST be justified in the command file's frontmatter comment.
+A command file is clean if:
+- [x] Declares `model:` in frontmatter matching the stage table above.
+- [x] MODEL GATE checks current model at top of body.
+- [x] "MCP SERVER — MANDATORY" block names the correct `mcp__<server>__*` namespace exactly once.
+- [x] References the Supervisor contract by pointing to this file — does NOT restate the prompt body or spawn rules.
+- [x] Checkpoint write + supervisor message is the ONLY batch-review mechanism (no parallel per-batch Opus agent spawns).
+- [x] Uses `init-workflow.sh` as Step 0 of any *setup* command.
+- [x] Does NOT tell the user to restart Claude Code for already-registered MCPs.

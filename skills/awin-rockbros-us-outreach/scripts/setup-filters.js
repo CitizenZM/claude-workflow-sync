@@ -1,5 +1,5 @@
-// Awin filter setup script v3.3 — run via browser_evaluate
-// US merchant 58007: IDs 25=Loyalty, 15=Mobile Traffic, 22=Media Content
+// Awin filter setup script v3.2 — run via browser_evaluate
+// Accepts: FILTER_IDS array e.g. ['25','15','22']
 // ALWAYS sorts by Accepted Partnerships descending with verification
 async () => {
   const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -14,8 +14,8 @@ async () => {
   if (ch) { ch.click(); await sleep(500); }
   const eh = document.querySelector('#types_5 .hitarea');
   if (eh) { eh.click(); await sleep(500); }
-  // Apply filters — IDs hard-coded (25=Loyalty, 15=Mobile Traffic, 22=Media Content)
-  const ids = ['25', '15', '22'];
+  // Apply filters
+  const ids = FILTER_IDS;
   const applied = [];
   ids.forEach(id => {
     const li = document.querySelector('#types_' + id);
@@ -38,15 +38,6 @@ async () => {
       if (num >= 50) { sortVerified = true; break; }
     }
   }
-  // Nuke sessionStorage so Awin can't restore filter/sort state on next navigate
-  try {
-    sessionStorage.clear();
-    const origSetItem = sessionStorage.setItem.bind(sessionStorage);
-    Object.defineProperty(sessionStorage, 'setItem', {
-      value: (k, v) => { if (!/filter|sort|sector|region|type/i.test(k)) origSetItem(k, v); },
-      writable: true, configurable: true
-    });
-  } catch(e) {}
   const rows = document.querySelectorAll('table tbody tr');
   const firstPartnership = document.querySelector('table tbody tr td:nth-child(3)')?.textContent?.trim();
   return JSON.stringify({ filters: applied, perPage: pl?.value, rows: rows.length, sortVerified, firstPartnership });

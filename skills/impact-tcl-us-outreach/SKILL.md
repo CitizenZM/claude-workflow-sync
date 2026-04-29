@@ -1,16 +1,36 @@
 ---
 name: impact-tcl-us-affiliate-outreach
-description: Impact TCL US Affiliate Outreach April152026. Playwright-based proposal sending on Impact.com. Sonnet for setup/login, Haiku for bulk proposal loop. Records publisher name + email per row.
+description: Impact TCL US Affiliate Outreach. Playwright browser_run_code with page.mouse.click() for term selection (evaluate clicks don't trigger React in iframe). Sonnet for setup/login, Haiku for bulk proposal loop. Opus supervises every 10 proposals. Records publisher name + email per row. Syncs to Obsidian on completion.
 tags: [affiliate, impact, tcl, us, outreach, automation, playwright]
 ---
 
-# Impact TCL US Affiliate Outreach April152026
+# Impact TCL US Affiliate Outreach
+
+## Isolation + Supervisor (MANDATORY)
+
+**Browser profile**: `~/.claude/browser-profiles/impact-tcl-us`
+**MCP server**: `playwright-impact-tcl-us` (port 9305)
+**Tool namespace**: `mcp__playwright-impact-tcl-us__*` — NEVER use `mcp__playwright__*`
+
+Setup must run first:
+```bash
+bash ~/.claude/scripts/outreach/init-workflow.sh impact-tcl-us playwright-impact-tcl-us 9305
+```
+
+If the MCP server is not registered, the script prints the JSON block to add to `~/.claude.json`. Do not degrade to the shared `mcp__playwright__` server.
+
+**Opus supervisor**: At the start of the setup command, spawn a background Opus Agent using the prompt at `~/.claude/skills/_shared/outreach-supervisor-prompt.md`. The supervisor reviews `/tmp/outreach-impact-tcl-us-checkpoint.json` after every 10 proposals.
+
+See `~/.claude/skills/_shared/outreach-isolation.md` for the full registry.
 
 ## Architecture
 
-Two commands, two models:
-- `/impact-tcl-us-setup` (Sonnet) — login, navigate to discover page, set filters, verify results.
-- `/impact-tcl-us-outreach` (Haiku) — batch proposal loop via `browser_evaluate`.
+Two commands, two models + Opus supervisor:
+- `/impact-tcl-us-setup` (Sonnet) — login, navigate to discover page, set filters, verify card count.
+- `/impact-tcl-us-outreach` (Haiku) — batch proposal loop via `browser_run_code` (NOT evaluate).
+- Opus Agent — spawned every 10 proposals to diagnose failures and verify quality.
+
+**Browser**: `mcp__playwright-impact-tcl-us__*` — dedicated port 9305, profile `~/.claude/browser-profiles/impact-tcl-us`
 
 ## Configuration
 
@@ -19,8 +39,12 @@ Two commands, two models:
 | PROGRAM_ID | `48321` |
 | BRAND | TCL |
 | REGION | US |
-| TEMPLATE_TERM | TCL US Standard Publisher Terms (5%) |
-| LEDGER | `/Users/xiaozuo/impact-tcl-us-ledger.md` |
+| TEMPLATE_TERM | TCL US Standard Term 8% |
+| LEDGER | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Ledger.md` |
+| REPORT | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Report-[DATE].md` |
+| OBSIDIAN_WORKFLOW | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach.md` |
+| CONTRACT_DATE | Dynamic: `new Date(Date.now()+86400000).toISOString().slice(0,10)` (always tomorrow) |
+| MSG | "Welcome! TCL is a global top-NO.1 TV brand and one of the fastest-growing names in smartphones, tablets, and smart home. Our program on Impact (Program ID: 48321) offers an 8% CPA commission on all sales, dedicated affiliate manager support, a full creative library, product data feeds, and exclusive promotional offers for our partners. REPLY for limited time offer!" |
 
 ## Required Filters (set during /impact-tcl-us-setup)
 
@@ -64,7 +88,7 @@ Navigate by setting `window.location.hash` directly. Filters persist across tab 
 
 For each publisher, capture and log to ledger:
 - **Name**: `card.querySelector('[class*="name"]')?.textContent.trim()`
-- **Email**: `card.querySelector('[href^="mailto:"]')?.href?.replace('mailto:','') || ''`
+- **Email**: `card.querySelector('[href^="mailto:"]')?.href?.replace('mailto:','') || 'email_missing'`
 
 Log immediately after all cards on a tab are processed.
 
@@ -72,104 +96,166 @@ Log immediately after all cards on a tab are processed.
 
 The "Send Proposal" flow uses an **iframe**, NOT a modal in the main document:
 1. Clicking "Send Proposal" opens `iframe[src*="send-proposal"]`
-2. ALL form elements live inside `iframe.contentDocument`
-3. The term dropdown renders as a **fixed-position portal** inside the iframe's `<body>`
+2. ALL form elements live inside the iframe — access via `page.frames().find(f => f.url().includes('send-proposal'))`
+3. The term dropdown `li[role="option"]` elements are **always in the DOM** (even when dropdown is closed) — use `getBoundingClientRect()` to find visible ones
 
-### Card Interaction
-- "Send Proposal" buttons are CSS `display:none` by default → force `btn.style.display='inline-block'` before clicking
-- Card selector: `.discovery-card`
-- "Review Terms" button = already in network → skip
+### Why `browser_run_code` is Required (NOT `browser_evaluate`)
 
-## Token-Efficient Outreach Pattern (CRITICAL — ONE evaluate per tab)
+React synthetic event system inside iframes does NOT respond to:
+- `element.click()` from evaluate
+- `new iframe.contentWindow.MouseEvent(...)`
+- Native Playwright `propFrame.locator().click()`
 
-**Inject the helper once, then call it per-tab in a single evaluate. Never re-declare the function.**
+**Only `page.mouse.click(absX, absY)` triggers React state correctly.** This requires `page` access, which only `browser_run_code` provides.
 
-### Step 1 — Inject helper (once per session)
+### Absolute Coordinate Formula
+
 ```js
-// browser_evaluate: inject fillAndSubmit onto window
-() => {
-  window.__tcl_fill = async (cardIdx) => {
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
-    const cards = document.querySelectorAll('.discovery-card');
-    const card = cards[cardIdx];
-    const btn = Array.from(card.querySelectorAll('button')).find(b => b.textContent.trim() === 'Send Proposal');
-    if (!btn) return `${cardIdx}:skip(${Array.from(card.querySelectorAll('button')).map(b=>b.textContent.trim())[0]})`;
-    btn.style.display = 'inline-block'; btn.click();
-    await sleep(3000);
-    const iframe = document.querySelector('iframe[src*="send-proposal"], iframe[src*="proposal"]');
-    if (!iframe) return `${cardIdx}:no-iframe`;
-    const doc = iframe.contentDocument;
-    let t = 0; while (doc.readyState !== 'complete' && t < 10) { await sleep(500); t++; }
-    const sel = Array.from(doc.querySelectorAll('button')).find(b => b.textContent.trim() === 'Select');
-    if (!sel) return `${cardIdx}:no-Select`;
-    sel.click(); await sleep(800);
-    const portal = Array.from(doc.body.querySelectorAll('div')).find(d => window.getComputedStyle(d).position === 'fixed' && d.querySelectorAll('li').length > 0);
-    const term = portal ? Array.from(portal.querySelectorAll('li')).find(o => o.textContent.includes('Standard') || o.textContent.includes('5%')) : null;
-    if (!term) return `${cardIdx}:no-term`;
-    term.click(); await sleep(500);
-    const db = doc.querySelector('button[class*="input-wrap"]');
-    if (db) { db.click(); await sleep(800); const cp = Array.from(doc.body.querySelectorAll('div')).find(d => window.getComputedStyle(d).position === 'fixed' && d.innerText?.includes('2026')); if (cp) { const day = Array.from(cp.querySelectorAll('td,button,span')).find(c => c.textContent.trim() === '18'); if (day) { day.click(); await sleep(500); } } }
-    const ta = doc.querySelector('textarea');
-    if (ta) { const msg = "Hi! We're reaching out on behalf of TCL, a leading global brand in consumer electronics — TVs, smartphones, tablets, and soundbars. We'd love to partner with you through our affiliate program (5% commission). If you're interested, please review the proposal and feel free to reach out with any questions. Looking forward to working together!"; const ns = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype,'value').set; ns.call(ta,msg); ta.dispatchEvent(new Event('input',{bubbles:true})); ta.dispatchEvent(new Event('change',{bubbles:true})); }
-    await sleep(300);
-    const sub = Array.from(doc.querySelectorAll('button')).find(b => b.textContent.trim() === 'Send Proposal');
-    if (!sub) return `${cardIdx}:no-submit`;
-    sub.style.display='inline-block'; sub.click();
-    await sleep(2000);
-    const confirm = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'I understand') || Array.from(doc.querySelectorAll('button')).find(b => b.textContent.trim() === 'I understand');
-    if (confirm) { confirm.click(); await sleep(500); }
-    const name = card.querySelector('[class*="name"]')?.textContent.trim() || String(cardIdx);
-    const email = card.querySelector('[href^="mailto:"]')?.href?.replace('mailto:','') || '';
-    return `OK|${name}|${email}`;
-  };
-  return 'helper injected';
+// Get iframe position from main page
+const iRect = await page.evaluate(() => {
+  const iframe = document.querySelector('iframe[src*="send-proposal"], iframe[src*="proposal"]');
+  const r = iframe.getBoundingClientRect();
+  return { x: r.x, y: r.y };
+});
+
+// Get element position from inside iframe
+const liCoords = await propFrame.evaluate(() => {
+  const li = ...; // find the target li
+  const r = li.getBoundingClientRect();
+  return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+});
+
+// Click at absolute screen coords
+await page.mouse.click(Math.round(iRect.x + liCoords.x), Math.round(iRect.y + liCoords.y));
+```
+
+### Term Selection (CRITICAL)
+
+Target term: **"TCL US Standard Term 8%"**
+
+Term options in dropdown (order matters — must NOT pick index 0 or 1):
+- `[0]` = "Select" (placeholder, skip)
+- `[1]` = "TCL US - Coupon & Cashback Terms (3%)" — WRONG, do NOT select
+- `[2]` = "TCL US Standard Term 8%" — CORRECT target
+- `[3]` = "TCL US - Standard Publisher Terms (5%)" — old term, do NOT select
+
+Selection logic (from bulk-proposal.js):
+```js
+// Open dropdown
+await propFrame.evaluate(() => {
+  const trigger = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'Select');
+  if (trigger) trigger.click();
+});
+await sleep(1200);
+
+// Find visible 8% Standard term li
+const liCoords = await propFrame.evaluate(() => {
+  const isVis = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+  const li = Array.from(document.querySelectorAll('li[role="option"]'))
+    .find(l => l.textContent.includes('8%') && !l.textContent.toLowerCase().includes('coupon') && isVis(l))
+    || Array.from(document.querySelectorAll('li[role="option"]'))
+      .find(l => l.textContent.toLowerCase().includes('standard') && !l.textContent.toLowerCase().includes('coupon') && !l.textContent.includes('5%') && isVis(l));
+  if (!li) return null;
+  const r = li.getBoundingClientRect();
+  return { x: r.x + r.width / 2, y: r.y + r.height / 2, text: li.textContent.trim() };
+}).catch(() => null);
+
+// Click at absolute screen coords — only this triggers React state
+await page.mouse.click(Math.round(iRect.x + liCoords.x), Math.round(iRect.y + liCoords.y));
+```
+
+### "I Understand" Nav-Catch Pattern
+
+Clicking "I understand" in the proposal iframe causes **full page navigation** to the "Proposals Sent" page. This is the success signal:
+
+```js
+let proposalSent = false;
+try {
+  await propFrame.evaluate(() => {
+    const btn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'I understand');
+    if (btn) btn.click();
+  });
+  await sleep(2500);
+  const gone = await page.evaluate(() => !document.querySelector('iframe[src*="send-proposal"], iframe[src*="proposal"]'));
+  proposalSent = gone;
+} catch (_navError) {
+  // Navigation error = proposal sent successfully
+  proposalSent = true;
+  await sleep(1500);
+  await page.goto(DISCOVER_URL).catch(() => {});
+  await sleep(3000);
 }
 ```
 
-### Step 2 — Per-tab: scan + send all in ONE evaluate
+### Card Lookup Robustness
 
+After each navigation+reload, re-query cards **by name** (not index) — page may reorder:
 ```js
-// browser_evaluate: process entire tab
-async () => {
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
-  // Build ledger set from known contacted names (pass as inline set)
-  const contacted = new Set([/* paste current ledger names here */]);
-  const cards = document.querySelectorAll('.discovery-card');
-  const results = [];
-  for (let i = 0; i < cards.length; i++) {
-    const name = cards[i].querySelector('[class*="name"]')?.textContent.trim() || '';
-    const btns = Array.from(cards[i].querySelectorAll('button')).map(b => b.textContent.trim());
-    if (contacted.has(name) || !btns.includes('Send Proposal')) {
-      results.push(`${i}:${name}:skipped`); continue;
-    }
-    const r = await window.__tcl_fill(i);
-    results.push(`${i}:${r}`);
-    await sleep(500);
-  }
-  return results.join('\n');
-}
+cards = await page.evaluate(() =>
+  Array.from(document.querySelectorAll('.discovery-card')).map((c, idx) => ({
+    i: idx, name: c.querySelector('[class*="name"]')?.textContent.trim() || `card_${idx}`,
+    hasBtn: Array.from(c.querySelectorAll('button')).some(b => b.textContent.trim() === 'Send Proposal')
+  }))
+);
+const freshCard = cards.find(c => c.name === name);
 ```
 
-This pattern reduces a 25-card tab from **15+ tool calls** to **2 tool calls** (inject + run).
+## Bulk Proposal Script
+
+Script location: `/Users/xiaozuo/.claude/skills/impact-tcl-us-outreach/scripts/bulk-proposal.js`
+
+Run via `mcp__playwright-impact-tcl-us__browser_run_code` (NOT evaluate). Placeholders replaced before execution:
+
+| Placeholder | Value |
+|-------------|-------|
+| `%%DISCOVER_URL%%` | Full discover page URL with hash filters |
+| `%%MSG%%` | Proposal message text |
+| `%%CONTRACT_DATE%%` | Tomorrow's date (calculated at runtime) |
+| `%%ALREADY%%` | `JSON.stringify(dedup array from ledger)` |
+| `%%TARGET%%` | Number of proposals to send (e.g. 20) |
+
+Returns: `{total, errorCount, publishers: [{name, email, termVerified, termText, dateVerified}], errors}`
 
 ## Ledger Format
 
-File: `/Users/xiaozuo/impact-tcl-us-ledger.md`
+File: `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Ledger.md`
 
-```markdown
-| Publisher Name | Email | Date Contacted |
-|---|---|---|
-| Example Publisher | contact@example.com | 2026-04-17 |
+```
+publisher_name|email|date|impact-48321
 ```
 
-- Log all new rows in a **single Edit call** after each tab completes
-- If email not found on card, write `""` — never skip the row
+- Pipe-delimited, no header row
+- Append new rows after each batch via single Edit call
+- `email_missing` if email not found — never leave blank
+
+## Opus Supervisor Pattern
+
+Every 10 proposals, spawn:
+```js
+Agent({
+  subagent_type: "general-purpose",
+  model: "opus",
+  prompt: "Supervise last 10 Impact TCL proposals. Results: [batch_results]. Check: term_verified rate (should be 100%), date_verified rate, error patterns. Return PASS or DIAGNOSE with fix. Max 5 sentences."
+})
+```
+- PASS → continue loop
+- DIAGNOSE → apply fix, retry up to 2x, then surface to user
+
+## Obsidian Sync (on workflow complete)
+
+Append to `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach.md`:
+```markdown
+## Session [YYYY-MM-DD]
+- Proposals sent: N | Emails captured: N/N | Term verified: N% | Date verified: N%
+- Errors: N | Top publishers: [name1, name2, name3]
+```
 
 ## Token Rules
 
 1. **NEVER `browser_snapshot`** during outreach phase — zero exceptions
-2. **Inject `window.__tcl_fill` ONCE** per browser session, reuse across all tabs
-3. **ONE evaluate per tab** — scan + send all cards in the same script
-4. **ONE Edit per tab** — batch all new ledger rows into a single file edit
-5. React SPA: wait for `iframe.contentDocument.readyState === 'complete'` inside the helper (already handled)
-6. Filters persist within session — no need to reapply when switching tabs via hash
+2. **Use `browser_run_code`** for proposals — never `browser_evaluate` (no `page` access)
+3. **No `window.__tcl_fill` helper** — deprecated; use bulk-proposal.js via browser_run_code
+4. **ONE `browser_run_code` call per batch** — process up to TARGET cards per call
+5. **ONE Edit per batch** — append all new ledger rows in a single file edit
+6. **Contract date always = tomorrow** — never hardcode; calculate at runtime
+7. **Term verification is mandatory** — termVerified must be true before logging success

@@ -6,6 +6,23 @@ tags: [affiliate, awin, oufer, us, outreach, automation, playwright]
 
 # Awin Oufer US Affiliate Outreach April152026
 
+## Isolation + Supervisor (MANDATORY)
+
+**Browser profile**: `~/.claude/browser-profiles/awin-oufer-us`
+**MCP server**: `playwright-awin-oufer-us` (port 9303)
+**Tool namespace**: `mcp__playwright-awin-oufer-us__*` — NEVER use `mcp__playwright__*`
+
+Setup must run first:
+```bash
+bash ~/.claude/scripts/outreach/init-workflow.sh awin-oufer-us playwright-awin-oufer-us 9303
+```
+
+If the MCP server is not registered, the script prints the JSON block to add to `~/.claude.json`. Do not degrade to the shared `mcp__playwright__` server.
+
+**Opus supervisor**: At the start of the setup command, spawn a background Opus Agent using the prompt at `~/.claude/skills/_shared/outreach-supervisor-prompt.md`. The supervisor reviews `/tmp/outreach-awin-oufer-us-checkpoint.json` after every 10 invites.
+
+See `~/.claude/skills/_shared/outreach-isolation.md` for the full registry.
+
 ## Architecture
 
 Two commands, two models:
@@ -45,30 +62,17 @@ INVITE_BTN     = [title="Invite Publisher"], [data-original-title="Invite Publis
 NEXT_PAGE_BTN  = #nextPage
 ```
 
-## Filter IDs (verified 2026-04-23)
+## Filter IDs
 
-| ID | Label | Relevance for Oufer |
-|----|-------|---------------------|
-| 21 | Content Creators & Influencers | ★★★ body art, beauty, fashion influencers |
-| 20 | Editorial Content | ★★★ lifestyle/fashion editorial blogs |
-| 23 | Communities & User-Generated Content | ★★★ body modification, piercing communities |
-| 29 | Newsletters | ★★ fashion/lifestyle newsletter publishers |
-| 14 | Social Traffic | ★★ social media traffic publishers |
-| 19 | Shopping Directory | ★★ jewelry/accessories shopping sites |
-| 26 | Coupon Code | ★ deal/promo sites (volume) |
-| 24 | Cashback | ★ cashback platforms (volume) |
-| 25 | Loyalty | ✗ wrong — was incorrectly used as "Content Creators" |
-| 15 | Mobile Traffic | ✗ wrong — was incorrectly used as "Editorial" |
-| 22 | Media Content | ✗ wrong — was incorrectly used as "Newsletters" |
-
-## Tier Strategy (setup-filters.js auto-selects)
-
-| Tier | IDs Applied | Triggers When |
-|------|-------------|---------------|
-| T1-Premium | 21, 20, 23, 29 | ≥5 publishers with 50+ partnerships |
-| T2-Broad | 21, 20, 23, 29, 14, 19 | ≥3 publishers with 50+ partnerships |
-| T3-Volume | 21, 20, 23, 29, 14, 19, 26, 24 | ≥1 publisher with 50+ partnerships |
-| T4-NoFilter | (none) | Always succeeds — full directory |
+| ID | Name |
+|----|------|
+| 3 | Content (parent — expand first) |
+| 5 | Email (parent — expand first) |
+| 25 | Content Creators |
+| 15 | Editorial |
+| 22 | Newsletters |
+| 19 | Coupon |
+| 24 | Cashback |
 
 ## Dedup Ledger
 

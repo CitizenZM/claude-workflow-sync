@@ -128,7 +128,7 @@ if [ $SKIP_GITHUB -eq 0 ]; then
     echo "  · no changes vs remote — skipping commit."
   else
     git -C "$REPO_DIR" \
-      -c user.email="${GIT_AUTHOR_EMAIL:-affiliate@celldigital.co}" \
+      -c user.email="${GIT_AUTHOR_EMAIL:-barronzuo@gmail.com}" \
       -c user.name="${GIT_AUTHOR_NAME:-Barron Zuo}" \
       commit -q -m "report: Oufer simplified weekly ${REPORT_DATE}
 
@@ -159,7 +159,7 @@ if [ $SKIP_VERCEL -eq 0 ] && [ -n "${VERCEL_PROJECT_NAME:-}" ]; then
 { "cleanUrls": true, "trailingSlash": false }
 EOF
       git add vercel.json && \
-        git -c user.email="${GIT_AUTHOR_EMAIL:-affiliate@celldigital.co}" \
+        git -c user.email="${GIT_AUTHOR_EMAIL:-barronzuo@gmail.com}" \
             -c user.name="${GIT_AUTHOR_NAME:-Barron Zuo}" \
             commit -q -m "chore: vercel.json config" && \
         git push --quiet || true

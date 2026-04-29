@@ -4,11 +4,6 @@ description: Awin Rockbros US+EU 联盟营销周报 — 自动登录 Awin 双账
 tags: [affiliate, awin, rockbros, report, weekly, playwright, docx, chinese, infographics]
 ---
 
-## BROWSER MCP: playwright-awin (port 3100)
-ALL browser tool calls MUST use the `playwright-awin` MCP server.
-Tool prefix: `mcp__playwright-awin__` (e.g., `mcp__playwright-awin__browser_navigate`, `mcp__playwright-awin__browser_evaluate`, `mcp__playwright-awin__browser_take_screenshot`).
-Do NOT use the default `playwright` or any other playwright server — each workflow has its own isolated browser.
-
 # Awin Rockbros US + EU 联盟营销周报（中文版）
 
 ## 架构概览
@@ -29,8 +24,8 @@ JS 脚本 (`scripts/`):
 |-----|-------|
 | US_MERCHANT_ID | `58007` |
 | EU_MERCHANT_ID | `122456` |
-| EMAIL | `affiliate@celldigital.co` |
-| PASSWORD | `Celldigital2024*` |
+| EMAIL | 见 `.env`（`AWIN_EMAIL`，复制 `.env.example` 填入） |
+| PASSWORD | 见 `.env`（`AWIN_PASSWORD`，复制 `.env.example` 填入） |
 | US_HOME | `https://app.awin.com/en/awin/advertiser/58007/home` |
 | EU_HOME | `https://app.awin.com/en/awin/advertiser/122456/home` |
 | US_PUBLISHERS | `https://app.awin.com/en/awin/advertiser/58007/reports/publisher-performance` |

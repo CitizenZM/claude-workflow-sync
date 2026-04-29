@@ -1,369 +1,295 @@
-// Impact.com bulk proposal script v5 — Optimized via page.evaluate()
-// Wraps DOM code in page.evaluate() to execute in browser context
-// Variables injected at call time via placeholders
+// Impact TCL US bulk proposal script v9 — detail-page email scrape
+// Key mechanics:
+//   - page.mouse.click() for term li (evaluate clicks don't trigger React events in iframe)
+//   - nav-catch pattern: "I understand" causes page navigation = success signal
+//   - name-based card lookup (survives page navigation + reload)
+//   - slideout scrape: click card image → Details tab → shadow-DOM regex scan for email
+// Placeholders replaced before browser_run_code execution:
+//   %%MSG%% %%CONTRACT_DATE%% %%ALREADY%% %%TARGET%% %%DISCOVER_URL%%
 
 async (page) => {
-  // Execute entire script in browser DOM context via page.evaluate()
-  const result = await page.evaluate(async () => {
-    // === INJECT THESE VARIABLES (replace placeholders before running) ===
-    const MSG = "%%MSG%%";
-    const TEMPLATE_TERM = "%%TEMPLATE_TERM%%";
-    const CONTRACT_DATE = "%%CONTRACT_DATE%%";
-    const ALREADY = %%ALREADY%%;
-    const TARGET = %%TARGET%%;
-    // === END INJECTION ===
+  const DISCOVER_URL = "%%DISCOVER_URL%%";
+  const MSG = "%%MSG%%";
+  const CONTRACT_DATE = "%%CONTRACT_DATE%%";
+  const ALREADY = %%ALREADY%%;
+  const TARGET = %%TARGET%%;
 
-    // Native setTimeout works in browser context
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
-    const alreadySet = new Set(ALREADY.map(n => n.toLowerCase()));
-    const invited = [];
-    const skipped = [];
-    const errors = [];
-    const seen = new Set();
-    let staleCount = 0;
+  const sleep = ms => page.waitForTimeout(ms);
+  const alreadySet = new Set(ALREADY.map(n => n.toLowerCase()));
+  const invited = [], errors = [], seen = new Set();
 
-    // Helper: close any open modal/popup using native DOM
-    const closeModal = async () => {
-      try {
-        // Try X/close buttons
-        const closeBtns = document.querySelectorAll('[aria-label="Close"], [data-dismiss="modal"], .modal-close, button.close, [class*="close-button"], [class*="CloseButton"]');
-        for (const btn of closeBtns) {
-          try {
-            btn.click();
-            await sleep(500);
-          } catch (e) {}
-        }
-        // Try OK/Done/Got it buttons
-        const confirmBtns = document.querySelectorAll('button');
-        for (const btn of confirmBtns) {
-          const text = btn.textContent?.trim();
-          if (['OK', 'Done', 'Got it', 'Close'].includes(text)) {
-            try {
-              btn.click();
-              await sleep(300);
-            } catch (e) {}
-          }
-        }
-      } catch (e) {}
-    };
+  const getPropFrame = () => page.frames().find(f => f.url().includes('send-proposal') || f.url().includes('proposal'));
 
-    // Helper: wait for element with timeout (polling with native DOM)
-    const waitFor = async (selector, timeout = 5000) => {
-      const start = Date.now();
-      while (Date.now() - start < timeout) {
-        const el = document.querySelector(selector);
-        if (el) return true;
-        await sleep(100);
-      }
-      return false;
-    };
+  const ensureOnDiscoverPage = async () => {
+    if (!page.url().includes('partner_discover') || page.url().includes('slideout_id=')) {
+      await page.goto(DISCOVER_URL);
+      await sleep(3000);
+    }
+  };
 
-    // Helper: find first "Send Proposal" button on the page (native DOM)
-    const getFirstProposalButton = () => {
-      const buttons = document.querySelectorAll('button, a[role="button"]');
-      for (const btn of buttons) {
-        const text = btn.textContent;
-        if (text?.toLowerCase().includes('send proposal')) {
-          return btn;
-        }
+  // Deep shadow-DOM walker — finds "Email" label and returns the next text node's value
+  const scrapeEmailFromSlideout = async (name) => {
+    // 1. Find and click the card's image/avatar to open slideout
+    const cardCoords = await page.evaluate((n) => {
+      for (const c of document.querySelectorAll('.discovery-card')) {
+        const cardName = c.querySelector('[class*="name"]')?.textContent.trim();
+        if (cardName !== n) continue;
+        const img = c.querySelector('img');
+        const target = img || c;
+        const r = target.getBoundingClientRect();
+        return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
       }
       return null;
-    };
+    }, name);
+    if (!cardCoords) return 'email_missing';
 
-    // Helper: check if element is truly visible (native DOM only)
-    const isButtonVisible = (el) => {
-      if (!el) return false;
-      const style = window.getComputedStyle(el);
-      const display = style.display;
-      const visibility = style.visibility;
-      const opacity = style.opacity;
-      console.log(`[visibility check] display=${display}, visibility=${visibility}, opacity=${opacity}`);
-      return display !== 'none' && visibility !== 'hidden' && parseFloat(opacity) > 0;
-    };
+    await page.mouse.click(cardCoords.x, cardCoords.y);
+    await sleep(3500);
 
-    // Helper: get publisher card parent (walk up DOM with native elements)
-    const getPublisherCard = (button) => {
-      if (!button) return null;
-      let current = button;
-      for (let i = 0; i < 10; i++) {
-        if (!current) break;
-        const className = current.className || '';
-        if (className.includes('card') || className.includes('Card') || className.includes('partner') || className.includes('Partner') || className.includes('result') || className.includes('Result')) {
-          return current;
-        }
-        current = current.parentElement;
-      }
-      return null;
-    };
-
-    // Helper: extract publisher name from card (native DOM)
-    const getPublisherName = (card) => {
-      if (!card) return 'Unknown';
-      const nameEl = card.querySelector('a[href*="partner"], [class*="name"], [class*="Name"], h3, h4, .partner-name');
-      if (nameEl) return nameEl.textContent.trim();
-      const firstText = card.querySelector('td, [class*="cell"], span')?.textContent?.trim();
-      if (firstText && firstText.length < 100) return firstText;
-      return 'Unknown';
-    };
-
-    // Helper: extract email from card (native DOM)
-    const getPublisherEmail = (card) => {
-      if (!card) return '';
-      const emailEl = card.querySelector('a[href^="mailto:"], [class*="email"], [class*="Email"]');
-      if (emailEl) {
-        if (emailEl.href) return emailEl.href.replace('mailto:', '');
-        return emailEl.textContent.trim();
-      }
-      return '';
-    };
-
-    // Helper: extract publisher ID from card (native DOM)
-    const getPublisherId = (card) => {
-      if (!card) return '';
-      const idLink = card.querySelector('a[href*="partner"]');
-      if (idLink && idLink.href) {
-        const match = idLink.href.match(/partner[\\/=](\\d+)/);
-        return match ? match[1] : '';
-      }
-      return '';
-    };
-
-    // Main loop
-    for (let i = 0; i < TARGET + 30; i++) {
-      if (invited.length >= TARGET) break;
-      if (staleCount > 10) break;
-
-      try {
-        // Dismiss any leftover modals
-        await closeModal();
-        await sleep(500);
-
-        // Find first proposal button
-        const btn = getFirstProposalButton();
-        if (!btn) break;
-
-        // Get the publisher card
-        const card = getPublisherCard(btn);
-        if (!card) {
-          errors.push({ name: 'Unknown', reason: 'card_not_found' });
-          continue;
-        }
-
-        // Extract publisher info
-        const name = getPublisherName(card);
-        const email = getPublisherEmail(card);
-        const publisherId = getPublisherId(card);
-
-        // DEDUP: skip if already contacted
-        if (alreadySet.has(name.toLowerCase()) || seen.has(name.toLowerCase())) {
-          card.style.display = 'none';
-          staleCount++;
-          await sleep(300);
-          continue;
-        }
-
-        staleCount = 0;
-        seen.add(name.toLowerCase());
-
-        console.log(`[${i}] Processing: ${name}`);
-
-        // === CRITICAL: Hover the card to reveal the hidden button ===
-        let buttonVisible = false;
-        let hoverAttempts = 0;
-        const maxHoverAttempts = 3;
-
-        while (!buttonVisible && hoverAttempts < maxHoverAttempts) {
-          hoverAttempts++;
-          console.log(`[hover attempt ${hoverAttempts}/${maxHoverAttempts}] ${name}`);
-
-          try {
-            // Scroll card into view
-            card.scrollIntoView({ block: 'center' });
-            await sleep(300);
-
-            // Dispatch mouseenter on card to trigger hover state
-            card.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true, cancelable: true }));
-            btn.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true, cancelable: true }));
-
-            // Wait for React to render button in visible state
-            await sleep(2000);
-
-            // Dispatch mousemove on card
-            const rect = card.getBoundingClientRect();
-            document.elementFromPoint(rect.left + 50, rect.top + 50)?.dispatchEvent(
-              new MouseEvent('mousemove', { bubbles: true, cancelable: true, clientX: rect.left + 50, clientY: rect.top + 50 })
-            );
-            await sleep(500);
-
-            // Check visibility after hover
-            const freshBtn = getFirstProposalButton();
-            if (freshBtn) {
-              buttonVisible = isButtonVisible(freshBtn);
-              if (buttonVisible) {
-                console.log(`[visibility confirmed] Button is visible after ${hoverAttempts} attempt(s)`);
-              }
-            }
-          } catch (e) {
-            console.log(`[hover error attempt ${hoverAttempts}] ${e.message?.substring(0, 80)}`);
-          }
-
-          if (!buttonVisible && hoverAttempts < maxHoverAttempts) {
-            console.log(`[hover retry] Waiting 1000ms before retry...`);
-            await sleep(1000);
-          }
-        }
-
-        if (!buttonVisible) {
-          errors.push({ name, reason: 'button_not_visible_after_hover' });
-          console.log(`[SKIP] Could not make button visible after ${maxHoverAttempts} attempts: ${name}`);
-          continue;
-        }
-
-        // Click the button - get fresh reference after hover
-        try {
-          const freshBtn = getFirstProposalButton();
-          if (!freshBtn) {
-            errors.push({ name, reason: 'button_stale_after_hover' });
-            continue;
-          }
-
-          // Final visibility check before click
-          const visibleBeforeClick = isButtonVisible(freshBtn);
-          if (!visibleBeforeClick) {
-            errors.push({ name, reason: 'button_invisible_before_click' });
-            console.log(`[SKIP] Button became invisible right before click: ${name}`);
-            continue;
-          }
-
-          // Ensure button is in view
-          freshBtn.scrollIntoView({ block: 'center' });
-          await sleep(500);
-
-          // Click
-          console.log(`[CLICK] Attempting click on button for: ${name}`);
-          freshBtn.click();
-          console.log(`[CLICK SUCCESS] Button clicked for: ${name}`);
-        } catch (e) {
-          errors.push({ name, reason: 'button_click_failed: ' + e.message?.substring(0, 40) });
-          console.log(`[CLICK FAILED] ${e.message?.substring(0, 100)}`);
-          continue;
-        }
-
-        await sleep(3000);
-
-        // Wait for modal
-        const modalExists = await waitFor('[class*="modal"], [class*="Modal"], [role="dialog"], [class*="slideout"], [class*="Slideout"]', 5000);
-        if (!modalExists) {
-          errors.push({ name, reason: 'modal_not_found' });
-          await closeModal();
-          continue;
-        }
-
-        const modal = document.querySelector('[class*="modal"], [class*="Modal"], [role="dialog"], [class*="slideout"], [class*="Slideout"]');
-
-        // Select template term from dropdown
-        let termSelected = false;
-        try {
-          const selects = modal.querySelectorAll('select');
-          for (const sel of selects) {
-            const options = sel.querySelectorAll('option');
-            for (const opt of options) {
-              const text = opt.textContent;
-              if (text?.includes(TEMPLATE_TERM) || text?.includes('5%')) {
-                opt.selected = true;
-                sel.dispatchEvent(new Event('change', { bubbles: true }));
-                termSelected = true;
-                break;
-              }
-            }
-            if (termSelected) break;
-          }
-        } catch (e) {}
-
-        // Also try React-style dropdowns
-        if (!termSelected) {
-          try {
-            const dropdowns = modal.querySelectorAll('[class*="dropdown"], [class*="Dropdown"], [class*="select"], [class*="Select"]');
-            for (const dd of dropdowns) {
-              dd.click();
-              await sleep(1000);
-              const options = document.querySelectorAll('[class*="option"], [class*="Option"], [role="option"], li');
-              for (const opt of options) {
-                const text = opt.textContent;
-                if (text?.includes(TEMPLATE_TERM) || text?.includes('5%')) {
-                  opt.click();
-                  termSelected = true;
-                  await sleep(500);
-                  break;
-                }
-              }
-              if (termSelected) break;
-            }
-          } catch (e) {}
-        }
-
-        // Set contract date
-        try {
-          const dateInputs = modal.querySelectorAll('input[type="date"], input[type="text"][placeholder*="date"], input[placeholder*="Date"], input[name*="date"], input[name*="Date"]');
-          for (const di of dateInputs) {
-            di.value = CONTRACT_DATE;
-            di.dispatchEvent(new Event('change', { bubbles: true }));
-          }
-        } catch (e) {}
-
-        // Enter message in textarea
-        try {
-          const textareas = modal.querySelectorAll('textarea');
-          for (const ta of textareas) {
-            ta.value = MSG;
-            ta.dispatchEvent(new Event('change', { bubbles: true }));
-          }
-        } catch (e) {}
-
-        await sleep(500);
-
-        // Click submit button
-        try {
-          const buttons = modal.querySelectorAll('button');
-          for (const submitBtn of buttons) {
-            const text = submitBtn.textContent?.trim().toLowerCase();
-            if ((text?.includes('send') || text?.includes('submit') || text?.includes('confirm')) && isButtonVisible(submitBtn)) {
-              submitBtn.click();
-              invited.push({ name, email, publisherId });
-              alreadySet.add(name.toLowerCase());
-              console.log(`[SUCCESS] Proposal sent to: ${name}`);
-              await sleep(4000);
-              await closeModal();
-              await sleep(1000);
-              break;
-            }
-          }
-        } catch (e) {
-          errors.push({ name, reason: 'submit_failed' });
-          await closeModal();
-        }
-
-        // Hide processed card
-        try {
-          card.style.display = 'none';
-        } catch (e) {}
-
-      } catch (e) {
-        errors.push({ name: 'loop_error', reason: e.message?.substring(0, 80) });
-        await closeModal();
-        await sleep(1000);
-      }
+    if (!page.url().includes('slideout_id=')) {
+      return 'email_missing';
     }
 
-    console.log(`[COMPLETE] Total invited: ${invited.length}, Errors: ${errors.length}`);
-    return {
-      total: invited.length,
-      skipped: skipped.length,
-      errorCount: errors.length,
-      publishers: invited,
-      errors: errors.slice(0, 5)
-    };
-  });
+    // 2. Click "Details" tab (in shadow DOM)
+    const detailsRect = await page.evaluate(() => {
+      const collect = (root, depth = 0) => {
+        if (depth > 10) return null;
+        const nodes = root.querySelectorAll ? root.querySelectorAll('*') : [];
+        for (const el of nodes) {
+          if (el.shadowRoot) {
+            const f = collect(el.shadowRoot, depth + 1);
+            if (f) return f;
+          }
+          if (el.children.length === 0 && el.textContent?.trim() === 'Details') {
+            let target = el;
+            for (let i = 0; i < 5; i++) {
+              if (target.getBoundingClientRect().width > 30) break;
+              target = target.parentElement;
+            }
+            const r = target.getBoundingClientRect();
+            if (r.x > 800 && r.y < 300 && r.width > 0) {
+              return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
+            }
+          }
+        }
+        return null;
+      };
+      return collect(document);
+    });
 
-  return result;
+    if (detailsRect) {
+      await page.mouse.click(detailsRect.x, detailsRect.y);
+      await sleep(2200);
+    }
+
+    // 3. Extract email from shadow DOM — find "Email" label, get the next sibling text
+    const email = await page.evaluate(() => {
+      const emailRe = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+      const collectAll = (root, depth = 0, out = []) => {
+        if (depth > 10) return out;
+        const nodes = root.querySelectorAll ? root.querySelectorAll('*') : [];
+        for (const el of nodes) {
+          if (el.shadowRoot) collectAll(el.shadowRoot, depth + 1, out);
+          if (el.children.length === 0) {
+            const t = el.textContent?.trim() || '';
+            if (t && t.length < 150) {
+              const r = el.getBoundingClientRect();
+              if (r.x > 800 && r.y > 100 && r.width > 0) {
+                out.push({ text: t, x: r.x, y: r.y });
+              }
+            }
+          }
+        }
+        return out;
+      };
+      const nodes = collectAll(document).sort((a, b) => a.y - b.y || a.x - b.x);
+
+      // Strategy 1: regex match any email in slideout area (right of x=800)
+      for (const n of nodes) {
+        const m = n.text.match(emailRe);
+        if (m) return m[0];
+      }
+
+      // Strategy 2: find "Email" label, get next node beneath it
+      const labelIdx = nodes.findIndex(n => n.text === 'Email');
+      if (labelIdx >= 0) {
+        for (let i = labelIdx + 1; i < nodes.length && i < labelIdx + 5; i++) {
+          const m = nodes[i].text.match(emailRe);
+          if (m) return m[0];
+        }
+      }
+      return null;
+    });
+
+    // 4. Close slideout — press Escape
+    await page.keyboard.press('Escape').catch(() => {});
+    await sleep(800);
+    if (page.url().includes('slideout_id=')) {
+      await page.goto(DISCOVER_URL).catch(() => {});
+      await sleep(3000);
+    }
+
+    return email || 'email_missing';
+  };
+
+  await sleep(3000);
+  let cards = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('.discovery-card')).map((card, i) => ({
+      i, name: card.querySelector('[class*="name"]')?.textContent.trim() || `card_${i}`,
+      hasBtn: Array.from(card.querySelectorAll('button')).some(b => b.textContent.trim() === 'Send Proposal')
+    }))
+  );
+
+  for (const card of cards) {
+    if (invited.length >= TARGET) break;
+    const { name, hasBtn } = card;
+    if (!hasBtn || alreadySet.has(name.toLowerCase()) || seen.has(name.toLowerCase())) continue;
+    seen.add(name.toLowerCase());
+
+    await ensureOnDiscoverPage();
+
+    // ── Scrape email from detail slideout BEFORE sending proposal ──
+    const email = await scrapeEmailFromSlideout(name);
+    await sleep(800);
+    await ensureOnDiscoverPage();
+
+    // Re-query cards (page reloaded)
+    cards = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.discovery-card')).map((c, idx) => ({
+        i: idx, name: c.querySelector('[class*="name"]')?.textContent.trim() || `card_${idx}`,
+        hasBtn: Array.from(c.querySelectorAll('button')).some(b => b.textContent.trim() === 'Send Proposal')
+      }))
+    );
+    const freshCard = cards.find(c => c.name === name);
+    if (!freshCard || !freshCard.hasBtn) continue;
+
+    // Open proposal by name (robust to reordering)
+    await page.evaluate((n) => {
+      for (const c of document.querySelectorAll('.discovery-card')) {
+        if (c.querySelector('[class*="name"]')?.textContent.trim() !== n) continue;
+        const btn = Array.from(c.querySelectorAll('button')).find(b => b.textContent.trim() === 'Send Proposal');
+        if (btn) { btn.style.display = 'inline-block'; btn.click(); }
+        break;
+      }
+    }, name);
+    await sleep(3500);
+
+    const propFrame = getPropFrame();
+    if (!propFrame) { errors.push({ name, email, reason: 'no-iframe' }); continue; }
+    await propFrame.waitForLoadState('domcontentloaded').catch(() => {});
+
+    const iRect = await page.evaluate(() => {
+      const iframe = document.querySelector('iframe[src*="send-proposal"], iframe[src*="proposal"]');
+      if (!iframe) return null;
+      const r = iframe.getBoundingClientRect();
+      return { x: r.x, y: r.y };
+    });
+    if (!iRect) { errors.push({ name, email, reason: 'no-iframe-rect' }); continue; }
+
+    // ── Term selection: page.mouse.click() at absolute coords ──
+    let termOk = false, termText = '';
+    for (let attempt = 0; attempt < 3; attempt++) {
+      await propFrame.evaluate(() => {
+        const trigger = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'Select');
+        if (trigger) trigger.click();
+      });
+      await sleep(1200);
+      const liCoords = await propFrame.evaluate(() => {
+        const isVis = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+        const li = Array.from(document.querySelectorAll('li[role="option"]'))
+          .find(l => l.textContent.includes('8%') && !l.textContent.toLowerCase().includes('coupon') && isVis(l))
+          || Array.from(document.querySelectorAll('li[role="option"]'))
+            .find(l => l.textContent.toLowerCase().includes('standard') && !l.textContent.toLowerCase().includes('coupon') && !l.textContent.includes('5%') && isVis(l));
+        if (!li) return null;
+        const r = li.getBoundingClientRect();
+        return { x: r.x + r.width / 2, y: r.y + r.height / 2, text: li.textContent.trim() };
+      }).catch(() => null);
+      if (!liCoords) { await sleep(400); continue; }
+      await page.mouse.click(Math.round(iRect.x + liCoords.x), Math.round(iRect.y + liCoords.y));
+      await sleep(800);
+      const confirmed = await propFrame.evaluate(() =>
+        Array.from(document.querySelectorAll('button')).filter(b => b.getBoundingClientRect().width > 0)
+          .some(b => b.textContent.includes('8%') || (b.textContent.includes('TCL US') && !b.textContent.includes('5%')))
+      ).catch(() => false);
+      if (confirmed) { termOk = true; termText = liCoords.text; break; }
+      await sleep(400);
+    }
+    if (!termOk) { errors.push({ name, email, reason: 'no-term-confirmed' }); continue; }
+
+    // ── Date selection ──
+    let dateOk = false;
+    const targetDay = String(parseInt(CONTRACT_DATE.split('-')[2], 10));
+    const dateCoords = await propFrame.evaluate(() => {
+      const btns = Array.from(document.querySelectorAll('button[class*="input-wrap"]'));
+      if (!btns.length) return null;
+      const r = btns[0].getBoundingClientRect();
+      return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+    }).catch(() => null);
+    if (dateCoords) {
+      await page.mouse.click(Math.round(iRect.x + dateCoords.x), Math.round(iRect.y + dateCoords.y));
+      await sleep(800);
+      dateOk = await propFrame.evaluate((td) => {
+        const isVis = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+        const cal = Array.from(document.querySelectorAll('*')).find(el => {
+          const cls = typeof el.className === 'string' ? el.className : '';
+          return /calendar|datepicker|picker|month-view/i.test(cls) && isVis(el);
+        });
+        if (!cal) return false;
+        const day = Array.from(cal.querySelectorAll('button, td, [role="gridcell"]'))
+          .find(el => el.textContent.trim() === td && isVis(el) && !el.disabled);
+        if (!day) return false;
+        day.click(); return true;
+      }, targetDay).catch(() => false);
+      await sleep(500);
+    }
+
+    // ── Message ──
+    await propFrame.evaluate((msg) => {
+      const ta = document.querySelector('textarea');
+      if (ta) {
+        const ns = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value').set;
+        ns.call(ta, msg);
+        ta.dispatchEvent(new Event('input', { bubbles: true }));
+        ta.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }, MSG).catch(() => {});
+    await sleep(400);
+
+    // ── Submit ──
+    const subCoords = await propFrame.evaluate(() => {
+      const sub = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'Send Proposal');
+      if (!sub) return null;
+      const r = sub.getBoundingClientRect();
+      return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+    }).catch(() => null);
+    if (!subCoords) { errors.push({ name, email, reason: 'no-submit-btn' }); continue; }
+    await page.mouse.click(Math.round(iRect.x + subCoords.x), Math.round(iRect.y + subCoords.y));
+    await sleep(1500);
+
+    // ── "I understand" — clicking causes page navigation = success ──
+    let proposalSent = false;
+    try {
+      await propFrame.evaluate(() => {
+        const btn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'I understand');
+        if (btn) btn.click();
+      });
+      await sleep(2500);
+      const gone = await page.evaluate(() => !document.querySelector('iframe[src*="send-proposal"], iframe[src*="proposal"]'));
+      proposalSent = gone;
+      if (!gone) errors.push({ name, email, reason: 'submit-not-confirmed' });
+    } catch (_navError) {
+      proposalSent = true;
+      await sleep(1500);
+      await page.goto(DISCOVER_URL).catch(() => {});
+      await sleep(3000);
+    }
+
+    if (proposalSent) {
+      invited.push({ name, email, termVerified: termOk, termText, dateVerified: dateOk });
+      alreadySet.add(name.toLowerCase());
+    }
+    await sleep(500);
+  }
+
+  return { total: invited.length, errorCount: errors.length, publishers: invited, errors: errors.slice(0, 10) };
 }

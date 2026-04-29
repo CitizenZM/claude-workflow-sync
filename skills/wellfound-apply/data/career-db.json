@@ -1,0 +1,106 @@
+{
+  "version": "1.0",
+  "updated": "2026-04-19",
+  "identity": {
+    "first_name": "Barron",
+    "last_name": "Zuo",
+    "legal_first_name": "Xiao",
+    "legal_last_name": "Zuo",
+    "preferred_name": "Barron",
+    "email": "xz429@cornell.edu",
+    "phone": "+1 9094132840",
+    "phone_country": "United States (+1)",
+    "location_city": "San Francisco",
+    "location_state": "CA",
+    "location_country": "United States",
+    "linkedin": "https://www.linkedin.com/in/barron-z-15226126a/",
+    "website": "https://barronzuo.com",
+    "portfolio": "https://barronzuo.com"
+  },
+  "employment": {
+    "current_company": "Alibaba INC",
+    "current_title": "Growth / Affiliate Marketing Director",
+    "current_location": "San Francisco, CA",
+    "years_experience": 15,
+    "management_years": 8,
+    "direct_reports_max": 20
+  },
+  "eligibility": {
+    "authorized_us": "Yes",
+    "sponsorship_required": "No",
+    "previously_applied": "No",
+    "previously_worked_at": "No",
+    "onsite_3days_ok": "Yes",
+    "willing_to_relocate": "Yes",
+    "non_compete_agreement": "No",
+    "background_check_ok": "Yes",
+    "drug_test_ok": "Yes",
+    "start_availability": "2 weeks",
+    "notice_period_weeks": 2
+  },
+  "preferences": {
+    "salary_min": 160000,
+    "salary_target": 200000,
+    "salary_currency": "USD",
+    "salary_display": "$160,000 - $200,000 base, flexible on total compensation",
+    "preferred_locations": ["San Francisco", "Los Angeles", "New York"],
+    "remote_ok": "Yes",
+    "hybrid_ok": "Yes",
+    "travel_ok_pct": 25,
+    "receive_updates": "Yes",
+    "receive_communication": "Yes",
+    "hear_about_us": "LinkedIn"
+  },
+  "eeo": {
+    "gender": "Man",
+    "gender_identity": "Straight",
+    "sexual_orientation": "Asexual",
+    "race_ethnicity": "East Asian",
+    "hispanic_latino": "No",
+    "transgender": "No",
+    "disability": "No",
+    "veteran_status": "I am not a protected veteran",
+    "requires_accommodation": "No"
+  },
+  "education": [
+    {
+      "school": "Cornell University",
+      "degree": "Master of Science",
+      "field": "Applied Economics and Management",
+      "start": "2020-08",
+      "end": "2022-05",
+      "gpa": "3.8"
+    },
+    {
+      "school": "National University of Singapore",
+      "degree": "Bachelor of Arts",
+      "field": "Economics (International)",
+      "start": "2016-08",
+      "end": "2020-05"
+    }
+  ],
+  "files": {
+    "resume_default": "/Users/xiaozuo/Downloads/resumeandcoverletter/Barron_Zuo_Growth_Final_Resume.docx",
+    "cover_letter_default": null,
+    "resume_directory": "/Users/xiaozuo/Downloads/resumeandcoverletter/",
+    "generate_script": "/Users/xiaozuo/.claude/skills/greenhouse-apply/scripts/generate-resume.py"
+  },
+  "open_ended_answers": {
+    "salary_expectations": "$160,000 - $200,000 base, flexible on total compensation",
+    "years_of_experience": "15+ years in growth marketing, product-led growth, and digital strategy",
+    "management_experience": "Managed cross-functional teams of 5-20 across marketing, partnerships, product, and operations",
+    "start_date": "Available to start within 2 weeks",
+    "notice_period": "2 weeks",
+    "greatest_strength": "Data-driven growth operator with deep technical literacy — I build AI automation stacks and own end-to-end funnels from acquisition to retention",
+    "greatest_weakness": "Early in my career I under-delegated; I've since built strong systems for hiring ahead of needs and trusting teams with full ownership",
+    "work_style": "Scrappy, autonomous, data-obsessed. I thrive in high-velocity environments where I can operate as connective tissue between Product, Eng, and Marketing",
+    "biggest_accomplishment": "Scaled Next2Market's affiliate program from zero to $2M+ GMV in 18 months while building an AI-native automation stack that reduced operating cost by 70%",
+    "five_year_plan": "Lead a growth org at a category-defining company — building the marketing infrastructure and data systems that compound without linear headcount",
+    "management_philosophy": "Hire owners, set North Star metrics, remove blockers daily, run blameless post-mortems, and reward experimentation over outputs",
+    "ai_tools": "Claude Code, GPT-4/5, Cursor, n8n, Langchain, Supabase Edge Functions, and custom Python/TS agents — daily operator across the full stack",
+    "why_growth_hacking": "Growth hacking is where art meets science — rapid hypothesis testing, creative distribution mechanics, and compounding systems that scale without proportional spend",
+    "remote_preference": "Hybrid preferred — 3 days onsite works well for me",
+    "languages": "English (native), Mandarin Chinese (native)",
+    "referral": "N/A"
+  }
+}

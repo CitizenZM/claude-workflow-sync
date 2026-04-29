@@ -63,7 +63,7 @@ python3 scripts/generate_simple_report.py \
   --data output/oufer_simple_data.json \
   --out-dir ~/Downloads \
   --date $(date +%F) \
-  --obsidian-dir "/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Oufer-Weekly-Report"
+  --obsidian-dir "/Volumes/workssd/ObsidianVault/01-Projects/Oufer-Weekly-Report"
 ```
 
 依赖：`python3 -m pip install python-docx playwright && python3 -m playwright install chromium`（PDF 由 Chromium headless 渲染 HTML 得到）。

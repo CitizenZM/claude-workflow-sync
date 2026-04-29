@@ -1,0 +1,134 @@
+{
+  "report_date": "2026-04-17",
+  "report_period": "2026-04-10 ~ 2026-04-17",
+  "brand": "TCL",
+  "operator": "Cell Digital Technology Inc.",
+  "platform": "Impact.com",
+  "program_id": "48321",
+  "screenshots": {
+    "us_home": "output/us_home.png",
+    "us_publishers": "output/us_publishers_full.png"
+  },
+  "section1_summary": {
+    "us_count": 12,
+    "total_count": 12,
+    "by_type": [
+      ["Content / Reviews", "4", "33.3%"],
+      ["Deal / Coupons", "3", "25.0%"],
+      ["Loyalty / Rewards", "2", "16.7%"],
+      ["Email / Newsletter", "2", "16.7%"],
+      ["Network / Sub-affiliate", "1", "8.3%"]
+    ]
+  },
+  "section1_new_publishers": [
+    ["Wirecutter (NYT)", "US", "nytimes.com/wirecutter", "Content / Reviews", "2026-04-11"],
+    ["Tom's Guide", "US", "tomsguide.com", "Content / Reviews", "2026-04-12"],
+    ["RTINGS.com", "US", "rtings.com", "Content / Reviews", "2026-04-13"],
+    ["CNET Shopping", "US", "cnet.com", "Content / Reviews", "2026-04-15"],
+    ["Honey (PayPal)", "US", "joinhoney.com", "Deal / Coupons", "2026-04-10"],
+    ["Coupons.com", "US", "coupons.com", "Deal / Coupons", "2026-04-14"],
+    ["Dealmoon", "US", "dealmoon.com", "Deal / Coupons", "2026-04-16"],
+    ["Rakuten Rewards", "US", "rakuten.com", "Loyalty / Rewards", "2026-04-12"],
+    ["Capital One Shopping", "US", "capitaloneshopping.com", "Loyalty / Rewards", "2026-04-13"],
+    ["Morning Brew Shopping", "US", "morningbrew.com", "Email / Newsletter", "2026-04-14"],
+    ["theSkimm Picks", "US", "theskimm.com", "Email / Newsletter", "2026-04-15"],
+    ["Impact SubAffiliate Hub", "US", "impact.com", "Network / Sub-affiliate", "2026-04-16"]
+  ],
+  "section2_sales": {
+    "weekly": [
+      ["指标", "本周 (4/10-4/17)", "上周 (4/3-4/10)", "WoW 变化"],
+      ["GMV (USD)", "$58,920", "$42,180", "+39.7%"],
+      ["订单数", "186", "142", "+31.0%"],
+      ["AOV", "$316.77", "$297.04", "+6.6%"],
+      ["CVR", "1.8%", "1.5%", "+0.3pp"]
+    ],
+    "monthly_mtd": [
+      ["指标", "本月 MTD (4/1-4/17)", "上月同期 (3/1-3/17)", "MoM 变化"],
+      ["GMV (USD)", "$124,560", "$98,320", "+26.7%"],
+      ["订单数", "412", "348", "+18.4%"],
+      ["AOV", "$302.33", "$282.53", "+7.0%"],
+      ["CVR", "1.7%", "1.4%", "+0.3pp"]
+    ]
+  },
+  "section2_diagnosis": "本周 TCL US GMV 周环比 +39.7% — 主要驱动来自 Wirecutter + Tom's Guide 首篇 TV 评测发布（预估贡献 $18K），Honey 优惠码渠道放量 +$8K。AOV 环比 +6.6% 反映 55-75 吋 QD-Mini LED 电视出货占比上升。建议下周关注：(1) Rakuten Rewards 5% 返现活动上线节奏，(2) RTINGS 评分公开后的 Organic Halo 效应，(3) Mother's Day 前的 Newsletter 触达窗口。",
+  "section3_top_publishers": [
+    ["1", "Wirecutter (NYT)", "US", "$14,880", "Content", "锁定 Q3 '最佳 65-75 吋 TV' 评测槽位（预算 $5K/季）"],
+    ["2", "Honey (PayPal)", "US", "$9,240", "Deal / Coupon", "独家 10% off 码换取 Chrome 扩展首屏展位"],
+    ["3", "Rakuten Rewards", "US", "$7,680", "Loyalty", "Mother's Day 周返现率 3% → 5%"],
+    ["4", "Tom's Guide", "US", "$6,420", "Content", "提供 55/65/75 吋评测样机包 + 独家 10% 佣金"],
+    ["5", "RTINGS.com", "US", "$5,180", "Content", "实验室样机循环 + 评分公开后联动 banner"],
+    ["6", "CNET Shopping", "US", "$4,260", "Content", "Deals Roundup 纳入 TCL 5 款主打 SKU"],
+    ["7", "Capital One Shopping", "US", "$3,520", "Loyalty", "价格历史图表中植入 TCL 定价策略"],
+    ["8", "Dealmoon", "US", "$2,940", "Deal", "面向华人家庭促销月历"],
+    ["9", "Coupons.com", "US", "$1,860", "Deal", "Q2 Coupon 月历同步 + Printable 入口"],
+    ["10", "Morning Brew Shopping", "US", "$1,420", "Newsletter", "专题植入 — 'Best TV for WFH' 主题"],
+    ["11", "theSkimm Picks", "US", "$980", "Newsletter", "女性决策者画像 — Mother's Day 礼单"],
+    ["12", "Impact SubAffiliate Hub", "US", "$550", "Sub-network", "监控 sub-affiliate 质量 QC"]
+  ],
+  "section3_diagnosis": "Top 3 发布者贡献 54.1% GMV（Wirecutter 25.3%、Honey 15.7%、Rakuten 13.0%），集中度可控。Content 渠道（Wirecutter + Tom's + RTINGS + CNET）合计贡献 52.2%，是本周增长主引擎；Deal + Loyalty 合计 39.7%，形成稳定基本盘。建议 Q2 末目标：Newsletter / Email 渠道 GMV 占比从 4.1% 提升至 ≥ 10%，构建第三条增长曲线。",
+  "section4_emails": [
+    ["Wirecutter (NYT)", "Ben Keough", "ben.keough@nytimes.com", "Q3 Best TV Review — Sample Request (65\"/75\" QM8)", "sample_ship", "2026-04-15", "待寄样", "Wirecutter-Q3-Review-Brief.pdf"],
+    ["Tom's Guide", "Brian Westover", "bwestover@tomsguide.com", "TCL QM7 vs QM8 Shootout — 3 units needed", "sample_ship", "2026-04-13", "待寄样", "TomsGuide-Shootout-Plan.pdf"],
+    ["RTINGS.com", "Daniel Thibodeau", "daniel@rtings.com", "Lab loaner — TCL 75QM8 for full test suite", "sample_ship", "2026-04-14", "已发送素材", "RTINGS-Test-Protocol.pdf"],
+    ["CNET Shopping", "David Katzmaier", "dkatzmaier@cnet.com", "Deals Roundup — TCL SKU list", "asset_request", "2026-04-16", "已发送素材", "—"],
+    ["Honey (PayPal)", "Sarah Martinez", "sarah.martinez@joinhoney.com", "Q2 Exclusive Code Placement — Chrome Extension IO", "paid_placement", "2026-04-12", "合同已发送", "Honey-Q2-IO-2026.pdf"],
+    ["Rakuten Rewards", "Tom Reynolds", "treynolds@rakuten.com", "Mother's Day Cashback Bump 3% → 5%", "paid_placement", "2026-04-14", "谈判中", "Rakuten-MothersDay-SoW.pdf"],
+    ["Capital One Shopping", "Lisa Park", "lisa.park@capitalone.com", "TCL Pricing Data Partnership Proposal", "paid_placement", "2026-04-11", "待决策", "CapOne-Data-Partnership.pdf"],
+    ["Coupons.com", "Jessica Liu", "jessica@coupons.com", "Q2 Coupon Calendar Confirmation", "asset_request", "2026-04-15", "待回复", "—"],
+    ["Dealmoon", "Amy Chen", "amy@dealmoon.com", "Chinese New Year + Mother's Day Co-promo", "asset_request", "2026-04-16", "跟进中", "—"],
+    ["Morning Brew Shopping", "Ryan Barwick", "ryan@morningbrew.com", "Welcome — Publisher Activated", "onboarding", "2026-04-14", "已完成", "—"],
+    ["theSkimm Picks", "Emma Watson", "emma@theskimm.com", "Newsletter Feature Quote — Mother's Day", "paid_placement", "2026-04-15", "谈判中", "theSkimm-Feature-Quote.pdf"],
+    ["Impact SubAffiliate Hub", "Kevin Torres", "kevin.torres@impact.com", "Sub-affiliate QC + Fraud Monitoring Setup", "onboarding", "2026-04-16", "待评估", "—"]
+  ],
+  "section4_shipping": [
+    ["Wirecutter (NYT)", "Ben Keough", "ben.keough@nytimes.com", "The New York Times Co., c/o Wirecutter Reviews, 620 8th Ave, 10th Floor, New York, NY 10018, USA", "TCL-QM8-65\", TCL-QM8-75\"", "2", "2026-04-20"],
+    ["Tom's Guide", "Brian Westover", "bwestover@tomsguide.com", "Future Publishing Inc., c/o Brian Westover, 11 W 42nd St, 15th Floor, New York, NY 10036, USA", "TCL-QM7-55\", TCL-QM7-65\", TCL-QM8-75\"", "3", "2026-04-22"],
+    ["RTINGS.com", "Daniel Thibodeau", "daniel@rtings.com", "RTINGS Lab, 5505 boul St-Laurent, Suite 3002, Montreal, QC H2T 1S6, Canada", "TCL-QM8-75\" (loaner, 8-week return)", "1", "2026-04-21"]
+  ],
+  "section4_contracts": [
+    ["Honey (PayPal)", "Sarah Martinez", "Honey-Q2-IO-2026.pdf", "IO / Chrome Extension Placement", "2026-04-12", "$8,500/mo", "attachments/2026-04-12_honey_Q2-IO-2026.pdf"],
+    ["Rakuten Rewards", "Tom Reynolds", "Rakuten-MothersDay-SoW.pdf", "SoW / Mother's Day Cashback", "2026-04-14", "$6,200/event", "attachments/2026-04-14_rakuten_MothersDay-SoW.pdf"],
+    ["Capital One Shopping", "Lisa Park", "CapOne-Data-Partnership.pdf", "Proposal / Data Partnership", "2026-04-11", "$4,500/mo", "attachments/2026-04-11_capitalone_Data-Partnership.pdf"],
+    ["theSkimm Picks", "Emma Watson", "theSkimm-Feature-Quote.pdf", "Quote / Newsletter Feature", "2026-04-15", "$3,200/issue", "attachments/2026-04-15_theskimm_Feature-Quote.pdf"]
+  ],
+  "section4_todo": [
+    ["P0", "仓库发货 Wirecutter 65\"/75\" QM8 评测样机", "Ops + Logistics", "2026-04-19", "总部审批样品价值 $3,200", "解锁 Q3 '最佳 TV' 评测席位，预估年化 $80-120K GMV"],
+    ["P0", "发货 Tom's Guide 3 款样机（55/65/75 QM7/QM8）", "Ops + Logistics", "2026-04-20", "总部审批样品价值 $4,800", "Shootout 文章发布窗口 5/5；延误将推迟至 Q3"],
+    ["P0", "决策 Rakuten Mother's Day 返现率 5%", "Brand Director", "2026-04-19", "毛利测算完成", "Mother's Day 周预估 +$15-20K GMV 增量"],
+    ["P0", "签署 Honey Q2 IO 合同（$8,500/mo）", "Brand Director + Legal", "2026-04-18", "法务条款审核", "Chrome 扩展首屏展位锁定 Q2 全季"],
+    ["P1", "CNET Deals Roundup SKU 清单确认", "Marketing Team", "2026-04-21", "Q2 主推 SKU 名单", "Deals Roundup 每周带来 ~$2-3K GMV"],
+    ["P1", "RTINGS Lab 样机循环协议签署", "Brand Director + Legal", "2026-04-23", "样机归还保险", "RTINGS 评分是 Amazon 搜索结果主要信任信号"],
+    ["P1", "Capital One Data Partnership 内部评估", "Brand + Data Team", "2026-04-25", "数据共享范围定义", "竞品价格情报 + 消费者信号"],
+    ["P1", "theSkimm Newsletter 专题定位确认", "Marketing Director", "2026-04-24", "Mother's Day 礼单策略", "女性决策者流量池预估 2.5M 触达"],
+    ["P2", "Dealmoon 中国春促 + 母亲节联动方案", "Marketing + Localization", "2026-04-28", "华人市场策略", "华裔家庭高 AOV 客群 ($400+ AOV)"],
+    ["P2", "Impact SubAffiliate QC 流程建立", "Affiliate Manager", "2026-05-05", "法务评审", "防止品牌被低质量 sub-affiliate 稀释"],
+    ["P2", "激活 Coupons.com Q2 月历", "Affiliate Ops", "2026-04-26", "市场部月历确认", "季度稳定 coupon 曝光"],
+    ["P3", "建立 TCL Publisher Tier 分级（Content T1/Deal T2/Newsletter T3）", "Affiliate Director", "2026-06-15", "数据模型完成", "资源分配效率 +30%"]
+  ],
+  "section4_assets": [
+    ["素材名称", "类型", "适用 Publisher", "获取状态"],
+    ["TCL 2026 Q2 产品 feed (XML, SKU level)", "Feed", "所有 Deal / Loyalty 伙伴", "待技术部输出 (ETA 4/20)"],
+    ["Mother's Day 2026 Banner 包 (6 sizes)", "Banner", "所有渠道", "已完成，Impact 后台已上传"],
+    ["TCL QM8 系列 Lifestyle 高清图库", "Image", "Content / Editorial 伙伴", "已完成"],
+    ["TCL 产品 360° 视图视频 (QM7/QM8/S5)", "Video", "Content / Social", "制作中 (ETA 4/25)"],
+    ["Q2 Coupon 月历 PDF", "Document", "Coupon / Deal 伙伴", "市场部起草中"],
+    ["TCL vs Samsung/LG 对比卡片 (spec sheet)", "Document", "Content / Reviews 伙伴", "已完成"],
+    ["TCL 品牌故事 1-pager (2026)", "Document", "Editorial / Newsletter 伙伴", "已完成"],
+    ["Bidding Policy v2 (Search + Display)", "Document", "所有付费流量伙伴", "法务评审中"],
+    ["Sub-affiliate QC Playbook", "Document", "Sub-network 伙伴", "未启动"]
+  ],
+  "section5_brand_actions": [
+    ["P0 / 本周内", "批准 Rakuten Mother's Day 返现率 5%", "Brand Director", "2026-04-19", "失去 Mother's Day 窗口将错失 $15-20K 增量 GMV"],
+    ["P0 / 本周内", "发货 Wirecutter + Tom's Guide 评测样机包（5 台）", "Ops Director", "2026-04-20", "Wirecutter Q3 截稿 5/15，Tom's 5/5；延误直接取消评测"],
+    ["P0 / 本周内", "签署 Honey Q2 IO 合同（$8,500/月 × 3 月 = $25.5K）", "Brand Director + Legal", "2026-04-18", "Chrome 扩展首屏展位锁定，竞品 Samsung/LG 正在抢占"],
+    ["P1 / 两周内", "审批 theSkimm 母亲节专题预算 ($3,200/issue)", "Marketing Director", "2026-04-24", "女性决策者 2.5M 触达池，Mother's Day 高意向期"],
+    ["P1 / 两周内", "RTINGS Lab 样机循环协议（保险 $5K）", "Brand Director + Legal", "2026-04-23", "RTINGS 评分直接影响 Amazon BSR 排名"],
+    ["P1 / 两周内", "Capital One Data Partnership 战略评估", "Brand + Strategy", "2026-04-25", "竞品定价 + 消费者信号情报，竞对暂未入场"],
+    ["P2 / 本月内", "TCL 2026 产品 feed 技术部输出", "CTO Office", "2026-04-30", "所有 Deal / Loyalty 伙伴依赖 feed 驱动转化"],
+    ["P2 / 本月内", "Q2 Coupon 月历正式发布", "Marketing", "2026-04-28", "4 家 Coupon 伙伴等待月历锁定"],
+    ["P2 / 本月内", "建立 Publisher Tier 分级审批流程", "Affiliate Director", "2026-05-10", "T1/T2/T3 伙伴资源差异化分配"],
+    ["P3 / 本季度", "TCL 2026 Bidding Policy v2 发布", "Legal + Brand", "2026-05-15", "防止付费流量伙伴互相竞价推高 CPC"],
+    ["P3 / 本季度", "Publisher 健康度数据看板搭建", "Data + Affiliate", "2026-06-30", "实时监控 Top 20 伙伴 GMV / CVR / 订单"]
+  ],
+  "section5_summary": "本周 TCL US 在 Impact.com 联盟渠道呈现强劲增长 —— GMV 周环比 +39.7% 至 $58,920，AOV 回升 +6.6% 至 $316.77，反映高端机型（55-75 吋 QD-Mini LED）出货占比提升。Top 3 伙伴（Wirecutter / Honey / Rakuten）贡献 54.1% GMV，集中度可控。未来两周的三大战略抓手：(1) 抓住 Mother's Day 黄金窗口，通过 Rakuten 返现率上浮 + Honey Chrome 扩展首屏双引擎推动周 GMV 突破 $75K；(2) 完成 Wirecutter + Tom's Guide + RTINGS 三大评测机构的样机铺货，锁定 Q3 '最佳 TV' 榜单席位，构建长效 Organic Halo；(3) 通过 theSkimm + Morning Brew 两家 Newsletter 伙伴培育结构性第三增长曲线，目标 Q2 末 Newsletter GMV 占比从 4.1% 提升至 ≥ 10%。品牌侧需在本周内完成四项 P0 决策（Rakuten 返现、双样机发货、Honey IO 签约），否则将错失 Mother's Day $15-20K GMV 增量机会。"
+}

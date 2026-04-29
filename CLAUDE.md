@@ -1,3 +1,5 @@
+@~/Developer/browser-harness/SKILL.md
+
 # Barron's Global Claude Code Configuration
 
 ## Identity

@@ -1,0 +1,47 @@
+{
+  "report_date": "2026-04-16",
+  "report_period": "2026-04-09 ~ 2026-04-16",
+  "brand": "ROCKBROS",
+  "operator": "Cell Digital Technology Inc.",
+  "screenshots": {
+    "us_home": "output/us_home.png",
+    "eu_home": "output/eu_home.png",
+    "us_publishers": "output/us_publishers_full.png",
+    "eu_publishers": "output/eu_publishers_full.png"
+  },
+  "section1_new_publishers": [
+    {"region": "US", "name": "Example Publisher A", "type": "Content", "joined_date": "2026-04-12", "status": "Active"},
+    {"region": "EU", "name": "Example Publisher B", "type": "Coupon",  "joined_date": "2026-04-14", "status": "Pending"}
+  ],
+  "section1_summary": {
+    "us_count": 1,
+    "eu_count": 1,
+    "highlight": "Example: 2 new publishers onboarded across both regions."
+  },
+  "section2_sales": {
+    "us_weekly_gmv": "$0.00",
+    "us_monthly_gmv": "$0.00",
+    "eu_weekly_gmv": "€0.00",
+    "eu_monthly_gmv": "€0.00",
+    "wow_change": "+0%",
+    "mom_change": "+0%"
+  },
+  "section2_diagnosis": "Example diagnosis text — replace with real data.",
+  "section3_top_publishers": [
+    {"region": "US", "rank": 1, "name": "Top Publisher Example", "gmv": "$0.00", "orders": 0, "cvr": "0.0%"}
+  ],
+  "section3_diagnosis": "Example diagnosis — Top 3 publishers contribute X% of GMV.",
+  "section4_emails": [
+    {"date": "2026-04-10", "publisher": "Example Publisher", "email": "redacted@example.com", "subject": "Re: Partnership", "status": "Replied", "next_action": "Follow up"}
+  ],
+  "section4_todo": [
+    "Follow up with Example Publisher about creative assets."
+  ],
+  "section4_assets": [
+    {"asset": "Spring Catalog 2026", "url": "https://example.com/asset", "audience": "All publishers"}
+  ],
+  "section5_brand_actions": [
+    {"owner": "Brand", "action": "Approve Q2 commission bump for top-tier publishers", "due": "2026-04-23", "status": "Open"}
+  ],
+  "section5_summary": "Example weekly summary — replace with real Chinese consulting-grade prose."
+}

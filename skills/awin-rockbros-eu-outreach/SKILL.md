@@ -6,6 +6,23 @@ tags: [affiliate, awin, rockbros, eu, outreach, automation, playwright]
 
 # Awin Rockbros EU Affiliate Outreach April152026
 
+## Isolation + Supervisor (MANDATORY)
+
+**Browser profile**: `~/.claude/browser-profiles/awin-rockbros-eu`
+**MCP server**: `playwright-awin-rockbros-eu` (port 9302)
+**Tool namespace**: `mcp__playwright-awin-rockbros-eu__*` — NEVER use `mcp__playwright__*`
+
+Setup must run first:
+```bash
+bash ~/.claude/scripts/outreach/init-workflow.sh awin-rockbros-eu playwright-awin-rockbros-eu 9302
+```
+
+If the MCP server is not registered, the script prints the JSON block to add to `~/.claude.json`. Do not degrade to the shared `mcp__playwright__` server.
+
+**Opus supervisor**: At the start of the setup command, spawn a background Opus Agent using the prompt at `~/.claude/skills/_shared/outreach-supervisor-prompt.md`. The supervisor reviews `/tmp/outreach-awin-rockbros-eu-checkpoint.json` after every 10 invites.
+
+See `~/.claude/skills/_shared/outreach-isolation.md` for the full registry.
+
 ## Architecture
 
 Two commands, two models:
