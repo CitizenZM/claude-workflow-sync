@@ -86,7 +86,25 @@ Run via `mcp__playwright-impact-rockbros-us__browser_run_code`.
 
 ## Step 2: Save All Data (ONE batch write per page — never per-row)
 
-### 2a. Ledger row (dedup key — pipe-delimited)
+> **Supabase-first**: all publisher intel goes to the `pf` database. Obsidian files are secondary mirrors.
+> Script: `~/.claude/skills/impact-rockbros-us-outreach/scripts/ingest-supabase.js`
+> Run: `node --input-type=module ~/.claude/skills/impact-rockbros-us-outreach/scripts/ingest-supabase.js '<PUBLISHERS_JSON>' '50132' '<DISCOVER_TAB>'`
+> Returns: `{ok, inserted, updated, intelRows, errors[]}`
+> On error: log errors, continue — never block on DB failures.
+
+### 2a-supabase. Write to Supabase (PRIORITY — run first)
+
+### 2a-supabase (continued). Exact CLI call after each batch:
+```bash
+node --input-type=module \
+  ~/.claude/skills/impact-rockbros-us-outreach/scripts/ingest-supabase.js \
+  '<JSON.stringify(publishers_array)>' \
+  '50132' \
+  '<CURRENT_TAB_HASH>'
+```
+Parse response `{ok, updated, intelRows, errors}`. Log but do not block on errors.
+
+### 2b. Ledger row (dedup key — pipe-delimited, secondary mirror)
 Append to `ledger` in a SINGLE Edit, one row per publisher:
 ```
 name|contact_email|YYYY-MM-DD|impact-50132|partner_id|status|partner_size|website|contact_name
