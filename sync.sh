@@ -70,7 +70,29 @@ sync_pull() {
   # 7. skills-lock.json → home dir
   [ -f "$SYNC_REPO/skills-lock.json" ] && cp "$SYNC_REPO/skills-lock.json" "$HOME/skills-lock.json" && log "skills-lock.json applied"
 
-  # 8. Obsidian vault
+  # 8. scripts/ → ~/.claude/scripts/ (chmod +x all)
+  if [ -d "$SYNC_REPO/scripts" ]; then
+    mkdir -p "$CLAUDE_DIR/scripts"
+    rsync -a "$SYNC_REPO/scripts/" "$CLAUDE_DIR/scripts/" 2>/dev/null
+    chmod +x "$CLAUDE_DIR/scripts/"*.sh 2>/dev/null || true
+    log "scripts applied ($(ls "$SYNC_REPO/scripts" | wc -l | tr -d ' ') files)"
+  fi
+
+  # 9. Regenerate ~/.mcp.json with machine-correct absolute paths
+  cat > "$HOME/.mcp.json" <<MCPEOF
+{
+    "mcpServers": {
+        "playwright": {
+            "command": "$CLAUDE_DIR/scripts/playwright-mcp.sh",
+            "args": [],
+            "type": "stdio"
+        }
+    }
+}
+MCPEOF
+  log ".mcp.json regenerated (port-isolated playwright)"
+
+  # 11. Obsidian vault
   if [ -d "$VAULT_DIR/.git" ]; then
     cd "$VAULT_DIR"
     git pull --rebase origin main 2>/dev/null && log "vault pulled OK" || log "vault pull failed (offline?)"
@@ -117,7 +139,13 @@ sync_push() {
   # 5. skills-lock.json
   [ -f "$HOME/skills-lock.json" ] && cp "$HOME/skills-lock.json" "$SYNC_REPO/skills-lock.json"
 
-  # 6. Commit and push claude-workflow-sync
+  # 6. scripts/ ← ~/.claude/scripts/ (push custom scripts back to repo)
+  if [ -d "$CLAUDE_DIR/scripts" ]; then
+    mkdir -p "$SYNC_REPO/scripts"
+    rsync -a "$CLAUDE_DIR/scripts/" "$SYNC_REPO/scripts/" 2>/dev/null
+  fi
+
+  # 8. Commit and push claude-workflow-sync
   git add -A
   if git diff --cached --quiet; then
     log "nothing changed — no push needed"
@@ -127,7 +155,7 @@ sync_push() {
     git push origin main 2>/dev/null && log "pushed to GitHub" || log "push failed (offline? retry next session)"
   fi
 
-  # 7. Push Obsidian vault
+  # 9. Push Obsidian vault
   if [ -d "$VAULT_DIR/.git" ]; then
     cd "$VAULT_DIR"
     git add -A
