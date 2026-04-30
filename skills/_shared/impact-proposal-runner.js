@@ -372,20 +372,42 @@ async function sendProposal(page) {
   }, MSG).catch(()=>{});
   await sleep(400);
 
-  // Submit
+  // Submit — the iframe is 735px tall but viewport is ~696px, so the button
+  // at y≈705 inside iframe is outside the visible area. page.mouse.click() fails silently.
+  // Fix: focus the button then press Enter (triggers React's submit handler correctly).
+  const subExists = await propFrame.evaluate(() => {
+    const isVis = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+    const btn = Array.from(document.querySelectorAll('button')).find(b =>
+      b.textContent.trim() === 'Send Proposal' && isVis(b)
+    );
+    if (!btn) return false;
+    btn.focus();
+    return true;
+  }).catch(()=>false);
+
+  if (!subExists) return { ok: false, reason: 'no-submit', termText, termVerified: termOk, dateVerified: dateOk, urlData };
+
+  // Check if button is within viewport; if not, use keyboard Enter
   const subCoords = await propFrame.evaluate(() => {
     const btn = Array.from(document.querySelectorAll('button')).find(b =>
       b.textContent.trim() === 'Send Proposal' && b.getBoundingClientRect().width > 0
     );
     if (!btn) return null;
-    btn.scrollIntoView({block:'center'});
     const r = btn.getBoundingClientRect();
     return { x: r.x + r.width/2, y: r.y + r.height/2 };
   }).catch(()=>null);
 
-  if (!subCoords) return { ok: false, reason: 'no-submit', termText, termVerified: termOk, dateVerified: dateOk, urlData };
+  const vp = await page.evaluate(() => ({w: window.innerWidth, h: window.innerHeight}));
+  const absY = iRect.y + (subCoords?.y || 0);
+  const absX = iRect.x + (subCoords?.x || 0);
 
-  await page.mouse.click(Math.round(iRect.x + subCoords.x), Math.round(iRect.y + subCoords.y));
+  if (subCoords && absX < vp.w && absY < vp.h) {
+    // Button is in viewport — use mouse click
+    await page.mouse.click(Math.round(absX), Math.round(absY));
+  } else {
+    // Button is outside viewport — use keyboard Enter on focused button
+    await page.keyboard.press('Enter');
+  }
   await sleep(2500);
 
   // I understand confirmation
@@ -402,14 +424,28 @@ async function sendProposal(page) {
       return visible.length === 0;
     }).catch(()=>true);
     if (!sent) {
+      // Try clicking I understand one more time
       await propFrame.evaluate(() => {
         const b = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'I understand');
         if (b) b.click();
       }).catch(()=>{});
       await sleep(1500);
-      sent = true;
+      // Re-check — don't assume success
+      sent = await page.evaluate(() => {
+        const iframes = Array.from(document.querySelectorAll('iframe[data-testid="uicl-modal-iframe-content"],iframe[src*="proposal"]'));
+        const visible = iframes.filter(f => { const r = f.getBoundingClientRect(); return r.width > 200 && r.height > 100; });
+        return visible.length === 0;
+      }).catch(()=>false);
     }
-  } catch { sent = true; await sleep(1000); }
+  } catch {
+    // Don't auto-confirm on exception — check iframe state instead
+    sent = await page.evaluate(() => {
+      const f = document.querySelector('iframe[data-testid="uicl-modal-iframe-content"]');
+      const r = f?.getBoundingClientRect();
+      return !f || !r || r.width < 100;
+    }).catch(()=>false);
+    await sleep(1000);
+  }
 
   return { ok: sent, reason: sent ? 'sent' : 'submit-fail', termText, termVerified: termOk, dateVerified: dateOk, urlData };
 }
