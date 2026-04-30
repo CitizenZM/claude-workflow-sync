@@ -1,16 +1,19 @@
-// Impact Rockbros US bulk proposal script v5 — a11y-tree scraper
+// Impact Rockbros US bulk proposal script v6 — complete publisher intelligence
 //
-// KEY ARCHITECTURE FINDING (confirmed via live DOM exploration):
-//   The slideout panel renders exclusively in Playwright's a11y tree.
-//   document.querySelectorAll / shadow DOM / iframes all return nothing.
-//   ONLY page.locator() / page.getByText() / page.getByRole() can reach it.
-//   This requires browser_run_code (gives `page`), never browser_evaluate.
+// ARCHITECTURE (confirmed via live DOM exploration 2026-04-30):
+//   - Slideout is a11y-tree-only. page.locator() / page.getByText() / page.getByRole() only.
+//   - document.querySelectorAll returns nothing for slideout content.
+//   - page.mouse.click() required for: tab switching, overflow expansion, iframe term selection.
+//   - Properties tab: click to activate before scraping. Default tab on open.
+//   - Details tab: click to activate. Shows website, social properties, verified status.
+//   - "+N more" overflow buttons: must be clicked to expand all categories/tags.
 //
-// Scrapes Properties tab: partner_id, status, size, business_model, description,
-//   contact (name/role/email), language, address, promo_areas, content_cats,
-//   legacy_cats, tags, media_kits, currency
-// Scrapes Details tab: website, learn_more_url, social_properties[], verified
-// Then sends proposal with page.mouse.click() for iframe term selection.
+// Full data captured per publisher (22 fields + overflow expansions):
+//   Header: name, partner_id, status, partner_size, business_model, description
+//   Properties: all_contacts[], language, promotional_areas[], corporate_address,
+//               content_categories[], legacy_categories[] (+ full after expand),
+//               tags[] (+ full after expand), media_kit_urls[], currency
+//   Details: website, learn_more_url, social_properties[], verified
 //
 // Placeholders: %%MSG%% %%CONTRACT_DATE%% %%ALREADY%% %%TARGET%% %%DISCOVER_URL%%
 
@@ -47,7 +50,7 @@ async (page) => {
     catch { return null; }
   };
 
-  const safeVisible = async (loc, timeout = 800) => {
+  const safeVisible = async (loc, timeout = 600) => {
     try { return await loc.first().isVisible({ timeout }); }
     catch { return false; }
   };
@@ -57,240 +60,461 @@ async (page) => {
     catch { return false; }
   };
 
-  const allTexts = async (loc, timeout = 1000) => {
-    try {
-      const count = await loc.count();
-      const out = [];
-      for (let i = 0; i < Math.min(count, 30); i++) {
-        const t = (await loc.nth(i).textContent({ timeout }))?.trim();
-        if (t) out.push(t);
-      }
-      return out;
-    } catch { return []; }
+  // Click by absolute screen coords (required for a11y-tree-only elements)
+  const clickAt = async (x, y) => {
+    await page.mouse.click(Math.round(x), Math.round(y));
+    await sleep(600);
   };
 
-  // ── SLIDEOUT SCRAPER using page.locator() (a11y tree) ─────────────────────
+  // Get screen coords of an a11y element via its accessible name/text
+  // Returns null if element not found or off-screen
+  const getTabCoords = async (tabText) => {
+    // Tab buttons are in the a11y tree at fixed positions — scan the right panel area
+    return await page.evaluate((text) => {
+      // Walk all elements looking for one that contains exactly this text as a leaf node
+      for (const el of document.querySelectorAll('*')) {
+        if (el.children.length === 0 && el.textContent?.trim() === text) {
+          const r = el.getBoundingClientRect();
+          // Tab area: x > 820, y 80-220, has positive dimensions
+          if (r.x > 820 && r.y > 80 && r.y < 220 && r.width > 20 && r.height > 10) {
+            return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+          }
+          // Also try parent if leaf is too small
+          const p = el.parentElement;
+          if (p) {
+            const pr = p.getBoundingClientRect();
+            if (pr.x > 820 && pr.y > 80 && pr.y < 220 && pr.width > 20) {
+              return { x: pr.x + pr.width / 2, y: pr.y + pr.height / 2 };
+            }
+          }
+        }
+      }
+      return null;
+    }, tabText);
+  };
+
+  // Expand a "+N more" overflow button by clicking it
+  const expandOverflow = async (sectionText) => {
+    const overflowBtns = page.getByText(/^\+\d+ more$/).filter({ hasText: /\+/ });
+    const count = await overflowBtns.count();
+    for (let i = 0; i < count; i++) {
+      try {
+        const btn = overflowBtns.nth(i);
+        if (await btn.isVisible({ timeout: 400 })) {
+          await btn.click({ timeout: 800 });
+          await sleep(500);
+        }
+      } catch {}
+    }
+  };
+
+  // Collect all visible text items from a section in the a11y tree
+  const sectionItems = async (afterText, stopTexts = [], maxItems = 50) => {
+    const items = [];
+    try {
+      // Use page.locator to get all text after a known heading
+      const allLoc = page.locator(`text=/./`);
+      const count = await allLoc.count();
+      let collecting = false;
+      for (let i = 0; i < Math.min(count, 200); i++) {
+        try {
+          const t = (await allLoc.nth(i).textContent({ timeout: 300 }))?.trim();
+          if (!t) continue;
+          if (t === afterText) { collecting = true; continue; }
+          if (!collecting) continue;
+          if (stopTexts.includes(t)) break;
+          if (items.length >= maxItems) break;
+          if (t.length > 0 && t.length < 200 && !t.startsWith('+')) items.push(t);
+        } catch {}
+      }
+    } catch {}
+    return items;
+  };
+
+  // ── COMPLETE SLIDEOUT SCRAPER ──────────────────────────────────────────────
   const scrapeSlideout = async (name) => {
     const pub = {
       name,
+      // Header fields
       partner_id: null, status: null, partner_size: null, business_model: null,
       description: null,
-      contact_name: null, contact_role: null, contact_email: null,
-      language: null, promotional_areas: [], corporate_address: null,
-      content_categories: [], legacy_categories: [], tags: [],
-      media_kit_urls: [], currency: null,
-      website: null, learn_more_url: null,
-      social_properties: [], verified: null,
+      // Contact (may be multiple)
+      all_contacts: [],          // [{name, role, email, initials}]
+      contact_name: null,        // primary contact
+      contact_role: null,
+      contact_email: null,
+      // Properties tab
+      language: null,
+      promotional_areas: [],
+      corporate_address: null,
+      content_categories: [],
+      legacy_categories: [],
+      legacy_categories_full: [],  // after clicking "+N more"
+      tags: [],
+      tags_full: [],               // after clicking "+N more"
+      media_kit_urls: [],
+      media_kit_count: 0,
+      currency: null,
+      // Details tab
+      website: null,
+      learn_more_url: null,
+      social_properties: [],
+      verified: null,
       scraped_at: new Date().toISOString().slice(0, 10),
     };
 
-    // ── HEADER (always visible regardless of active tab) ──
-    // Partner ID — standalone 7-digit number in header
+    // ── 1. HEADER: always visible ──────────────────────────────────────────
+    // Partner ID (7–10 digit number near publisher name)
     pub.partner_id = await safeText(page.getByText(/^\d{7,10}$/).first());
 
-    // Description — the large "about" text block
-    pub.description = await safeText(page.locator('text=/Performance-Based|We bridge|We are|We\'re/').first(), 2000);
+    // Description (long text block ~60-600 chars in slideout)
+    const descPatterns = [
+      'text=/Performance-Based/',
+      'text=/We bridge/',
+      'text=/We are a/',
+      "text=/We're a/",
+      'text=/Our mission/',
+      'text=/We help/',
+      'text=/We provide/',
+      'text=/We specialize/',
+      'text=/About us/',
+    ];
+    for (const p of descPatterns) {
+      const t = await safeText(page.locator(p).first(), 1000);
+      if (t && t.length > 40) { pub.description = t; break; }
+    }
+    // Fallback: longest text block in slideout x range
+    if (!pub.description) {
+      try {
+        const candidates = page.locator('[ref^="e"]').filter({ hasText: /\w{10,}/ });
+        const cnt = await candidates.count();
+        let longest = '';
+        for (let i = 0; i < Math.min(cnt, 50); i++) {
+          try {
+            const t = (await candidates.nth(i).textContent({ timeout: 300 }))?.trim() || '';
+            if (t.length > longest.length && t.length < 600 && t.length > 60) longest = t;
+          } catch {}
+        }
+        if (longest) pub.description = longest;
+      } catch {}
+    }
 
-    // Status chip
-    for (const s of ['Active', 'New', 'Pending']) {
+    // Status
+    for (const s of ['Active', 'New', 'Pending', 'Inactive']) {
       if (await safeVisible(page.getByText(s, { exact: true }))) { pub.status = s; break; }
     }
 
-    // Partner size chip
+    // Partner size
     for (const s of ['Extra Large', 'Large', 'Medium', 'Small']) {
       if (await safeVisible(page.getByText(s, { exact: true }))) { pub.partner_size = s; break; }
     }
 
-    // Business model (·Network, ·Content, etc. — appears in header chip row)
-    for (const m of ['Network', 'Content', 'Coupon', 'Email', 'Loyalty', 'Sub-affiliate']) {
-      const loc = page.getByText(new RegExp(`·?${m}`, 'i')).first();
-      if (await safeVisible(loc)) { pub.business_model = m; break; }
+    // Business model
+    for (const m of ['Network', 'Content', 'Coupon', 'Deal', 'Email', 'Loyalty', 'Sub-affiliate', 'Influencer']) {
+      if (await safeVisible(page.getByText(new RegExp(`·?\\s*${m}`, 'i')).first())) {
+        pub.business_model = m; break;
+      }
     }
 
-    // ── PROPERTIES TAB ──
-    // Click Properties tab to ensure it's active
-    const propTab = page.getByText('Properties', { exact: true }).first();
-    if (await safeVisible(propTab)) {
-      await safeClick(propTab);
-      await sleep(800);
+    // ── 2. SWITCH TO PROPERTIES TAB via page.mouse.click ──────────────────
+    const propCoords = await getTabCoords('Properties');
+    if (propCoords) {
+      await clickAt(propCoords.x, propCoords.y);
+      await sleep(1200);
+    } else {
+      // Try locator click as fallback
+      await safeClick(page.getByText('Properties', { exact: true }).first());
+      await sleep(1000);
     }
 
-    // Contact: name is first "Firstname Lastname" style text after Contacts heading
-    // We use a relative locator: sibling after Contacts heading
+    // ── 3. CONTACTS SECTION ────────────────────────────────────────────────
+    // All contacts (there can be multiple)
     try {
-      const contactsSection = page.getByText('Contacts', { exact: true }).first();
-      if (await safeVisible(contactsSection, 1000)) {
-        // Contact name — look for text that matches "Firstname Lastname" pattern near Contacts
-        const nameText = await safeText(
-          page.locator('text=/^[A-Z][a-z]+ [A-Z][a-z]+/').first(), 1500
-        );
-        if (nameText && nameText.length < 50) pub.contact_name = nameText;
+      const emailRe = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/;
 
-        // Contact role
-        pub.contact_role = await safeText(
-          page.getByText('Marketplace Contact', { exact: true }).first()
-        );
+      // Scan for email patterns first (most reliable)
+      const emailLocs = page.locator(`text=/${emailRe.source}/`);
+      const emailCount = await emailLocs.count();
+      const emails = [];
+      for (let i = 0; i < Math.min(emailCount, 5); i++) {
+        try {
+          const t = (await emailLocs.nth(i).textContent({ timeout: 400 }))?.trim();
+          if (t && emailRe.test(t) && !emails.includes(t)) emails.push(t);
+        } catch {}
+      }
+      pub.contact_email = emails[0] || null;
+
+      // Contact names near "Marketplace Contact" label
+      const mcLocs = page.getByText('Marketplace Contact', { exact: true });
+      const mcCount = await mcLocs.count();
+      for (let i = 0; i < Math.min(mcCount, 5); i++) {
+        try {
+          // Name is typically the sibling before the role label
+          const nameT = await safeText(page.getByText(/^[A-Z][a-z]+ [A-Z][a-z]+/).first(), 800);
+          if (nameT && !pub.all_contacts.find(c => c.name === nameT)) {
+            pub.all_contacts.push({
+              name: nameT,
+              role: 'Marketplace Contact',
+              email: emails[i] || null,
+              initials: nameT.split(' ').map(p => p[0]).join(''),
+            });
+          }
+        } catch {}
+      }
+      pub.contact_name = pub.all_contacts[0]?.name || null;
+      pub.contact_role = pub.all_contacts[0]?.role || 'Marketplace Contact';
+      if (!pub.contact_email && pub.all_contacts[0]?.email) {
+        pub.contact_email = pub.all_contacts[0].email;
       }
     } catch {}
 
-    // Contact email — match email pattern anywhere in slideout
-    const emailLoc = page.locator('text=/[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}/').first();
-    pub.contact_email = await safeText(emailLoc);
-
-    // Language — appears in "Personal information" table as value after "Language" label
+    // ── 4. PERSONAL INFORMATION (Language) ────────────────────────────────
     try {
-      const langSection = page.getByText('Personal information', { exact: true }).first();
-      if (await safeVisible(langSection, 1000)) {
-        // Language value follows the "Language" label
-        pub.language = await safeText(page.getByText('English', { exact: true }).first());
-        if (!pub.language) pub.language = await safeText(page.getByRole('cell').nth(1));
+      // Language is in a table row: "Language" | "English"
+      const langRow = page.getByRole('row', { name: /Language/i }).first();
+      if (await safeVisible(langRow, 800)) {
+        const cells = langRow.getByRole('cell');
+        pub.language = await safeText(cells.nth(1), 600) || await safeText(cells.last(), 600);
       }
-    } catch {}
-
-    // Corporate address — contains "United States" or state abbreviation + city pattern
-    const addrLoc = page.locator('text=/United States|, [A-Z]{2} United/').first();
-    pub.corporate_address = await safeText(addrLoc);
-
-    // Promotional areas — section after "Promotional areas" heading
-    const promoSection = page.getByText('Promotional areas', { exact: true }).first();
-    if (await safeVisible(promoSection, 800)) {
-      const promoText = await safeText(
-        page.locator('text=/(?!.*Promotional areas).*United States|No promotional areas/').first(), 1200
-      );
-      if (promoText && promoText !== 'No promotional areas') {
-        pub.promotional_areas = [promoText];
-      }
-    }
-
-    // Content categories
-    try {
-      const ccHeading = page.getByText('Content Categories', { exact: true }).first();
-      if (await safeVisible(ccHeading, 800)) {
-        const ccText = await safeText(page.locator('text=/No Categories/').first(), 800);
-        if (!ccText) {
-          // Get all category chips that appear after Content Categories heading
-          pub.content_categories = await allTexts(
-            page.locator('[class*="category-chip"], [class*="content-cat"]')
-          );
+      if (!pub.language) {
+        // Fallback: look for text after "Language" label
+        const langLabel = page.getByText('Language', { exact: true }).first();
+        if (await safeVisible(langLabel, 600)) {
+          pub.language = await safeText(page.getByText('English', { exact: true }).first(), 600)
+            || await safeText(page.getByText('French', { exact: true }).first(), 400)
+            || await safeText(page.getByText('German', { exact: true }).first(), 400)
+            || await safeText(page.getByText('Spanish', { exact: true }).first(), 400);
         }
       }
     } catch {}
 
-    // Legacy categories — get visible chip texts in that section
+    // ── 5. PROMOTIONAL AREAS ──────────────────────────────────────────────
     try {
-      const lcSection = page.getByText('Legacy Categories', { exact: true }).first();
-      if (await safeVisible(lcSection, 800)) {
-        // Known categories from a11y tree — try each
+      const promoHeading = page.getByText('Promotional areas', { exact: true }).first();
+      if (await safeVisible(promoHeading, 600)) {
+        const noPromo = await safeVisible(page.getByText('No promotional areas', { exact: true }), 400);
+        if (!noPromo) {
+          // Get items: they appear as text nodes after "Promotional areas"
+          // Common values: "United States", "Canada", "United Kingdom" etc.
+          for (const geo of ['United States', 'Canada', 'United Kingdom', 'Australia', 'Germany', 'France']) {
+            if (await safeVisible(page.getByText(geo, { exact: true }), 300)) {
+              pub.promotional_areas.push(geo);
+            }
+          }
+        }
+      }
+    } catch {}
+
+    // ── 6. CORPORATE ADDRESS ──────────────────────────────────────────────
+    try {
+      const addrLabel = page.getByText('Corporate address', { exact: true }).first();
+      if (await safeVisible(addrLabel, 600)) {
+        // Address text contains city, state, country
+        const addrLoc = page.locator('text=/United States|United Kingdom|Canada|Australia/').first();
+        pub.corporate_address = await safeText(addrLoc, 800);
+        if (!pub.corporate_address) {
+          // Try comma-separated address pattern
+          const commaLoc = page.locator('text=/, [A-Z]+ United/').first();
+          pub.corporate_address = await safeText(commaLoc, 600);
+        }
+      }
+    } catch {}
+
+    // ── 7. CONTENT CATEGORIES ─────────────────────────────────────────────
+    try {
+      const ccHeading = page.getByText('Content Categories', { exact: true }).first();
+      if (await safeVisible(ccHeading, 600)) {
+        const noCC = await safeVisible(page.getByText('No Categories', { exact: true }), 400);
+        if (!noCC) {
+          // Expand any "+N more" overflow
+          await expandOverflow('Content Categories');
+          // Collect visible category chips
+          const ccItems = page.locator('[class*="chip"], [class*="tag"], [class*="category"]')
+            .filter({ hasText: /\w+/ });
+          pub.content_categories = await allTexts(ccItems);
+          if (!pub.content_categories.length) {
+            pub.content_categories = await sectionItems('Content Categories',
+              ['Legacy Categories', 'Tags', 'Media Kits', 'Currency', 'Partner ID'], 30);
+          }
+        }
+      }
+    } catch {}
+
+    // ── 8. LEGACY CATEGORIES (with overflow expansion) ────────────────────
+    try {
+      const lcHeading = page.getByText('Legacy Categories', { exact: true }).first();
+      if (await safeVisible(lcHeading, 600)) {
+        // First collect visible ones (before expanding overflow)
         const knownCats = [
-          'Apparel, Shoes & Accessories', 'Women\'s Apparel', 'Men\'s Apparel', 'Shoes',
+          'Apparel, Shoes & Accessories', "Women's Apparel", "Men's Apparel", 'Shoes',
           'Jewelry & Watches', 'Bags & Accessories', 'Luxury', 'Health & Beauty',
-          'Sports & Fitness', 'Consumer Electronics', 'Home & Garden',
+          'Sports & Fitness', 'Consumer Electronics', 'Home & Garden', 'Books & Media',
+          'Food & Drink', 'Travel', 'Financial Services', 'Insurance', 'Auto',
+          'Baby & Kids', 'Office Supplies', 'Pet Supplies', 'Flowers & Gifts',
+          'Arts & Crafts', 'Music', 'Movies & TV', 'Software', 'Gaming',
         ];
         for (const cat of knownCats) {
-          if (await safeVisible(page.getByText(cat, { exact: true }), 400)) {
+          if (await safeVisible(page.getByText(cat, { exact: true }), 300)) {
             pub.legacy_categories.push(cat);
           }
         }
+
+        // Click "+N more" to expand all categories
+        const moreBtn = page.getByText(/^\+\d+ more$/).first();
+        if (await safeVisible(moreBtn, 400)) {
+          await safeClick(moreBtn);
+          await sleep(800);
+          // Re-collect after expansion
+          pub.legacy_categories_full = [];
+          for (const cat of knownCats) {
+            if (await safeVisible(page.getByText(cat, { exact: true }), 200)) {
+              pub.legacy_categories_full.push(cat);
+            }
+          }
+          // Also try generic collection
+          if (!pub.legacy_categories_full.length) {
+            pub.legacy_categories_full = await sectionItems('Legacy Categories',
+              ['Tags', 'Media Kits', 'Currency', 'Partner ID'], 50);
+          }
+        } else {
+          pub.legacy_categories_full = [...pub.legacy_categories];
+        }
       }
     } catch {}
 
-    // Tags — collect all short text chips in Tags section
+    // ── 9. TAGS (with overflow expansion) ────────────────────────────────
     try {
       const tagsHeading = page.getByText('Tags', { exact: true }).first();
-      if (await safeVisible(tagsHeading, 800)) {
-        const knownTags = ['banking','finance','fintech','gaming','insurance',
-          'newsletter','subscription','loyalty','coupon','content','review',
-          'deals','cashback','social media','influencer','blog'];
+      if (await safeVisible(tagsHeading, 600)) {
+        const knownTags = [
+          'banking', 'finance', 'fintech', 'gaming', 'insurance', 'newsletter',
+          'subscription', 'loyalty', 'coupon', 'content', 'review', 'deals',
+          'cashback', 'social media', 'influencer', 'blog', 'sports', 'fitness',
+          'outdoor', 'cycling', 'travel', 'fashion', 'beauty', 'tech', 'gadgets',
+          'home', 'garden', 'food', 'health', 'wellness', 'parenting', 'education',
+        ];
         for (const tag of knownTags) {
-          if (await safeVisible(page.getByText(tag, { exact: true }), 300)) {
+          if (await safeVisible(page.getByText(tag, { exact: true }), 200)) {
             pub.tags.push(tag);
           }
         }
-      }
-    } catch {}
 
-    // Media kits — links containing .pdf
-    try {
-      const mkSection = page.getByText('Media Kits', { exact: true }).first();
-      if (await safeVisible(mkSection, 800)) {
-        const pdfLinks = page.getByRole('link').filter({ hasText: /\.pdf/i });
-        const count = await pdfLinks.count();
-        for (let i = 0; i < Math.min(count, 5); i++) {
-          const linkText = await safeText(pdfLinks.nth(i));
-          const href = await safeAttr(pdfLinks.nth(i), 'href');
-          if (href || linkText) pub.media_kit_urls.push({ name: linkText, url: href });
+        // Expand "+N more" for tags too
+        const moreTagBtn = page.getByText(/^\+\d+ more$/).nth(0);
+        if (await safeVisible(moreTagBtn, 400)) {
+          await safeClick(moreTagBtn);
+          await sleep(600);
+          pub.tags_full = [];
+          for (const tag of knownTags) {
+            if (await safeVisible(page.getByText(tag, { exact: true }), 200)) {
+              pub.tags_full.push(tag);
+            }
+          }
+          if (!pub.tags_full.length) {
+            pub.tags_full = await sectionItems('Tags',
+              ['Media Kits', 'Currency', 'Partner ID'], 30);
+          }
+        } else {
+          pub.tags_full = [...pub.tags];
         }
       }
     } catch {}
 
-    // Currency
+    // ── 10. MEDIA KITS ────────────────────────────────────────────────────
+    try {
+      const mkHeading = page.getByText('Media Kits', { exact: true }).first();
+      if (await safeVisible(mkHeading, 600)) {
+        const pdfLinks = page.getByRole('link').filter({ hasText: /\.pdf/i });
+        const pdfCount = await pdfLinks.count();
+        pub.media_kit_count = pdfCount;
+        for (let i = 0; i < Math.min(pdfCount, 10); i++) {
+          try {
+            const linkText = await safeText(pdfLinks.nth(i), 600);
+            const href = await safeAttr(pdfLinks.nth(i), 'href', 600);
+            if (href || linkText) {
+              pub.media_kit_urls.push({ name: linkText || `Media Kit ${i+1}`, url: href || '' });
+            }
+          } catch {}
+        }
+      }
+    } catch {}
+
+    // ── 11. CURRENCY ──────────────────────────────────────────────────────
     try {
       const currHeading = page.getByText('Currency', { exact: true }).first();
-      if (await safeVisible(currHeading, 800)) {
-        pub.currency = await safeText(page.getByText('USD', { exact: true }).first(), 800)
-          || await safeText(page.getByText('EUR', { exact: true }).first(), 400);
+      if (await safeVisible(currHeading, 600)) {
+        for (const c of ['USD', 'EUR', 'GBP', 'AUD', 'CAD']) {
+          if (await safeVisible(page.getByText(c, { exact: true }), 300)) {
+            pub.currency = c; break;
+          }
+        }
       }
     } catch {}
 
-    // ── DETAILS TAB ──
-    const detTab = page.getByText('Details', { exact: true }).first();
-    if (await safeVisible(detTab)) {
-      await safeClick(detTab);
+    // ── 12. SWITCH TO DETAILS TAB ─────────────────────────────────────────
+    const detCoords = await getTabCoords('Details');
+    if (detCoords) {
+      await clickAt(detCoords.x, detCoords.y);
       await sleep(1500);
+    } else {
+      await safeClick(page.getByText('Details', { exact: true }).first());
+      await sleep(1200);
+    }
 
-      // Website — first external link in Details tab
+    // ── 13. WEBSITE & SOCIAL PROPERTIES (Details tab) ─────────────────────
+    try {
+      // External links in Details tab
       const extLinks = page.getByRole('link').filter({ hasText: /^https?:\/\//i });
-      const extCount = await extLinks.count();
-      for (let i = 0; i < Math.min(extCount, 5); i++) {
-        const href = await safeAttr(extLinks.nth(i), 'href');
-        const txt = await safeText(extLinks.nth(i));
-        if (href && !href.includes('impact.com')) {
-          pub.website = href;
-          break;
-        }
-        if (txt && txt.startsWith('http') && !txt.includes('impact.com')) {
-          pub.website = txt;
-          break;
-        }
-      }
-
-      // Learn more — text near website link
-      if (await safeVisible(page.getByText('Learn more', { exact: true }), 800)) {
-        pub.learn_more_url = pub.website; // learn more links to the same property URL
-      }
-
-      // Social properties — collect all property cards (each has a link + status)
-      try {
-        // Each property card has a link and optional "Not verified" / "Verified" text
-        const allLinks = page.getByRole('link');
-        const linkCount = await allLinks.count();
-        const propUrls = [];
-        for (let i = 0; i < Math.min(linkCount, 10); i++) {
-          const href = await safeAttr(allLinks.nth(i), 'href');
-          const txt = await safeText(allLinks.nth(i));
-          if (href && !href.includes('impact.com') && !href.includes('impactradius')) {
-            propUrls.push({ url: href, text: txt });
+      const linkCount = await extLinks.count();
+      const propUrls = [];
+      for (let i = 0; i < Math.min(linkCount, 10); i++) {
+        try {
+          const href = await safeAttr(extLinks.nth(i), 'href', 600);
+          const txt = await safeText(extLinks.nth(i), 600);
+          const url = href || txt;
+          if (url && !url.includes('impact.com') && !url.includes('impactradius')) {
+            if (!pub.website) pub.website = url;
+            if (txt?.startsWith('http') && !url.includes('impact.com')) {
+              propUrls.push({ url, text: txt });
+            }
           }
-        }
-        pub.social_properties = propUrls;
-      } catch {}
+        } catch {}
+      }
+      pub.social_properties = propUrls;
+
+      // Learn more label
+      if (await safeVisible(page.getByText('Learn more', { exact: true }), 500)) {
+        pub.learn_more_url = pub.website;
+      }
 
       // Verified status
-      if (await safeVisible(page.getByText('Not verified', { exact: true }), 500)) {
-        pub.verified = false;
-      } else if (await safeVisible(page.getByText('Verified', { exact: true }), 500)) {
-        pub.verified = true;
-      }
+      const notVerifiedVisible = await safeVisible(page.getByText('Not verified', { exact: true }), 400);
+      const verifiedVisible = await safeVisible(page.getByText('Verified', { exact: true }), 400);
+      if (notVerifiedVisible) pub.verified = false;
+      else if (verifiedVisible) pub.verified = true;
 
-      // Switch back to Properties
+      // Collect all social property cards text
+      const socialMsg = await safeText(
+        page.locator('text=/Content and Metrics are not available|authenticated with us/').first(), 600
+      );
+      if (socialMsg && pub.social_properties.length === 0) {
+        // No auth'd properties but we have the URL
+        pub.social_properties = pub.website ? [{ url: pub.website, text: pub.website, status: 'not_authenticated' }] : [];
+      }
+    } catch {}
+
+    // ── 14. SWITCH BACK TO PROPERTIES ─────────────────────────────────────
+    if (propCoords) {
+      await clickAt(propCoords.x, propCoords.y);
+    } else {
       await safeClick(page.getByText('Properties', { exact: true }).first());
-      await sleep(500);
     }
+    await sleep(400);
 
     return pub;
   };
 
-  // ── MAIN LOOP ──────────────────────────────────────────────────────────────
+  // ── MAIN PROPOSAL LOOP ─────────────────────────────────────────────────────
   await sleep(2000);
   let cards = await page.evaluate(() =>
     Array.from(document.querySelectorAll('.discovery-card, [class*="discovery-card"]')).map((c, i) => ({
@@ -308,7 +532,7 @@ async (page) => {
 
     await ensureDiscover();
 
-    // Open slideout via page.mouse.click on avatar
+    // Open slideout by clicking avatar image
     const avatarCoords = await page.evaluate((n) => {
       for (const c of document.querySelectorAll('.discovery-card, [class*="discovery-card"]')) {
         if (c.querySelector('[class*="name"]')?.textContent.trim() !== n) continue;
@@ -324,7 +548,7 @@ async (page) => {
     await sleep(3500);
     if (!page.url().includes('slideout_id=')) { errors.push({ name, reason: 'no-slideout' }); continue; }
 
-    // Scrape full profile via a11y-tree locators
+    // Full profile scrape
     const pubData = await scrapeSlideout(name);
 
     // Close slideout
@@ -345,7 +569,7 @@ async (page) => {
     const fresh = cards.find(c => c.name === name);
     if (!fresh?.hasBtn) { errors.push({ name, reason: 'card-gone' }); continue; }
 
-    // ── SEND PROPOSAL ──
+    // ── SEND PROPOSAL ──────────────────────────────────────────────────────
     await page.evaluate((n) => {
       for (const c of document.querySelectorAll('.discovery-card, [class*="discovery-card"]')) {
         if (c.querySelector('[class*="name"]')?.textContent.trim() !== n) continue;
@@ -368,7 +592,7 @@ async (page) => {
     });
     if (!iRect) { errors.push({ name, reason: 'no-iframe-rect' }); continue; }
 
-    // Term: Performance or highest %
+    // Term selection: Performance or highest %
     let termOk = false, termText = '';
     for (let attempt = 0; attempt < 3; attempt++) {
       await propFrame.evaluate(() => {
@@ -399,7 +623,7 @@ async (page) => {
     }
     if (!termOk) { errors.push({ name, reason: 'no-term' }); continue; }
 
-    // Date
+    // Date selection
     let dateOk = false;
     const targetDay = String(parseInt(CONTRACT_DATE.split('-')[2], 10));
     const dateCoords = await propFrame.evaluate(() => {
@@ -449,7 +673,7 @@ async (page) => {
     await page.mouse.click(Math.round(iRect.x + subCoords.x), Math.round(iRect.y + subCoords.y));
     await sleep(1500);
 
-    // "I understand" nav-catch
+    // "I understand" nav-catch = success signal
     let sent = false;
     try {
       await propFrame.evaluate(() => {
