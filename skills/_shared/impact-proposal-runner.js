@@ -304,9 +304,11 @@ async function sendProposal(page) {
     const liCoords = await propFrame.evaluate(() => {
       const isVis = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
       const opts = Array.from(document.querySelectorAll('li[role="option"]')).filter(isVis);
-      const best = opts.find(l => /performance/i.test(l.textContent)) ||
-                   opts.find(l => /\d+%/.test(l.textContent)) ||
-                   opts[0];
+      // Skip the placeholder "Select" option — pick the first real term
+      const realOpts = opts.filter(l => l.textContent.trim() !== 'Select' && l.textContent.trim().length > 0);
+      const best = realOpts.find(l => /performance/i.test(l.textContent)) ||
+                   realOpts.find(l => /\d+%/.test(l.textContent)) ||
+                   realOpts[0];
       if (!best) return null;
       const r = best.getBoundingClientRect();
       return { x: r.x + r.width/2, y: r.y + r.height/2, text: best.textContent.trim() };
@@ -314,13 +316,17 @@ async function sendProposal(page) {
 
     if (!liCoords) { await sleep(400); continue; }
     await page.mouse.click(Math.round(iRect.x + liCoords.x), Math.round(iRect.y + liCoords.y));
-    await sleep(800);
+    await sleep(1000);
 
-    const confirmed = await propFrame.evaluate(() => {
+    // Confirmation: the term button text should now show the selected term (not "Select")
+    const confirmed = await propFrame.evaluate((expectedText) => {
       const btns = Array.from(document.querySelectorAll('button')).filter(b => b.getBoundingClientRect().width > 0);
-      const selBtn = btns.find(b => b.textContent.trim() === 'Select');
-      return !selBtn;
-    }).catch(()=>false);
+      // Check if any visible button shows the selected term text (React updated)
+      const termSelected = btns.some(b => b.textContent.trim() === expectedText);
+      // Also accept: no "Select" placeholder visible anymore (dropdown closed with selection)
+      const noSelectBtn = !btns.some(b => b.textContent.trim() === 'Select');
+      return termSelected || noSelectBtn;
+    }, liCoords.text).catch(()=>false);
 
     if (confirmed) { termOk = true; termText = liCoords.text; }
     await sleep(300);
