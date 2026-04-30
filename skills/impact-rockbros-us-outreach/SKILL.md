@@ -189,6 +189,39 @@ cards = await page.evaluate(() =>
 const freshCard = cards.find(c => c.name === name);
 ```
 
+## Critical Architecture: a11y-Tree-Only DOM
+
+**Confirmed via live DOM exploration (2026-04-29):** The slideout panel renders exclusively in Playwright's accessibility tree. All standard DOM access returns nothing:
+- `document.querySelectorAll('*')` — ❌ cannot find slideout content
+- Shadow DOM piercing — ❌ slideout is not in any shadow root
+- `window.frames` / iframes — ❌ all iframes are empty/cross-origin blocked
+- `getBoundingClientRect()` — ❌ elements return off-screen coordinates
+
+**Only `page.locator()`, `page.getByText()`, `page.getByRole()` work** because they target the a11y tree directly. This is why `browser_run_code` is mandatory — it provides `page` with full Playwright locator API.
+
+### Confirmed Slideout Content Map
+```
+Properties tab (default):
+  Header: partner_id (7-digit number), status chip, size chip, business_model chip
+  Description: large text block (~200-500 chars)
+  Contacts section: contact_name (First Last), contact_role ("Marketplace Contact"), contact_email
+  Personal information: language (table row)
+  Promotional areas: list or "No promotional areas"
+  Corporate address: "City, STATE United States of America"
+  Content Categories: chips or "No Categories"
+  Legacy Categories: chip list with "+N more" overflow button
+  Tags: chip list with "+N more" overflow button
+  Media Kits: PDF links via page.getByRole('link').filter({hasText:/\.pdf/i})
+  Currency: "USD" / "EUR" text
+  Partner ID: same as header number
+
+Details tab (click to activate):
+  Website: external link (https://...) — e.g. https://voyagertribe.com/
+  "Learn more" text label near website link
+  Social property cards: each has link + auth status
+  Verified / "Not verified" status badge
+```
+
 ## Bulk Proposal Script
 
 Script location: `/Users/xiaozuo/.claude/skills/impact-rockbros-us-outreach/scripts/bulk-proposal.js`
