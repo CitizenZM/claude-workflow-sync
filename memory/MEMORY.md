@@ -8,6 +8,7 @@
 - [feedback_model_cost_control.md](feedback_model_cost_control.md) — Use Haiku for bulk automation; remind user to switch if on Opus/Sonnet for mechanical tasks
 - [feedback_publisher_email_privacy.md](feedback_publisher_email_privacy.md) — Never expose publisher emails in external Word/PDF/HTML reports; mask or omit
 - [feedback_word_report_layout.md](feedback_word_report_layout.md) — External reports need explicit column widths, landscape for wide tables, no overflow
+- [feedback_impact_outreach_node_runner.md](feedback_impact_outreach_node_runner.md) — Impact outreach uses native Node.js CDP runner (~/.claude/skills/_shared/impact-proposal-runner.js), zero LLM tokens during loop, ~40s/pub, 95%+ savings vs LLM-driven loop
 
 ## Projects
 - [project_stitch_design_workflow.md](project_stitch_design_workflow.md) — 6-phase design system: competitive research → user journey → Stitch generation → annotated CRO analysis → Figma output. Mobile-first, all-pages scope. Trigger with design brief.
