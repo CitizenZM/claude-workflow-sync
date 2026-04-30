@@ -19,6 +19,18 @@ LOG="$SYNC_REPO/.sync.log"
 # Obsidian vault — override with OBSIDIAN_VAULT env var on machines where path differs
 VAULT_DIR="${OBSIDIAN_VAULT:-/Volumes/workssd/ObsidianVault}"
 
+# GitHub auth — inject GITHUB_TOKEN into remote URL if set, avoids keychain conflicts
+_git_push_authenticated() {
+  local repo_dir="$1"; shift
+  if [ -n "${GITHUB_TOKEN:-}" ]; then
+    local remote_url
+    remote_url=$(git -C "$repo_dir" remote get-url origin 2>/dev/null | sed "s|https://|https://CitizenZM:$GITHUB_TOKEN@|")
+    git -C "$repo_dir" push "$remote_url" main "$@" 2>/dev/null
+  else
+    git -C "$repo_dir" push origin main "$@" 2>/dev/null
+  fi
+}
+
 log() { echo "[$(date +%H:%M:%S)] [claude-sync] $*" | tee -a "$LOG"; }
 
 # Custom skills = everything in skills/ NOT in marketplace-skills.txt
@@ -152,7 +164,7 @@ sync_push() {
   else
     COMMIT_MSG="auto-sync: $(hostname -s) $(date '+%Y-%m-%d %H:%M')"
     git commit -m "$COMMIT_MSG"
-    git push origin main 2>/dev/null && log "pushed to GitHub" || log "push failed (offline? retry next session)"
+    _git_push_authenticated "$SYNC_REPO" && log "pushed to GitHub" || log "push failed (offline? retry next session)"
   fi
 
   # 9. Push Obsidian vault
@@ -163,7 +175,7 @@ sync_push() {
       log "vault unchanged — no push needed"
     else
       git commit -m "auto-sync: $(hostname -s) $(date '+%Y-%m-%d %H:%M')"
-      git push origin main 2>/dev/null && log "vault pushed to GitHub" || log "vault push failed (offline?)"
+      _git_push_authenticated "$VAULT_DIR" && log "vault pushed to GitHub" || log "vault push failed (offline?)"
     fi
     cd "$SYNC_REPO"
   else
