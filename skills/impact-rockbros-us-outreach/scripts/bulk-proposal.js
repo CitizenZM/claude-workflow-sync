@@ -160,6 +160,11 @@ async (page) => {
       learn_more_url: null,
       social_properties: [],
       verified: null,
+      // Web metrics (Details tab — only when publisher property is verified)
+      semrush_global_rank: null,
+      monthly_visitors: null,
+      moz_spam_score: null,
+      moz_domain_authority: null,
       scraped_at: new Date().toISOString().slice(0, 10),
     };
 
@@ -492,6 +497,31 @@ async (page) => {
       const verifiedVisible = await safeVisible(page.getByText('Verified', { exact: true }), 400);
       if (notVerifiedVisible) pub.verified = false;
       else if (verifiedVisible) pub.verified = true;
+
+      // Web metrics — Semrush/Moz data (only present when property is verified & authenticated)
+      try {
+        const semrushLabel = page.getByText('Semrush global rank', { exact: true }).first();
+        if (await safeVisible(semrushLabel, 500)) {
+          // Value is the sibling text after the label
+          pub.semrush_global_rank = await safeText(page.getByText(/^\d+(\.\d+)?[KMB]?$/).first(), 600);
+        }
+        const visitorsLabel = page.getByText('Monthly visitors', { exact: true }).first();
+        if (await safeVisible(visitorsLabel, 400)) {
+          pub.monthly_visitors = await safeText(page.getByText(/^\d+(\.\d+)?[MKB]$/).first(), 600);
+        }
+        const mozSpam = page.getByText('Moz spam score', { exact: true }).first();
+        if (await safeVisible(mozSpam, 400)) {
+          // Spam score is a small number 0-17
+          const spamVal = await safeText(page.getByText(/^\d{1,2}$/).first(), 600);
+          pub.moz_spam_score = spamVal;
+        }
+        const mozDA = page.getByText('Moz domain authority', { exact: true }).first();
+        if (await safeVisible(mozDA, 400)) {
+          // DA is 0-100
+          const daVal = await safeText(page.getByText(/^\d{2,3}$/).first(), 600);
+          pub.moz_domain_authority = daVal;
+        }
+      } catch {}
 
       // Collect all social property cards text
       const socialMsg = await safeText(
