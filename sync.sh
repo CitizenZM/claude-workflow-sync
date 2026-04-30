@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # claude-workflow-sync/sync.sh
-# Bidirectional sync between ~/.claude and GitHub remote.
+# Bidirectional sync between ~/.claude + Obsidian vault and GitHub remotes.
 # Usage: bash sync.sh [pull|push|status]
-#   pull  → git pull then apply repo → ~/.claude (runs on session start)
-#   push  → copy ~/.claude → repo then git push (runs on session stop)
+#   pull  → git pull then apply repo → ~/.claude + vault (runs on session start)
+#   push  → copy ~/.claude → repo then git push + push vault (runs on session stop)
 #   status → show diff between local and repo
 
 set -euo pipefail
@@ -15,6 +15,9 @@ MEMORY_SLUG="$(echo "$HOME" | sed 's|/|-|g')"
 MEMORY_LOCAL="$CLAUDE_DIR/projects/$MEMORY_SLUG/memory"
 MEMORY_REPO="$SYNC_REPO/memory"
 LOG="$SYNC_REPO/.sync.log"
+
+# Obsidian vault — override with OBSIDIAN_VAULT env var on machines where path differs
+VAULT_DIR="${OBSIDIAN_VAULT:-/Volumes/workssd/ObsidianVault}"
 
 log() { echo "[$(date +%H:%M:%S)] [claude-sync] $*" | tee -a "$LOG"; }
 
@@ -67,6 +70,15 @@ sync_pull() {
   # 7. skills-lock.json → home dir
   [ -f "$SYNC_REPO/skills-lock.json" ] && cp "$SYNC_REPO/skills-lock.json" "$HOME/skills-lock.json" && log "skills-lock.json applied"
 
+  # 8. Obsidian vault
+  if [ -d "$VAULT_DIR/.git" ]; then
+    cd "$VAULT_DIR"
+    git pull --rebase origin main 2>/dev/null && log "vault pulled OK" || log "vault pull failed (offline?)"
+    cd "$SYNC_REPO"
+  else
+    log "vault not found at $VAULT_DIR — skipping (set OBSIDIAN_VAULT to override)"
+  fi
+
   log "pull complete"
 }
 
@@ -105,16 +117,30 @@ sync_push() {
   # 5. skills-lock.json
   [ -f "$HOME/skills-lock.json" ] && cp "$HOME/skills-lock.json" "$SYNC_REPO/skills-lock.json"
 
-  # 6. Commit and push
+  # 6. Commit and push claude-workflow-sync
   git add -A
   if git diff --cached --quiet; then
     log "nothing changed — no push needed"
-    return 0
+  else
+    COMMIT_MSG="auto-sync: $(hostname -s) $(date '+%Y-%m-%d %H:%M')"
+    git commit -m "$COMMIT_MSG"
+    git push origin main 2>/dev/null && log "pushed to GitHub" || log "push failed (offline? retry next session)"
   fi
 
-  COMMIT_MSG="auto-sync: $(hostname -s) $(date '+%Y-%m-%d %H:%M')"
-  git commit -m "$COMMIT_MSG"
-  git push origin main 2>/dev/null && log "pushed to GitHub" || log "push failed (offline? retry next session)"
+  # 7. Push Obsidian vault
+  if [ -d "$VAULT_DIR/.git" ]; then
+    cd "$VAULT_DIR"
+    git add -A
+    if git diff --cached --quiet; then
+      log "vault unchanged — no push needed"
+    else
+      git commit -m "auto-sync: $(hostname -s) $(date '+%Y-%m-%d %H:%M')"
+      git push origin main 2>/dev/null && log "vault pushed to GitHub" || log "vault push failed (offline?)"
+    fi
+    cd "$SYNC_REPO"
+  else
+    log "vault not found at $VAULT_DIR — skipping vault push"
+  fi
 }
 
 sync_status() {

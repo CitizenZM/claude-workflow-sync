@@ -10,6 +10,8 @@ SYNC_REPO="$(cd "$(dirname "$0")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 MEMORY_SLUG="$(echo "$HOME" | sed 's|/|-|g')"
 MEMORY_LOCAL="$CLAUDE_DIR/projects/$MEMORY_SLUG/memory"
+# Vault path — bootstrap.sh sets OBSIDIAN_VAULT before calling install.sh on new machines
+VAULT_DIR="${OBSIDIAN_VAULT:-/Volumes/workssd/ObsidianVault}"
 
 run() {
   if [ "$DRY" = "--dry-run" ]; then echo "[DRY] $*"; else eval "$*"; fi
@@ -28,7 +30,7 @@ run "bash \"$SYNC_REPO/sync.sh\" pull"
 # 2. Add Stop hook to settings.json (push brain on every session end)
 echo "[2/5] Adding Stop hook to settings.json..."
 SETTINGS="$CLAUDE_DIR/settings.json"
-HOOK_CMD="bash $SYNC_REPO/sync.sh push"
+HOOK_CMD="OBSIDIAN_VAULT=$VAULT_DIR bash $SYNC_REPO/sync.sh push"
 
 if [ -f "$SETTINGS" ]; then
   # Add hook only if not already present
