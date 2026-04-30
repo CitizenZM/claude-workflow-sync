@@ -642,6 +642,33 @@ async function main() {
           const w = pubData.website ? '✓web' : '✗web';
           const m = pubData.semrush_global_rank ? `S:${pubData.semrush_global_rank}` : '';
           console.log(`  ✓ SENT [${sessionSent}] ${e} ${n} ${w} ${m} t:${propResult.termVerified} d:${propResult.dateVerified}`);
+
+          // ── EVERY-50 CROSS-CHECK: compare runner count vs Impact's real count ──
+          if (sessionSent % 50 === 0) {
+            try {
+              await page.goto('https://app.impact.com/secure/advertiser/engage/contracts/activity/adv-manage-pending-custom-ios-flow.ihtml', {waitUntil:'domcontentloaded', timeout:20000});
+              await page.waitForTimeout(3000);
+              const impactCount = await page.evaluate(() => {
+                const m = document.body.innerText.match(/\|(\d+) rows/);
+                return m ? parseInt(m[1]) : null;
+              });
+              const ledgerCount = fs.readFileSync(LEDGER, 'utf8').split('\n').filter(l => l.includes(`impact-${program_id}`)).length;
+              console.log(`\n╔══ CHECKPOINT [${sessionSent}/${TARGET}] ══════════════════`);
+              console.log(`║  Runner logged : ${sessionSent} sent this session`);
+              console.log(`║  Ledger total  : ${ledgerCount} rows`);
+              console.log(`║  Impact actual : ${impactCount !== null ? impactCount : 'fetch-failed'} proposals sent`);
+              const drift = impactCount !== null ? impactCount - ledgerCount : null;
+              console.log(`║  Drift         : ${drift !== null ? (drift >= 0 ? '+'+drift : drift) + ' (should be ≥0)' : 'unknown'}`);
+              console.log(`╚═══════════════════════════════════════\n`);
+              // Return to discover page
+              await page.goto(DISCOVER_URL, {waitUntil:'domcontentloaded', timeout:15000});
+              await sleep(3000);
+            } catch(e) {
+              console.log(`  [checkpoint-err] ${e.message.slice(0,60)}`);
+              await page.goto(DISCOVER_URL, {waitUntil:'domcontentloaded', timeout:15000}).catch(()=>{});
+              await sleep(2000);
+            }
+          }
         } else {
           errors.push({ name, reason: propResult.reason });
           console.log(`  ✗ FAILED: ${propResult.reason}`);
