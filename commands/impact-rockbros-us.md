@@ -20,6 +20,8 @@ template_term  : Rockbros USA Performance (highest-commission term)
 login          : affiliate@celldigital.co / Celldigital2024*
 scripts        : ~/.claude/skills/impact-rockbros-us-outreach/scripts/
 ledger         : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
+intel_db       : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
+report         : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
 obsidian       : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach.md
 msg            : "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample."
 contract_date  : DYNAMIC — new Date(Date.now()+86400000).toISOString().slice(0,10)
@@ -126,9 +128,36 @@ Invoke Agent tool:
 - `description`: `"Rockbros US tab {tab_num} — up to 20 proposals"`
 - `prompt`: PER-TAB HAIKU PROMPT below with `{tab_num}` and `{SCRIPT}` filled in
 
-**E. Parse Haiku result:**
-Haiku returns `{total, errorCount, publishers:[{name,email,termVerified,termText,dateVerified}], errors}`.
-Append to ledger in ONE Edit: `name|email|YYYY-MM-DD|impact-50132` for each publisher.
+**E. Parse Haiku result + Save ALL intel (3 writes per batch):**
+Haiku returns full publisher objects (20 fields each). Sonnet writes THREE files per tab — all in a single pass:
+
+**Ledger** (dedup key, ONE Edit):
+```
+name|contact_email|YYYY-MM-DD|impact-50132|partner_id|status|partner_size|website|contact_name
+```
+
+**Publisher Intel DB** (`intel_db`, ONE Edit) — full block per publisher:
+```markdown
+## [name] — [YYYY-MM-DD]
+- **Partner ID**: [partner_id] | **Status**: [status] | **Size**: [partner_size] | **Model**: [business_model]
+- **Contact**: [contact_name] · [contact_role] · [contact_email]
+- **Address**: [corporate_address] | **Language**: [language] | **Currency**: [currency]
+- **Website**: [website] | **Verified**: [verified]
+- **Description**: [description — first 200 chars]
+- **Legacy Categories**: [legacy_categories joined ", "]
+- **Tags**: [tags joined ", "]
+- **Media Kits**: [media_kit_urls names]
+- **Social Properties**: [social_properties urls]
+- **Promo Areas**: [promotional_areas or "None"]
+- **Term**: [termText] ✓[termVerified] | **Date**: ✓[dateVerified]
+---
+```
+
+**Report** (`report`, ONE Edit) — pipe table row per publisher:
+```
+| name | contact_email | contact_name | partner_id | status | partner_size | website | tags | YYYY-MM-DD |
+```
+
 `session_sent += total`
 
 **F. Next tab:**
@@ -146,20 +175,34 @@ You are the Impact Rockbros US per-tab proposal agent (tab {tab_num}).
 MCP: mcp__playwright-impact-rockbros-us__
 Browser is already logged in and on the Rockbros discover page.
 
-TASK: Call browser_run_code EXACTLY ONCE with the async function below. Output JSON result. Stop.
+TASK: Call browser_run_code EXACTLY ONCE with the script below. Return the full JSON. Stop.
 
 Call mcp__playwright-impact-rockbros-us__browser_run_code with:
 code: {SCRIPT}
 
-Output the raw JSON result as your final message:
-{"tab":{tab_num},"total":<n>,"errorCount":<n>,"publishers":[{"name":"...","email":"...","termVerified":true,"termText":"...","dateVerified":true}],"errors":[]}
+Output the complete raw JSON as your ONLY message:
+{
+  "tab": {tab_num},
+  "total": <n>,
+  "errorCount": <n>,
+  "publishers": [{
+    "name":"...", "partner_id":"...", "status":"...", "partner_size":"...", "business_model":"...",
+    "description":"...", "contact_name":"...", "contact_role":"...", "contact_email":"...",
+    "language":"...", "promotional_areas":[], "corporate_address":"...",
+    "content_categories":[], "legacy_categories":[], "tags":[],
+    "media_kit_urls":[], "currency":"...",
+    "website":"...", "learn_more_url":"...", "social_properties":[], "verified":null,
+    "scraped_at":"...", "termVerified":true, "termText":"...", "dateVerified":true, "proposal_sent":true
+  }],
+  "errors": []
+}
 
 HARD RULES:
 - EXACTLY 1 tool call — browser_run_code only. Zero others.
-- Do NOT read files. Do NOT browser_snapshot. Do NOT navigate. Do NOT browser_evaluate.
-- Do NOT re-inject anything. The script is self-contained.
-- Trust the script. Run it. Return the JSON result.
-- If browser_run_code errors, return: {"tab":{tab_num},"total":0,"errorCount":1,"publishers":[],"errors":["run_code_failed"]}
+- Do NOT read files. Do NOT snapshot. Do NOT navigate. Do NOT browser_evaluate.
+- The script scrapes ALL publisher intel AND sends proposals. It is self-contained.
+- Return the COMPLETE JSON including all 20+ fields per publisher.
+- If browser_run_code errors: {"tab":{tab_num},"total":0,"errorCount":1,"publishers":[],"errors":["run_code_failed"]}
 ```
 
 ---
@@ -183,6 +226,8 @@ Ledger   : {grand_total_rows} rows total
 ```markdown
 ## Session YYYY-MM-DD
 - Proposals sent: {session_sent}
+- Intel captured: {publishers_with_email}/{session_sent} emails, {publishers_with_website}/{session_sent} websites
+- Intel fields avg: {avg_non_null_fields}/20 per publisher
 - Tabs covered: {tab_num}
 - Emails captured: {emails_found}/{session_sent}
 - Term verified: {term_ok_count}% | Date verified: {date_ok_count}%
