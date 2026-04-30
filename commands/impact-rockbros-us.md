@@ -5,23 +5,22 @@ model: sonnet
 
 # Impact Rockbros US — Unified Outreach Workflow
 
-**Harness**: Sonnet owns login + filter setup + tab loop. Fresh Haiku per tab — pre-built script, 1 tool call per tab.
-**MCP**: `mcp__playwright-impact-rockbros-us__` for ALL browser calls
-**Fully autonomous**: no stops, no model-switch prompts, no user questions
+**Architecture**: Sonnet owns login + filter setup + tab loop. Fresh Haiku per tab — 1 `browser_run_code` call.
+**MCP**: `mcp__playwright-impact-rockbros-us__` for ALL browser calls (port 9306).
+**Fully autonomous**: no stops, no prompts.
 
 ---
 
 ## CONFIG
 ```
 program_id     : 50132
+db_program_id  : 5
 count          : $ARGUMENTS (default 500)
 target_per_tab : 20
-template_term  : Rockbros USA Performance (highest-commission term)
 login          : affiliate@celldigital.co / Celldigital2024*
 scripts        : ~/.claude/skills/impact-rockbros-us-outreach/scripts/
 ledger         : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
 intel_db       : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
-report         : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
 obsidian       : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach.md
 msg            : "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample."
 contract_date  : DYNAMIC — new Date(Date.now()+86400000).toISOString().slice(0,10)
@@ -32,40 +31,32 @@ contract_date  : DYNAMIC — new Date(Date.now()+86400000).toISOString().slice(0
 ## PHASE 1 — SETUP (Sonnet)
 
 ### Step 0: Init isolation
-```
+```bash
 bash ~/.claude/scripts/outreach/init-workflow.sh impact-rockbros-us playwright-impact-rockbros-us 9306
 ```
-If exit code 2, STOP and show the printed JSON for `~/.claude.json`.
+If exit code 2: stop and show JSON for `~/.claude.json`.
 
 ### Step 1: Login
-1. `mcp__playwright-impact-rockbros-us__browser_navigate` → `https://app.impact.com`
-2. `mcp__playwright-impact-rockbros-us__browser_snapshot` ONCE for login form
-3. Fill credentials via `browser_evaluate`:
-```js
-async () => {
-  const email = document.querySelector('input[name="username"],input[type="email"]');
-  const pass = document.querySelector('input[name="password"],input[type="password"]');
-  if (email) { const s=Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; s.call(email,'affiliate@celldigital.co'); email.dispatchEvent(new Event('input',{bubbles:true})); }
-  if (pass) { const s=Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype,'value').set; s.call(pass,'Celldigital2024*'); pass.dispatchEvent(new Event('input',{bubbles:true})); }
-  Array.from(document.querySelectorAll('button')).find(b=>b.textContent.trim()==='Sign In')?.click();
-  return 'submitted';
-}
+1. `browser_navigate` → `https://app.impact.com`
+2. `browser_snapshot` ONCE for login form
+3. Fill credentials via `browser_evaluate`, click Sign In
+4. If Google chooser: click "Cell Affiliate Team affiliate@celldigital.co" → "Continue"
+
+### Step 2: Navigate + Filters
+Navigate to:
 ```
-4. If Google account chooser appears: click "Cell Affiliate Team affiliate@celldigital.co" → "Continue"
-
-### Step 2: Navigate to Discover + Apply Filters
-Navigate: `https://app.impact.com/secure/advertiser/discover/radius/fr/partner_discover.ihtml?page=marketplace&slideout_id_type=partner#businessModels=home&locationCountryCode=US&sortBy=reachRating&sortOrder=DESC`
-
-Wait 3s. Click "Content / Reviews" tab. Then apply filters:
+https://app.impact.com/secure/advertiser/discover/radius/fr/partner_discover.ihtml?page=marketplace&slideout_id_type=partner#businessModels=home&locationCountryCode=US&sortBy=reachRating&sortOrder=DESC
+```
+Wait 3s, click "Content / Reviews" tab, then apply filters:
 ```js
 async () => {
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   const clickOpts = async (btnText, opts) => {
     const btn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === btnText);
-    if (!btn) return;
-    btn.click(); await sleep(1000);
+    if (!btn) return; btn.click(); await sleep(1000);
     for (const opt of opts) {
-      const el = Array.from(document.querySelectorAll('li,label,[class*="option"],[class*="item"]')).find(e => e.textContent.trim() === opt || e.textContent.trim().includes(opt));
+      const el = Array.from(document.querySelectorAll('li,label,[class*="option"],[class*="item"]'))
+        .find(e => e.textContent.trim() === opt || e.textContent.trim().includes(opt));
       if (el) { el.click(); await sleep(300); }
     }
     document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true})); await sleep(400);
@@ -78,91 +69,102 @@ async () => {
 }
 ```
 
-### Step 3: Verify + Preflight
+### Step 3: Preflight check
 ```js
 () => ({ cards: document.querySelectorAll('.discovery-card').length, url: location.href })
 ```
-If cards=0: re-apply filters. Print: `"✓ Rockbros US ready: {N} cards. Starting tab loop..."`
+If cards=0: re-apply filters. Print: `"✓ Rockbros US ready: {N} cards"`
 
 ---
 
-## PHASE 2 — SONNET TAB LOOP
+## PHASE 2 — TAB LOOP (Sonnet orchestrates, Haiku executes)
 
 **Tab order (6 tabs):**
-| # | Tab | Hash fragment |
-|---|-----|---------------|
-| 1 | Content / Reviews | `businessModels=CONTENT_REVIEWS` |
-| 2 | Deal / Coupons | `businessModels=DEAL_COUPON` |
-| 3 | Email / Newsletter | `businessModels=EMAIL_NEWSLETTER` |
-| 4 | Loyalty / Rewards | `businessModels=LOYALTY_REWARDS` |
-| 5 | Network | `businessModels=NETWORK` |
+| # | Tab | Hash |
+|---|-----|------|
+| 1 | Content / Reviews | `CONTENT_REVIEWS` |
+| 2 | Deal / Coupons | `DEAL_COUPON` |
+| 3 | Email / Newsletter | `EMAIL_NEWSLETTER` |
+| 4 | Loyalty / Rewards | `LOYALTY_REWARDS` |
+| 5 | Network | `NETWORK` |
 | 6 | All Partners | click "All Partners" button |
 
 **Loop init:** `COUNT = $ARGUMENTS or 500 | session_sent = 0 | tab_num = 1`
 
 ### Per-Tab Sequence:
 
-**A. Build dedup — Sonnet reads ledger:**
-Parse names from ledger where row ends with `impact-50132` → `DEDUP_JSON = ["name1","name2",...]`
-If ledger missing, use `[]`.
+**A. Build dedup**
+Read `ledger`, parse names from rows containing `impact-50132` → `DEDUP_JSON = [...]`
 
-**B. Calculate contract date (Sonnet, at runtime):**
-`CONTRACT_DATE = new Date(Date.now()+86400000).toISOString().slice(0,10)`
+**B. Calculate dates**
+```js
+CONTRACT_DATE = new Date(Date.now()+86400000).toISOString().slice(0,10)
+REPORT_DATE   = new Date().toISOString().slice(0,10)
+```
 
-**C. Get current tab URL:**
-`DISCOVER_URL = current page URL including hash` — read via:
+**C. Get DISCOVER_URL**
 ```js
 () => location.href
 ```
 
-**D. Pre-build proposal script + spawn Haiku:**
-Sonnet reads `~/.claude/skills/impact-rockbros-us-outreach/scripts/bulk-proposal.js` then replaces all placeholders inline:
-- `%%MSG%%` → the msg from CONFIG (exact string, no escaping changes)
-- `%%CONTRACT_DATE%%` → CONTRACT_DATE computed above
-- `%%ALREADY%%` → `JSON.stringify(DEDUP_JSON)`
+**D. Build script + spawn Haiku**
+Sonnet reads `bulk-proposal.js`, replaces ALL placeholders inline:
+- `"%%DISCOVER_URL%%"` → `"<current URL>"`
+- `"%%MSG%%"` → `"<msg string>"`
+- `"%%CONTRACT_DATE%%"` → `"<tomorrow>"`
+- `%%ALREADY%%` → `JSON.stringify(DEDUP_JSON)` (no quotes — it's an array)
 - `%%TARGET%%` → `Math.min(20, COUNT - session_sent)`
-- `%%DISCOVER_URL%%` → DISCOVER_URL from above
 
-Invoke Agent tool:
+Invoke Agent:
 - `model`: `"haiku"`
-- `description`: `"Rockbros US tab {tab_num} — up to 20 proposals"`
-- `prompt`: PER-TAB HAIKU PROMPT below with `{tab_num}` and `{SCRIPT}` filled in
+- `description`: `"Rockbros US tab {tab_num}"`
+- `prompt`: PER-TAB HAIKU PROMPT below
 
-**E. Parse Haiku result + Save ALL intel (3 writes per batch):**
-Haiku returns full publisher objects (20 fields each). Sonnet writes THREE files per tab — all in a single pass:
+**E. Save all intel (4 targets, ONE pass per tab)**
 
-**Ledger** (dedup key, ONE Edit):
+Haiku returns full publisher objects. Sonnet writes:
+
+**E1 — Supabase (FIRST, PRIMARY):**
+```bash
+node --input-type=module \
+  ~/.claude/skills/impact-rockbros-us-outreach/scripts/ingest-supabase.js \
+  '<JSON.stringify(publishers)>' '50132' '<TAB_HASH>'
 ```
-name|contact_email|YYYY-MM-DD|impact-50132|partner_id|status|partner_size|website|contact_name
+- `pf.publishers` — COALESCE upsert: `email`/`contact_name`/`contact_role` NEVER overwritten with null
+- `pf.program_publishers` — outreach event upsert
+- `pf.publisher_intel` — full snapshot INSERT
+
+**E2 — Ledger (dedup key, ONE Edit):**
+```
+{name}|{contact_email or "email_missing"}|{YYYY-MM-DD}|impact-50132|{partner_id}|{status}|{partner_size}|{website}|{contact_name}
 ```
 
-**Publisher Intel DB** (`intel_db`, ONE Edit) — full block per publisher:
+**E3 — Publisher Intel DB (ONE Edit):**
 ```markdown
-## [name] — [YYYY-MM-DD]
-- **Partner ID**: [partner_id] | **Status**: [status] | **Size**: [partner_size] | **Model**: [business_model]
-- **Contact**: [contact_name] · [contact_role] · [contact_email]
-- **Address**: [corporate_address] | **Language**: [language] | **Currency**: [currency]
-- **Website**: [website] | **Verified**: [verified]
-- **Description**: [description — first 200 chars]
-- **Legacy Categories**: [legacy_categories joined ", "]
-- **Tags**: [tags joined ", "]
-- **Media Kits**: [media_kit_urls names]
-- **Social Properties**: [social_properties urls]
-- **Promo Areas**: [promotional_areas or "None"]
-- **Term**: [termText] ✓[termVerified] | **Date**: ✓[dateVerified]
+## {name} — {YYYY-MM-DD}
+- **Publisher ID**: impact-{partner_id} | **Network ID**: {partner_id}
+- **Status**: {status} | **Size**: {partner_size} | **Model**: {business_model}
+- **Contact Name**: {contact_name or "name_missing"}
+- **Contact Role**: {contact_role}
+- **Contact Email**: {contact_email or "email_missing"}
+- **All Contacts**: {JSON all_contacts}
+- **Address**: {corporate_address}
+- **Language**: {language} | **Currency**: {currency}
+- **Website**: {website} | **Verified**: {verified}
+- **Semrush**: {semrush_global_rank} | **Visitors/mo**: {monthly_visitors}
+- **Moz DA**: {moz_domain_authority} | **Moz Spam**: {moz_spam_score}
+- **Description**: {first 300 chars}
+- **Categories**: {legacy_categories_full joined ", "}
+- **Tags**: {tags_full joined ", "}
+- **Media Kits**: {media_kit_urls names}
+- **Social**: {social_properties urls}
+- **Term**: {termText} ✓{termVerified} | **Date**: ✓{dateVerified}
 ---
-```
-
-**Report** (`report`, ONE Edit) — pipe table row per publisher:
-```
-| name | contact_email | contact_name | partner_id | status | partner_size | website | tags | YYYY-MM-DD |
 ```
 
 `session_sent += total`
 
-**F. Next tab:**
-Navigate to next tab hash. Wait 3s.
-`tab_num++`, continue loop.
+**F. Next tab:** Navigate to next hash. Wait 3s. `tab_num++`.
 
 Stop when `session_sent >= COUNT` or all 6 tabs exhausted.
 
@@ -173,9 +175,9 @@ Stop when `session_sent >= COUNT` or all 6 tabs exhausted.
 ```
 You are the Impact Rockbros US per-tab proposal agent (tab {tab_num}).
 MCP: mcp__playwright-impact-rockbros-us__
-Browser is already logged in and on the Rockbros discover page.
+Browser is logged in and on the Rockbros discover page.
 
-TASK: Call browser_run_code EXACTLY ONCE with the script below. Return the full JSON. Stop.
+TASK: Call browser_run_code EXACTLY ONCE with the script below. Return complete JSON. Stop.
 
 Call mcp__playwright-impact-rockbros-us__browser_run_code with:
 code: {SCRIPT}
@@ -187,64 +189,67 @@ Output the complete raw JSON as your ONLY message:
   "errorCount": <n>,
   "publishers": [{
     "name":"...", "partner_id":"...", "status":"...", "partner_size":"...", "business_model":"...",
-    "description":"...", "contact_name":"...", "contact_role":"...", "contact_email":"...",
+    "description":"...",
+    "contact_name":"...", "contact_role":"Marketplace Contact", "contact_email":"...",
+    "all_contacts":[{"name":"...","role":"...","email":"...","initials":"..."}],
     "language":"...", "promotional_areas":[], "corporate_address":"...",
-    "content_categories":[], "legacy_categories":[], "tags":[],
-    "media_kit_urls":[], "currency":"...",
-    "website":"...", "learn_more_url":"...", "social_properties":[], "verified":null,
+    "content_categories":[], "legacy_categories":[], "legacy_categories_full":[],
+    "tags":[], "tags_full":[],
+    "media_kit_urls":[{"name":"...","url":"..."}], "media_kit_count":0,
+    "currency":"...", "website":"...", "learn_more_url":"...",
+    "social_properties":[{"url":"...","text":"..."}], "verified":null,
+    "semrush_global_rank":null, "monthly_visitors":null,
+    "moz_spam_score":null, "moz_domain_authority":null,
     "scraped_at":"...", "termVerified":true, "termText":"...", "dateVerified":true, "proposal_sent":true
   }],
   "errors": []
 }
 
 HARD RULES:
-- EXACTLY 1 tool call — browser_run_code only. Zero others.
-- Do NOT read files. Do NOT snapshot. Do NOT navigate. Do NOT browser_evaluate.
-- The script scrapes ALL publisher intel AND sends proposals. It is self-contained.
-- Return the COMPLETE JSON including all 20+ fields per publisher.
-- If browser_run_code errors: {"tab":{tab_num},"total":0,"errorCount":1,"publishers":[],"errors":["run_code_failed"]}
+- EXACTLY 1 tool call — browser_run_code only.
+- Do NOT snapshot. Do NOT navigate. Do NOT browser_evaluate.
+- Return ALL fields including contact_name, contact_email, all_contacts.
+- contact_email = null if Properties tab failed to load — never omit the field.
+- If errors: {"tab":{tab_num},"total":0,"errorCount":1,"publishers":[],"errors":["run_code_failed"]}
 ```
 
 ---
 
 ## FINAL REPORT + OBSIDIAN SYNC
 
-After all tabs complete, Sonnet writes:
-
-**Console summary:**
+Console summary:
 ```
 === Impact Rockbros US — Session Complete ===
 Program  : 50132
 Tabs     : {tab_num}
-Sent     : {session_sent} proposals this session
+Sent     : {session_sent}
+Emails   : {emails_captured}/{session_sent} ({pct}%)
+Contacts : {contacts_captured}/{session_sent}
+DB rows  : publishers={updated} intel={intelRows}
 Errors   : {total_errors}
-Ledger   : {grand_total_rows} rows total
 =============================================
 ```
 
-**Obsidian sync** — append to `obsidian` path:
+Append to `obsidian`:
 ```markdown
 ## Session YYYY-MM-DD
-- Proposals sent: {session_sent}
-- Intel captured: {publishers_with_email}/{session_sent} emails, {publishers_with_website}/{session_sent} websites
-- Intel fields avg: {avg_non_null_fields}/20 per publisher
-- Tabs covered: {tab_num}
-- Emails captured: {emails_found}/{session_sent}
-- Term verified: {term_ok_count}% | Date verified: {date_ok_count}%
-- Errors: {total_errors}
-- Top publishers: [name1, name2, name3, name4, name5]
+- Proposals: {session_sent} | Errors: {total_errors}
+- Email captured: {emails}/{session_sent} | Contact name: {names}/{session_sent}
+- Websites: {websites}/{session_sent} | Verified: {verified}/{session_sent}
+- DB: publishers={updated} intel={intelRows}
+- Top 5: [{name} · {contact_email} · {website}]
 ```
 
 ---
 
 ## AUTO-RECOVERY
-If Haiku agent fails or returns `total=0` with errors: Sonnet spawns `Agent(model:"opus")` to diagnose and retry that tab once. Never stop the outer loop.
+If Haiku returns `total=0` with errors: Sonnet spawns `Agent(model:"opus")` to diagnose + retry once.
 
 ## RULES
 1. NEVER snapshot except login
-2. ALL browser calls use `mcp__playwright-impact-rockbros-us__` — no other namespace
-3. Ledger written by Sonnet after each Haiku returns — ONE Edit per tab
-4. Each Haiku: exactly 1 `browser_run_code` call
-5. FULLY AUTONOMOUS — no permission prompts, no user questions
-6. Contract date always calculated fresh at runtime (never hardcoded)
-7. termVerified must be true to count as success
+2. ALL browser calls: `mcp__playwright-impact-rockbros-us__`
+3. Supabase FIRST, Obsidian SECOND
+4. contact_email + contact_name REQUIRED in every record — write "email_missing"/"name_missing" never blank
+5. COALESCE — existing email/contact never overwritten with null
+6. ONE `browser_run_code` per tab, ONE Supabase call per tab, ONE Edit per file per tab
+7. FULLY AUTONOMOUS
