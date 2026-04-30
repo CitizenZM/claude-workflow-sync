@@ -66,31 +66,30 @@ async (page) => {
     await sleep(600);
   };
 
-  // Get screen coords of an a11y element via its accessible name/text
-  // Returns null if element not found or off-screen
+  // Get screen coords of a slideout tab using page.locator().boundingBox()
+  // This reads from Playwright's a11y tree — the ONLY way to get coords for React virtual DOM tabs.
+  // getBoundingClientRect() in evaluate() returns 0 for these elements.
   const getTabCoords = async (tabText) => {
-    // Tab buttons are in the a11y tree at fixed positions — scan the right panel area
-    return await page.evaluate((text) => {
-      // Walk all elements looking for one that contains exactly this text as a leaf node
-      for (const el of document.querySelectorAll('*')) {
-        if (el.children.length === 0 && el.textContent?.trim() === text) {
-          const r = el.getBoundingClientRect();
-          // Tab area: x > 820, y 80-220, has positive dimensions
-          if (r.x > 820 && r.y > 80 && r.y < 220 && r.width > 20 && r.height > 10) {
-            return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
-          }
-          // Also try parent if leaf is too small
-          const p = el.parentElement;
-          if (p) {
-            const pr = p.getBoundingClientRect();
-            if (pr.x > 820 && pr.y > 80 && pr.y < 220 && pr.width > 20) {
-              return { x: pr.x + pr.width / 2, y: pr.y + pr.height / 2 };
+    try {
+      // Find the tab locator — it's a [cursor=pointer] generic in the tab strip
+      // Filter to only ones in the right-panel area (x > 820) with matching text
+      const candidates = [
+        page.getByText(tabText, { exact: true }),
+        page.locator(`[cursor="pointer"]:has-text("${tabText}")`),
+      ];
+      for (const loc of candidates) {
+        try {
+          const count = await loc.count();
+          for (let i = 0; i < count; i++) {
+            const box = await loc.nth(i).boundingBox({ timeout: 600 });
+            if (box && box.x > 820 && box.y > 80 && box.y < 250 && box.width > 20) {
+              return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
             }
           }
-        }
+        } catch {}
       }
-      return null;
-    }, tabText);
+    } catch {}
+    return null;
   };
 
   // Expand a "+N more" overflow button by clicking it
@@ -232,42 +231,87 @@ async (page) => {
       await sleep(1000);
     }
 
-    // ── 3. CONTACTS SECTION ────────────────────────────────────────────────
-    // All contacts (there can be multiple)
+    // ── 3. CONTACTS SECTION (Properties tab only) ─────────────────────────
+    // Structure: Contacts heading → [Avatar initials] → contact name → role → Email label → email value
+    // ALL contact data is only visible on Properties tab — must be called after tab switch above.
     try {
       const emailRe = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/;
 
-      // Scan for email patterns first (most reliable)
-      const emailLocs = page.locator(`text=/${emailRe.source}/`);
+      // Strategy 1: Scan all visible text matching email pattern
+      const emailLocs = page.locator('text=/[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}/');
       const emailCount = await emailLocs.count();
       const emails = [];
-      for (let i = 0; i < Math.min(emailCount, 5); i++) {
+      for (let i = 0; i < Math.min(emailCount, 10); i++) {
         try {
           const t = (await emailLocs.nth(i).textContent({ timeout: 400 }))?.trim();
-          if (t && emailRe.test(t) && !emails.includes(t)) emails.push(t);
+          if (t && emailRe.test(t) && t.length < 80 && !emails.includes(t)) emails.push(t);
         } catch {}
       }
       pub.contact_email = emails[0] || null;
 
-      // Contact names near "Marketplace Contact" label
-      const mcLocs = page.getByText('Marketplace Contact', { exact: true });
-      const mcCount = await mcLocs.count();
-      for (let i = 0; i < Math.min(mcCount, 5); i++) {
-        try {
-          // Name is typically the sibling before the role label
-          const nameT = await safeText(page.getByText(/^[A-Z][a-z]+ [A-Z][a-z]+/).first(), 800);
-          if (nameT && !pub.all_contacts.find(c => c.name === nameT)) {
+      // Strategy 2: Find contacts by looking near the "Contacts" section heading
+      // The a11y tree shows: Contacts > {Avatar with initials} > {name} > {role} > Email > {email}
+      const contactsHeading = page.getByText('Contacts', { exact: true }).first();
+      if (await safeVisible(contactsHeading, 800)) {
+        // Find "Marketplace Contact" role labels — each one has a contact above it
+        const roleLocs = page.getByText('Marketplace Contact', { exact: true });
+        const roleCount = await roleLocs.count();
+
+        for (let i = 0; i < Math.min(roleCount, 5); i++) {
+          // Get the bounding box of this role label to find nearby name (above) and email (below)
+          const roleBox = await roleLocs.nth(i).boundingBox({ timeout: 600 }).catch(() => null);
+          if (!roleBox) continue;
+
+          // Name is typically the text element just above the role label (y is smaller)
+          // Look for "Firstname Lastname" pattern near the role
+          let contactName = null;
+          const namePattern = page.getByText(/^[A-Z][a-z]+ [A-Z][a-z]+/);
+          const nameCount = await namePattern.count();
+          for (let j = 0; j < Math.min(nameCount, 20); j++) {
+            try {
+              const box = await namePattern.nth(j).boundingBox({ timeout: 300 });
+              if (box && Math.abs(box.x - roleBox.x) < 100 &&
+                  box.y < roleBox.y && roleBox.y - box.y < 80) {
+                contactName = (await namePattern.nth(j).textContent({ timeout: 300 }))?.trim();
+                break;
+              }
+            } catch {}
+          }
+
+          // Email for this contact — near the role label
+          const contactEmail = emails[i] || null;
+
+          if (contactName || contactEmail) {
             pub.all_contacts.push({
-              name: nameT,
+              name: contactName,
               role: 'Marketplace Contact',
-              email: emails[i] || null,
-              initials: nameT.split(' ').map(p => p[0]).join(''),
+              email: contactEmail,
+              initials: contactName ? contactName.split(' ').map(p => p[0]).join('') : null,
             });
           }
-        } catch {}
+        }
       }
+
+      // Fallback: try any "Firstname Lastname" text near the slideout top
+      if (pub.all_contacts.length === 0 && pub.contact_email) {
+        const namePattern = page.getByText(/^[A-Z][a-z]+ [A-Z][a-z]+/);
+        const nameCount = await namePattern.count();
+        for (let j = 0; j < Math.min(nameCount, 10); j++) {
+          try {
+            const box = await namePattern.nth(j).boundingBox({ timeout: 300 });
+            if (box && box.x > 820) {
+              const t = (await namePattern.nth(j).textContent({ timeout: 300 }))?.trim();
+              if (t && t.length < 50 && !t.includes('LLC') && !t.includes('Inc')) {
+                pub.all_contacts.push({ name: t, role: 'Marketplace Contact', email: pub.contact_email, initials: t.split(' ').map(p => p[0]).join('') });
+                break;
+              }
+            }
+          } catch {}
+        }
+      }
+
       pub.contact_name = pub.all_contacts[0]?.name || null;
-      pub.contact_role = pub.all_contacts[0]?.role || 'Marketplace Contact';
+      pub.contact_role = pub.all_contacts[0]?.role || null;
       if (!pub.contact_email && pub.all_contacts[0]?.email) {
         pub.contact_email = pub.all_contacts[0].email;
       }
@@ -498,28 +542,109 @@ async (page) => {
       if (notVerifiedVisible) pub.verified = false;
       else if (verifiedVisible) pub.verified = true;
 
-      // Web metrics — Semrush/Moz data (only present when property is verified & authenticated)
+      // Web metrics + all verified properties
+      // Details tab shows per-property cards: URL, Semrush rank, Monthly visitors, Moz spam, Moz DA, Verified
+      // There can be multiple property cards (e.g. People Inc has 14+)
       try {
-        const semrushLabel = page.getByText('Semrush global rank', { exact: true }).first();
-        if (await safeVisible(semrushLabel, 500)) {
-          // Value is the sibling text after the label
-          pub.semrush_global_rank = await safeText(page.getByText(/^\d+(\.\d+)?[KMB]?$/).first(), 600);
+        // Collect all property cards — each has a link + optional metrics
+        const allLinks = page.getByRole('link');
+        const linkCount = await allLinks.count();
+        const propCards = [];
+        for (let i = 0; i < Math.min(linkCount, 20); i++) {
+          try {
+            const href = await safeAttr(allLinks.nth(i), 'href', 400);
+            if (!href || href.includes('impact.com')) continue;
+            const linkText = await safeText(allLinks.nth(i), 400);
+            const box = await allLinks.nth(i).boundingBox({ timeout: 400 }).catch(() => null);
+            if (box) propCards.push({ url: href, text: linkText, box });
+          } catch {}
         }
-        const visitorsLabel = page.getByText('Monthly visitors', { exact: true }).first();
-        if (await safeVisible(visitorsLabel, 400)) {
-          pub.monthly_visitors = await safeText(page.getByText(/^\d+(\.\d+)?[MKB]$/).first(), 600);
+
+        // For each property card, try to read its metrics (from sibling elements)
+        // Use first property's metrics as the primary semrush/moz values
+        const semrushLocs = page.getByText('Semrush global rank', { exact: true });
+        const semCount = await semrushLocs.count();
+
+        if (semCount > 0) {
+          // Get the value after first "Semrush global rank" label
+          const semBox = await semrushLocs.first().boundingBox({ timeout: 400 }).catch(() => null);
+          if (semBox) {
+            // Value is typically the next sibling text at same x, slightly below
+            const valLoc = page.locator(`text=/^\\d+(\\.\\d+)?[KMB]?K?$/`);
+            const valCount = await valLoc.count();
+            for (let i = 0; i < Math.min(valCount, 10); i++) {
+              try {
+                const vBox = await valLoc.nth(i).boundingBox({ timeout: 300 });
+                if (vBox && Math.abs(vBox.x - semBox.x) < 200 && vBox.y > semBox.y && vBox.y - semBox.y < 60) {
+                  pub.semrush_global_rank = (await valLoc.nth(i).textContent({ timeout: 300 }))?.trim();
+                  break;
+                }
+              } catch {}
+            }
+          }
         }
-        const mozSpam = page.getByText('Moz spam score', { exact: true }).first();
-        if (await safeVisible(mozSpam, 400)) {
-          // Spam score is a small number 0-17
-          const spamVal = await safeText(page.getByText(/^\d{1,2}$/).first(), 600);
-          pub.moz_spam_score = spamVal;
+
+        // Monthly visitors
+        const mvLocs = page.getByText('Monthly visitors', { exact: true });
+        if (await safeVisible(mvLocs.first(), 400)) {
+          const mvBox = await mvLocs.first().boundingBox({ timeout: 400 }).catch(() => null);
+          if (mvBox) {
+            const valLoc = page.locator(`text=/^\\d+(\\.\\d+)?[MKB]$/`);
+            const valCount = await valLoc.count();
+            for (let i = 0; i < Math.min(valCount, 10); i++) {
+              try {
+                const vBox = await valLoc.nth(i).boundingBox({ timeout: 300 });
+                if (vBox && Math.abs(vBox.x - mvBox.x) < 200 && vBox.y > mvBox.y && vBox.y - mvBox.y < 60) {
+                  pub.monthly_visitors = (await valLoc.nth(i).textContent({ timeout: 300 }))?.trim();
+                  break;
+                }
+              } catch {}
+            }
+          }
         }
-        const mozDA = page.getByText('Moz domain authority', { exact: true }).first();
-        if (await safeVisible(mozDA, 400)) {
-          // DA is 0-100
-          const daVal = await safeText(page.getByText(/^\d{2,3}$/).first(), 600);
-          pub.moz_domain_authority = daVal;
+
+        // Moz spam score (0-17 range)
+        const spamLocs = page.getByText('Moz spam score', { exact: true });
+        if (await safeVisible(spamLocs.first(), 400)) {
+          const spamBox = await spamLocs.first().boundingBox({ timeout: 400 }).catch(() => null);
+          if (spamBox) {
+            const valLoc = page.locator('text=/^\\d{1,2}$/');
+            const valCount = await valLoc.count();
+            for (let i = 0; i < Math.min(valCount, 20); i++) {
+              try {
+                const vBox = await valLoc.nth(i).boundingBox({ timeout: 300 });
+                if (vBox && Math.abs(vBox.x - spamBox.x) < 200 && vBox.y > spamBox.y && vBox.y - spamBox.y < 60) {
+                  pub.moz_spam_score = (await valLoc.nth(i).textContent({ timeout: 300 }))?.trim();
+                  break;
+                }
+              } catch {}
+            }
+          }
+        }
+
+        // Moz domain authority (0-100)
+        const daLocs = page.getByText('Moz domain authority', { exact: true });
+        if (await safeVisible(daLocs.first(), 400)) {
+          const daBox = await daLocs.first().boundingBox({ timeout: 400 }).catch(() => null);
+          if (daBox) {
+            const valLoc = page.locator('text=/^\\d{2,3}$/');
+            const valCount = await valLoc.count();
+            for (let i = 0; i < Math.min(valCount, 20); i++) {
+              try {
+                const vBox = await valLoc.nth(i).boundingBox({ timeout: 300 });
+                if (vBox && Math.abs(vBox.x - daBox.x) < 200 && vBox.y > daBox.y && vBox.y - daBox.y < 60) {
+                  pub.moz_domain_authority = (await valLoc.nth(i).textContent({ timeout: 300 }))?.trim();
+                  break;
+                }
+              } catch {}
+            }
+          }
+        }
+
+        // Store all property URLs in social_properties
+        if (propCards.length > 0) {
+          pub.social_properties = propCards.map(p => ({ url: p.url, text: p.text }));
+          pub.website = propCards[0]?.url || null;
         }
       } catch {}
 
