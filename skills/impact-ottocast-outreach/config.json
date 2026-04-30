@@ -1,0 +1,14 @@
+{
+  "program_id": "OTTOCAST_PROGRAM_ID_PLACEHOLDER",
+  "advertiser": "ottocast-us",
+  "msg": "Hi, this is Bob Zabel reaching out from Ottocast. We are offering competitive commission rates on premium auto tech products. Reply here or email affiliate@celldigital.co to chat in detail.",
+  "cdp_port": 9304,
+  "vault_dir": "/Users/xiaozuo/Documents/Obsidian Vault/01-Projects",
+  "business_models": ["CONTENT_REVIEWS", "DEAL_COUPON", "EMAIL_NEWSLETTER", "LOYALTY_REWARDS", "NETWORK"],
+  "size_filter": "medium,large,extra_large",
+  "credentials": {
+    "login": "affiliate@celldigital.co",
+    "password_ref": "~/.claude/credentials.json:impact_celldigital"
+  },
+  "_note": "Update program_id with Ottocast's actual Impact program ID"
+}

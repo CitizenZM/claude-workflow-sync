@@ -1,0 +1,13 @@
+{
+  "program_id": "50132",
+  "advertiser": "rockbros-us",
+  "msg": "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample.",
+  "cdp_port": 9306,
+  "vault_dir": "/Users/xiaozuo/Documents/Obsidian Vault/01-Projects",
+  "business_models": ["CONTENT_REVIEWS", "DEAL_COUPON", "EMAIL_NEWSLETTER", "LOYALTY_REWARDS", "NETWORK"],
+  "size_filter": "medium,large,extra_large",
+  "credentials": {
+    "login": "affiliate@celldigital.co",
+    "password_ref": "~/.claude/credentials.json:impact_celldigital"
+  }
+}
