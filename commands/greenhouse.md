@@ -1,127 +1,162 @@
 ---
-description: "Greenhouse.io Jobs — Full workflow. Sonnet login+queue → Sonnet apply loop → Haiku report. No manual model switch. Usage: /greenhouse [job_title_filter]"
+description: "Greenhouse.io Jobs — One-command full workflow (setup + apply + report). Sonnet end-to-end. Max 2 jobs per run, then context refresh. Usage: /greenhouse [job_title_filter]"
 model: sonnet
 ---
 
-# Greenhouse — Unified Job Application Workflow
+## MODEL GATE — MANDATORY FIRST CHECK
+This command REQUIRES model: **sonnet**. Before doing ANY work, check your current model. If you are running on Opus, STOP IMMEDIATELY and tell the user: "Wrong model. This command requires Sonnet. Run `/model sonnet` then re-run `/greenhouse`." Do NOT proceed on Opus — it wastes 5-10x credits.
 
-**Harness**: Sonnet (Phase 1: login + queue) → Sonnet subagent (Phase 2: apply loop) → Haiku subagent (Phase 3: report)
-**Fully autonomous**: no stops, no model-switch prompts, no user questions
+# Greenhouse — Unified One-Command Workflow
 
----
+Single autonomous run: login + queue build + apply (max 2 jobs) + report. No separate `/greenhouse-setup` then `/greenhouse-apply` step. Fully autonomous — no confirmation prompts, no model-switch prompts, no user questions (except CAPTCHA).
 
-## CONFIG
-```
-filter    : $ARGUMENTS (optional job title keyword, e.g. "Marketing Manager")
-ledger    : ~/greenhouse-ledger.md (create if missing)
-resume    : read from ~/.claude/skills/greenhouse-apply/resume/ or ask once
-scripts   : ~/.claude/skills/greenhouse-apply/scripts/
-```
+**Execution mode**: All Playwright MCP tools (`browser_navigate`, `browser_evaluate`, `browser_click`, `browser_type`, `browser_file_upload`, `browser_snapshot`) are pre-authorized. Token rule: NEVER use `browser_snapshot` except ONCE during initial selector discovery on login.
 
 ---
 
-## PHASE 1 — LOGIN + QUEUE BUILD (Sonnet)
+## CONFIG (canonical source: `~/.claude/skills/greenhouse-apply/SKILL.md`)
 
-### Step 1: Read Skills
-Read `~/.claude/skills/greenhouse-apply/` to understand available resume templates and apply scripts.
+```
+filter            : $ARGUMENTS (optional job title keyword, e.g. "Marketing Manager")
+BASE_URL          : https://my.greenhouse.io
+SEARCH_KEYWORDS   : ["marketing", "growth"]   (use $ARGUMENTS if provided)
+MIN_SALARY        : 160000
+MAX_PER_RUN       : 2
+LEDGER            : /Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md
+RESUME_DIR        : ~/Downloads/resumeandcoverletter/
+RESUME_TEMPLATE   : Barron_Zuo_Resume_Dialpad_HeadOfGrowth.docx
+SCRIPTS           : ~/.claude/skills/greenhouse-apply/scripts/
+```
+
+Personal info, identity questions (gender/race/auth/sponsorship/etc.), and DOM selectors come from `~/.claude/skills/greenhouse-apply/SKILL.md`. Read that file ONCE at start.
+
+---
+
+## PHASE 1 — SETUP (Login + Search + Queue)
+
+### Step 1: Read skill config
+Read `~/.claude/skills/greenhouse-apply/SKILL.md` to load all config values, identity answers, and DOM selectors.
 
 ### Step 2: Login
-Follow `~/.claude/skills/greenhouse-apply/` setup instructions exactly — navigate to Greenhouse, authenticate, land on job listings.
+1. `browser_navigate` to `https://my.greenhouse.io`
+2. ONE `browser_snapshot` allowed here for selector discovery if selectors fail
+3. `browser_type` email, `browser_click` continue, password as needed
+4. `browser_evaluate` to verify: `document.title` and `window.location.href`
 
-### Step 3: Build Job Queue
-Search for jobs matching filter (or "all" if no $ARGUMENTS).
-Build QUEUE = array of `{title, company, url, jobId}` objects for jobs not already in ledger.
-Print: `"✓ Queue: {N} new jobs to apply. Starting apply loop..."`
+### Step 3: Search jobs
+1. Use `SEARCH_KEYWORDS` (or `$ARGUMENTS` if provided)
+2. Read and run `~/.claude/skills/greenhouse-apply/scripts/search-jobs.js` via `browser_evaluate`
+3. Apply salary filter if UI exists; otherwise filter post-collection
 
----
+### Step 4: Build queue
+1. Read and run `~/.claude/skills/greenhouse-apply/scripts/extract-job-list.js` via `browser_evaluate`
+2. Paginate with `next-job-page.js` until 50 jobs collected or no more pages
+3. Drop jobs with visible salary < $160,000; keep jobs with no salary listed
+4. Read ledger at `LEDGER`; drop jobs whose `company|job_title` is already present
+5. Truncate queue to `MAX_PER_RUN` (2)
 
-## PHASE TRANSITION → Apply Loop
-
-**Immediately after Step 3 — do NOT pause.** Read ledger for dedup:
-```
-Read ~/greenhouse-ledger.md → ALREADY_APPLIED_IDS
-```
-
-Invoke Agent tool:
-- `model`: `"sonnet"`
-- `description`: `"Greenhouse apply loop — {N} jobs"`
-- `prompt`: PHASE 2 SUBAGENT PROMPT below with QUEUE and ALREADY_APPLIED_IDS filled in
+Print: `"Queue ready: {N} new jobs (capped at 2). Beginning apply loop..."`
 
 ---
 
-## PHASE 2 SUBAGENT PROMPT
+## PHASE 2 — APPLY LOOP (max 2 jobs)
 
+For each job in the truncated queue:
+
+### Step A: Extract JD
+1. `browser_navigate` to job URL
+2. Read and run `~/.claude/skills/greenhouse-apply/scripts/extract-jd.js` via `browser_evaluate`
+3. Capture: title, company, salary, location, full JD text
+4. If salary visible and < $160,000, SKIP and log
+
+### Step B: Generate tailored resume + cover letter (Sonnet)
+Follow the resume rules in `~/.claude/skills/greenhouse-apply/SKILL.md` "Resume Generation Instructions":
+- Deep JD analysis → extract every requirement, keyword, metric
+- Mirror JD language in Executive Summary
+- Expand Alibaba / Next2Market / Indiegogo bullets to map JD requirements (power verbs + quantified results)
+- NO China locations; replace undergrad with "National University of Singapore — Bachelor of Arts in Economics (International)"
+- Resume EXACTLY 2 pages; cover letter EXACTLY 1 page
+
+Save as `.docx` via `generate-resume.py`:
+```bash
+python3 ~/.claude/skills/greenhouse-apply/scripts/generate-resume.py \
+  --type resume \
+  --template ~/Downloads/resumeandcoverletter/Barron_Zuo_Resume_Dialpad_HeadOfGrowth.docx \
+  --content '<resume_json>' \
+  --output ~/Downloads/resumeandcoverletter/Barron_Zuo_{Company}_{JobTitle}_Resume.docx
+
+python3 ~/.claude/skills/greenhouse-apply/scripts/generate-resume.py \
+  --type cover_letter \
+  --template ~/Downloads/resumeandcoverletter/Barron_Zuo_Cover_Letter_Dialpad_HeadOfGrowth.docx \
+  --content '<cover_letter_json>' \
+  --output ~/Downloads/resumeandcoverletter/Barron_Zuo_{Company}_{JobTitle}_Cover_Letter.docx
 ```
-You are the Greenhouse job application agent running on Sonnet.
-Apply to each job in the queue with a tailored resume and cover letter.
 
-QUEUE={QUEUE_JSON}
-already_applied={ALREADY_APPLIED_IDS}
-ledger=~/greenhouse-ledger.md
-scripts=~/.claude/skills/greenhouse-apply/scripts/
+Verify both files exist with `ls` before upload.
 
-## FOR EACH JOB in QUEUE:
-1. Navigate to job URL
-2. Read job description carefully
-3. Tailor resume and cover letter to match JD keywords and requirements
-4. Fill application form using ~/.claude/skills/greenhouse-apply/ apply instructions
-5. Submit application
-6. Append to ledger: jobId|company|title|YYYY-MM-DD|applied
-7. Print: "✓ Applied: {title} at {company}"
+### Step C: Open application form
+`browser_navigate` to the apply URL (or `browser_click` Apply button).
 
-## After all jobs complete, return a JSON summary:
-{
-  "applied": [{title, company, jobId, date}],
-  "skipped": [{title, company, reason}],
-  "errors": [{title, company, error}]
-}
+### Step D: Fill form
+1. Read and run `~/.claude/skills/greenhouse-apply/scripts/fill-application-form.js` via `browser_evaluate`, injecting PERSONAL_INFO from SKILL.md
+2. Review `unknown` fields; fill from identity answers in SKILL.md or reasoned defaults
+3. Use `browser_type` / `browser_evaluate` for any leftover fields
 
-## RULES
-1. Tailor every application — no generic submissions
-2. Record every attempt to ledger (success or fail)
-3. FULLY AUTONOMOUS — no stops, no questions
+### Step E: Upload resume + cover letter
+1. Run `upload-file.js` with `FILE_TYPE='resume'`, then `browser_file_upload` with the generated resume path
+2. Run `upload-file.js` with `FILE_TYPE='cover_letter'`, then `browser_file_upload` with the generated cover letter path
+
+### Step F: Submit
+1. Read and run `~/.claude/skills/greenhouse-apply/scripts/submit-application.js` via `browser_evaluate`
+2. On validation error, fix flagged fields and retry ONCE
+3. On success, capture confirmation
+
+### Step G: Append to ledger
+Append one line to `LEDGER`:
 ```
+{company}|{job_title}|{job_id}|{YYYY-MM-DD}|submitted|{resume_filename}|{cover_letter_filename}
+```
+
+### Step H: Context cleanup
+Forget JD text and resume/CL content. Retain only ledger state and remaining queue.
+
+Print: `"Applied: {title} at {company}"`
 
 ---
 
-## PHASE TRANSITION → Report
+## PHASE 3 — REPORT
 
-After Phase 2 subagent returns, immediately invoke Agent tool:
-- `model`: `"haiku"`
-- `description`: `"Greenhouse application report"`
-- `prompt`: PHASE 3 SUBAGENT PROMPT below with Phase 2 results filled in
-
----
-
-## PHASE 3 SUBAGENT PROMPT
+After 2 jobs (or queue exhausted), generate inline report:
 
 ```
-You are the Greenhouse report agent running on Haiku.
-Generate a clean application session report.
-
-SESSION_RESULTS={PHASE2_RESULT_JSON}
-ledger=~/greenhouse-ledger.md
-
-## Read ledger, count total all-time applications.
-
-## Generate report:
-
 === Greenhouse — Session Complete ===
 Date:       {today}
-Model:      sonnet (apply) → haiku (report)
-Applied:    {applied_count} jobs
-Skipped:    {skipped_count}
+Model:      sonnet (end-to-end)
+Applied:    {applied_count} jobs (max 2/run)
+Skipped:    {skipped_count}  (reasons: {salary | dedup | error})
 Errors:     {error_count}
 Ledger:     {grand_total} total all-time
 
 Applied this session:
-{table: title | company | date}
+| Title | Company | Job ID | Date |
+|-------|---------|--------|------|
+| ...   | ...     | ...    | ...  |
 
-Next run: /greenhouse [filter]
+Resume/CL files saved to: ~/Downloads/resumeandcoverletter/
+
+Context refresh needed. Run `/greenhouse [filter]` again to continue with the next batch of 2.
 =====================================
 ```
 
 ---
 
-## POST-SUBAGENT (Sonnet)
-Print Phase 3 report verbatim.
+## RULES
+
+1. **Fully autonomous**: never pause for permission. CAPTCHA is the only stop condition.
+2. **Token discipline**: ONE `browser_snapshot` max (login selector discovery). Everything else via `browser_evaluate`.
+3. **Hard cap 2 jobs per invocation** — prevents context bloat from accumulated JD/resume content.
+4. **Tailor every application** — no generic resumes, no generic cover letters.
+5. **Dedup before applying** — re-check ledger inside apply loop, not just setup.
+6. **Record every attempt** to ledger (success, skip, or error).
+7. **Auto-retry up to 3 times** on transient errors. After 3 consecutive failures on the same job, skip it and continue.
+8. **No model switching** — Sonnet handles the entire run.
