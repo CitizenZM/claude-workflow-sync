@@ -410,41 +410,71 @@ async function sendProposal(page) {
   }
   await sleep(2500);
 
-  // I understand confirmation
+  // ── STRICT 2-STAGE SEND VERIFICATION ─────────────────────────────────────
+  // Stage 1: Confirm submit was accepted — "I understand" confirmation dialog
+  //          MUST appear inside the iframe. This proves Impact accepted the form.
+  // Stage 2: Click "I understand" — modal MUST disappear from DOM.
+  //          This proves the proposal was finalized and recorded by Impact.
+  // No fallbacks to true. Any failure = not sent.
   let sent = false;
-  try {
-    await propFrame.evaluate(() => {
-      const b = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'I understand');
-      if (b) b.click();
-    });
-    await sleep(2500);
-    sent = await page.evaluate(() => {
-      const iframes = Array.from(document.querySelectorAll('iframe[data-testid="uicl-modal-iframe-content"],iframe[src*="proposal"]'));
-      const visible = iframes.filter(f => { const r = f.getBoundingClientRect(); return r.width > 200 && r.height > 100; });
-      return visible.length === 0;
-    }).catch(()=>true);
-    if (!sent) {
-      // Try clicking I understand one more time
-      await propFrame.evaluate(() => {
-        const b = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'I understand');
-        if (b) b.click();
-      }).catch(()=>{});
-      await sleep(1500);
-      // Re-check — don't assume success
-      sent = await page.evaluate(() => {
-        const iframes = Array.from(document.querySelectorAll('iframe[data-testid="uicl-modal-iframe-content"],iframe[src*="proposal"]'));
-        const visible = iframes.filter(f => { const r = f.getBoundingClientRect(); return r.width > 200 && r.height > 100; });
-        return visible.length === 0;
-      }).catch(()=>false);
-    }
-  } catch {
-    // Don't auto-confirm on exception — check iframe state instead
-    sent = await page.evaluate(() => {
+  let confirmReason = 'not-attempted';
+
+  // Stage 1: Wait for "I understand" to appear (up to 4s)
+  let iUnderstandVisible = false;
+  for (let attempt = 0; attempt < 8; attempt++) {
+    await sleep(500);
+    iUnderstandVisible = await propFrame.evaluate(() => {
+      const isVis = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
+      const btn = Array.from(document.querySelectorAll('button')).find(b =>
+        b.textContent.trim() === 'I understand' && isVis(b)
+      );
+      return !!btn;
+    }).catch(() => false);
+    if (iUnderstandVisible) break;
+  }
+
+  if (!iUnderstandVisible) {
+    // Submit was not accepted by Impact — check if form shows error
+    const formError = await propFrame.evaluate(() => {
+      const body = document.body?.innerText || '';
+      const hasError = /required|please|invalid|error/i.test(body);
+      const btns = Array.from(document.querySelectorAll('button')).filter(b=>b.getBoundingClientRect().width>0).map(b=>b.textContent.trim());
+      return {hasError, btns: btns.slice(0,5), bodySnippet: body.slice(0,100)};
+    }).catch(() => ({hasError:false, btns:[], bodySnippet:'frame-gone'}));
+    confirmReason = `no-i-understand: ${JSON.stringify(formError)}`;
+    return { ok: false, reason: confirmReason, termText, termVerified: termOk, dateVerified: dateOk, urlData };
+  }
+
+  // Stage 2: Click "I understand" and verify modal disappears from DOM
+  await propFrame.evaluate(() => {
+    const btn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.trim() === 'I understand');
+    if (btn) btn.click();
+  }).catch(() => {});
+  await sleep(2500);
+
+  // Check modal is completely gone from DOM (not just hidden)
+  const modalGone = await page.evaluate(() => {
+    const f = document.querySelector('iframe[data-testid="uicl-modal-iframe-content"]');
+    return !f; // must be removed from DOM entirely
+  }).catch(() => false);
+
+  if (modalGone) {
+    sent = true;
+    confirmReason = 'modal-removed-from-dom';
+  } else {
+    // Modal still in DOM — check if it's at least invisible (some browsers keep it)
+    const modalInvisible = await page.evaluate(() => {
       const f = document.querySelector('iframe[data-testid="uicl-modal-iframe-content"]');
-      const r = f?.getBoundingClientRect();
-      return !f || !r || r.width < 100;
-    }).catch(()=>false);
-    await sleep(1000);
+      if (!f) return true;
+      const r = f.getBoundingClientRect();
+      return r.width < 10 || r.height < 10;
+    }).catch(() => false);
+    if (modalInvisible) {
+      sent = true;
+      confirmReason = 'modal-invisible';
+    } else {
+      confirmReason = 'modal-still-visible-after-i-understand';
+    }
   }
 
   return { ok: sent, reason: sent ? 'sent' : 'submit-fail', termText, termVerified: termOk, dateVerified: dateOk, urlData };
