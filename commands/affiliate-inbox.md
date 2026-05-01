@@ -1,269 +1,248 @@
 ---
 name: affiliate-inbox
-description: Affiliate inbox reply drafter — checks affiliate@celldigital.co for unreplied threads, drafts or sends strategic replies via Mail.app (fully threaded), and emails a summary report to barronzuo@gmail.com. Usage: /affiliate-inbox [72h for catch-up]
-version: 2.1-applescript
+description: Affiliate inbox triage for affiliate@celldigital.co. Scans unreplied threads, flags sensitive ones, drafts strategic replies (brand-aware, language-aware), reports to barronzuo@gmail.com. Usage: /affiliate-inbox [window=24h|72h|7d|21d]
+version: 3.0
 ---
 
-# Affiliate Inbox Reply Drafter v2.1 — AppleScript Edition
+# Affiliate Inbox v3.0
 
-**Account:** affiliate@celldigital.co | **CC always:** affiliate@xark.io | **Report to:** barronzuo@gmail.com
-**Default scan window:** 24h (pass `72h` as argument for weekend catch-up)
-
----
-
-## RATE FLOORS — hard limits, never negotiate below without human approval
-
-| Scenario | Floor | Flag if exceeded |
-|---|---|---|
-| Standard commission | 5% | Flag if partner requests >10% |
-| Performance uplift tier | 8% | Flag if >12% |
-| Exclusivity | Never agree upfront | Always FLAG |
-| Product seeding | Tie to content plan | Flag if >3 units requested |
+**Account:** affiliate@celldigital.co · **CC always:** affiliate@xark.io · **Report to:** barronzuo@gmail.com · **Sign:** CellDigital Affiliate Team
 
 ---
 
-## TOOL ROUTING
+## BRAND ROUTER
 
-- **Gmail MCP** (`search_threads`, `get_thread`, `list_drafts`, `create_draft`) → discovery, reading, report draft
-- **Bash/osascript** → all reply creation: `reply without opening window` + CC + `send` or `save`
-- **SEND types** (ONBOARD, INFO): Mail.app `send` — instant, fully threaded in sent mail
-- **DRAFT types** (NEGOTIATE, SEED, MEETING, FOLLOWUP): Mail.app `save` — lands in Gmail Drafts, threaded when Barron sends
-- **FLAG / SPAM**: no email, report only
+Detect brand from subject keywords (case-insensitive). Apply brand-specific commission floor and assets.
+
+| Brand | Subject keywords | Floor | Uplift @ $X GMV | Network | Asset note |
+|---|---|---|---|---|---|
+| TCL | TCL, TTE, TCL US | 5% | 8% @ $5K/mo | Impact | Product feed available via Impact |
+| OUFER | OUFER, body jewelry, oufer | 8% | 10% @ $2K/mo | Awin | Banner pack + coupon feed via Awin |
+| ROCKBROS | ROCKBROS, Rockbros, Yiwu Rock | 6% | 9% @ $3K/mo | Awin | Product feed (CSV) on Awin |
+| COSORI | Cosori | 5% | 8% @ $5K/mo | Impact | Brand assets in Impact |
+| INSTA360 | Insta360, Insta 360 | 4% | 6% @ $10K/mo | Impact | Co-op video assets on request |
+| LEVOIT | Levoit | 5% | 7% @ $5K/mo | Impact + Levanta | Routed to brand team for sample requests |
+| SEGWAY | Segway, Segway-Ninebot | 4% | 6% @ $10K/mo | Impact + AvantLink | Premium-tier assets |
+| SMART4U | Smart4u, LIVALL | — | — | — | **FLAG always** — operational/access issues |
+| (unknown) | none match | 5% | 8% @ $5K/mo | (ask) | Generic onboarding |
 
 ---
 
-## STEP 0 — Pre-flight (ABORT if any check fails)
+## TRIGGER GUARD — FLAG only, no draft
 
-Run this osascript. If it fails or returns wrong accounts, create a failure report draft to barronzuo@gmail.com and STOP.
+Evaluate in this order. Match → FLAG, skip drafting, log reason in report.
 
+1. **TCL domain sender** — `@tcl.com @tte.com @tclusa.com @tclelectronics.com @tpv.com @tclresearch.com @tclcom.com @tta.com`. Also `@alibaba-inc.com` if subject/body mentions TCL.
+2. **Financial** — invoice, payment not received, past due, billing, overdue, balance due, remittance, refund, charge reversal, special pricing, distributor pricing, wholesale, payment failed, fee waiver, pricing request
+3. **Legal** — legal, compliance, GDPR, data compliance, privacy policy, attorney, counsel, "please advise", cease and desist, trademark, IP infringement, dispute, liability, lawsuit, "on behalf of"
+4. **Contract** — contract, contract terms, agreement, terms and conditions, signed agreement, NDA, non-disclosure, SOW, statement of work, master service, addendum, amendment, renewal, "please sign", DocuSign
+5. **Fee confirmation** — flat fee, placement fee, sponsored fee, guaranteed fee, upfront payment, media buy, "confirm the fee", "invoice attached", "payment confirmation", "fee structure", "pay $", "wire transfer"
+6. **Commission conflicts** — two rates conflict in same thread; sender quotes higher rate than contract; "email states / proposal shows / promised / agreed to" + %; commission > 8% requested; "exception / just for you / special rate / custom rate" + %
+
+---
+
+## EXECUTION FLOW
+
+### Step 0 — Pre-flight (single osascript)
 ```bash
 osascript -e 'tell application "Mail"
-  set accts to name of every account
-  if accts contains "affiliate@celldigital.co" and accts contains "affiliate@xark.io" then
-    return "PREFLIGHT_OK"
-  else
-    return "PREFLIGHT_FAIL: accounts=" & (accts as string)
-  end if
+  set a to name of every account
+  if a contains "affiliate@celldigital.co" and a contains "affiliate@xark.io" then return "OK"
+  return "FAIL: " & (a as string)
 end tell'
 ```
+If not `OK` → draft failure email to barronzuo@gmail.com via Gmail MCP, ABORT.
 
-Also call `list_drafts` once now and cache all draft thread IDs + subjects. Do NOT call list_drafts again per-thread.
+### Step 1 — Build draft cache (single Gmail MCP call)
+Call `list_drafts` with pageSize 50. If output is large, save to file and parse with python. Extract `(recipient_email, subject)` pairs only. Discard bodies.
 
----
-
-## STEP 1 — Discover unreplied threads
-
-Call `search_threads` with:
+### Step 2 — Scan inbox
+Call `search_threads` with `pageSize: 50`:
 ```
-query: in:inbox newer_than:24h
+in:inbox newer_than:{window} -category:promotions -category:updates -category:social -category:forums
 ```
-*(Use `newer_than:72h` if catch-up mode was requested.)*
+Window default `24h`; arg `72h` for weekend, `7d` weekly, `21d` deep scan. Paginate via `nextPageToken` if results == 50.
 
-For each result, call `get_thread` (messageFormat: FULL_CONTENT) and apply this filter:
+### Step 3 — Filter (no get_thread yet — use snippets)
+For each thread, work with the message metadata returned by search_threads (sender, subject, date, snippet, toRecipients). Decide:
 
-| Condition | Action |
+| Signal in snippet/metadata | Action |
 |---|---|
-| Most recent message sent FROM affiliate@celldigital.co | Skip — already replied |
-| Thread has a draft in the cached list (subject match or thread ID match) created within 3 days | Skip — draft pending |
-| Thread has a draft older than 3 days | Queue as FOLLOWUP type |
-| Most recent message sent TO affiliate@celldigital.co, no draft | ✅ Queue for reply |
+| Sender contains `affiliate@celldigital.co`, `affiliate@xark.io`, or last-message-from-us | **SKIP — replied** |
+| Subject + recipient match an entry in draft cache (within 3d) | **SKIP — drafted** |
+| Subject + recipient match draft cache (older than 3d) | Queue as **FOLLOWUP** |
+| Sender domain in: `aliexpress.com`, `noreply@*`, `mailer-daemon@*`, `notifications@*`, `account-updates@*`, calendar invites from `barronzuo@gmail.com`, internal `lillian.li@celldigital.co` etc. | **SKIP — noise** |
+| Trigger Guard match (any of 1–6 above) | **FLAG** — log, no draft |
+| Otherwise | **QUEUE** for classification |
 
----
+### Step 4 — Classify queued threads (snippet-first)
+For most threads the snippet (≤200 chars) is enough. Only call `get_thread` (FULL_CONTENT) when:
+- Snippet is truncated mid-sentence and intent is unclear
+- Multiple messages in thread and you need history
+- Sender is tier-1 (Consumer Reports, major networks, >$1M/mo platforms) — confirm specifics
 
-## STEP 2 — Classify each queued thread
+Assign one type per thread:
 
-Extract from each thread:
-- Sender name, email, company/role (if visible)
-- Platform: Awin / Impact.com / Rakuten / CJ / ShareASale / Levanta / Direct
-- Publisher type: content creator / coupon / loyalty / sub-affiliate / media / unknown
-- What they want (1 sentence)
-- Negotiation stage: first contact / counter-offer / agreement / onboarding / complaint / follow-up
-- Numbers: commission %, EPC, order value, follower count, GMV
-- Urgency signals: deadlines, "urgent", "limited time"
-- Risk flags: vague sender, payment request, sensitive data ask
-
-**Assign one type:**
-
-| Type | Criteria | Action |
+| Type | Signal | Routing |
 |---|---|---|
-| `NEGOTIATE` | Commission rate, counter-offer, exclusivity | DRAFT via Mail.app |
-| `SEED` | Product sample / gifting request | DRAFT via Mail.app |
-| `ONBOARD` | Application status, how-to, platform setup | SEND via Mail.app |
-| `COMPLAINT` | Tracking issue, payment dispute | DRAFT via Mail.app |
-| `MEETING` | Explicit call/meeting request | DRAFT via Mail.app |
-| `FOLLOWUP` | Old draft (3+ days) or following up on silence | DRAFT via Mail.app |
-| `INFO` | General question, no negotiation | SEND via Mail.app |
-| `SPAM` | Unsolicited, vague, asks for payment | No email — report only |
-| `FLAG` | Contract, exclusivity, >10% commission, legal/human judgment | No email — report only |
+| ONBOARD | accepted invite, asking how-to, platform setup, status check | SEND via Mail.app |
+| INFO | general program question, no negotiation element | SEND via Mail.app |
+| NEGOTIATE | rate ask, counter-offer, exclusivity ask, large platform pitch | DRAFT via Mail.app |
+| SEED | sample/gifting request | DRAFT via Mail.app |
+| MEETING | explicit call/meeting/reschedule request | DRAFT via Mail.app |
+| FOLLOWUP | old draft 3+ days, or partner re-pinging us | DRAFT via Mail.app |
+| COMPLAINT | tracking/payment/dispute issue | DRAFT via Mail.app |
+| FLAG | trigger guard matched, ambiguous, or any rule conflict | No email — report only |
+| SPAM | unsolicited, payment ask, vague sender | No email — report only |
+
+### Step 5 — Draft body (use snippet bank below + brand router context)
+Pull first name from "Hi [Name]" pattern in thread, or from sender's display name, or fall back to no greeting (just "Hi,").
+
+Detect language from snippet:
+- German (DE) cues: "Hallo", "Vielen Dank", "Einladung", "Partnerprogramm" → reply in German
+- Italian (IT) cues: "Ciao", "Grazie", "ti ha invitato" → reply in Italian
+- Spanish (ES): "Hola", "Gracias" + Spanish grammar → reply in Spanish
+- French (FR): "Bonjour", "Merci" + French grammar → reply in French
+- Chinese (汉字 / 中文): always **FLAG** — likely internal/client escalation
+- Default: English
+
+Apply the snippet bank for the assigned type. Length: ≤150 words for ONBOARD/INFO; ≤200 words for NEGOTIATE/SEED/COMPLAINT.
+
+### Step 6 — Execute via Mail.app
+**SEND** (ONBOARD, INFO):
+```bash
+osascript -e 'tell application "Mail"
+  set m to first item of (messages of mailbox "INBOX" of account "affiliate@celldigital.co" whose sender contains "SENDER")
+  set r to reply m without opening window
+  tell r
+    set content to "BODY"
+    make new to recipient at end of cc recipients with properties {address:"affiliate@xark.io"}
+    send
+  end tell
+end tell'
+```
+Fallback if NOT_FOUND: Gmail MCP `create_draft`, log `draft_fallback` in report.
+
+**DRAFT** (NEGOTIATE, SEED, MEETING, FOLLOWUP, COMPLAINT):
+Use Gmail MCP `create_draft` directly (it's faster than AppleScript and the user reviews drafts in Gmail web anyway). Pass `to`, `cc:["affiliate@xark.io"]`, `subject:"Re: ORIGINAL"`, `body`.
+
+### Step 7 — Report draft (Gmail MCP create_draft)
+**To:** barronzuo@gmail.com
+**Subject:** `[Affiliate Reply Report] YYYY-MM-DD — N sent / N drafts / N flagged ({window})`
+**Body sections (markdown):** Sent, Drafts Saved, Flagged for Human Review (with reason + recommended action), Skipped, Errors, Next Recommended Action (1 sentence).
 
 ---
 
-## STEP 3 — Write the reply body
+## SNIPPET BANK — reply scaffolding
 
-**Tone:** Warm but businesslike. Confident. Forward-moving. Every email ends with a specific CTA.
-**Length:** Max 150 words for ONBOARD/INFO. Max 200 words for NEGOTIATE/SEED/COMPLAINT.
+Use these as the structural backbone. Customize the **bracketed slots** per thread. Every reply ends with the signature block.
 
-**Format:**
+### Signature (always)
 ```
-Hi [First Name],
-
-[Context acknowledgment — 1 sentence max]
-
-[Core reply — strategy-appropriate, 2-4 sentences]
-
-[CTA — specific question or proposed next step]
-
 Best,
 CellDigital Affiliate Team
 affiliate@celldigital.co
 ```
 
-**Strategy by type:**
+### ONBOARD — partner accepted invite / asking setup
+```
+Hi [Name],
 
-**NEGOTIATE:** Acknowledge ask without conceding. Anchor to 5%. Frame uplift: "once you hit $X GMV, we move you to Y%." Ask for their traffic/EPC stats to size the deal. Never say "exception" or "just for you." Flag with ⚠️ if they push above 10%.
+[Acknowledge their action — "great to have you onboard" / "thanks for accepting"].
 
-**SEED:** Don't commit yes/no. Ask for content plan: platform, posting schedule, estimated reach. CTA: "Send us your media kit or last 3 posts and we'll get you set up." Flag if >3 units.
+[1 sentence on what they need next — link, asset, or step]. We can turn around any [feed / banner / coupon code] within 24–48 hours.
 
-**ONBOARD:** Answer in 2-3 sentences. Provide the one link or one step they need. CTA: "Let me know once you're in and we'll confirm your tracking."
-
-**COMPLAINT:** Lead with empathy. Acknowledge the specific issue. State resolution path: "I'll check with our network team within 24h." CTA: ask for publisher ID / transaction ID.
-
-**MEETING:** Confirm enthusiasm. Propose 3 slots (prefer Tuesday/Thursday/Friday mornings PT). Format: "Tuesday May 6 at 9am PT / Thursday May 8 at 10am PT / Friday May 9 at 9am PT." State 30-min agenda. CTA: "Which works best? I'll send a calendar invite right after you confirm."
-
-**FOLLOWUP:** Warm re-engagement tone. Recap where the conversation was (1 sentence). Add new value hook (seasonal campaign, product launch). CTA: concrete next step.
-
-**INFO:** Answer directly. CTA: simple question to advance the relationship.
-
-**Hard rules — never include:**
-- Inventory commitments or pricing guarantees
-- Custom payment terms
-- "I'll make an exception" or "just for you"
-- Commission above 10% without ⚠️ FLAG
-
----
-
-## STEP 4 — Execute via Mail.app AppleScript
-
-Two proven patterns — use the correct one based on type.
-
-### Pattern A: SEND (ONBOARD, INFO) — reply + send, fully threaded in Sent Mail
-
-Find the original message in Mail.app by sender email, create a headless reply, and send immediately.
-
-```bash
-osascript << 'EOF'
-tell application "Mail"
-  set theAccount to account "affiliate@celldigital.co"
-  set senderEmail to "SENDER_EMAIL_HERE"
-  set subjectHint to "SUBJECT_SNIPPET_HERE"
-  set candidateMessages to (messages of mailbox "INBOX" of theAccount whose sender contains senderEmail)
-  if (count of candidateMessages) is 0 then
-    set candidateMessages to (messages of mailbox "INBOX" of theAccount whose subject contains subjectHint)
-  end if
-  if (count of candidateMessages) is 0 then return "NOT_FOUND: " & senderEmail
-  set theMsg to message 1 of candidateMessages
-  set theReply to reply theMsg without opening window
-  tell theReply
-    set content to "REPLY_BODY_HERE"
-    make new to recipient at end of cc recipients with properties {address:"affiliate@xark.io"}
-    send
-  end tell
-  return "SENT: " & senderEmail
-end tell
-EOF
+[CTA — what specific thing should they confirm or send?]
 ```
 
-### Pattern B: DRAFT (NEGOTIATE, SEED, MEETING, COMPLAINT, FOLLOWUP) — new outgoing message + save
+### INFO — general program question
+```
+Hi [Name],
 
-Creates a standalone draft in the Drafts folder with `Re:` prefix. Threading by subject is sufficient for Gmail conversation grouping when Barron sends it manually.
+[Direct answer, 1–2 sentences]. Standard [BRAND] terms: [Floor]% commission on confirmed sales, 30-day cookie, monthly payout via [Network]. [Mention uplift if relevant: "Performance tier kicks in at $X GMV/mo to Y%."]
 
-```bash
-osascript << 'EOF'
-tell application "Mail"
-  set theAccount to account "affiliate@celldigital.co"
-  set newDraft to make new outgoing message with properties {subject:"Re: ORIGINAL_SUBJECT_HERE", content:"REPLY_BODY_HERE", visible:false}
-  tell newDraft
-    make new to recipient at end of to recipients with properties {address:"SENDER_EMAIL_HERE"}
-    make new to recipient at end of cc recipients with properties {address:"affiliate@xark.io"}
-    save
-  end tell
-  return "DRAFT_SAVED: SENDER_EMAIL_HERE"
-end tell
-EOF
+[CTA — single forward-moving question]
 ```
 
-**Note on threading for drafts:** The draft has the correct `Re:` subject. When Barron opens it in Gmail Drafts and clicks Send, Gmail will thread it into the existing conversation by subject matching. No `In-Reply-To` header — adequate for affiliate email where conversational threading is not critical.
+### NEGOTIATE — rate ask / large platform / counter-offer
+```
+Hi [Name],
 
-**If osascript returns NOT_FOUND (Pattern A only):** fall back to Gmail MCP `create_draft` (standalone) and note fallback in the report.
+[Acknowledge interest WITHOUT conceding rate]. [Brand]'s sweet spot is [category fit].
 
----
+To size the right structure, can you share: [traffic / EPC / typical brand campaign metrics / redemption volume]? Standard rate is [Floor]%, with a performance uplift to [Tier]% once you hit $[X] GMV/mo.
 
-## STEP 5 — Log each action
-
-After each thread, record:
-
-```json
-{
-  "thread_id": "gmail_thread_id",
-  "sender": "name@domain.com",
-  "subject": "Re: Original Subject",
-  "type": "NEGOTIATE|SEED|ONBOARD|...",
-  "action": "sent|draft_saved|draft_fallback|skipped|flagged",
-  "timestamp": "ISO8601",
-  "flag_reason": null
-}
+[CTA — request the data point that will unlock the deal]
 ```
 
-If osascript fails: log error, continue to next thread. Never abort full session on a single failure.
-
----
-
-## STEP 6 — Summary report draft to barronzuo@gmail.com
-
-After all threads processed, call Gmail MCP `create_draft`:
-- **to:** barronzuo@gmail.com
-- **subject:** `[Affiliate Reply Report] YYYY-MM-DD — N sent | N drafts | N flagged`
-- **body:**
-
+### SEED — sample/gifting request
 ```
-Affiliate Inbox Report — {date} {time PT}
-Account: affiliate@celldigital.co
-Scan window: last 24h
-Threads scanned: N
+Hi [Name],
 
----
+Thanks for reaching out about samples — [niche fit, 1 sentence].
 
-✅ SENT DIRECTLY (N) — via Mail.app, fully threaded
-| Sender | Subject | Type | Strategy |
-|---|---|---|---|
+Before we send product, can you share [media kit / 3 recent posts / channel link + average views]? We want to match the right [BRAND] pieces to your audience.
 
----
-
-📋 DRAFTS SAVED (N) — in Drafts, threaded when you send
-| Sender | Subject | Type | Strategy |
-|---|---|---|---|
-
----
-
-⚠️ FLAGGED FOR HUMAN REVIEW (N)
-| Sender | Subject | Flag Reason | Recommended Action |
-|---|---|---|---|
-
----
-
-🚫 SKIPPED (N)
-| Sender | Subject | Reason |
-|---|---|---|
-
----
-
-❌ ERRORS (N)
-| Thread | Error | Fallback Used |
-|---|---|---|
-
----
-Next recommended action: [1-sentence suggested follow-up]
+[CTA — "Send those over and we'll get a package out within a week."]
 ```
+
+### MEETING — call request or reschedule
+```
+Hi [Name],
+
+[Confirm enthusiasm — "happy to connect" / "no worries on the reschedule"].
+
+I have availability **Tuesday May 6 at 9am PT / Thursday May 8 at 10am PT / Friday May 9 at 9am PT** for a 30-minute call to align on [specific topic from thread]. Which works best? I'll send the invite right after you confirm.
+```
+*(Update slot dates dynamically — pick next 3 Tue/Thu/Fri mornings PT from today's date.)*
+
+### FOLLOWUP — re-engage stale conversation
+```
+Hi [Name],
+
+Apologies for the delay on our end — [brief acknowledgment, no excuses].
+
+[Recap where the conversation left off — 1 sentence]. [New value hook — seasonal campaign, Q[N] launch, new product, expanded coverage].
+
+[CTA — concrete next step to re-open]
+```
+
+### COMPLAINT — tracking / payment / dispute
+```
+Hi [Name],
+
+Thanks for flagging — [acknowledge specific issue, no defensiveness].
+
+I'll check with our [network team / Impact / Awin] within 24h to investigate. To speed this up, can you send your [publisher ID / transaction ID / order date]?
+
+[CTA — "I'll come back with an update by [day]."]
+```
+
+---
+
+## LANGUAGE PACKS (quick scaffolds)
+
+**DE (German):**
+- Greeting: `Hallo [Name],`
+- Signature line above team: `Beste Grüße,`
+- Common phrases: "Vielen Dank für Ihre Nachricht", "Wir freuen uns auf die Zusammenarbeit"
+
+**IT (Italian):**
+- Greeting: `Ciao [Name],`
+- Signature: `Cordiali saluti,`
+- Common: "Grazie per il messaggio", "Restiamo in contatto"
+
+**ES (Spanish):**
+- Greeting: `Hola [Name],`
+- Signature: `Saludos,`
+- Common: "Gracias por contactarnos", "Quedamos a la espera"
+
+**FR (French):**
+- Greeting: `Bonjour [Name],`
+- Signature: `Cordialement,`
+- Common: "Merci pour votre message", "Au plaisir d'échanger"
+
+**ZH (Chinese):** Do NOT auto-reply. Always FLAG with reason "Chinese-language email — likely internal client escalation, route to Barron".
 
 ---
 
@@ -271,127 +250,41 @@ Next recommended action: [1-sentence suggested follow-up]
 
 | Failure | Response |
 |---|---|
-| Pre-flight fails (wrong account) | Draft failure report to barronzuo@gmail.com, ABORT |
-| osascript NOT_FOUND for a thread | Fall back to Gmail MCP create_draft, note in report |
-| osascript error on send/save | Log error, continue to next thread |
-| All osascript calls fail | Draft failure report to barronzuo@gmail.com |
-| Thread unreadable | Skip, log as error |
-| Ambiguous classification | Create DRAFT, add ⚠️ FLAG note in report |
+| Pre-flight FAIL | Gmail MCP create_draft to barronzuo@gmail.com with the failure message; ABORT |
+| `list_drafts` output > token limit | Save to file, extract subject+recipient via python; do not load full bodies |
+| `search_threads` output > token limit | Save to file, parse via python |
+| `get_thread` fails on a thread | Skip thread, log error, continue |
+| AppleScript NOT_FOUND for SEND | Fall back to Gmail MCP create_draft, mark as `draft_fallback` |
+| AppleScript syntax error | Skip thread, log; do not retry with same script |
+| Draft creation fails | Log error, continue to next thread |
+| Ambiguous classification | Default to FLAG, never auto-send |
 
 ---
 
-## TOKEN OPTIMIZATION
+## TOKEN DISCIPLINE
 
-- `list_drafts` → call ONCE, cache all results
-- `get_thread` → batch-read all threads before drafting any replies
-- Classify all threads in one pass before writing any reply bodies
-- Build report incrementally per thread
-- Temp files: write to `/tmp/affiliate_reply_{threadId}.txt`, delete after use
-
----
-
-## HUMAN PROOFREAD TRIGGER LIST
-
-Before drafting any reply, check each thread against these triggers. If ANY trigger matches → classify as FLAG, create NO draft, include in report's "Flagged for Human Review" section only.
-
-### 1. TCL Domain Emails
-Trigger when the **sender domain** is any TCL corporate domain:
-```
-@tcl.com  @tte.com  @tclusa.com  @tclelectronics.com
-@tpv.com  @tclresearch.com  @tclcom.com  @tta.com
-```
-Also trigger if the sender domain ends in `.alibaba-inc.com` or `@alibaba-inc.com` when TCL is mentioned in the subject or body.
-
-**Why:** Any email originating from TCL's own corporate infrastructure is a client/partner communication — not a standard affiliate inquiry. Requires Barron or TCL account team response.
+- **One** `list_drafts` call total. Cache subject+recipient pairs only.
+- **One** `search_threads` call per page; never re-query same window.
+- `get_thread` only for ambiguous classification — snippets first.
+- Never read full draft bodies; only metadata.
+- Build report incrementally as a string; create one final draft.
+- Skip noise senders BEFORE any get_thread call.
 
 ---
 
-### 2. Financial
-Trigger on any of these in subject OR body:
-```
-invoice          payment not received     past due
-billing          overdue                  balance due
-remittance       refund                   charge reversal
-special pricing  distributor pricing      wholesale price
-payment failed   fee waiver               pricing request
-```
-
----
-
-### 3. Legal
-Trigger on any of these in subject OR body:
-```
-legal            compliance               GDPR
-data compliance  privacy policy           data collection
-attorney         counsel                  "please advise"
-cease and desist trademark               IP infringement
-dispute          liability                lawsuit
-"forwarding to legal"                    "on behalf of"
-```
-
----
-
-### 4. Contract
-Trigger on any of these in subject OR body:
-```
-contract         contract terms           agreement
-terms and conditions                      signed agreement
-NDA              non-disclosure           SOW
-statement of work                         master service
-addendum         amendment                renewal
-"attached contract"                       "please sign"
-"DocuSign"       "please review and sign"
-```
-
----
-
-### 5. Fee Confirmation
-Trigger on any of these in subject OR body:
-```
-flat fee         placement fee            sponsored fee
-guaranteed fee   upfront payment          media buy
-"confirm the fee"                         "invoice attached"
-"payment confirmation"                    "fee structure"
-"pay $"          "payment of $"           "wire transfer"
-```
-
----
-
-### 6. Commission Conflicts
-Trigger when:
-- Any email mentions two different commission rates that conflict (e.g., "5%" in one place, "10%" in another)
-- Sender quotes a rate higher than what was sent in the contract/invitation
-- Any phrase like: `"email states"`, `"proposal shows"`, `"you said"`, `"promised"`, `"agreed to"` + a commission %
-- Commission % mentioned is above 8% (flag for rate review) or above 10% (hard block)
-- `"exception"`, `"just for you"`, `"special rate"`, `"custom rate"` paired with any %
-
----
-
-### Trigger Evaluation Order
+## CONSTRAINTS
 
 ```
-1. Check sender domain → TCL domain? → FLAG immediately, no further classification
-2. Check subject for financial/legal/contract/fee keywords → FLAG
-3. Check body snippet for same keywords → FLAG
-4. Check for commission conflict signals → FLAG
-5. If none triggered → proceed with normal classification (NEGOTIATE/SEED/etc.)
-```
+✅ CC affiliate@xark.io on every reply
+✅ Sign as CellDigital Affiliate Team
+✅ DRAFT (Gmail MCP create_draft): NEGOTIATE, SEED, MEETING, FOLLOWUP, COMPLAINT
+✅ SEND (Mail.app reply+send): ONBOARD, INFO
+✅ Report draft to barronzuo@gmail.com — never auto-send the report
 
----
+🚫 Never send: contracts, commission >10%, exclusivity, pricing commitments, sample SLA promises
+🚫 Never promise: inventory, exclusivity, custom payment terms, "exception", "just for you"
+🚫 Never reply if: Trigger Guard matched, Chinese-language sender, or already replied/drafted < 3d
+🚫 Never include: rates above brand floor without explicit ⚠️ FLAG
 
-## CONSTRAINTS SUMMARY
-
-```
-✅ Always CC: affiliate@xark.io
-✅ Always sign: CellDigital Affiliate Team
-✅ DRAFT (Mail.app save): NEGOTIATE, SEED, MEETING, COMPLAINT, FOLLOWUP, FLAG
-✅ SEND (Mail.app send): ONBOARD, INFO
-✅ Report draft always to: barronzuo@gmail.com
-
-🚫 Never send: contracts, commission >10%, exclusivity, pricing commitments
-🚫 Never promise: inventory, exclusivity, custom payment terms
-🚫 Never go above: 10% commission without ⚠️ FLAG
-🚫 Never reply to: SPAM
-🚫 Never draft if: already replied/drafted within 3 days
-🚫 Never draft if: Human Proofread Trigger matched — FLAG only
+Brand router overrides defaults — TCL emails always FLAG when from TCL domain.
 ```
