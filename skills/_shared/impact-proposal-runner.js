@@ -37,8 +37,13 @@ const OBSIDIAN = `${VAULT_PREFIX}-Outreach.md`;
 const SIZE_PARAM = CONFIG.size_filter
   ? `sizeRating=${CONFIG.size_filter.split(',').map(s => s.trim().replace(/ /g,'_')).join('%2C')}`
   : 'sizeRating=medium%2Clarge%2Cextra_large';
+const EXTRA_PARAMS = CONFIG.extra_params || '';
+const SORT_PARAM = CONFIG.sort || 'reachRating&sortOrder=DESC';
 const BASE_URL = 'https://app.impact.com/secure/advertiser/discover/radius/fr/partner_discover.ihtml?page=marketplace&slideout_id_type=partner';
-const tabUrl = i => `${BASE_URL}#businessModels=${business_models[i]}&locationCountryCode=&${SIZE_PARAM}&sortBy=reachRating&sortOrder=DESC`;
+const tabUrl = i => {
+  const base = `${BASE_URL}#businessModels=${business_models[i]}&locationCountryCode=&${SIZE_PARAM}&sortBy=${SORT_PARAM}`;
+  return EXTRA_PARAMS ? `${base}&${EXTRA_PARAMS}` : base;
+};
 
 console.log(`[runner] Advertiser: ${advertiser} | Program: ${program_id} | Target: ${TARGET}`);
 console.log(`[runner] Tabs: ${business_models.join(', ')}`);
