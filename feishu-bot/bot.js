@@ -346,6 +346,9 @@ function parseCmd(text) {
   if (t === 'help' || t === '帮助' || t === '?') return 'HELP';
   if (t === 'learn' || t === 'learn now' || t === '学习' || t.startsWith('learn ')) return 'LEARN';
   if (t === 'vault' || t === 'memory' || t === '记忆库') return 'VAULT_INFO';
+  if (t === 'brain' || t === '大脑' || t.startsWith('brain ') || t.startsWith('知道 ') || t.startsWith('知道')) return 'BRAIN';
+  if (t === 'synthesize people' || t === '更新人物') return 'SYNTH_PEOPLE';
+  if (t === 'decisions' || t === '决策日志') return 'DECISIONS';
   return 'AI';
 }
 
@@ -664,6 +667,46 @@ wsClient.start({
             break;
           }
 
+          case 'BRAIN': {
+            // "brain X" = show what bot knows about X
+            const query = clean.replace(/^(brain|大脑|知道)\s*/i, '').trim();
+            if (!query) {
+              reply = `🧠 用法: "brain <topic>" — 显示我对该话题的所有知识\n\n例子:\n• brain mingyi\n• brain 母亲节\n• brain TCL`;
+            } else {
+              try {
+                const r = await vault.retrieve(query, { maxResults: 5, maxChars: 4000 });
+                if (!r.files.length) {
+                  reply = `🤷 关于 "${query}"，记忆库里还没有相关知识。`;
+                } else {
+                  reply = `🧠 关于 "${query}"，我知道:\n\n📂 来源 (${r.semanticUsed ? '语义+关键词搜索' : '关键词搜索'}):\n${r.files.map((f,i)=>`${i+1}. ${f}`).join('\n')}\n\n${r.context.slice(0, 2000)}`;
+                }
+              } catch(e) { reply = `❌ ${e.message}`; }
+            }
+            break;
+          }
+
+          case 'SYNTH_PEOPLE': {
+            reply = '🧠 启动人物档案合成...';
+            await send(receiveId, receiveIdType, reply);
+            const child = spawn('node', [path.join(__dirname, 'synthesize_people.js')], { cwd: __dirname });
+            let out = '';
+            child.stdout.on('data', d => out += d);
+            await new Promise(r => child.on('close', r));
+            const summary = out.split('\n').filter(l => l.includes('🧠') || l.includes('✅') || l.includes('💰') || l.includes('Cost')).slice(-15).join('\n');
+            reply = `✅ 完成\n\n${summary}`;
+            break;
+          }
+
+          case 'DECISIONS': {
+            const child = spawn('node', [path.join(__dirname, 'decisions.js')], { cwd: __dirname });
+            let out = '';
+            child.stdout.on('data', d => out += d);
+            await new Promise(r => child.on('close', r));
+            const summary = out.split('\n').filter(l => l.includes('➕') || l.includes('🔍') || l.includes('💰') || l.includes('Added')).slice(-15).join('\n');
+            reply = `🎯 决策日志已更新\n\n${summary}\n\n📂 ~/ObsidianVault/Clawdbot/00-Brain/Decisions.md`;
+            break;
+          }
+
           case 'VAULT_INFO': {
             const idx = vault.buildIndex();
             const byFolder = {};
@@ -732,10 +775,12 @@ wsClient.start({
             if (open.length) ctxParts.push(`Open manual tasks: ${open.slice(0,3).map(t=>t.title).join('; ')}`);
             if (incomplete.length) ctxParts.push(`TCL Tracker incomplete: ${incomplete.length} tasks. Top 3: ${incomplete.slice(0,3).map(t=>`${t.task} (${t.owner})`).join('; ')}`);
 
-            // Retrieve from vault (free, keyword search)
+            // Retrieve from vault (hybrid: semantic + keyword)
             if (vault.shouldRetrieve(clean)) {
-              const r = vault.retrieve(clean, { maxResults: 3, maxChars: 2000 });
-              if (r.context) ctxParts.push(r.context);
+              try {
+                const r = await vault.retrieve(clean, { maxResults: 3, maxChars: 2000 });
+                if (r.context) ctxParts.push(r.context);
+              } catch(e) { /* fall through */ }
             }
 
             const recentTurns = conv.getRecentTurns(chatId, 6);
@@ -869,6 +914,33 @@ cron.schedule('0 9 * * *', async () => {
   console.log('[CRON] 09:00 — Running daily checks...');
   await runBitableStaleCheck(false);
   await runN2MMonitoring(false);
+}, { timezone: 'Asia/Shanghai' });
+
+// Sunday 04:30 — Module B: Synthesize people profiles
+cron.schedule('30 4 * * 0', async () => {
+  console.log('[CRON] Sunday 04:30 — Synthesizing people profiles (Module B)...');
+  try {
+    const child = spawn('node', [path.join(__dirname, 'synthesize_people.js')], { cwd: __dirname });
+    child.stdout.on('data', d => console.log('[people]', d.toString().trim()));
+  } catch(e) { console.error('[CRON] People synth error:', e.message); }
+}, { timezone: 'Asia/Shanghai' });
+
+// Sunday 04:45 — Module C: Decision log update
+cron.schedule('45 4 * * 0', async () => {
+  console.log('[CRON] Sunday 04:45 — Decision log update (Module C)...');
+  try {
+    const child = spawn('node', [path.join(__dirname, 'decisions.js')], { cwd: __dirname });
+    child.stdout.on('data', d => console.log('[decisions]', d.toString().trim()));
+  } catch(e) { console.error('[CRON] Decisions error:', e.message); }
+}, { timezone: 'Asia/Shanghai' });
+
+// Daily 03:30 — Module E: Embeddings refresh (incremental, only re-embeds changed files)
+cron.schedule('30 3 * * *', async () => {
+  console.log('[CRON] 03:30 — Refreshing embeddings (Module E)...');
+  try {
+    const child = spawn('node', [path.join(__dirname, 'embeddings.js')], { cwd: __dirname });
+    child.stdout.on('data', d => console.log('[embed]', d.toString().trim()));
+  } catch(e) { console.error('[CRON] Embeddings error:', e.message); }
 }, { timezone: 'Asia/Shanghai' });
 
 // Every Sunday at 4:00 AM — Scan for new pinned/shared Word & Excel files

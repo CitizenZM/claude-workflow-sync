@@ -8,6 +8,27 @@ const path = require('path');
 const os = require('os');
 
 const VAULT = process.env.VAULT_PATH || path.join(os.homedir(), 'ObsidianVault/Clawdbot');
+const EMBEDDINGS_PATH = path.join(__dirname, 'embeddings.json');
+
+// Lazy-load embeddings module + index
+let _embModule = null, _embIdx = null;
+function loadEmbeddings() {
+  if (_embIdx !== null) return _embIdx;
+  try {
+    if (fs.existsSync(EMBEDDINGS_PATH)) {
+      _embIdx = JSON.parse(fs.readFileSync(EMBEDDINGS_PATH));
+      _embModule = require('./embeddings');
+    } else _embIdx = { vectors: [] };
+  } catch { _embIdx = { vectors: [] }; }
+  return _embIdx;
+}
+
+// Cosine similarity
+function cosine(a, b) {
+  let dot = 0, na = 0, nb = 0;
+  for (let i = 0; i < a.length; i++) { dot += a[i] * b[i]; na += a[i] * a[i]; nb += b[i] * b[i]; }
+  return dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
 
 // Walk vault and build an in-memory file index (cached at startup)
 let _index = null;
@@ -106,16 +127,52 @@ function formatForPrompt(files, maxTotalChars = 3000) {
   return out;
 }
 
-// ── Public retrieve API ───────────────────────────────────────────────────────
-function retrieve(query, opts = {}) {
-  const maxResults = opts.maxResults || 4;
+// ── Hybrid retrieve: semantic + keyword (free if no LLM call needed) ──────────
+async function retrieve(query, opts = {}) {
+  const maxResults = opts.maxResults || 5;
   const maxChars = opts.maxChars || 3000;
-  const files = searchVault(query, maxResults);
-  const formatted = formatForPrompt(files, maxChars);
+
+  // 1. Keyword search (free, fast)
+  const keywordHits = searchVault(query, maxResults * 2);
+
+  // 2. Semantic search (only if openai client available + embeddings exist)
+  const idx = loadEmbeddings();
+  let semanticHits = [];
+  if (idx.vectors.length > 0 && _embModule && opts.openai !== false) {
+    try {
+      const OpenAI = require('openai');
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const qRes = await openai.embeddings.create({ model: 'text-embedding-3-small', input: [query] });
+      const qVec = qRes.data[0].embedding;
+      semanticHits = idx.vectors
+        .map(v => ({ ...v, score: cosine(qVec, v.embedding) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, maxResults * 2);
+    } catch(e) { /* fall through to keyword-only */ }
+  }
+
+  // 3. Hybrid fusion: combine and dedupe by file
+  const fileScores = {};
+  keywordHits.forEach((f, i) => {
+    fileScores[f.relPath] = (fileScores[f.relPath] || 0) + (maxResults * 2 - i);
+  });
+  semanticHits.forEach((s, i) => {
+    fileScores[s.file] = (fileScores[s.file] || 0) + (maxResults * 2 - i) * 1.5; // semantic weighted higher
+  });
+
+  // 4. Get top files
+  const topFiles = Object.entries(fileScores)
+    .sort(([,a], [,b]) => b - a)
+    .slice(0, maxResults)
+    .map(([relPath]) => getIndex().find(f => f.relPath === relPath))
+    .filter(Boolean);
+
+  const formatted = formatForPrompt(topFiles, maxChars);
   return {
-    files: files.map(f => f.relPath),
+    files: topFiles.map(f => f.relPath),
     context: formatted,
-    chars: formatted.length
+    chars: formatted.length,
+    semanticUsed: semanticHits.length > 0
   };
 }
 
