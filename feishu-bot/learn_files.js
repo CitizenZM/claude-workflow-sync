@@ -218,9 +218,17 @@ async function learnFilesFromGroup(groupName, chatId) {
   const pinnedIds = (pinsRes.data?.items || []).map(p => p.message_id);
   console.log(`  📌 ${pinnedIds.length} pinned messages`);
 
-  // Step 2: Also scan recent messages for files
-  const msgsRes = await apiGet(`/im/v1/messages?container_id_type=chat&container_id=${chatId}&page_size=100&sort_type=ByCreateTimeDesc`);
-  const recentMsgs = msgsRes.data?.items || [];
+  // Step 2: Also scan recent messages for files (pagination, page_size 20 max)
+  const recentMsgs = [];
+  let pageToken = '';
+  for (let p = 0; p < 5; p++) {
+    const url = `/im/v1/messages?container_id_type=chat&container_id=${chatId}&page_size=20&sort_type=ByCreateTimeDesc${pageToken ? `&page_token=${pageToken}` : ''}`;
+    const r = await apiGet(url);
+    if (r.code !== 0) break;
+    recentMsgs.push(...(r.data?.items || []));
+    if (!r.data?.has_more || !r.data?.page_token) break;
+    pageToken = r.data.page_token;
+  }
   console.log(`  📥 ${recentMsgs.length} recent messages to scan`);
 
   // Step 3: Identify file messages (Word/Excel only)
