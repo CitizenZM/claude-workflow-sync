@@ -59,15 +59,100 @@
       "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
       "createdAt": "2026-05-01T05:10:56.935Z",
       "done": false
+    },
+    {
+      "id": "177761564383508i",
+      "title": "总结最近24小时的消息",
+      "due": null,
+      "assignee": "null",
+      "chat": "oc_d425b6039f1dd37a853299e03698f6ca",
+      "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+      "createdAt": "2026-05-01T06:07:23.835Z",
+      "done": false
+    },
+    {
+      "id": "1777615643835h2e",
+      "title": "总结未完成的任务和责任人",
+      "due": null,
+      "assignee": "null",
+      "chat": "oc_d425b6039f1dd37a853299e03698f6ca",
+      "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+      "createdAt": "2026-05-01T06:07:23.835Z",
+      "done": false
+    },
+    {
+      "id": "1777615659858bzd",
+      "title": "总结最近24小时的消息",
+      "due": null,
+      "assignee": "null",
+      "chat": "oc_d425b6039f1dd37a853299e03698f6ca",
+      "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+      "createdAt": "2026-05-01T06:07:39.858Z",
+      "done": false
+    },
+    {
+      "id": "17776156598585w9",
+      "title": "总结未完成的任务和责任人",
+      "due": null,
+      "assignee": "null",
+      "chat": "oc_d425b6039f1dd37a853299e03698f6ca",
+      "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+      "createdAt": "2026-05-01T06:07:39.858Z",
+      "done": false
+    },
+    {
+      "id": "1777615864582xmx",
+      "title": "Read and track the file",
+      "due": null,
+      "assignee": null,
+      "chat": "oc_d425b6039f1dd37a853299e03698f6ca",
+      "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+      "createdAt": "2026-05-01T06:11:04.582Z",
+      "done": false
+    },
+    {
+      "id": "1777615864582zml",
+      "title": "Confirm if you could track all tasks overdue in the first tab",
+      "due": null,
+      "assignee": null,
+      "chat": "oc_d425b6039f1dd37a853299e03698f6ca",
+      "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+      "createdAt": "2026-05-01T06:11:04.582Z",
+      "done": false
+    },
+    {
+      "id": "17776159656891ht",
+      "title": "总结最近24小时消息",
+      "due": null,
+      "assignee": "null",
+      "chat": "oc_d425b6039f1dd37a853299e03698f6ca",
+      "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+      "createdAt": "2026-05-01T06:12:45.689Z",
+      "done": false
+    },
+    {
+      "id": "1777615965689rvy",
+      "title": "总结未完成的任务和责任人",
+      "due": null,
+      "assignee": "null",
+      "chat": "oc_d425b6039f1dd37a853299e03698f6ca",
+      "createdBy": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+      "createdAt": "2026-05-01T06:12:45.689Z",
+      "done": false
     }
   ],
   "timeline": [],
-  "chats": {},
+  "chats": {
+    "N2M": "oc_86d82f40cae15a4db8782f9b99a73e6b",
+    "TCL_OPS": "oc_231d03989be38743b75ee192a969d3b9",
+    "CELL_EDM": "oc_a660a96e0fabc1bc10ffa5059daaaa7d"
+  },
   "bitables": [
     {
       "appToken": "ULgAbO391aTHXvsh2q5cECE1nwd",
       "tableId": "tblbmakMHbl2ndk0",
       "name": "TCL Weekly Execution Tracker"
     }
-  ]
+  ],
+  "barronOpenId": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca"
 }

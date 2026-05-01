@@ -1,8 +1,8 @@
 require('dotenv').config();
 const lark = require('@larksuiteoapi/node-sdk');
 const OpenAI = require('openai');
+const cron = require('node-cron');
 const https = require('https');
-const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
@@ -10,9 +10,7 @@ const APP_ID = process.env.FEISHU_APP_ID;
 const APP_SECRET = process.env.FEISHU_APP_SECRET;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-if (!APP_ID || !APP_SECRET || !OPENAI_API_KEY) {
-  console.error('Missing env vars'); process.exit(1);
-}
+if (!APP_ID || !APP_SECRET || !OPENAI_API_KEY) { console.error('Missing env vars'); process.exit(1); }
 
 const client = new lark.Client({ appId: APP_ID, appSecret: APP_SECRET });
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -21,125 +19,41 @@ const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 const DATA_FILE = path.join(__dirname, 'ops_data.json');
 function loadData() {
   try { return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')); }
-  catch { return { tasks: [], timeline: [], chats: {}, bitables: [], userTokens: {} }; }
+  catch { return { tasks: [], bitables: [], chats: {}, barronOpenId: null, monitorGroups: [] }; }
 }
 function saveData(d) { fs.writeFileSync(DATA_FILE, JSON.stringify(d, null, 2)); }
 
-// ── Feishu API helper (raw HTTP for cross-tenant support) ──────────────────
-async function feishuGet(path, token) {
+// ── Tenant token (cached) ─────────────────────────────────────────────────────
+let _tok = '', _tokExp = 0;
+async function getTenantToken() {
+  if (_tok && Date.now() < _tokExp) return _tok;
+  const body = JSON.stringify({ app_id: APP_ID, app_secret: APP_SECRET });
+  const res = await new Promise((res, rej) => {
+    const r = https.request({ hostname:'open.feishu.cn', path:'/open-apis/auth/v3/tenant_access_token/internal',
+      method:'POST', headers:{'Content-Type':'application/json','Content-Length':Buffer.byteLength(body)} },
+      resp => { let d=''; resp.on('data',c=>d+=c); resp.on('end',()=>res(JSON.parse(d))); });
+    r.on('error', rej); r.write(body); r.end();
+  });
+  _tok = res.tenant_access_token || '';
+  _tokExp = Date.now() + (res.expire - 60) * 1000;
+  return _tok;
+}
+
+// ── Raw Feishu API call ───────────────────────────────────────────────────────
+async function feishuApi(method, apiPath, body, token) {
+  const tok = token || await getTenantToken();
   return new Promise((resolve, reject) => {
-    const opts = {
-      hostname: 'open.feishu.cn',
-      path: `/open-apis${path}`,
-      method: 'GET',
-      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
-    };
+    const bodyStr = body ? JSON.stringify(body) : null;
+    const opts = { hostname:'open.feishu.cn', path:`/open-apis${apiPath}`, method,
+      headers:{ Authorization:`Bearer ${tok}`, 'Content-Type':'application/json',
+        ...(bodyStr ? {'Content-Length': Buffer.byteLength(bodyStr)} : {}) } };
     const req = https.request(opts, res => {
-      let data = '';
-      res.on('data', d => data += d);
-      res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { reject(e); } });
+      let d=''; res.on('data',c=>d+=c); res.on('end',()=>{ try{resolve(JSON.parse(d));}catch(e){reject(e);} });
     });
     req.on('error', reject);
+    if (bodyStr) req.write(bodyStr);
     req.end();
   });
-}
-
-// ── Bitable task reader ───────────────────────────────────────────────────────
-async function readBitableTasks(appToken, tableId, userToken) {
-  try {
-    // Use user_access_token for cross-tenant Bitable access
-    const res = await feishuGet(
-      `/bitable/v1/apps/${appToken}/tables/${tableId}/records?page_size=100`,
-      userToken
-    );
-    if (res.code !== 0) return { error: res.msg, tasks: [] };
-
-    const items = res.data?.items || [];
-    const tasks = items.map(r => {
-      const f = r.fields || {};
-      // Handle different field name patterns
-      const task = (f['具体任务'] || f['Task'] || f['任务'] || '').toString().trim();
-      const status = (f['当前状态'] || f['Status'] || f['状态'] || '').toString().trim();
-      // Handle user field (can be array of objects, single object, or string)
-      const ownerRaw = f['Owner（Owner&执行人）'] || f['Owner'] || f['负责人'] || f['执行人'] || f['所有人'] || '';
-      const owner = Array.isArray(ownerRaw)
-        ? ownerRaw.map(u => (typeof u === 'object' ? u.name || u.en_name || JSON.stringify(u) : u)).join(', ')
-        : (typeof ownerRaw === 'object' ? ownerRaw.name || ownerRaw.en_name || '' : String(ownerRaw)).trim();
-      const due = f['承诺交付时间'] ? new Date(f['承诺交付时间']).toISOString().slice(0, 10) : null;
-      const priority = (f['优先级'] || f['Priority'] || '').toString().trim();
-      const module_ = (f['所属模块'] || f['Module'] || '').toString().trim();
-
-      return { recordId: r.record_id, task, status, owner, due, priority, module: module_ };
-    }).filter(t => t.task); // only rows with a task name
-
-    return { tasks };
-  } catch(e) {
-    return { error: e.message, tasks: [] };
-  }
-}
-
-// ── GPT brain ─────────────────────────────────────────────────────────────────
-const SYSTEM_PROMPT = `You are Clawdbot, an AI Operations Manager for Barron Zuo at GoGlobal Accelerator.
-
-Responsibilities:
-1. Task Tracking — extract and track tasks, deadlines, action items
-2. Bitable Monitoring — read TCL Weekly Execution Tracker and remind owners of incomplete tasks
-3. Timeline Management — flag overdue items, send proactive reminders
-4. Daily Briefings — surface top priorities and blockers
-5. Group Oversight — monitor all group chats for action items
-
-Commands:
-- "show tasks" / "任务列表" → open task board
-- "show timeline" / "时间线" → deadlines sorted by date
-- "daily briefing" / "日报" → priorities summary
-- "bitable status" → show tasks from TCL Tracker that are not completed
-- "setup bitable" → get Bitable authorization link
-- "done [task]" → mark complete
-- "clear done" → remove completed
-
-Response style: Concise, direct. Barron is busy. Support English and Chinese.`;
-
-async function askGPT(msg, ctx, data, bitableTasks) {
-  const open = data.tasks.filter(t => !t.done);
-  const now = new Date();
-
-  let bitableCtx = '';
-  if (bitableTasks?.length > 0) {
-    const incomplete = bitableTasks.filter(t => t.status !== '已完成' && t.status !== 'Done' && t.status !== 'Completed');
-    bitableCtx = `\nTCL Tracker (${incomplete.length} incomplete):\n${incomplete.slice(0,10).map(t =>
-      `- ${t.task} | Owner: ${t.owner} | Due: ${t.due || 'TBD'} | Status: ${t.status}`
-    ).join('\n')}`;
-  }
-
-  const contextBlock = `Manual Tasks (${open.length} open): ${open.slice(0,5).map(t=>`[${t.id?.slice(-4)}] ${t.title}`).join(', ') || 'None'}${bitableCtx}
-Chat: ${ctx.chatId} (${ctx.chatType})`;
-
-  const res = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    max_tokens: 1024,
-    messages: [
-      { role: 'system', content: SYSTEM_PROMPT },
-      { role: 'user', content: `[Context]\n${contextBlock}\n\n[Message]\n${msg}` }
-    ]
-  });
-  return res.choices[0].message.content;
-}
-
-async function extractTasks(text, chatId, sender) {
-  try {
-    const res = await openai.chat.completions.create({
-      model: 'gpt-4o-mini', max_tokens: 256,
-      messages: [{ role: 'user', content: `Extract tasks/action items from this message as JSON array or []. Format: [{"title":"...","due":"YYYY-MM-DD or null","assignee":"name or null"}]\nMessage: "${text}"\nReturn ONLY the JSON array.` }]
-    });
-    const raw = res.choices[0].message.content.trim().replace(/```json|```/g, '').trim();
-    const tasks = JSON.parse(raw);
-    if (!Array.isArray(tasks) || !tasks.length) return [];
-    return tasks.map(t => ({
-      id: `${Date.now()}${Math.random().toString(36).slice(2,5)}`,
-      title: t.title, due: t.due || null, assignee: t.assignee || null,
-      chat: chatId, createdBy: sender, createdAt: new Date().toISOString(), done: false
-    }));
-  } catch { return []; }
 }
 
 // ── Send message ──────────────────────────────────────────────────────────────
@@ -150,146 +64,475 @@ async function send(receiveId, type, text) {
   });
 }
 
-// ── Format tasks ──────────────────────────────────────────────────────────────
+async function sendToChat(chatId, text) { await send(chatId, 'chat_id', text); }
+async function sendToDM(openId, text) { await send(openId, 'open_id', text); }
+
+// ── GPT helpers ───────────────────────────────────────────────────────────────
+async function gptAnalyze(systemPrompt, userContent) {
+  const res = await openai.chat.completions.create({
+    model: 'gpt-4o', max_tokens: 1500,
+    messages: [{ role:'system', content:systemPrompt }, { role:'user', content:userContent }]
+  });
+  return res.choices[0].message.content;
+}
+
+async function gptMini(prompt) {
+  const res = await openai.chat.completions.create({
+    model: 'gpt-4o-mini', max_tokens: 400,
+    messages: [{ role:'user', content:prompt }]
+  });
+  return res.choices[0].message.content;
+}
+
+// ── Bitable reader ────────────────────────────────────────────────────────────
+async function readBitableTasks(appToken, tableId) {
+  const tok = await getTenantToken();
+  const res = await feishuApi('GET', `/bitable/v1/apps/${appToken}/tables/${tableId}/records?page_size=100`, null, tok);
+  if (res.code !== 0) return { error: res.msg, tasks: [] };
+  return {
+    tasks: (res.data?.items || []).map(r => {
+      const f = r.fields || {};
+      const ownerRaw = f['Owner（Owner&执行人）'] || f['Owner'] || f['负责人'] || f['执行人'] || '';
+      const owner = Array.isArray(ownerRaw)
+        ? ownerRaw.map(u => typeof u==='object' ? u.name||u.en_name||'' : String(u)).filter(Boolean).join(', ')
+        : (typeof ownerRaw==='object' ? ownerRaw.name||ownerRaw.en_name||'' : String(ownerRaw||'')).trim();
+      return {
+        recordId: r.record_id,
+        task: String(f['具体任务']||f['Task']||f['任务']||'').trim(),
+        status: String(f['当前状态']||f['Status']||f['状态']||'').trim(),
+        owner, module: String(f['所属模块']||'').trim(),
+        due: f['承诺交付时间'] ? new Date(f['承诺交付时间']).toISOString().slice(0,10) : null,
+        priority: String(f['优先级']||'').trim(),
+        updatedTime: r.last_modified_time || 0
+      };
+    }).filter(t => t.task)
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FEATURE 1: N2M Group Daily Monitoring
+// Read group messages, find unanswered threads, remind owners, report to Barron
+// ─────────────────────────────────────────────────────────────────────────────
+async function runN2MMonitoring(forceReport = false) {
+  const ops = loadData();
+  const n2mChatId = ops.chats?.['N2M'];
+  const barronId = ops.barronOpenId;
+
+  if (!n2mChatId) {
+    console.log('⚠️  N2M chat_id not set. Bot needs to be added to the group first.');
+    return null;
+  }
+
+  console.log(`[${new Date().toISOString()}] 🔍 Running N2M group monitoring...`);
+
+  try {
+    // Get messages from the last 24 hours
+    const since = Math.floor((Date.now() - 24 * 3600 * 1000) / 1000);
+    const msgRes = await feishuApi('GET',
+      `/im/v1/messages?container_id_type=chat&container_id=${n2mChatId}&start_time=${since}&page_size=50`
+    );
+
+    const messages = msgRes.data?.items || [];
+    if (!messages.length) {
+      console.log('No messages in N2M group in last 24h');
+      return null;
+    }
+
+    // Format messages for GPT analysis
+    const msgText = messages.map(m => {
+      let content = '';
+      try { content = JSON.parse(m.body?.content || '{}')?.text || m.body?.content || ''; } catch {}
+      return `[${new Date(parseInt(m.create_time)*1000).toLocaleString('zh-CN')}] ${m.sender?.id || 'Unknown'}: ${content.slice(0,200)}`;
+    }).join('\n');
+
+    // GPT analysis
+    const analysis = await gptAnalyze(
+      `You are an operations manager AI. Analyze these Feishu group chat messages from the TCL N2M tech team over the last 24 hours.
+
+Identify:
+1. UNANSWERED questions/requests (messages that have no follow-up response)
+2. Tasks or action items mentioned
+3. People responsible for items that haven't responded
+4. Blockers or urgent issues
+
+Output in this exact format:
+## Summary
+[2-3 sentence overview]
+
+## Unanswered Items
+[list each with: who asked, what they asked, when]
+
+## Action Items
+[task | owner | urgency]
+
+## Urgent Alerts
+[anything needing immediate attention]
+
+If nothing significant, just write "## Summary\nNo critical unanswered items in the last 24 hours."`,
+      `Messages:\n${msgText}`
+    );
+
+    // Send report to Barron via DM
+    if (barronId) {
+      const report = `📊 N2M Group Daily Monitoring Report\n${new Date().toLocaleDateString('zh-CN')}\n\n${analysis}`;
+      await sendToDM(barronId, report);
+    }
+
+    // Check for specific @mentions that need follow-up
+    const urgentItems = messages.filter(m => {
+      try {
+        const content = JSON.parse(m.body?.content || '{}')?.text || '';
+        return content.includes('@') && !content.includes('已完成') && !content.includes('好的');
+      } catch { return false; }
+    });
+
+    console.log(`✅ N2M monitoring: ${messages.length} messages, ${urgentItems.length} with mentions`);
+    return analysis;
+
+  } catch(e) {
+    console.error('N2M monitoring error:', e.message);
+    return null;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FEATURE 2: Bitable Stale Task Reminder (>3 days not updated)
+// ─────────────────────────────────────────────────────────────────────────────
+async function runBitableStaleCheck(testMode = false) {
+  const ops = loadData();
+  const conf = ops.bitables?.[0];
+  const n2mChatId = ops.chats?.['N2M'];
+
+  if (!conf) { console.log('⚠️  No Bitable configured'); return null; }
+
+  console.log(`[${new Date().toISOString()}] 🔍 Checking Bitable for stale tasks...`);
+
+  const result = await readBitableTasks(conf.appToken, conf.tableId);
+  if (result.error) { console.error('Bitable error:', result.error); return null; }
+
+  const now = Date.now();
+  const THREE_DAYS_MS = testMode ? 0 : 3 * 24 * 3600 * 1000;
+
+  const staleTasks = result.tasks.filter(t => {
+    const isActive = t.status && !['已完成','Done','Completed','取消','Cancelled'].includes(t.status);
+    const lastUpdate = t.updatedTime ? t.updatedTime * 1000 : 0;
+    const stale = !lastUpdate || (now - lastUpdate > THREE_DAYS_MS);
+    return isActive && stale;
+  });
+
+  if (!staleTasks.length) {
+    console.log('✅ No stale tasks found');
+    return '✅ All active tasks have been updated within 3 days!';
+  }
+
+  console.log(`Found ${staleTasks.length} stale tasks`);
+
+  // Build reminder message for the group
+  const reminderLines = staleTasks.slice(0, 15).map(t => {
+    const daysSince = t.updatedTime ? Math.floor((now - t.updatedTime * 1000) / 86400000) : '?';
+    const ownerTag = t.owner ? `@${t.owner}` : '@负责人';
+    return `• ${t.task}\n  ${ownerTag} | 状态: ${t.status||'未知'} | ${daysSince}天未更新${t.due ? ` | 截止: ${t.due}` : ''}`;
+  }).join('\n\n');
+
+  const groupMsg = `📋 TCL任务进度提醒\n\n以下 ${staleTasks.length} 个任务超过3天未更新，请相关负责人更新进展：\n\n${reminderLines}\n\n请在飞书多维表格更新最新状态 👆`;
+
+  // Send to N2M group if bot is a member
+  if (n2mChatId && !testMode) {
+    try {
+      await sendToChat(n2mChatId, groupMsg);
+      console.log(`✅ Sent stale task reminder to N2M group`);
+    } catch(e) {
+      console.error('Failed to send to N2M group:', e.message);
+    }
+  }
+
+  // Always send summary to Barron
+  const barronId = ops.barronOpenId;
+  if (barronId) {
+    const summary = testMode
+      ? `🧪 [TEST] Bitable Stale Check Results:\n\n${groupMsg}`
+      : `✅ Stale task reminder sent to N2M group (${staleTasks.length} tasks)`;
+    await sendToDM(barronId, summary);
+  }
+
+  return groupMsg;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FEATURE 3: Auto-reply when someone asks @Barron a question in group chats
+// ─────────────────────────────────────────────────────────────────────────────
+async function autoReplyForBarron(text, chatId, senderId, senderName) {
+  const ops = loadData();
+  const barronId = ops.barronOpenId;
+  if (!barronId) return null;
+
+  // Detect if this message is directed at Barron
+  const isAskingBarron =
+    text.includes('Barron') ||
+    text.includes('barron') ||
+    (text.includes('@') && (text.toLowerCase().includes('baron') || text.includes('6820669941344108546')));
+
+  if (!isAskingBarron) return null;
+
+  // Don't reply to Barron's own messages
+  if (senderId === barronId) return null;
+
+  console.log(`[${new Date().toISOString()}] 💬 Auto-reply triggered: "${text.slice(0,50)}" from ${senderName || senderId}`);
+
+  // Get Bitable context
+  let bitableCtx = '';
+  const conf = ops.bitables?.[0];
+  if (conf) {
+    try {
+      const { tasks } = await readBitableTasks(conf.appToken, conf.tableId);
+      const active = tasks.filter(t => t.status && !['已完成','Done'].includes(t.status)).slice(0, 10);
+      bitableCtx = active.length ? `\nCurrent active tasks:\n${active.map(t => `- ${t.task} (${t.status}, owner: ${t.owner})`).join('\n')}` : '';
+    } catch {}
+  }
+
+  const reply = await gptAnalyze(
+    `You are Clawdbot, the AI operations assistant for Barron Zuo at GoGlobal Accelerator.
+When someone asks Barron a question in a group chat, you respond on his behalf.
+Reply professionally as if you are Barron's assistant.
+Keep it concise (2-4 sentences). Be helpful and specific.
+If you don't know the answer, say Barron will follow up.
+Context about current tasks:${bitableCtx}
+Current date: ${new Date().toLocaleDateString('zh-CN')}`,
+    `${senderName || 'Someone'} asked in the group: "${text}"\n\nProvide a helpful response on behalf of Barron.`
+  );
+
+  return reply;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Command handlers
+// ─────────────────────────────────────────────────────────────────────────────
+function parseCmd(text) {
+  const t = text.trim().toLowerCase();
+  if (t === 'show tasks' || t === '任务列表') return 'LIST';
+  if (t === 'show timeline' || t === '时间线') return 'TIMELINE';
+  if (t.includes('daily briefing') || t === '日报') return 'BRIEFING';
+  if (t === 'bitable status' || t === '任务追踪') return 'BITABLE';
+  if (t === 'setup bitable' || t === '授权bitable') return 'SETUP_BITABLE';
+  if (t.includes('stale check') || t.includes('超期提醒') || t.includes('test stale')) return 'STALE_TEST';
+  if (t.includes('n2m report') || t.includes('监控报告') || t.includes('test n2m')) return 'N2M_TEST';
+  if (t.startsWith('done ') || t.startsWith('完成 ')) return 'DONE';
+  if (t === 'clear done' || t === '清除完成') return 'CLEAR';
+  if (t.includes('join group') || t.includes('add to group') || t.includes('加入群')) return 'GROUP_HELP';
+  if (t.includes('my id') || t === 'open id') return 'MYID';
+  if (t.includes('set n2m') || t.includes('register group')) return 'SET_GROUP';
+  if (t === 'status' || t === '状态') return 'SYSTEM_STATUS';
+  return 'AI';
+}
+
 function formatTasks(tasks) {
   const open = tasks.filter(t => !t.done);
   if (!open.length) return '✅ No open tasks. All clear!';
   const now = new Date();
   return open.map(t => {
     let flag = '🟢';
-    if (t.due) { const h = (new Date(t.due) - now) / 3.6e6; flag = h < 0 ? '🔴' : h < 48 ? '🟡' : '🟢'; }
-    return `${flag} [${(t.id||'').slice(-4)}] ${t.title}${t.due ? ` | 📅 ${t.due}` : ''}${t.assignee ? ` | 👤 ${t.assignee}` : ''}`;
+    if (t.due) { const h = (new Date(t.due)-now)/3.6e6; flag = h<0?'🔴':h<48?'🟡':'🟢'; }
+    return `${flag} [${(t.id||'').slice(-4)}] ${t.title}${t.due?` | 📅 ${t.due}`:''}${t.assignee?` | 👤 ${t.assignee}`:''}`;
   }).join('\n');
 }
 
-// ── Bitable status formatter ──────────────────────────────────────────────────
 function formatBitableStatus(tasks) {
-  const incomplete = tasks.filter(t => t.status !== '已完成' && t.status !== 'Done');
-  if (!incomplete.length) return '✅ All TCL Tracker tasks are completed!';
+  const incomplete = tasks.filter(t => !['已完成','Done','Completed'].includes(t.status));
+  if (!incomplete.length) return '✅ All TCL Tracker tasks completed!';
   const now = new Date();
-  return `📊 TCL Tracker — ${incomplete.length} incomplete tasks:\n\n` +
-    incomplete.slice(0, 15).map(t => {
+  return `📊 TCL Tracker — ${incomplete.length} incomplete:\n\n${
+    incomplete.slice(0,12).map(t => {
       let flag = '⚪';
-      if (t.due) { const h = (new Date(t.due) - now) / 3.6e6; flag = h < 0 ? '🔴' : h < 48 ? '🟡' : '🟢'; }
-      return `${flag} ${t.task}\n   Owner: ${t.owner || 'Unassigned'} | Status: ${t.status || 'Unknown'}${t.due ? ` | Due: ${t.due}` : ''}`;
-    }).join('\n');
+      if (t.due) { const h=(new Date(t.due)-now)/3.6e6; flag=h<0?'🔴':h<48?'🟡':'🟢'; }
+      return `${flag} ${t.task}\n   👤 ${t.owner||'Unassigned'} | ${t.status||'Unknown'}${t.due?` | 📅 ${t.due}`:''}`;
+    }).join('\n')}`;
 }
 
-// ── OAuth URL for Bitable authorization ───────────────────────────────────────
-function getBitableAuthUrl() {
-  const redirectUri = encodeURIComponent(`https://open.feishu.cn/connect/qrconnect/page/`);
-  return `https://open.feishu.cn/open-apis/authen/v1/index?app_id=${APP_ID}&redirect_uri=${redirectUri}&state=bitable_setup\n\n⚠️ Note: Since Clawdbot is registered in a different org from the TCL Tracker, you'll need to authorize cross-tenant access. \n\nAlternatively, share the Bitable with an account in GoGlobal Accelerator org, or use the Feishu Bitable automation (already set up in the Base).`;
-}
-
-// ── Command parser ────────────────────────────────────────────────────────────
-function parseCmd(text) {
-  const t = text.trim().toLowerCase();
-  if (t.includes('show tasks') || t.includes('任务列表')) return 'LIST';
-  if (t.includes('show timeline') || t.includes('时间线')) return 'TIMELINE';
-  if (t.includes('daily briefing') || t.includes('日报')) return 'BRIEFING';
-  if (t.includes('bitable status') || t.includes('任务追踪') || t.includes('tracker')) return 'BITABLE';
-  if (t.includes('setup bitable') || t.includes('授权')) return 'SETUP_BITABLE';
-  if (t.startsWith('done ') || t.startsWith('完成 ')) return 'DONE';
-  if (t === 'clear done' || t === '清除完成') return 'CLEAR';
-  if (t.includes('join group') || t.includes('add to group') || t.includes('加入群')) return 'GROUP_HELP';
-  return 'AI';
-}
-
-// ── WS bot ────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// WebSocket event handler
+// ─────────────────────────────────────────────────────────────────────────────
 const wsClient = new lark.WSClient({ appId: APP_ID, appSecret: APP_SECRET, loggerLevel: lark.LoggerLevel.warn });
 
 wsClient.start({
   eventDispatcher: new lark.EventDispatcher({}).register({
-    'im.message.receive_v1': async (data) => {
-      const { message, sender } = data;
+    'im.message.receive_v1': async (event) => {
+      const { message, sender } = event;
       if (message.message_type !== 'text') return;
 
       let text;
       try { text = JSON.parse(message.content).text || ''; } catch { return; }
 
       const chatId = message.chat_id;
-      const chatType = message.chat_type;
+      const chatType = message.chat_type; // p2p or group
       const senderId = sender.sender_id?.open_id || '';
       const receiveIdType = chatType === 'p2p' ? 'open_id' : 'chat_id';
       const receiveId = chatType === 'p2p' ? senderId : chatId;
+
+      // Auto-capture Barron's open_id from his DMs
+      if (chatType === 'p2p') {
+        const ops = loadData();
+        if (!ops.barronOpenId && senderId) {
+          ops.barronOpenId = senderId;
+          saveData(ops);
+          console.log(`✅ Captured Barron's open_id: ${senderId}`);
+        }
+      }
+
+      // Auto-register new group chats the bot is added to
+      if (chatType === 'group') {
+        const ops = loadData();
+        // Detect N2M group by message content or group name
+        if (!ops.chats?.N2M && (text.includes('N2M') || text.includes('技术协同'))) {
+          if (!ops.chats) ops.chats = {};
+          ops.chats.N2M = chatId;
+          saveData(ops);
+          console.log(`✅ Registered N2M group chat_id: ${chatId}`);
+        }
+      }
+
       const isMentioned = text.includes('@') || text.toLowerCase().includes('clawdbot');
       const clean = text.replace(/@\S+/g, '').trim();
       const cmd = parseCmd(clean);
 
-      // Group: silently extract tasks unless mentioned
-      if (chatType === 'group' && !isMentioned && cmd === 'AI') {
+      // ── Group: silent task extraction + Feature 3 auto-reply ───────────────
+      if (chatType === 'group' && !isMentioned) {
         const ops = loadData();
-        const ex = await extractTasks(clean, chatId, senderId);
-        if (ex.length) { ops.tasks.push(...ex); saveData(ops); console.log(`📌 Auto-extracted ${ex.length} task(s) from ${chatId}`); }
+
+        // Feature 3: Auto-reply when someone asks @Barron
+        if (ops.barronOpenId) {
+          const autoReply = await autoReplyForBarron(text, chatId, senderId, sender.sender_id?.name);
+          if (autoReply) {
+            await sendToChat(chatId, `[Clawdbot代Barron回复]\n\n${autoReply}`);
+            console.log(`[${new Date().toISOString()}] 🤖 Auto-replied for Barron in group ${chatId}`);
+            return;
+          }
+        }
+
+        // Silent task extraction
+        try {
+          const res = await openai.chat.completions.create({
+            model: 'gpt-4o-mini', max_tokens: 200,
+            messages: [{ role:'user', content:`Extract tasks from: "${text}". Return JSON array [{"title":"...","due":"date or null","assignee":"name or null"}] or [].` }]
+          });
+          const tasks = JSON.parse(res.choices[0].message.content.trim().replace(/```json|```/g,'').trim());
+          if (Array.isArray(tasks) && tasks.length) {
+            const ops2 = loadData();
+            ops2.tasks.push(...tasks.map(t => ({
+              id: `${Date.now()}${Math.random().toString(36).slice(2,5)}`,
+              title: t.title, due: t.due||null, assignee: t.assignee||null,
+              chat: chatId, createdAt: new Date().toISOString(), done: false
+            })));
+            saveData(ops2);
+            console.log(`📌 Extracted ${tasks.length} task(s) from group`);
+          }
+        } catch {}
         return;
       }
 
+      // ── Handle commands (DM or @mentioned in group) ─────────────────────────
       const ops = loadData();
       let reply = '';
 
       try {
         switch (cmd) {
+
           case 'LIST':
             reply = `📋 Task Board\n\n${formatTasks(ops.tasks)}`;
             break;
 
           case 'TIMELINE': {
-            const upcoming = ops.tasks.filter(t => !t.done && t.due).sort((a,b) => new Date(a.due)-new Date(b.due)).slice(0,10);
-            reply = upcoming.length ? `📅 Upcoming Deadlines\n\n${upcoming.map(t=>`• ${t.due} — ${t.title}`).join('\n')}` : '📅 No upcoming deadlines.';
+            const upcoming = ops.tasks.filter(t=>!t.done&&t.due).sort((a,b)=>new Date(a.due)-new Date(b.due)).slice(0,10);
+            reply = upcoming.length ? `📅 Deadlines\n\n${upcoming.map(t=>`• ${t.due} — ${t.title}`).join('\n')}` : '📅 No upcoming deadlines.';
             break;
           }
 
           case 'BRIEFING': {
             const open = ops.tasks.filter(t=>!t.done);
             const now = new Date();
-            const ov = open.filter(t=>t.due && new Date(t.due)<now);
-            const soon = open.filter(t=>t.due && new Date(t.due)>=now && (new Date(t.due)-now)<48*3.6e6);
-            reply = `📊 Daily Briefing — ${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}\n\n🔴 Overdue: ${ov.length}  🟡 Due <48h: ${soon.length}  🟢 On Track: ${open.length-ov.length-soon.length}\nTotal: ${open.length}\n`
-              + (ov.length ? `\nOverdue:\n${ov.map(t=>`• ${t.title} (${t.due})`).join('\n')}` : '')
-              + (soon.length ? `\nDue Soon:\n${soon.map(t=>`• ${t.title} (${t.due})`).join('\n')}` : '')
+            const ov = open.filter(t=>t.due&&new Date(t.due)<now);
+            const soon = open.filter(t=>t.due&&new Date(t.due)>=now&&(new Date(t.due)-now)<48*3.6e6);
+            reply = `📊 Daily Briefing — ${new Date().toLocaleDateString('zh-CN')}\n\n🔴 Overdue: ${ov.length}  🟡 Due <48h: ${soon.length}  🟢 On track: ${open.length-ov.length-soon.length}\n`
+              + (ov.length ? `\n🔴 Overdue:\n${ov.map(t=>`• ${t.title} (${t.due})`).join('\n')}` : '')
+              + (soon.length ? `\n🟡 Due soon:\n${soon.map(t=>`• ${t.title} (${t.due})`).join('\n')}` : '')
               + (!ov.length && !soon.length ? '\n✅ All tasks on track!' : '');
             break;
           }
 
           case 'BITABLE': {
-            const bitableConf = ops.bitables?.[0];
-            if (!bitableConf) {
-              reply = `📊 TCL Weekly Execution Tracker\n\nType "setup bitable" to connect.\nOr paste tasks here and I'll track them.`;
-            } else {
-              const tok = await getTenantToken();
-              if (!tok) { reply = '❌ Could not get auth token. Please try again.'; break; }
-              const result = await readBitableTasks(bitableConf.appToken, bitableConf.tableId, tok);
-              if (result.error) reply = `❌ Bitable error: ${result.error}`;
-              else reply = formatBitableStatus(result.tasks);
-            }
+            const conf = ops.bitables?.[0];
+            if (!conf) { reply = 'No Bitable configured. Type "setup bitable".'; break; }
+            const tok = await getTenantToken();
+            if (!tok) { reply = '❌ Auth error. Try again.'; break; }
+            const result = await readBitableTasks(conf.appToken, conf.tableId);
+            reply = result.error ? `❌ Bitable error: ${result.error}` : formatBitableStatus(result.tasks);
             break;
           }
 
           case 'SETUP_BITABLE': {
-            // Store Bitable config and provide instructions
             const appToken = 'ULgAbO391aTHXvsh2q5cECE1nwd';
             const tableId = 'tblbmakMHbl2ndk0';
-            const ops2 = loadData();
-            if (!ops2.bitables) ops2.bitables = [];
-
-            // Try with tenant token first (works if same org)
-            const tenantRes = await readBitableTasks(appToken, tableId, await getTenantToken());
-            if (tenantRes.tasks?.length > 0) {
-              // Same org access works!
-              ops2.bitables = [{ appToken, tableId, name: 'TCL Weekly Execution Tracker' }];
-              saveData(ops2);
-              reply = `✅ Bitable connected! Found ${tenantRes.tasks.length} tasks.\n\nType "bitable status" to see incomplete tasks.\nI'll remind you daily about overdue items.`;
+            const result = await readBitableTasks(appToken, tableId);
+            if (result.tasks?.length > 0) {
+              ops.bitables = [{ appToken, tableId, name: 'TCL Weekly Execution Tracker' }];
+              saveData(ops);
+              reply = `✅ Bitable connected! ${result.tasks.length} tasks found.\n\nType "bitable status" to view incomplete tasks.`;
             } else {
-              reply = `📋 TCL Weekly Execution Tracker Setup\n\nThe Bitable is in a different Feishu org (宇舟ION). To connect:\n\n1. In the Bitable, go to Automation (自动化)\n2. Create a new automation: "When record updated → Send Webhook notification"\n3. Send to: https://your-server/webhook\n\nOR: Share me a copy of the task list directly in this chat, and I'll track it for you!\n\nCurrent tasks I can track (from our conversation): Type "show tasks"`;
+              reply = `❌ Cannot access Bitable. It may require cross-tenant authorization.\n\nManual option: Share tasks here and I'll track them.`;
             }
+            break;
+          }
+
+          case 'STALE_TEST': {
+            reply = '🧪 Running stale task check (test mode)...';
+            await send(receiveId, receiveIdType, reply);
+            const staleResult = await runBitableStaleCheck(true);
+            reply = staleResult || '✅ No stale tasks found.';
+            break;
+          }
+
+          case 'N2M_TEST': {
+            const n2mId = ops.chats?.N2M;
+            if (!n2mId) {
+              reply = `⚠️ N2M group not registered yet.\n\nTo register:\n1. Add Clawdbot to the N2M group (via Feishu Desktop → Group Settings → 群机器人 → +)\n2. Once added, send any message in the group\n3. Clawdbot will auto-register the group\n\nAlternatively, type: "set n2m <chat_id>"`;
+            } else {
+              reply = '🧪 Running N2M monitoring (test mode)...';
+              await send(receiveId, receiveIdType, reply);
+              const report = await runN2MMonitoring(true);
+              reply = report || '📊 No significant activity in N2M in the last 24h.';
+            }
+            break;
+          }
+
+          case 'SET_GROUP': {
+            // Allow Barron to manually register a group: "set n2m oc_xxxx"
+            const parts = clean.split(/\s+/);
+            const groupName = parts[1] || 'N2M';
+            const chatIdInput = parts[2] || chatId;
+            if (!ops.chats) ops.chats = {};
+            ops.chats[groupName.toUpperCase()] = chatIdInput;
+            saveData(ops);
+            reply = `✅ Registered group "${groupName.toUpperCase()}" with chat_id: ${chatIdInput}`;
+            break;
+          }
+
+          case 'MYID':
+            reply = `Your Feishu open_id: ${senderId}\n\nThis is stored for auto-reply and reminders.`;
+            if (!ops.barronOpenId) { ops.barronOpenId = senderId; saveData(ops); reply += '\n✅ Saved!'; }
+            break;
+
+          case 'SYSTEM_STATUS': {
+            const n2mStatus = ops.chats?.N2M ? `✅ ${ops.chats.N2M.slice(-8)}` : '❌ Not registered';
+            const bitableStatus = ops.bitables?.length ? `✅ ${ops.bitables[0].name}` : '❌ Not connected';
+            const barronStatus = ops.barronOpenId ? `✅ ${ops.barronOpenId.slice(-8)}` : '❌ Not captured';
+            reply = `🤖 Clawdbot System Status\n\n📊 Bitable: ${bitableStatus}\n💬 N2M Group: ${n2mStatus}\n👤 Barron ID: ${barronStatus}\n📋 Tasks: ${ops.tasks?.length || 0} tracked\n\n⏰ Scheduled jobs:\n• 09:00 daily — Bitable stale check + N2M report\n• 18:00 daily — Evening briefing`;
             break;
           }
 
           case 'DONE': {
             const frag = clean.replace(/^done\s+/i,'').replace(/^完成\s+/i,'').trim();
-            const t = ops.tasks.find(t => !t.done && (t.id?.slice(-4)===frag || t.title?.toLowerCase().includes(frag.toLowerCase())));
+            const t = ops.tasks.find(t=>!t.done&&(t.id?.slice(-4)===frag||t.title?.toLowerCase().includes(frag.toLowerCase())));
             if (t) { t.done = true; t.completedAt = new Date().toISOString(); saveData(ops); reply = `✅ Done: ${t.title}`; }
-            else reply = `❓ Task not found: "${frag}". Type "show tasks" to see IDs.`;
+            else reply = `❓ Task not found: "${frag}"`;
             break;
           }
 
@@ -302,27 +545,45 @@ wsClient.start({
           }
 
           case 'GROUP_HELP':
-            reply = `🤖 To add Clawdbot to a group chat:\n\n**Option 1 — Feishu Desktop App** (recommended):\n1. Open the group → Settings (⋯) → 群机器人\n2. Click + → Search "Clawdbot" → Add\n\n**Option 2 — Group Invite Link**:\n1. In the group, click ⋯ → 添加群成员 → 群链接\n2. Send me that link and I'll join\n\n**Option 3 — @mention me in the group**:\nType @Clawdbot in the group — Feishu may auto-prompt to add me.`;
+            reply = `🤖 How to add Clawdbot to a group:\n\n**Feishu Desktop App** (recommended):\n1. Open the group\n2. Click ⋯ → 设置 → 群机器人\n3. Click + → Search "Clawdbot" → Add\n\nOnce added, Clawdbot will:\n✅ Monitor all messages\n✅ Auto-reply when someone @Barron\n✅ Extract tasks silently\n✅ Send daily reminders`;
             break;
 
           default: {
+            // AI response with full context
             let bitableTasks = [];
             const conf = ops.bitables?.[0];
             if (conf) {
-              const tok = await getTenantToken();
-              if (tok) {
-                const r = await readBitableTasks(conf.appToken, conf.tableId, tok);
+              try {
+                const r = await readBitableTasks(conf.appToken, conf.tableId);
                 bitableTasks = r.tasks || [];
-              }
+              } catch {}
             }
 
-            reply = await askGPT(clean, { chatId, chatType, sender: senderId }, ops, bitableTasks);
-            const ex = await extractTasks(clean, chatId, senderId);
-            if (ex.length) {
-              ops.tasks.push(...ex);
-              saveData(ops);
-              reply += `\n\n📌 Auto-tracked ${ex.length} task(s).`;
-            }
+            const open = ops.tasks.filter(t=>!t.done);
+            const incomplete = bitableTasks.filter(t=>!['已完成','Done'].includes(t.status));
+            const contextBlock = `Manual tasks (${open.length}): ${open.slice(0,3).map(t=>t.title).join(', ')||'none'}
+Bitable incomplete (${incomplete.length}): ${incomplete.slice(0,3).map(t=>`${t.task} (${t.owner})`).join(', ')||'none'}
+N2M group registered: ${!!ops.chats?.N2M}
+Auto-reply active: ${!!ops.barronOpenId}`;
+
+            const res = await openai.chat.completions.create({
+              model: 'gpt-4o', max_tokens: 800,
+              messages: [
+                { role:'system', content:`You are Clawdbot, Barron Zuo's AI Operations Manager at GoGlobal Accelerator. Be concise, direct, bilingual (EN/ZH). Context: ${contextBlock}` },
+                { role:'user', content: clean }
+              ]
+            });
+            reply = res.choices[0].message.content;
+
+            // Extract tasks from AI conversation
+            try {
+              const ex = JSON.parse((await gptMini(`Extract tasks from: "${clean}". JSON array [{"title":"...","due":"date or null","assignee":"name or null"}] or []. Return ONLY the JSON.`)).trim().replace(/```json|```/g,''));
+              if (Array.isArray(ex) && ex.length) {
+                ops.tasks.push(...ex.map(t=>({ id:`${Date.now()}${Math.random().toString(36).slice(2,5)}`, title:t.title, due:t.due||null, assignee:t.assignee||null, chat:chatId, createdAt:new Date().toISOString(), done:false })));
+                saveData(ops);
+                reply += `\n\n📌 Auto-tracked ${ex.length} task(s).`;
+              }
+            } catch {}
           }
         }
 
@@ -330,82 +591,114 @@ wsClient.start({
           await send(receiveId, receiveIdType, reply);
           console.log(`[${new Date().toISOString()}] [${chatType}] cmd=${cmd}`);
         }
+
       } catch(e) {
-        console.error('Error:', e.message);
-        try { await send(receiveId, receiveIdType, '⚠️ Error processing. Please try again.'); } catch {}
+        console.error('Handler error:', e.message);
+        try { await send(receiveId, receiveIdType, `⚠️ Error: ${e.message.slice(0,100)}`); } catch {}
+      }
+    },
+
+    // Bot added to group — auto-register
+    'im.chat.member.bot.added_v1': async (event) => {
+      const chatId = event.chat_id;
+      const ops = loadData();
+      if (!ops.chats) ops.chats = {};
+
+      // Try to get group name
+      try {
+        const info = await feishuApi('GET', `/im/v1/chats/${chatId}`);
+        const name = info.data?.name || '';
+        console.log(`🤖 Bot added to group: "${name}" (${chatId})`);
+
+        if (name.includes('N2M') || name.includes('技术协同')) {
+          ops.chats.N2M = chatId;
+          saveData(ops);
+          console.log(`✅ Auto-registered as N2M group: ${chatId}`);
+
+          // Welcome message in the group
+          await sendToChat(chatId, `👋 Hi everyone! I'm Clawdbot, Barron's AI Operations Manager.\n\nI'm here to:\n📋 Track tasks and deadlines silently\n🔔 Send daily reminders for overdue items\n💬 Auto-reply when someone asks @Barron\n📊 Monitor unanswered conversations\n\nMention me with @Clawdbot for any questions!`);
+        } else {
+          ops.chats[chatId.slice(-6)] = chatId;
+          saveData(ops);
+          await sendToChat(chatId, `👋 Clawdbot joined! I'll help track tasks and send reminders. Type @Clawdbot for help.`);
+        }
+      } catch(e) {
+        console.error('Bot added handler error:', e.message);
       }
     }
   })
 });
 
-// ── Get tenant token helper ───────────────────────────────────────────────────
-let _cachedToken = '';
-let _tokenExpiry = 0;
+// ─────────────────────────────────────────────────────────────────────────────
+// Scheduled jobs
+// ─────────────────────────────────────────────────────────────────────────────
 
-async function getTenantToken() {
-  if (_cachedToken && Date.now() < _tokenExpiry) return _cachedToken;
-  try {
-    const body = JSON.stringify({ app_id: APP_ID, app_secret: APP_SECRET });
-    const res = await new Promise((resolve, reject) => {
-      const req = https.request({
-        hostname: 'open.feishu.cn', path: '/open-apis/auth/v3/tenant_access_token/internal',
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) }
-      }, r => { let d = ''; r.on('data', c => d += c); r.on('end', () => resolve(JSON.parse(d))); });
-      req.on('error', reject);
-      req.write(body); req.end();
-    });
-    _cachedToken = res.tenant_access_token || '';
-    _tokenExpiry = Date.now() + (res.expire - 60) * 1000;
-    return _cachedToken;
-  } catch { return ''; }
-}
+// Every day at 9:00 AM — Bitable stale check + N2M monitoring report
+cron.schedule('0 9 * * *', async () => {
+  console.log('[CRON] 09:00 — Running daily checks...');
+  await runBitableStaleCheck(false);
+  await runN2MMonitoring(false);
+}, { timezone: 'Asia/Shanghai' });
 
-// ── Startup: auto-setup Bitable if not configured ─────────────────────────────
-async function autoSetupBitable() {
+// Every day at 6:00 PM — Evening summary to Barron
+cron.schedule('0 18 * * *', async () => {
+  console.log('[CRON] 18:00 — Evening summary...');
   const ops = loadData();
-  if (ops.bitables?.length > 0) return;
+  const barronId = ops.barronOpenId;
+  if (!barronId) return;
 
-  const appToken = 'ULgAbO391aTHXvsh2q5cECE1nwd';
-  const tableId = 'tblbmakMHbl2ndk0';
+  const conf = ops.bitables?.[0];
+  if (!conf) return;
 
-  try {
-    const tokenRes = await new Promise((resolve, reject) => {
-      const body = JSON.stringify({ app_id: APP_ID, app_secret: APP_SECRET });
-      const req = https.request({
-        hostname: 'open.feishu.cn', path: '/open-apis/auth/v3/tenant_access_token/internal',
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Content-Length': body.length }
-      }, res => {
-        let d = ''; res.on('data', c => d += c);
-        res.on('end', () => resolve(JSON.parse(d)));
-      });
-      req.on('error', reject);
-      req.write(body); req.end();
-    });
+  const result = await readBitableTasks(conf.appToken, conf.tableId);
+  const incomplete = (result.tasks||[]).filter(t=>!['已完成','Done'].includes(t.status));
+  const now = new Date();
+  const overdue = incomplete.filter(t=>t.due&&new Date(t.due)<now);
+  const dueSoon = incomplete.filter(t=>t.due&&new Date(t.due)>=now&&(new Date(t.due)-now)<48*3.6e6);
 
-    const token = tokenRes.tenant_access_token;
-    if (!token) return;
+  const summary = `📊 Evening Summary — ${new Date().toLocaleDateString('zh-CN')}\n\n🔴 Overdue: ${overdue.length}\n🟡 Due tomorrow: ${dueSoon.length}\n📋 Total incomplete: ${incomplete.length}\n\n${overdue.length ? `Overdue:\n${overdue.slice(0,5).map(t=>`• ${t.task} (${t.owner||'?'})`).join('\n')}` : '✅ No overdue tasks!'}`;
 
-    const result = await readBitableTasks(appToken, tableId, token);
+  await sendToDM(barronId, summary);
+  console.log('[CRON] Evening summary sent to Barron');
+}, { timezone: 'Asia/Shanghai' });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Startup
+// ─────────────────────────────────────────────────────────────────────────────
+async function startup() {
+  const ops = loadData();
+
+  // Auto-connect Bitable if not already configured
+  if (!ops.bitables?.length) {
+    const result = await readBitableTasks('ULgAbO391aTHXvsh2q5cECE1nwd', 'tblbmakMHbl2ndk0');
     if (result.tasks?.length > 0) {
-      ops.bitables = [{ appToken, tableId, name: 'TCL Weekly Execution Tracker' }];
+      ops.bitables = [{ appToken: 'ULgAbO391aTHXvsh2q5cECE1nwd', tableId: 'tblbmakMHbl2ndk0', name: 'TCL Weekly Execution Tracker' }];
       saveData(ops);
-      console.log(`✅ Auto-connected Bitable: ${result.tasks.length} tasks found`);
-    } else {
-      console.log('ℹ️  Bitable requires cross-tenant auth (different org). Type "setup bitable" in DM to configure.');
+      console.log(`✅ Bitable auto-connected: ${result.tasks.length} tasks`);
     }
-  } catch(e) {
-    console.log('ℹ️  Bitable auto-setup skipped:', e.message);
   }
-}
 
-autoSetupBitable();
+  const n2mStatus = ops.chats?.N2M ? `✅ Registered (${ops.chats.N2M.slice(-8)})` : '⚠️  Waiting for bot to join group';
+  const barronStatus = ops.barronOpenId ? `✅ ${ops.barronOpenId.slice(-8)}` : '⚠️  Send a DM to capture';
+  const bitableStatus = ops.bitables?.length ? `✅ ${ops.bitables[0].name}` : '❌ Not connected';
 
-console.log(`
+  console.log(`
 ╔══════════════════════════════════════════╗
-║   Clawdbot — Operations Manager v3       ║
-║   Feishu: ${APP_ID}    ║
-║   Mode:   WebSocket Long Connection      ║
-║   AI:     GPT-4o + GPT-4o-mini           ║
-║   Features: Tasks + Bitable + Reminders  ║
+║   Clawdbot — Operations Manager v4       ║
+║   App: ${APP_ID}    ║
+║   Mode: WebSocket Long Connection        ║
+╠══════════════════════════════════════════╣
+║ Bitable:  ${bitableStatus.padEnd(30)} ║
+║ N2M Group:${n2mStatus.padEnd(30)} ║
+║ Barron ID:${barronStatus.padEnd(30)} ║
+╠══════════════════════════════════════════╣
+║ Features:                                ║
+║ ✅ F1: N2M daily unanswered scan         ║
+║ ✅ F2: Bitable stale task @reminders     ║
+║ ✅ F3: Auto-reply @Barron questions      ║
+║ ⏰ Cron: 09:00 & 18:00 (Asia/Shanghai)  ║
 ╚══════════════════════════════════════════╝
 `);
+}
+
+startup();
