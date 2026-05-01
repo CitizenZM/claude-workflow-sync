@@ -349,6 +349,8 @@ function parseCmd(text) {
   if (t === 'brain' || t === '大脑' || t.startsWith('brain ') || t.startsWith('知道 ') || t.startsWith('知道')) return 'BRAIN';
   if (t === 'synthesize people' || t === '更新人物') return 'SYNTH_PEOPLE';
   if (t === 'decisions' || t === '决策日志') return 'DECISIONS';
+  if (t.startsWith('import history') || t.startsWith('导入历史')) return 'IMPORT_HISTORY';
+  if (t === 'scrape help' || t === '抓取帮助') return 'SCRAPE_HELP';
   return 'AI';
 }
 
@@ -694,6 +696,61 @@ wsClient.start({
             await new Promise(r => child.on('close', r));
             const summary = out.split('\n').filter(l => l.includes('🧠') || l.includes('✅') || l.includes('💰') || l.includes('Cost')).slice(-15).join('\n');
             reply = `✅ 完成\n\n${summary}`;
+            break;
+          }
+
+          case 'SCRAPE_HELP': {
+            const scrapeHelperPath = path.join(__dirname, 'scrape_helper.js');
+            const helperJs = fs.readFileSync(scrapeHelperPath, 'utf8');
+            reply = `📜 历史抓取流程 (浏览器辅助方式)
+
+由于飞书API只能看到机器人加入后的消息，要抓取历史数据请按以下步骤：
+
+**步骤 1**: 在飞书网页版打开目标群聊
+**步骤 2**: 按 F12 打开开发者控制台 → Console 标签
+**步骤 3**: 粘贴以下代码并回车:
+
+\`\`\`js
+${helperJs.slice(0, 1500)}...
+\`\`\`
+
+(完整代码在 ~/Developer/claude-workflow-sync/feishu-bot/scrape_helper.js)
+
+**步骤 4**: 用鼠标向上滚动消息区域 (触发懒加载)
+每滚动几屏运行: \`window.__clawd.capture()\`
+
+**步骤 5**: 完成后导出:
+\`\`\`js
+copy(JSON.stringify(window.__clawd.export()))
+\`\`\`
+
+**步骤 6**: 保存到文件 \`feishu-bot/history/<group>.json\`
+
+**步骤 7**: 在 DM 里发送: \`import history <filename> <groupname>\`
+例如: \`import history n2m_scrape.json N2M\``;
+            break;
+          }
+
+          case 'IMPORT_HISTORY': {
+            // "import history <file> <group>"
+            const parts = clean.split(/\s+/);
+            const file = parts[2] || parts[1];
+            const group = parts[3] || parts[2] || 'Unknown';
+            if (!file) {
+              reply = `用法: import history <file.json> <group_name>\n\n例如: import history n2m_scrape.json N2M`;
+              break;
+            }
+            reply = `📥 导入历史 ${file} 到 ${group}...`;
+            await send(receiveId, receiveIdType, reply);
+
+            const child = spawn('node', [path.join(__dirname, 'import_history.js'), file, group], { cwd: __dirname });
+            let out = '';
+            child.stdout.on('data', d => out += d);
+            child.stderr.on('data', d => out += d);
+            await new Promise(r => child.on('close', r));
+
+            const summary = out.split('\n').filter(l => l.includes('📥') || l.includes('🧠') || l.includes('✅') || l.includes('📊') || l.includes('👥') || l.includes('💰')).join('\n');
+            reply = `✅ 导入完成\n\n${summary}`;
             break;
           }
 
