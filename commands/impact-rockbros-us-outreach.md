@@ -6,75 +6,95 @@ model: haiku
 ---
 
 ## Pre-flight (autonomous — aborts, never prompts)
-- Model: **haiku** only. If Opus/Sonnet → `⛔ Wrong model — run /model haiku` and exit.
-- MCP: `mcp__playwright-impact-rockbros-us__*` exclusively (port 9306). No fallback.
-- Checkpoint `/tmp/outreach-impact-rockbros-us-checkpoint.json`: every 10 proposals.
+- Model: **haiku** only. If Opus/Sonnet → print `⛔ Wrong model — run /model haiku then re-run /impact-rockbros-us-outreach` and exit.
+- MCP: `mcp__playwright-impact-rockbros-us__*` exclusively (profile `~/.claude/browser-profiles/impact-rockbros-us`, port 9306). Fallback to generic `mcp__playwright__*` = forbidden.
+- Supervisor: provided by `/impact-rockbros-us-setup`. If missing this session, spawn via `~/.claude/skills/_shared/outreach-supervisor-prompt.md` before Step 0.
+- Checkpoint `/tmp/outreach-impact-rockbros-us-checkpoint.json`: every 10 confirmed proposals → batch-write all data → write checkpoint → message supervisor → apply verdict autonomously. Never wait for user input.
 
-```
 program_id=50132 | count=500 | target_per_page=20
 login: affiliate@celldigital.co / Celldigital2024*
 scripts: ~/.claude/skills/impact-rockbros-us-outreach/scripts/
-ledger:       /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
-intel_db:     /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
-obsidian:     /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach.md
-contract_date: DYNAMIC — new Date(Date.now()+86400000).toISOString().slice(0,10)
+ledger: /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
+intel_db: /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
+report: /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
+obsidian_workflow: /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach.md
+template_term: Rockbros USA Performance (highest-commission term available)
+contract_date: DYNAMIC — always use tomorrow's date: `new Date(Date.now()+86400000).toISOString().slice(0,10)`
 msg: "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample."
-```
 
-## Step 0: Browser Check
-`mcp__playwright-impact-rockbros-us__browser_evaluate`: `() => document.title`
+## Step 0: Browser Check (START HERE)
+`mcp__playwright-impact-rockbros-us__browser_evaluate`: `() => document.title` — confirm on Impact.
 If not on Impact: navigate to discover URL, snapshot once for login.
 
-## Step 1: Build Script + Run (browser_run_code ONLY)
+## Step 1: Dedup + Propose (browser_run_code — NOT browser_evaluate)
 
-1a. Read ledger, parse names ending in `impact-50132` → dedup array  
-1b. `CONTRACT_DATE = new Date(Date.now()+86400000).toISOString().slice(0,10)`  
-1c. `DISCOVER_URL = await browser_evaluate: () => location.href`  
-1d. Read `bulk-proposal.js`, replace ALL placeholders, call `browser_run_code`
+**CRITICAL**: `browser_run_code` only — the v5 script uses `page.locator()` for a11y-tree slideout scraping and `page.mouse.click()` for proposal iframe. Neither works with `browser_evaluate`.
 
-**Script returns per publisher (exact field names):**
+1a. Read ledger (create if missing), parse names into dedup array from rows containing `impact-50132`.
+
+1b. Calculate CONTRACT_DATE: `new Date(Date.now()+86400000).toISOString().slice(0,10)`
+
+1c. Calculate REPORT_DATE: `new Date().toISOString().slice(0,10)`
+
+1d. Get DISCOVER_URL via `browser_evaluate: () => location.href`
+
+1e. Read `bulk-proposal.js`. Replace ALL placeholders inline before passing to browser_run_code:
+  - `"%%DISCOVER_URL%%"` → `"<current URL>"`
+  - `"%%MSG%%"` → `"<msg string>"`
+  - `"%%CONTRACT_DATE%%"` → `"<tomorrow>"`
+  - `%%ALREADY%%` → `JSON.stringify(dedup array)` (no quotes — it's an array literal)
+  - `%%TARGET%%` → `20`
+
+Run via `mcp__playwright-impact-rockbros-us__browser_run_code`.
+
+**Returns full publisher intel:**
 ```json
 {
-  "name": "Be Kept Up, LLC",
-  "partner_id": "1448331",
-  "status": "Active",
-  "partner_size": "Extra Large",
-  "business_model": "Network",
-  "description": "Performance-Based Publisher Agency...",
-  "contact_name": "Joshua Kopac",
-  "contact_role": "Marketplace Contact",
-  "contact_email": "jkopac@me.com",
-  "language": "English",
-  "promotional_areas": [],
-  "corporate_address": "Wilton, CONNECTICUT United States of America",
-  "content_categories": [],
-  "legacy_categories": ["Apparel...", "Women's Apparel", "..."],
-  "legacy_categories_full": ["Apparel...", "..."],
-  "tags": ["banking", "finance", "..."],
-  "tags_full": ["banking", "finance", "..."],
-  "all_contacts": [{"name":"Joshua Kopac","role":"Marketplace Contact","email":"jkopac@me.com","initials":"JK"}],
-  "media_kit_urls": [{"name":"Be Kept Up 1-Sheet.pdf","url":"https://cdn..."}],
-  "media_kit_count": 2,
-  "currency": "USD",
-  "website": "https://voyagertribe.com/",
-  "learn_more_url": "https://voyagertribe.com/",
-  "social_properties": [{"url":"https://voyagertribe.com/","text":"https://voyagertribe.com/"}],
-  "verified": false,
-  "semrush_global_rank": null,
-  "monthly_visitors": null,
-  "moz_spam_score": null,
-  "moz_domain_authority": null,
-  "scraped_at": "2026-04-30",
-  "termVerified": true,
-  "termText": "Rockbros USA Performance",
-  "dateVerified": true,
-  "proposal_sent": true
+  "total": N,
+  "errorCount": N,
+  "publishers": [{
+    "name": "...",
+    "partner_id": "...",
+    "status": "Active|New|Pending",
+    "partner_size": "Extra Large|Large|Medium|Small",
+    "business_model": "Network|Content|...",
+    "description": "...",
+    "contact_name": "...",
+    "contact_role": "Marketplace Contact",
+    "contact_email": "...",
+    "language": "English",
+    "promotional_areas": [],
+    "corporate_address": "City, STATE United States of America",
+    "content_categories": [],
+    "legacy_categories": ["Apparel...", ...],
+    "tags": ["gaming", ...],
+    "media_kit_urls": [{"name":"...", "url":"..."}],
+    "currency": "USD",
+    "website": "https://...",
+    "learn_more_url": "https://...",
+    "social_properties": [{"url":"...", "text":"..."}],
+    "verified": false,
+    "scraped_at": "YYYY-MM-DD",
+    "termVerified": true,
+    "termText": "...",
+    "dateVerified": true,
+    "proposal_sent": true
+  }],
+  "errors": []
 }
 ```
 
-## Step 2: Save — THREE targets, ONE batch per page
+## Step 2: Save All Data (ONE batch write per page — never per-row)
 
-### 2a. Supabase (FIRST — primary database)
+> **Supabase-first**: all publisher intel goes to the `pf` database. Obsidian files are secondary mirrors.
+> Script: `~/.claude/skills/impact-rockbros-us-outreach/scripts/ingest-supabase.js`
+> Run: `node --input-type=module ~/.claude/skills/impact-rockbros-us-outreach/scripts/ingest-supabase.js '<PUBLISHERS_JSON>' '50132' '<DISCOVER_TAB>'`
+> Returns: `{ok, inserted, updated, intelRows, errors[]}`
+> On error: log errors, continue — never block on DB failures.
+
+### 2a-supabase. Write to Supabase (PRIORITY — run first)
+
+### 2a-supabase (continued). Exact CLI call after each batch:
 ```bash
 node --input-type=module \
   ~/.claude/skills/impact-rockbros-us-outreach/scripts/ingest-supabase.js \
@@ -82,66 +102,85 @@ node --input-type=module \
   '50132' \
   '<CURRENT_TAB_HASH>'
 ```
-Returns `{ok, updated, intelRows, errors}`. Log errors, never block.
+Parse response `{ok, updated, intelRows, errors}`. Log but do not block on errors.
 
-**What gets written:**
-- `pf.publishers` — COALESCE upsert keyed on `publisher_id = "impact-{partner_id}"`
-  - `email` ← `contact_email` (NEVER overwritten with null if already set)
-  - `contact_name`, `contact_role` (NEVER overwritten with null)
-  - All other fields: only overwrite if new value is non-null/non-empty
-- `pf.program_publishers` — upsert on `(program_id=5, publisher_id)`
-- `pf.publisher_intel` — INSERT new row (full snapshot including `contact_email`, `contact_name`, `contact_role`)
-
-### 2b. Ledger (Obsidian dedup key)
-Append to `ledger` in ONE Edit:
+### 2b. Ledger row (dedup key — pipe-delimited, secondary mirror)
+Append to `ledger` in a SINGLE Edit, one row per publisher:
 ```
-{name}|{contact_email or "email_missing"}|{YYYY-MM-DD}|impact-50132|{partner_id or "id_missing"}|{status}|{partner_size}|{website or ""}|{contact_name or ""}
+name|contact_email|YYYY-MM-DD|impact-50132|partner_id|status|partner_size|website|contact_name
 ```
-**FIELD MAPPING**: `contact_email` from script → ledger column 2. `contact_name` → column 9.
+- `contact_email` → use `email_missing` if null, never blank
+- `partner_id` → use `id_missing` if null
 
-### 2c. Publisher Intel (Obsidian full profile)
-Append to `intel_db` in ONE Edit per batch:
+### 2b. Publisher Intel Database
+Append to `intel_db` in a SINGLE Edit. Each publisher gets a full block:
 ```markdown
-## {name} — {YYYY-MM-DD}
-- **Publisher ID**: impact-{partner_id} | **Network ID**: {partner_id}
-- **Status**: {status} | **Size**: {partner_size} | **Model**: {business_model}
-- **Contact Name**: {contact_name}
-- **Contact Role**: {contact_role}
-- **Contact Email**: {contact_email}
-- **All Contacts**: {all_contacts — JSON}
-- **Address**: {corporate_address}
-- **Language**: {language} | **Currency**: {currency}
-- **Website**: {website} | **Verified**: {verified}
-- **Semrush Rank**: {semrush_global_rank} | **Monthly Visitors**: {monthly_visitors}
-- **Moz DA**: {moz_domain_authority} | **Moz Spam**: {moz_spam_score}
-- **Description**: {description — first 300 chars}
-- **Legacy Categories**: {legacy_categories_full joined ", "}
-- **Tags**: {tags_full joined ", "}
-- **Media Kits**: {media_kit_urls — names only}
-- **Social Properties**: {social_properties — urls}
-- **Term**: {termText} ✓{termVerified} | **Date**: ✓{dateVerified}
+## [name] — [YYYY-MM-DD]
+- **Partner ID**: [partner_id]
+- **Status**: [status] | **Size**: [partner_size] | **Model**: [business_model]
+- **Contact**: [contact_name] · [contact_role] · [contact_email]
+- **Address**: [corporate_address]
+- **Language**: [language] | **Currency**: [currency]
+- **Website**: [website]
+- **Verified**: [verified]
+- **Description**: [description — first 200 chars]
+- **Legacy Categories**: [legacy_categories joined with ", "]
+- **Tags**: [tags joined with ", "]
+- **Media Kits**: [media_kit_urls — names only]
+- **Social Properties**: [social_properties — urls]
+- **Promo Areas**: [promotional_areas joined with ", " or "None"]
+- **Term**: [termText] (verified: [termVerified]) | **Date verified**: [dateVerified]
 ---
 ```
 
-## Step 3: Next Page + Loop
-Run `next-page.js` via `browser_evaluate`. `{ok:true}` → repeat. `{ok:false}` → Step 4.
+### 2c. Report row
+Append to `report` (pipe table) in a SINGLE Edit:
+```
+| name | contact_email | contact_name | partner_id | status | partner_size | website | tags | date |
+```
 
-## Step 4: Final Report + Obsidian Session Sync
-Append to `obsidian`:
+### 2d. Checkpoint (every 10)
+Write `/tmp/outreach-impact-rockbros-us-checkpoint.json`:
+```json
+{
+  "batch_n": N,
+  "total": N,
+  "errorCount": N,
+  "rows": [...full publisher objects...],
+  "error_samples": [...],
+  "local_signal": "OK|DEGRADED"
+}
+```
+→ message supervisor → apply verdict autonomously.
+
+## Step 3: Next Page + Loop
+Run `next-page.js` via `mcp__playwright-impact-rockbros-us__browser_evaluate`.
+- `{ok:true}` → re-run Step 1+2 until count reached
+- `{ok:false}` → done, go to Step 4
+
+## Step 4: Final Report + Obsidian Sync
+4a. Write final report with: totals, term_verified rate, date_verified rate, intel capture rate, full table.
+
+4b. **Obsidian Workflow Sync** — append to `obsidian_workflow`:
 ```markdown
 ## Session YYYY-MM-DD
-- Proposals sent: {N} | Errors: {errorCount}
-- Email captured: {emails}/{N} ({pct}%) | Contact name: {names}/{N}
-- Websites: {websites}/{N} | Verified: {verified}/{N}
-- DB rows written: publishers={updated} intel={intelRows}
-- Top 5: [{name} · {contact_email} · {website}]
+- Proposals sent: [N] | Errors: [errorCount]
+- Emails captured: [N]/[N] | Websites captured: [N]/[N]
+- Term verified: [N]% | Date verified: [N]%
+- Intel fields avg: [avg non-null fields per publisher]/20
+- Top publishers: [name · size · model · website for top 5]
 ```
+
+4c. Verify ledger row count matches `total` sent this session.
+
+## Auto-Recovery
+If browser_run_code fails 2×: write checkpoint with `local_signal: "DEGRADED"`, request supervisor verdict, apply fix once. Do NOT spawn second Opus agent.
 
 ## Rules
 1. NEVER snapshot except login
-2. browser_run_code ONLY for proposals — page.locator() needs page access
-3. contact_email is REQUIRED — write `email_missing` in ledger if null, never skip
-4. contact_name is REQUIRED in intel block — write `name_missing` if null
-5. Supabase FIRST, Obsidian SECOND — DB is primary
-6. COALESCE upsert: existing email/contact never overwritten with null
-7. FULLY AUTONOMOUS — no stops, no prompts
+2. ALWAYS browser_run_code (NOT browser_evaluate) for proposals — v5 uses page.locator() which requires page access
+3. Save ALL 20 intel fields per publisher — not just name/email
+4. ONE Edit per batch for ledger, ONE Edit per batch for intel_db, ONE Edit per batch for report
+5. FULLY AUTONOMOUS — no stops, no prompts, no questions
+6. termVerified must be true to count as success
+7. Contract date always = tomorrow, calculated fresh at runtime

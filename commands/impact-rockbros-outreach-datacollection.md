@@ -1,9 +1,9 @@
 ---
-description: "Impact Rockbros US — Full workflow. Sonnet login+setup+tab-loop → pre-built Haiku per tab. Usage: /impact-rockbros-us [count]"
+description: "Impact Rockbros US — Outreach + full publisher data collection. Sonnet login+setup+tab-loop → pre-built Haiku per tab. Usage: /impact-rockbros-outreach-datacollection [count]"
 model: sonnet
 ---
 
-# Impact Rockbros US — Unified Outreach Workflow
+# Impact Rockbros US — Outreach + Data Collection Workflow
 
 **Harness**: Sonnet owns login + filter setup + tab loop. Fresh Haiku per tab — pre-built script, 1 tool call per tab.
 **MCP**: `mcp__playwright-impact-rockbros-us__` for ALL browser calls
@@ -19,10 +19,10 @@ target_per_tab : 20
 template_term  : Rockbros USA Performance (highest-commission term)
 login          : affiliate@celldigital.co / Celldigital2024*
 scripts        : ~/.claude/skills/impact-rockbros-us-outreach/scripts/
-ledger         : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
-intel_db       : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
-report         : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
-obsidian       : /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach.md
+ledger         : ~/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
+intel_db       : ~/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
+report         : ~/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
+obsidian       : ~/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Outreach.md
 msg            : "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample."
 contract_date  : DYNAMIC — new Date(Date.now()+86400000).toISOString().slice(0,10)
 ```
@@ -129,7 +129,7 @@ Invoke Agent tool:
 - `prompt`: PER-TAB HAIKU PROMPT below with `{tab_num}` and `{SCRIPT}` filled in
 
 **E. Parse Haiku result + Save ALL intel (3 writes per batch):**
-Haiku returns full publisher objects (20 fields each). Sonnet writes THREE files per tab — all in a single pass:
+Haiku returns full publisher objects (26 fields each). Sonnet writes THREE files per tab — all in a single pass:
 
 **Ledger** (dedup key, ONE Edit):
 ```
@@ -144,11 +144,12 @@ name|contact_email|YYYY-MM-DD|impact-50132|partner_id|status|partner_size|websit
 - **Address**: [corporate_address] | **Language**: [language] | **Currency**: [currency]
 - **Website**: [website] | **Verified**: [verified]
 - **Description**: [description — first 200 chars]
-- **Legacy Categories**: [legacy_categories joined ", "]
-- **Tags**: [tags joined ", "]
-- **Media Kits**: [media_kit_urls names]
+- **Legacy Categories**: [legacy_categories_full joined ", "]
+- **Tags**: [tags_full joined ", "]
+- **Media Kits**: [media_kit_urls names] (count: [media_kit_count])
 - **Social Properties**: [social_properties urls]
-- **Promo Areas**: [promotional_areas or "None"]
+- **Promo Areas**: [promotional_areas joined ", " or "None"]
+- **All Contacts**: [all_contacts formatted as "name (role) email"]
 - **Term**: [termText] ✓[termVerified] | **Date**: ✓[dateVerified]
 ---
 ```
@@ -188,9 +189,11 @@ Output the complete raw JSON as your ONLY message:
   "publishers": [{
     "name":"...", "partner_id":"...", "status":"...", "partner_size":"...", "business_model":"...",
     "description":"...", "contact_name":"...", "contact_role":"...", "contact_email":"...",
+    "all_contacts":[{"name":"...","role":"...","email":"...","initials":"..."}],
     "language":"...", "promotional_areas":[], "corporate_address":"...",
-    "content_categories":[], "legacy_categories":[], "tags":[],
-    "media_kit_urls":[], "currency":"...",
+    "content_categories":[], "legacy_categories":[], "legacy_categories_full":[],
+    "tags":[], "tags_full":[],
+    "media_kit_urls":[], "media_kit_count":0, "currency":"...",
     "website":"...", "learn_more_url":"...", "social_properties":[], "verified":null,
     "scraped_at":"...", "termVerified":true, "termText":"...", "dateVerified":true, "proposal_sent":true
   }],
@@ -201,7 +204,7 @@ HARD RULES:
 - EXACTLY 1 tool call — browser_run_code only. Zero others.
 - Do NOT read files. Do NOT snapshot. Do NOT navigate. Do NOT browser_evaluate.
 - The script scrapes ALL publisher intel AND sends proposals. It is self-contained.
-- Return the COMPLETE JSON including all 20+ fields per publisher.
+- Return the COMPLETE JSON including all 26 fields per publisher.
 - If browser_run_code errors: {"tab":{tab_num},"total":0,"errorCount":1,"publishers":[],"errors":["run_code_failed"]}
 ```
 
@@ -227,7 +230,7 @@ Ledger   : {grand_total_rows} rows total
 ## Session YYYY-MM-DD
 - Proposals sent: {session_sent}
 - Intel captured: {publishers_with_email}/{session_sent} emails, {publishers_with_website}/{session_sent} websites
-- Intel fields avg: {avg_non_null_fields}/20 per publisher
+- Intel fields avg: {avg_non_null_fields}/26 per publisher
 - Tabs covered: {tab_num}
 - Emails captured: {emails_found}/{session_sent}
 - Term verified: {term_ok_count}% | Date verified: {date_ok_count}%

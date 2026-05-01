@@ -19,6 +19,18 @@ LOG="$SYNC_REPO/.sync.log"
 # Obsidian vault — override with OBSIDIAN_VAULT env var on machines where path differs
 VAULT_DIR="${OBSIDIAN_VAULT:-/Volumes/workssd/ObsidianVault}"
 
+# GitHub auth — inject GITHUB_TOKEN into remote URL if set, avoids keychain conflicts
+_git_push_authenticated() {
+  local repo_dir="$1"; shift
+  if [ -n "${GITHUB_TOKEN:-}" ]; then
+    local remote_url
+    remote_url=$(git -C "$repo_dir" remote get-url origin 2>/dev/null | sed "s|https://|https://CitizenZM:$GITHUB_TOKEN@|")
+    git -C "$repo_dir" push "$remote_url" main "$@" 2>/dev/null
+  else
+    git -C "$repo_dir" push origin main "$@" 2>/dev/null
+  fi
+}
+
 log() { echo "[$(date +%H:%M:%S)] [claude-sync] $*" | tee -a "$LOG"; }
 
 # Custom skills = everything in skills/ NOT in marketplace-skills.txt
@@ -70,7 +82,29 @@ sync_pull() {
   # 7. skills-lock.json → home dir
   [ -f "$SYNC_REPO/skills-lock.json" ] && cp "$SYNC_REPO/skills-lock.json" "$HOME/skills-lock.json" && log "skills-lock.json applied"
 
-  # 8. Obsidian vault
+  # 8. scripts/ → ~/.claude/scripts/ (chmod +x all)
+  if [ -d "$SYNC_REPO/scripts" ]; then
+    mkdir -p "$CLAUDE_DIR/scripts"
+    rsync -a "$SYNC_REPO/scripts/" "$CLAUDE_DIR/scripts/" 2>/dev/null
+    chmod +x "$CLAUDE_DIR/scripts/"*.sh 2>/dev/null || true
+    log "scripts applied ($(ls "$SYNC_REPO/scripts" | wc -l | tr -d ' ') files)"
+  fi
+
+  # 9. Regenerate ~/.mcp.json with machine-correct absolute paths
+  cat > "$HOME/.mcp.json" <<MCPEOF
+{
+    "mcpServers": {
+        "playwright": {
+            "command": "$CLAUDE_DIR/scripts/playwright-mcp.sh",
+            "args": [],
+            "type": "stdio"
+        }
+    }
+}
+MCPEOF
+  log ".mcp.json regenerated (port-isolated playwright)"
+
+  # 11. Obsidian vault
   if [ -d "$VAULT_DIR/.git" ]; then
     cd "$VAULT_DIR"
     git pull --rebase origin main 2>/dev/null && log "vault pulled OK" || log "vault pull failed (offline?)"
@@ -117,17 +151,23 @@ sync_push() {
   # 5. skills-lock.json
   [ -f "$HOME/skills-lock.json" ] && cp "$HOME/skills-lock.json" "$SYNC_REPO/skills-lock.json"
 
-  # 6. Commit and push claude-workflow-sync
+  # 6. scripts/ ← ~/.claude/scripts/ (push custom scripts back to repo)
+  if [ -d "$CLAUDE_DIR/scripts" ]; then
+    mkdir -p "$SYNC_REPO/scripts"
+    rsync -a "$CLAUDE_DIR/scripts/" "$SYNC_REPO/scripts/" 2>/dev/null
+  fi
+
+  # 8. Commit and push claude-workflow-sync
   git add -A
   if git diff --cached --quiet; then
     log "nothing changed — no push needed"
   else
     COMMIT_MSG="auto-sync: $(hostname -s) $(date '+%Y-%m-%d %H:%M')"
     git commit -m "$COMMIT_MSG"
-    git push origin main 2>/dev/null && log "pushed to GitHub" || log "push failed (offline? retry next session)"
+    _git_push_authenticated "$SYNC_REPO" && log "pushed to GitHub" || log "push failed (offline? retry next session)"
   fi
 
-  # 7. Push Obsidian vault
+  # 9. Push Obsidian vault
   if [ -d "$VAULT_DIR/.git" ]; then
     cd "$VAULT_DIR"
     git add -A
@@ -135,7 +175,7 @@ sync_push() {
       log "vault unchanged — no push needed"
     else
       git commit -m "auto-sync: $(hostname -s) $(date '+%Y-%m-%d %H:%M')"
-      git push origin main 2>/dev/null && log "vault pushed to GitHub" || log "vault push failed (offline?)"
+      _git_push_authenticated "$VAULT_DIR" && log "vault pushed to GitHub" || log "vault push failed (offline?)"
     fi
     cd "$SYNC_REPO"
   else
