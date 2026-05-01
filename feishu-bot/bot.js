@@ -5,6 +5,7 @@ const cron = require('node-cron');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const conv = require('./conversation');
 
 const APP_ID = process.env.FEISHU_APP_ID;
 const APP_SECRET = process.env.FEISHU_APP_SECRET;
@@ -290,17 +291,30 @@ async function autoReplyForBarron(text, chatId, senderId, senderName) {
     } catch {}
   }
 
-  const reply = await gptAnalyze(
-    `You are Clawdbot, the AI operations assistant for Barron Zuo at GoGlobal Accelerator.
-When someone asks Barron a question in a group chat, you respond on his behalf.
-Reply professionally as if you are Barron's assistant.
-Keep it concise (2-4 sentences). Be helpful and specific.
-If you don't know the answer, say Barron will follow up.
-Context about current tasks:${bitableCtx}
-Current date: ${new Date().toLocaleDateString('zh-CN')}`,
-    `${senderName || 'Someone'} asked in the group: "${text}"\n\nProvide a helpful response on behalf of Barron.`
-  );
+  // Use conversation framework with voice profile for authentic auto-reply
+  const recentTurns = conv.getRecentTurns(chatId, 4);
+  const voiceProfile = conv.getVoiceProfile();
 
+  const ctx = `Date: ${new Date().toLocaleDateString('zh-CN')}${bitableCtx}${
+    recentTurns.length ? `\nRecent group chat:\n${recentTurns.map(t => `[${t.sender||'?'}]: ${t.content}`).join('\n')}` : ''
+  }`;
+
+  const sysPrompt = conv.buildSystemPrompt({
+    context: ctx,
+    voice: voiceProfile,
+    mode: 'auto-reply'
+  });
+
+  const res = await openai.chat.completions.create({
+    model: 'gpt-4o', max_tokens: 200, temperature: 0.7,
+    messages: [
+      { role: 'system', content: sysPrompt },
+      { role: 'user', content: `${senderName || 'Someone'} just asked: "${text}"` }
+    ]
+  });
+
+  let reply = res.choices[0].message.content;
+  reply = conv.stripMechanicalOpening(reply);
   return reply;
 }
 
@@ -322,6 +336,9 @@ function parseCmd(text) {
   if (t.includes('my id') || t === 'open id') return 'MYID';
   if (t.includes('set n2m') || t.includes('register group')) return 'SET_GROUP';
   if (t === 'status' || t === '状态') return 'SYSTEM_STATUS';
+  if (t === 'voice' || t === 'voice profile' || t === '风格') return 'VOICE';
+  if (t === 'update voice' || t === '更新风格') return 'VOICE_UPDATE';
+  if (t === 'forget' || t === 'reset memory' || t === '清除记忆') return 'RESET_MEMORY';
   return 'AI';
 }
 
@@ -376,6 +393,10 @@ wsClient.start({
           saveData(ops);
           console.log(`✅ Captured Barron's open_id: ${senderId}`);
         }
+        // Record Barron's DM messages for voice learning (he's the one writing here)
+        if (ops.barronOpenId === senderId) {
+          conv.recordBarronMessage(text);
+        }
       }
 
       // Auto-register new group chats the bot is added to
@@ -387,6 +408,10 @@ wsClient.start({
           ops.chats.N2M = chatId;
           saveData(ops);
           console.log(`✅ Registered N2M group chat_id: ${chatId}`);
+        }
+        // Record Barron's group messages for voice learning
+        if (senderId === ops.barronOpenId) {
+          conv.recordBarronMessage(text);
         }
       }
 
@@ -524,7 +549,30 @@ wsClient.start({
             const n2mStatus = ops.chats?.N2M ? `✅ ${ops.chats.N2M.slice(-8)}` : '❌ Not registered';
             const bitableStatus = ops.bitables?.length ? `✅ ${ops.bitables[0].name}` : '❌ Not connected';
             const barronStatus = ops.barronOpenId ? `✅ ${ops.barronOpenId.slice(-8)}` : '❌ Not captured';
-            reply = `🤖 Clawdbot System Status\n\n📊 Bitable: ${bitableStatus}\n💬 N2M Group: ${n2mStatus}\n👤 Barron ID: ${barronStatus}\n📋 Tasks: ${ops.tasks?.length || 0} tracked\n\n⏰ Scheduled jobs:\n• 09:00 daily — Bitable stale check + N2M report\n• 18:00 daily — Evening briefing`;
+            const voice = conv.loadVoice();
+            const voiceStatus = voice.profile ? `✅ ${voice.sampleCount} samples learned` : `📝 ${voice.sampleCount}/5 samples (need 5+)`;
+            reply = `🤖 Clawdbot v5\n\n📊 Bitable: ${bitableStatus}\n💬 N2M Group: ${n2mStatus}\n👤 Barron ID: ${barronStatus}\n📋 Tasks: ${ops.tasks?.length || 0}\n🎭 Voice: ${voiceStatus}\n\n⏰ Cron: 09:00 stale+N2M | 18:00 briefing | 03:00 voice update`;
+            break;
+          }
+
+          case 'VOICE': {
+            const v = conv.loadVoice();
+            if (!v.profile) reply = `📝 Voice profile not built yet.\n\nSamples collected: ${v.sampleCount}\nNeed 5+ samples. Type "update voice" to force build.`;
+            else reply = `🎭 Your voice profile:\n\n${v.profile}\n\n(Based on ${v.sampleCount} samples, last updated ${new Date(v.lastUpdate).toLocaleString('zh-CN')})`;
+            break;
+          }
+
+          case 'VOICE_UPDATE': {
+            const profile = await conv.updateVoiceProfile(openai);
+            if (profile) reply = `✅ Voice profile updated:\n\n${profile}`;
+            else reply = `⚠️ Need at least 5 samples. Currently have ${conv.loadVoice().sampleCount}. Send more messages to teach me your style.`;
+            break;
+          }
+
+          case 'RESET_MEMORY': {
+            const fs = require('fs');
+            try { fs.writeFileSync(path.join(__dirname, 'conversation_memory.json'), '{}'); } catch {}
+            reply = `🧹 Conversation memory cleared. Starting fresh.`;
             break;
           }
 
@@ -561,29 +609,58 @@ wsClient.start({
 
             const open = ops.tasks.filter(t=>!t.done);
             const incomplete = bitableTasks.filter(t=>!['已完成','Done'].includes(t.status));
-            const contextBlock = `Manual tasks (${open.length}): ${open.slice(0,3).map(t=>t.title).join(', ')||'none'}
-Bitable incomplete (${incomplete.length}): ${incomplete.slice(0,3).map(t=>`${t.task} (${t.owner})`).join(', ')||'none'}
-N2M group registered: ${!!ops.chats?.N2M}
-Auto-reply active: ${!!ops.barronOpenId}`;
+
+            // Build context — only include what's relevant
+            const ctxParts = [];
+            if (open.length) ctxParts.push(`Open manual tasks: ${open.slice(0,3).map(t=>t.title).join('; ')}`);
+            if (incomplete.length) ctxParts.push(`TCL Tracker incomplete: ${incomplete.length} tasks. Top 3: ${incomplete.slice(0,3).map(t=>`${t.task} (${t.owner})`).join('; ')}`);
+
+            const recentTurns = conv.getRecentTurns(chatId, 6);
+            const ctxString = ctxParts.join('\n') || 'No active tasks.';
+
+            // Classify intent for response length
+            const mode = conv.classifyMode(clean);
+            const voice = conv.getVoiceProfile();
+
+            const sysPrompt = conv.buildSystemPrompt({ context: ctxString, voice, mode });
+
+            // Build message history with conversation memory
+            const messages = [{ role: 'system', content: sysPrompt }];
+            recentTurns.forEach(t => {
+              messages.push({ role: t.role, content: t.content });
+            });
+            messages.push({ role: 'user', content: clean });
+
+            // Token budget per mode
+            const maxTok = mode === 'concise' ? 120 : (mode === 'detailed' ? 600 : 250);
 
             const res = await openai.chat.completions.create({
-              model: 'gpt-4o', max_tokens: 800,
-              messages: [
-                { role:'system', content:`You are Clawdbot, Barron Zuo's AI Operations Manager at GoGlobal Accelerator. Be concise, direct, bilingual (EN/ZH). Context: ${contextBlock}` },
-                { role:'user', content: clean }
-              ]
+              model: 'gpt-4o',
+              max_tokens: maxTok,
+              temperature: 0.75,
+              presence_penalty: 0.4,
+              frequency_penalty: 0.3,
+              messages
             });
-            reply = res.choices[0].message.content;
 
-            // Extract tasks from AI conversation
-            try {
-              const ex = JSON.parse((await gptMini(`Extract tasks from: "${clean}". JSON array [{"title":"...","due":"date or null","assignee":"name or null"}] or []. Return ONLY the JSON.`)).trim().replace(/```json|```/g,''));
-              if (Array.isArray(ex) && ex.length) {
-                ops.tasks.push(...ex.map(t=>({ id:`${Date.now()}${Math.random().toString(36).slice(2,5)}`, title:t.title, due:t.due||null, assignee:t.assignee||null, chat:chatId, createdAt:new Date().toISOString(), done:false })));
-                saveData(ops);
-                reply += `\n\n📌 Auto-tracked ${ex.length} task(s).`;
-              }
-            } catch {}
+            reply = res.choices[0].message.content;
+            reply = conv.stripMechanicalOpening(reply);
+
+            // Record this turn in memory
+            conv.recordTurn(chatId, 'user', clean, sender.sender_id?.name || senderId.slice(-6));
+            conv.recordTurn(chatId, 'assistant', reply, 'Clawdbot');
+
+            // Silently extract tasks (only in DM)
+            if (chatType === 'p2p') {
+              try {
+                const ex = JSON.parse((await gptMini(`Extract concrete tasks (with deadlines) from: "${clean}". JSON [{"title":"...","due":"YYYY-MM-DD or null","assignee":"name or null"}] or []. Only real tasks, not questions. Return ONLY JSON.`)).trim().replace(/```json|```/g,''));
+                if (Array.isArray(ex) && ex.length) {
+                  ops.tasks.push(...ex.map(t=>({ id:`${Date.now()}${Math.random().toString(36).slice(2,5)}`, title:t.title, due:t.due||null, assignee:t.assignee||null, chat:chatId, createdAt:new Date().toISOString(), done:false })));
+                  saveData(ops);
+                  // Don't append visible task notification — keep replies clean
+                }
+              } catch {}
+            }
           }
         }
 
@@ -638,6 +715,15 @@ cron.schedule('0 9 * * *', async () => {
   console.log('[CRON] 09:00 — Running daily checks...');
   await runBitableStaleCheck(false);
   await runN2MMonitoring(false);
+}, { timezone: 'Asia/Shanghai' });
+
+// Every day at 3:00 AM — Update voice profile from accumulated samples
+cron.schedule('0 3 * * *', async () => {
+  console.log('[CRON] 03:00 — Updating voice profile...');
+  try {
+    const profile = await conv.updateVoiceProfile(openai);
+    if (profile) console.log('[CRON] ✅ Voice profile refreshed');
+  } catch(e) { console.error('[CRON] Voice update error:', e.message); }
 }, { timezone: 'Asia/Shanghai' });
 
 // Every day at 6:00 PM — Evening summary to Barron

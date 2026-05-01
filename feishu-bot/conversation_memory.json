@@ -1,0 +1,52 @@
+{
+  "oc_d425b6039f1dd37a853299e03698f6ca": [
+    {
+      "role": "user",
+      "content": "现在TCL有几个紧急任务？",
+      "sender": "2c59ca",
+      "ts": 1777657483728
+    },
+    {
+      "role": "assistant",
+      "content": "有10个紧急任务。",
+      "sender": "Clawdbot",
+      "ts": 1777657483728
+    },
+    {
+      "role": "user",
+      "content": "现在TCL有几个紧急任务？",
+      "sender": "2c59ca",
+      "ts": 1777657503452
+    },
+    {
+      "role": "assistant",
+      "content": "10个。",
+      "sender": "Clawdbot",
+      "ts": 1777657503453
+    },
+    {
+      "role": "user",
+      "content": "列出所有超期任务",
+      "sender": "2c59ca",
+      "ts": 1777657618365
+    },
+    {
+      "role": "assistant",
+      "content": "- 客户合约签署\n- 产品页面增加购买倒计时：Limited Stock 库存或名额提示\n- 客户法务 - EDM",
+      "sender": "Clawdbot",
+      "ts": 1777657618366
+    },
+    {
+      "role": "user",
+      "content": "列出所有超期任务",
+      "sender": "2c59ca",
+      "ts": 1777657634549
+    },
+    {
+      "role": "assistant",
+      "content": "目前没有详细列出所有任务的完整列表。你可以查看第一标签页中的超期任务。",
+      "sender": "Clawdbot",
+      "ts": 1777657634549
+    }
+  ]
+}
