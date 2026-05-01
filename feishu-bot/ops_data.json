@@ -334,5 +334,6 @@
       "name": "TCL Weekly Execution Tracker"
     }
   ],
-  "barronOpenId": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca"
+  "barronOpenId": "ou_cb0a6c0b87900ddaa9d2b37cad2c59ca",
+  "silentMode": true
 }

@@ -2,30 +2,6 @@
   "oc_d425b6039f1dd37a853299e03698f6ca": [
     {
       "role": "user",
-      "content": "现在TCL有几个紧急任务？",
-      "sender": "2c59ca",
-      "ts": 1777657483728
-    },
-    {
-      "role": "assistant",
-      "content": "有10个紧急任务。",
-      "sender": "Clawdbot",
-      "ts": 1777657483728
-    },
-    {
-      "role": "user",
-      "content": "现在TCL有几个紧急任务？",
-      "sender": "2c59ca",
-      "ts": 1777657503452
-    },
-    {
-      "role": "assistant",
-      "content": "10个。",
-      "sender": "Clawdbot",
-      "ts": 1777657503453
-    },
-    {
-      "role": "user",
       "content": "列出所有超期任务",
       "sender": "2c59ca",
       "ts": 1777657618365
@@ -47,6 +23,54 @@
       "content": "目前没有详细列出所有任务的完整列表。你可以查看第一标签页中的超期任务。",
       "sender": "Clawdbot",
       "ts": 1777657634549
+    },
+    {
+      "role": "user",
+      "content": "现在TCL有几个紧急任务？",
+      "sender": "2c59ca",
+      "ts": 1777657806225
+    },
+    {
+      "role": "assistant",
+      "content": "10个。",
+      "sender": "Clawdbot",
+      "ts": 1777657806227
+    },
+    {
+      "role": "user",
+      "content": "确认你不会在群里里回复和发言",
+      "sender": "2c59ca",
+      "ts": 1777657863006
+    },
+    {
+      "role": "assistant",
+      "content": "不确定 — 请咨询团队管理员。",
+      "sender": "Clawdbot",
+      "ts": 1777657863007
+    },
+    {
+      "role": "user",
+      "content": "确认你不会在群里里回复和发言",
+      "sender": "2c59ca",
+      "ts": 1777657881994
+    },
+    {
+      "role": "assistant",
+      "content": "无法在群里发言。",
+      "sender": "Clawdbot",
+      "ts": 1777657881994
+    },
+    {
+      "role": "user",
+      "content": "列出所有超期任务",
+      "sender": "2c59ca",
+      "ts": 1777657937368
+    },
+    {
+      "role": "assistant",
+      "content": "超期任务有：\n\n1. 客户合约签署\n2. 产品页面增加购买倒计时：Limited Stock 库存或名额提示\n3. 客户法务 - EDM",
+      "sender": "Clawdbot",
+      "ts": 1777657937371
     }
   ]
 }

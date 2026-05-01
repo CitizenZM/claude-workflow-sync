@@ -1,9 +1,10 @@
 {
   "samples": [
     "现在TCL有几个紧急任务？",
-    "列出所有超期任务"
+    "列出所有超期任务",
+    " 确认你不会在群里里回复和发言"
   ],
   "profile": null,
   "lastUpdate": 0,
-  "sampleCount": 2
+  "sampleCount": 3
 }

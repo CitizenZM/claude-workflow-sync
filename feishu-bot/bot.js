@@ -339,6 +339,9 @@ function parseCmd(text) {
   if (t === 'voice' || t === 'voice profile' || t === '风格') return 'VOICE';
   if (t === 'update voice' || t === '更新风格') return 'VOICE_UPDATE';
   if (t === 'forget' || t === 'reset memory' || t === '清除记忆') return 'RESET_MEMORY';
+  if (t === 'silent on' || t === 'mute' || t === '静默' || t === '关闭对话') return 'SILENT_ON';
+  if (t === 'silent off' || t === 'unmute' || t === '解除静默' || t === '开启对话') return 'SILENT_OFF';
+  if (t === 'help' || t === '帮助' || t === '?') return 'HELP';
   return 'AI';
 }
 
@@ -423,8 +426,8 @@ wsClient.start({
       if (chatType === 'group' && !isMentioned) {
         const ops = loadData();
 
-        // Feature 3: Auto-reply when someone asks @Barron
-        if (ops.barronOpenId) {
+        // Feature 3: Auto-reply when someone asks @Barron (DISABLED in silent mode)
+        if (ops.barronOpenId && !ops.silentMode) {
           const autoReply = await autoReplyForBarron(text, chatId, senderId, sender.sender_id?.name);
           if (autoReply) {
             await sendToChat(chatId, `[Clawdbot代Barron回复]\n\n${autoReply}`);
@@ -551,7 +554,8 @@ wsClient.start({
             const barronStatus = ops.barronOpenId ? `✅ ${ops.barronOpenId.slice(-8)}` : '❌ Not captured';
             const voice = conv.loadVoice();
             const voiceStatus = voice.profile ? `✅ ${voice.sampleCount} samples learned` : `📝 ${voice.sampleCount}/5 samples (need 5+)`;
-            reply = `🤖 Clawdbot v5\n\n📊 Bitable: ${bitableStatus}\n💬 N2M Group: ${n2mStatus}\n👤 Barron ID: ${barronStatus}\n📋 Tasks: ${ops.tasks?.length || 0}\n🎭 Voice: ${voiceStatus}\n\n⏰ Cron: 09:00 stale+N2M | 18:00 briefing | 03:00 voice update`;
+            const silentStatus = ops.silentMode ? '🔇 ON (AI回复关闭)' : '🔊 OFF (AI回复正常)';
+            reply = `🤖 Clawdbot v5\n\n📊 Bitable: ${bitableStatus}\n💬 N2M Group: ${n2mStatus}\n👤 Barron ID: ${barronStatus}\n📋 Tasks: ${ops.tasks?.length || 0}\n🎭 Voice: ${voiceStatus}\n🔇 Silent Mode: ${silentStatus}\n\n⏰ Cron: 09:00 stale+N2M | 18:00 briefing | 03:00 voice update`;
             break;
           }
 
@@ -596,7 +600,44 @@ wsClient.start({
             reply = `🤖 How to add Clawdbot to a group:\n\n**Feishu Desktop App** (recommended):\n1. Open the group\n2. Click ⋯ → 设置 → 群机器人\n3. Click + → Search "Clawdbot" → Add\n\nOnce added, Clawdbot will:\n✅ Monitor all messages\n✅ Auto-reply when someone @Barron\n✅ Extract tasks silently\n✅ Send daily reminders`;
             break;
 
+          case 'SILENT_ON': {
+            ops.silentMode = true;
+            saveData(ops);
+            reply = `🔇 静默模式已开启\n\n关闭功能：\n❌ AI 对话回复\n❌ 群里 @Barron 自动回复\n\n保留功能：\n✅ 命令响应（status / bitable / show tasks 等）\n✅ 定时任务（09:00 超期检查 / 18:00 摘要）\n✅ 任务静默提取\n✅ Bitable 监控\n\n输入 "silent off" 重新开启对话。`;
+            break;
+          }
+
+          case 'SILENT_OFF': {
+            ops.silentMode = false;
+            saveData(ops);
+            reply = `🔊 静默模式已关闭。AI 对话和自动回复已恢复。`;
+            break;
+          }
+
+          case 'HELP': {
+            reply = `🤖 Clawdbot 命令\n\n📊 数据查询\n• status / 状态 — 系统状态\n• bitable status — TCL Tracker 未完成任务\n• show tasks — 任务列表\n• show timeline — 截止日期\n• daily briefing / 日报 — 今日摘要\n\n🧪 测试\n• test stale — 立即超期检查\n• test n2m — 立即 N2M 监控\n\n⚙️ 控制\n• silent on / 关闭对话 — 关闭 AI 回复\n• silent off / 开启对话 — 恢复 AI 回复\n• voice — 查看语言风格\n• forget — 清除对话记忆\n\n✏️ 任务\n• done [任务名] — 标记完成\n• clear done — 清除已完成`;
+            break;
+          }
+
           default: {
+            // Silent mode: don't reply with AI, only acknowledge
+            if (ops.silentMode) {
+              // Still extract tasks silently in DM
+              if (chatType === 'p2p') {
+                try {
+                  const ex = JSON.parse((await gptMini(`Extract concrete tasks from: "${clean}". JSON [{"title":"...","due":"YYYY-MM-DD or null","assignee":"name or null"}] or []. Only real tasks. Return ONLY JSON.`)).trim().replace(/```json|```/g,''));
+                  if (Array.isArray(ex) && ex.length) {
+                    ops.tasks.push(...ex.map(t=>({ id:`${Date.now()}${Math.random().toString(36).slice(2,5)}`, title:t.title, due:t.due||null, assignee:t.assignee||null, chat:chatId, createdAt:new Date().toISOString(), done:false })));
+                    saveData(ops);
+                    console.log(`[silent mode] extracted ${ex.length} task(s) from DM`);
+                  }
+                } catch {}
+              }
+              // No reply in silent mode
+              console.log(`[${new Date().toISOString()}] [${chatType}] 🔇 silent mode — ignored`);
+              return;
+            }
+
             // AI response with full context
             let bitableTasks = [];
             const conf = ops.bitables?.[0];
