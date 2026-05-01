@@ -1,0 +1,45 @@
+{
+  "_comment": "Canonical workflow -> MCP namespace + port + profile map. Edit here first, then reflect in ~/.claude.json mcpServers. Each entry is permanent and unique.",
+  "workflows": {
+    "default": {
+      "mcp": "playwright",
+      "port": 9300,
+      "profile": "/Users/xiaozuo/.claude/browser-profiles/default"
+    },
+    "awin-rockbros-us": {
+      "mcp": "playwright-awin-rockbros-us",
+      "port": 9301,
+      "profile": "/Users/xiaozuo/.claude/browser-profiles/awin-rockbros-us"
+    },
+    "awin-rockbros-eu": {
+      "mcp": "playwright-awin-rockbros-eu",
+      "port": 9302,
+      "profile": "/Users/xiaozuo/.claude/browser-profiles/awin-rockbros-eu"
+    },
+    "awin-oufer-us": {
+      "mcp": "playwright-awin-oufer-us",
+      "port": 9303,
+      "profile": "/Users/xiaozuo/.claude/browser-profiles/awin-oufer-us"
+    },
+    "impact-ottocast": {
+      "mcp": "playwright-impact-ottocast",
+      "port": 9304,
+      "profile": "/Users/xiaozuo/.claude/browser-profiles/impact-ottocast"
+    },
+    "impact-tcl-us": {
+      "mcp": "playwright-impact-tcl-us",
+      "port": 9305,
+      "profile": "/Users/xiaozuo/.claude/browser-profiles/impact-tcl-us"
+    },
+    "wellfound": {
+      "mcp": "playwright-wellfound",
+      "port": 9306,
+      "profile": "/Users/xiaozuo/.claude/browser-profiles/wellfound"
+    },
+    "greenhouse": {
+      "mcp": "playwright-greenhouse",
+      "port": 9307,
+      "profile": "/Users/xiaozuo/.claude/browser-profiles/greenhouse"
+    }
+  }
+}

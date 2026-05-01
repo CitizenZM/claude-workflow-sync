@@ -26,11 +26,10 @@ originSessionId: fef35943-ab53-4d0a-9564-0a0ab3c54473
 - **workatastartup-apply** → `~/Projects/workatastartup-apply` → github.com/CitizenZM/workatastartup-apply (private)
 
 ## Obsidian Vault
-- Path: `/Users/xiaozuo/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/` (iCloud-synced, on new laptop — no workssd)
+- Path: `/Volumes/workssd/ObsidianVault/`
 - Project dashboard: `05-Project-Status/Dashboard.md`
-- Job tracker: `05-Project-Status/Job-Application-Tracker.md`
 - Individual project cards in `05-Project-Status/*.md`
-- Structure: 00-Intake, 01-Projects, 02-Decisions, 03-Content-Angles, 04-Research, 05-Project-Status, 06-Publishers, 10-Memory-Queue, 20-Long-Term-Memory, 30-Skills
+- Structure: 00-Intake, 01-Projects, 02-Decisions, 03-Content-Angles, 04-Research, 05-Project-Status, 10-Memory-Queue, 20-Long-Term-Memory, 30-Skills
 
 ## SSD Note
 - External SSD is named **workssd**, mounted at `/Volumes/workssd/`
