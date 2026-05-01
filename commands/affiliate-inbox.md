@@ -290,6 +290,95 @@ Next recommended action: [1-sentence suggested follow-up]
 
 ---
 
+## HUMAN PROOFREAD TRIGGER LIST
+
+Before drafting any reply, check each thread against these triggers. If ANY trigger matches → classify as FLAG, create NO draft, include in report's "Flagged for Human Review" section only.
+
+### 1. TCL Domain Emails
+Trigger when the **sender domain** is any TCL corporate domain:
+```
+@tcl.com  @tte.com  @tclusa.com  @tclelectronics.com
+@tpv.com  @tclresearch.com  @tclcom.com  @tta.com
+```
+Also trigger if the sender domain ends in `.alibaba-inc.com` or `@alibaba-inc.com` when TCL is mentioned in the subject or body.
+
+**Why:** Any email originating from TCL's own corporate infrastructure is a client/partner communication — not a standard affiliate inquiry. Requires Barron or TCL account team response.
+
+---
+
+### 2. Financial
+Trigger on any of these in subject OR body:
+```
+invoice          payment not received     past due
+billing          overdue                  balance due
+remittance       refund                   charge reversal
+special pricing  distributor pricing      wholesale price
+payment failed   fee waiver               pricing request
+```
+
+---
+
+### 3. Legal
+Trigger on any of these in subject OR body:
+```
+legal            compliance               GDPR
+data compliance  privacy policy           data collection
+attorney         counsel                  "please advise"
+cease and desist trademark               IP infringement
+dispute          liability                lawsuit
+"forwarding to legal"                    "on behalf of"
+```
+
+---
+
+### 4. Contract
+Trigger on any of these in subject OR body:
+```
+contract         contract terms           agreement
+terms and conditions                      signed agreement
+NDA              non-disclosure           SOW
+statement of work                         master service
+addendum         amendment                renewal
+"attached contract"                       "please sign"
+"DocuSign"       "please review and sign"
+```
+
+---
+
+### 5. Fee Confirmation
+Trigger on any of these in subject OR body:
+```
+flat fee         placement fee            sponsored fee
+guaranteed fee   upfront payment          media buy
+"confirm the fee"                         "invoice attached"
+"payment confirmation"                    "fee structure"
+"pay $"          "payment of $"           "wire transfer"
+```
+
+---
+
+### 6. Commission Conflicts
+Trigger when:
+- Any email mentions two different commission rates that conflict (e.g., "5%" in one place, "10%" in another)
+- Sender quotes a rate higher than what was sent in the contract/invitation
+- Any phrase like: `"email states"`, `"proposal shows"`, `"you said"`, `"promised"`, `"agreed to"` + a commission %
+- Commission % mentioned is above 8% (flag for rate review) or above 10% (hard block)
+- `"exception"`, `"just for you"`, `"special rate"`, `"custom rate"` paired with any %
+
+---
+
+### Trigger Evaluation Order
+
+```
+1. Check sender domain → TCL domain? → FLAG immediately, no further classification
+2. Check subject for financial/legal/contract/fee keywords → FLAG
+3. Check body snippet for same keywords → FLAG
+4. Check for commission conflict signals → FLAG
+5. If none triggered → proceed with normal classification (NEGOTIATE/SEED/etc.)
+```
+
+---
+
 ## CONSTRAINTS SUMMARY
 
 ```
@@ -304,4 +393,5 @@ Next recommended action: [1-sentence suggested follow-up]
 🚫 Never go above: 10% commission without ⚠️ FLAG
 🚫 Never reply to: SPAM
 🚫 Never draft if: already replied/drafted within 3 days
+🚫 Never draft if: Human Proofread Trigger matched — FLAG only
 ```
