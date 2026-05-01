@@ -15,7 +15,9 @@
     "@anthropic-ai/sdk": "^0.92.0",
     "@larksuiteoapi/node-sdk": "^1.62.1",
     "dotenv": "^17.4.2",
+    "mammoth": "^1.12.0",
     "node-cron": "^4.2.1",
-    "openai": "^6.35.0"
+    "openai": "^6.35.0",
+    "xlsx": "^0.18.5"
   }
 }

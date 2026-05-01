@@ -605,23 +605,26 @@ wsClient.start({
             break;
 
           case 'LEARN': {
-            // "learn 168" = last 168 hours; default 24h
+            const isFiles = clean.toLowerCase().includes('file') || clean.includes('文件');
+            const script = isFiles ? 'learn_files.js' : 'learn.js';
             const hours = parseInt(clean.replace(/[^\d]/g,'')) || 24;
-            reply = `🧠 启动学习管道，处理过去 ${hours} 小时的对话...`;
+
+            reply = isFiles
+              ? `📎 启动文件学习（Word/Excel 从置顶+群文件）...`
+              : `🧠 启动对话学习，处理过去 ${hours} 小时...`;
             await send(receiveId, receiveIdType, reply);
 
-            // Run learn.js in subprocess so it doesn't block
-            const child = spawn('node', [path.join(__dirname, 'learn.js'), String(hours)], { cwd: __dirname });
+            const args = isFiles ? [path.join(__dirname, script)] : [path.join(__dirname, script), String(hours)];
+            const child = spawn('node', args, { cwd: __dirname });
             let out = '';
             child.stdout.on('data', d => out += d);
             child.stderr.on('data', d => out += d);
             await new Promise(res => child.on('close', res));
 
-            // Extract summary lines from output
             const summary = out.split('\n').filter(l =>
-              l.includes('🧠') || l.includes('📥') || l.includes('📊') || l.includes('✅') || l.includes('Cost') || l.includes('Calls')
-            ).join('\n');
-            reply = `🧠 学习完成\n\n${summary}\n\n📂 Vault: ~/ObsidianVault/Clawdbot/`;
+              l.includes('🧠') || l.includes('📎') || l.includes('📥') || l.includes('📊') || l.includes('📌') || l.includes('✅') || l.includes('⬇️') || l.includes('Cost') || l.includes('Files')
+            ).slice(-20).join('\n');
+            reply = `${isFiles ? '📎 文件学习' : '🧠 对话学习'} 完成\n\n${summary}\n\n📂 ~/ObsidianVault/Clawdbot/04-Files/`;
             break;
           }
 
@@ -799,6 +802,15 @@ cron.schedule('0 9 * * *', async () => {
   console.log('[CRON] 09:00 — Running daily checks...');
   await runBitableStaleCheck(false);
   await runN2MMonitoring(false);
+}, { timezone: 'Asia/Shanghai' });
+
+// Every Sunday at 4:00 AM — Scan for new pinned/shared Word & Excel files
+cron.schedule('0 4 * * 0', async () => {
+  console.log('[CRON] Sunday 04:00 — Learning files...');
+  try {
+    const child = spawn('node', [path.join(__dirname, 'learn_files.js')], { cwd: __dirname });
+    child.stdout.on('data', d => console.log('[learn_files]', d.toString().trim()));
+  } catch(e) { console.error('[CRON] File learn error:', e.message); }
 }, { timezone: 'Asia/Shanghai' });
 
 // Every day at 3:00 AM — Update voice profile + learn from yesterday's chats
