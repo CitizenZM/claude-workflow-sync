@@ -6,6 +6,8 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const conv = require('./conversation');
+const vault = require('./vault');
+const { spawn } = require('child_process');
 
 const APP_ID = process.env.FEISHU_APP_ID;
 const APP_SECRET = process.env.FEISHU_APP_SECRET;
@@ -342,6 +344,8 @@ function parseCmd(text) {
   if (t === 'silent on' || t === 'mute' || t === '静默' || t === '关闭对话') return 'SILENT_ON';
   if (t === 'silent off' || t === 'unmute' || t === '解除静默' || t === '开启对话') return 'SILENT_OFF';
   if (t === 'help' || t === '帮助' || t === '?') return 'HELP';
+  if (t === 'learn' || t === 'learn now' || t === '学习' || t.startsWith('learn ')) return 'LEARN';
+  if (t === 'vault' || t === 'memory' || t === '记忆库') return 'VAULT_INFO';
   return 'AI';
 }
 
@@ -600,6 +604,39 @@ wsClient.start({
             reply = `🤖 How to add Clawdbot to a group:\n\n**Feishu Desktop App** (recommended):\n1. Open the group\n2. Click ⋯ → 设置 → 群机器人\n3. Click + → Search "Clawdbot" → Add\n\nOnce added, Clawdbot will:\n✅ Monitor all messages\n✅ Auto-reply when someone @Barron\n✅ Extract tasks silently\n✅ Send daily reminders`;
             break;
 
+          case 'LEARN': {
+            // "learn 168" = last 168 hours; default 24h
+            const hours = parseInt(clean.replace(/[^\d]/g,'')) || 24;
+            reply = `🧠 启动学习管道，处理过去 ${hours} 小时的对话...`;
+            await send(receiveId, receiveIdType, reply);
+
+            // Run learn.js in subprocess so it doesn't block
+            const child = spawn('node', [path.join(__dirname, 'learn.js'), String(hours)], { cwd: __dirname });
+            let out = '';
+            child.stdout.on('data', d => out += d);
+            child.stderr.on('data', d => out += d);
+            await new Promise(res => child.on('close', res));
+
+            // Extract summary lines from output
+            const summary = out.split('\n').filter(l =>
+              l.includes('🧠') || l.includes('📥') || l.includes('📊') || l.includes('✅') || l.includes('Cost') || l.includes('Calls')
+            ).join('\n');
+            reply = `🧠 学习完成\n\n${summary}\n\n📂 Vault: ~/ObsidianVault/Clawdbot/`;
+            break;
+          }
+
+          case 'VAULT_INFO': {
+            const idx = vault.buildIndex();
+            const byFolder = {};
+            idx.forEach(f => {
+              const folder = f.relPath.split('/')[0];
+              byFolder[folder] = (byFolder[folder] || 0) + 1;
+            });
+            const totalSize = idx.reduce((s,f) => s + f.size, 0);
+            reply = `📚 Memory Vault\n\n📂 ${vault.VAULT}\n\n${Object.entries(byFolder).map(([k,v]) => `• ${k}: ${v} files`).join('\n')}\n\n📊 Total: ${idx.length} files, ${(totalSize/1024).toFixed(1)} KB\n\nCommands:\n• "learn" — process last 24h\n• "learn 168" — process last 7 days\n• "voice" — show voice profile`;
+            break;
+          }
+
           case 'SILENT_ON': {
             ops.silentMode = true;
             saveData(ops);
@@ -655,6 +692,12 @@ wsClient.start({
             const ctxParts = [];
             if (open.length) ctxParts.push(`Open manual tasks: ${open.slice(0,3).map(t=>t.title).join('; ')}`);
             if (incomplete.length) ctxParts.push(`TCL Tracker incomplete: ${incomplete.length} tasks. Top 3: ${incomplete.slice(0,3).map(t=>`${t.task} (${t.owner})`).join('; ')}`);
+
+            // Retrieve from vault (free, keyword search)
+            if (vault.shouldRetrieve(clean)) {
+              const r = vault.retrieve(clean, { maxResults: 3, maxChars: 2000 });
+              if (r.context) ctxParts.push(r.context);
+            }
 
             const recentTurns = conv.getRecentTurns(chatId, 6);
             const ctxString = ctxParts.join('\n') || 'No active tasks.';
@@ -758,13 +801,20 @@ cron.schedule('0 9 * * *', async () => {
   await runN2MMonitoring(false);
 }, { timezone: 'Asia/Shanghai' });
 
-// Every day at 3:00 AM — Update voice profile from accumulated samples
+// Every day at 3:00 AM — Update voice profile + learn from yesterday's chats
 cron.schedule('0 3 * * *', async () => {
-  console.log('[CRON] 03:00 — Updating voice profile...');
+  console.log('[CRON] 03:00 — Updating voice profile + learning...');
   try {
     const profile = await conv.updateVoiceProfile(openai);
     if (profile) console.log('[CRON] ✅ Voice profile refreshed');
   } catch(e) { console.error('[CRON] Voice update error:', e.message); }
+
+  // Run learn.js in subprocess
+  try {
+    const child = spawn('node', [path.join(__dirname, 'learn.js'), '24'], { cwd: __dirname });
+    child.stdout.on('data', d => console.log('[learn]', d.toString().trim()));
+    child.stderr.on('data', d => console.error('[learn err]', d.toString().trim()));
+  } catch(e) { console.error('[CRON] Learn error:', e.message); }
 }, { timezone: 'Asia/Shanghai' });
 
 // Every day at 6:00 PM — Evening summary to Barron
