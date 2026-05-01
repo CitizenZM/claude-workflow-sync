@@ -606,8 +606,44 @@ wsClient.start({
 
           case 'LEARN': {
             const isFiles = clean.toLowerCase().includes('file') || clean.includes('文件');
+            const isAll = clean.toLowerCase().includes('all') || clean.includes('全部') || clean.includes('所有');
             const script = isFiles ? 'learn_files.js' : 'learn.js';
             const hours = parseInt(clean.replace(/[^\d]/g,'')) || 24;
+
+            // "learn all" — first refresh chat list, then learn from everything
+            if (isAll) {
+              reply = `🌐 全量学习启动：刷新群成员 → 对话学习 → 文件学习...`;
+              await send(receiveId, receiveIdType, reply);
+
+              // Step 1: refresh chat list from Feishu API
+              const tok = await getTenantToken();
+              const chatsRes = await feishuApi('GET', '/im/v1/chats?page_size=100', null, tok);
+              const liveChats = chatsRes.data?.items || [];
+              if (!ops.chats) ops.chats = {};
+              for (const c of liveChats) {
+                const key = (c.name || c.chat_id.slice(-8)).replace(/[（）()【】\[\]\s]/g,'_').replace(/[^\w一-鿿_]/g,'').slice(0,30);
+                ops.chats[key] = c.chat_id;
+              }
+              saveData(ops);
+
+              // Step 2: run both learn scripts
+              const conv = spawn('node', [path.join(__dirname,'learn.js'), '168'], { cwd: __dirname });
+              let cOut = '';
+              conv.stdout.on('data', d => cOut += d);
+              await new Promise(r => conv.on('close', r));
+
+              const files = spawn('node', [path.join(__dirname,'learn_files.js')], { cwd: __dirname });
+              let fOut = '';
+              files.stdout.on('data', d => fOut += d);
+              await new Promise(r => files.on('close', r));
+
+              const summary = (cOut + '\n' + fOut).split('\n').filter(l =>
+                l.includes('🧠') || l.includes('📎') || l.includes('📥') || l.includes('📊') || l.includes('📌') || l.includes('✅') || l.includes('⏭️') || l.includes('Cost') || l.includes('Files')
+              ).slice(-30).join('\n');
+              reply = `🌐 全量学习完成\n\n📋 ${liveChats.length} 个群组已扫描:\n${liveChats.map(c=>`  • ${c.name}`).join('\n')}\n\n${summary}`;
+              break;
+            }
+
 
             reply = isFiles
               ? `📎 启动文件学习（Word/Excel 从置顶+群文件）...`
@@ -762,30 +798,61 @@ wsClient.start({
       }
     },
 
-    // Bot added to group — auto-register
+    // Bot added to group — auto-register and auto-learn
     'im.chat.member.bot.added_v1': async (event) => {
       const chatId = event.chat_id;
       const ops = loadData();
       if (!ops.chats) ops.chats = {};
 
-      // Try to get group name
       try {
         const info = await feishuApi('GET', `/im/v1/chats/${chatId}`);
         const name = info.data?.name || '';
-        console.log(`🤖 Bot added to group: "${name}" (${chatId})`);
+        console.log(`🤖 Bot added to: "${name}" (${chatId})`);
 
-        if (name.includes('N2M') || name.includes('技术协同')) {
-          ops.chats.N2M = chatId;
-          saveData(ops);
-          console.log(`✅ Auto-registered as N2M group: ${chatId}`);
+        // Generate a clean key from group name (used for vault paths)
+        const cleanKey = name
+          .replace(/[（）()【】\[\]\s]/g,'_')
+          .replace(/[^\w一-鿿_]/g,'')
+          .slice(0, 30) || chatId.slice(-8);
+        ops.chats[cleanKey] = chatId;
 
-          // Welcome message in the group
-          await sendToChat(chatId, `👋 Hi everyone! I'm Clawdbot, Barron's AI Operations Manager.\n\nI'm here to:\n📋 Track tasks and deadlines silently\n🔔 Send daily reminders for overdue items\n💬 Auto-reply when someone asks @Barron\n📊 Monitor unanswered conversations\n\nMention me with @Clawdbot for any questions!`);
-        } else {
-          ops.chats[chatId.slice(-6)] = chatId;
-          saveData(ops);
-          await sendToChat(chatId, `👋 Clawdbot joined! I'll help track tasks and send reminders. Type @Clawdbot for help.`);
+        // Special-case key registrations
+        if (name.includes('N2M') || name.includes('技术协同')) ops.chats.N2M = chatId;
+        if (name.includes('CELL') && name.includes('付费')) ops.chats.CELL_EDM = chatId;
+
+        saveData(ops);
+        console.log(`✅ Registered as "${cleanKey}"`);
+
+        // Notify Barron via DM (silent join — don't message in group)
+        if (ops.barronOpenId) {
+          try {
+            await sendToDM(ops.barronOpenId, `🤖 加入群组: "${name}"\n\n开始自动学习对话历史和文件...`);
+          } catch {}
         }
+
+        // Auto-learn: trigger learn.js + learn_files.js for this new group
+        setTimeout(async () => {
+          console.log(`🧠 Auto-learning from "${name}"...`);
+          // Run conversation learn for this specific group (24h)
+          const learnChild = spawn('node', [path.join(__dirname, 'learn.js'), '24'], { cwd: __dirname });
+          let convOut = '';
+          learnChild.stdout.on('data', d => convOut += d);
+          await new Promise(r => learnChild.on('close', r));
+
+          // Run files learn (idempotent — skips already processed)
+          const fileChild = spawn('node', [path.join(__dirname, 'learn_files.js')], { cwd: __dirname });
+          let fileOut = '';
+          fileChild.stdout.on('data', d => fileOut += d);
+          await new Promise(r => fileChild.on('close', r));
+
+          if (ops.barronOpenId) {
+            const summary = (convOut + '\n' + fileOut).split('\n').filter(l =>
+              l.includes('🧠') || l.includes('📥') || l.includes('📊') || l.includes('📎') || l.includes('📌') || l.includes('Cost')
+            ).slice(-15).join('\n');
+            try { await sendToDM(ops.barronOpenId, `✅ "${name}" 学习完成\n\n${summary}`); } catch {}
+          }
+          console.log(`✅ Auto-learn complete for "${name}"`);
+        }, 3000); // small delay to ensure event registration completes
       } catch(e) {
         console.error('Bot added handler error:', e.message);
       }
