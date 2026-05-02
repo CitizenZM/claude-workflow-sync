@@ -123,20 +123,36 @@ else
     > /tmp/chrome-"$SLUG".log 2>&1 &
   CHROME_PID=$!
   disown "$CHROME_PID" 2>/dev/null || true
-  sleep 2
 
-  # Verify CDP is up
-  if command -v curl >/dev/null 2>&1; then
-    CDP_OK=$(curl -s --max-time 3 "http://localhost:$CDP_PORT/json/version" 2>/dev/null | grep -c '"Browser"' || true)
+  # Wait up to 15s for CDP to be healthy — retry loop instead of fixed sleep
+  CDP_READY=false
+  for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
+    sleep 1
+    CDP_OK=$(curl -s --max-time 2 "http://localhost:$CDP_PORT/json/version" 2>/dev/null | grep -c '"Browser"' || true)
     if [ "$CDP_OK" -gt 0 ]; then
-      echo "[init] Chrome launched with profile '$SLUG' on CDP :$CDP_PORT (pid $CHROME_PID)"
-    else
-      echo "[init] ⚠️  Chrome started but CDP not responding on :$CDP_PORT" >&2
+      CDP_READY=true
+      break
     fi
+  done
+
+  if [ "$CDP_READY" = "true" ]; then
+    echo "[init] Chrome launched with profile '$SLUG' on CDP :$CDP_PORT (pid $CHROME_PID)"
+  else
+    echo "[init] ❌ Chrome started but CDP not responding after 15s on :$CDP_PORT" >&2
+    echo "[init]    Check /tmp/chrome-$SLUG.log for errors" >&2
+    exit 5
   fi
 fi
 
+# Final sanity check: confirm CDP is still responding before handing off to MCP
+CDP_FINAL=$(curl -s --max-time 3 "http://localhost:$CDP_PORT/json/version" 2>/dev/null | grep -c '"Browser"' || true)
+if [ "$CDP_FINAL" -eq 0 ]; then
+  echo "[init] ❌ CDP endpoint :$CDP_PORT not responding at handoff — aborting" >&2
+  exit 6
+fi
+
 echo "[init] MCP '$MCP_NAME' ✓ registered (port=$CDP_PORT profile=$SLUG)"
+echo "[init] CDP :$CDP_PORT ✓ healthy — MCP server will connect immediately"
 echo "[init] ready — tools: mcp__${MCP_NAME}__<fn>"
 echo ""
 echo "[init] RULE: Use ONLY mcp__${MCP_NAME}__<fn> tools in this workflow."

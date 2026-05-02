@@ -1,0 +1,28 @@
+{
+  "workflows": {
+    "awin-oufer-us": {
+      "mcp": "playwright-awin-oufer-us",
+      "port": "9303"
+    },
+    "awin-rockbros-us": {
+      "mcp": "playwright-awin-rockbros-us",
+      "port": "9301"
+    },
+    "awin-rockbros-eu": {
+      "mcp": "playwright-awin-rockbros-eu",
+      "port": "9302"
+    },
+    "impact-ottocast": {
+      "mcp": "playwright-impact-ottocast",
+      "port": "9304"
+    },
+    "impact-tcl-us": {
+      "mcp": "playwright-impact-tcl-us",
+      "port": "9305"
+    },
+    "impact-rockbros-us": {
+      "mcp": "playwright-impact-rockbros-us",
+      "port": "9306"
+    }
+  }
+}
