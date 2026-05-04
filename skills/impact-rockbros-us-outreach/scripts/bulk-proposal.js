@@ -451,11 +451,26 @@ async (_rootPage) => {
 
   // ── MAIN LOOP ─────────────────────────────────────────────────────────
   await ensureDiscover();
-  await page.evaluate(() => window.scrollTo(0, 0));
   await sleep(1500);
 
+  // Pre-scroll: load as many cards as possible before starting proposals
+  // This surfaces publishers from the full 87K pool, not just the first 25
+  let preScrollCount = 0;
+  const PRE_SCROLL_TARGET = 300; // load ~300 cards upfront
+  while (preScrollCount < 60) { // 60 scrolls × ~5 new cards = ~300 cards
+    const before = await page.evaluate(() => document.querySelectorAll('.iui-card').length);
+    await page.evaluate(() => window.scrollBy(0, window.innerHeight * 2));
+    await sleep(800);
+    const after = await page.evaluate(() => document.querySelectorAll('.iui-card').length);
+    preScrollCount++;
+    if (after >= PRE_SCROLL_TARGET) break;
+    if (after === before && preScrollCount > 10) break; // no new cards loading
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await sleep(1000);
+
   let scrollPasses = 0;
-  const MAX_SCROLL_PASSES = 20;
+  const MAX_SCROLL_PASSES = 200;
 
   while (results.length < TARGET && scrollPasses < MAX_SCROLL_PASSES) {
     const cards = await readGridCards();
