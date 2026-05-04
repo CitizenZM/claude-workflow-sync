@@ -1208,5 +1208,465 @@
     "processed": true,
     "decisions": 1,
     "tasks": 1
+  },
+  "CELL 联盟运营:2026-02-03": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "CELL 联盟运营:2026-02-04": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "CELL 联盟运营:2026-02-05": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "CELL 联盟运营:2026-02-06": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "CELL 联盟运营:2026-02-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "CELL 联盟运营:2026-02-10": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "CELL 联盟运营:2026-02-11": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "CELL 联盟运营:2026-02-12": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 联盟运营:2026-02-20": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "CELL 联盟运营:2026-02-21": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "CELL 联盟运营:2026-02-25": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "CELL 联盟运营:2026-02-27": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 1
+  },
+  "CELL 联盟运营:2026-03-02": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 2
+  },
+  "CELL 联盟运营:2026-03-03": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 3
+  },
+  "CELL 联盟运营:2026-03-04": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "CELL 联盟运营:2026-03-05": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "CELL 联盟运营:2026-03-06": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "CELL 联盟运营:2026-03-07": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "CELL 联盟运营:2026-03-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "CELL 联盟运营:2026-03-10": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "CELL 联盟运营:2026-03-17": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 联盟运营:2026-03-23": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 联盟运营:2026-03-30": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 联盟运营:2026-04-03": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 联盟运营:2026-04-07": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 联盟运营:2026-04-08": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "CELL 联盟运营:2026-04-14": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 联盟运营:2026-04-15": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 3
+  },
+  "CELL 联盟运营:2026-04-16": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 2
+  },
+  "CELL 联盟运营:2026-04-17": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "CELL项目联盟百万运营:2026-03-13": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL项目联盟百万运营:2026-03-30": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "Levoit Affiliate Ops:2026-02-03": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "Levoit Affiliate Ops:2026-02-04": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Levoit Affiliate Ops:2026-02-05": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Levoit Affiliate Ops:2026-02-06": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "Levoit Affiliate Ops:2026-02-07": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Levoit Affiliate Ops:2026-02-09": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Levoit Affiliate Ops:2026-02-10": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Levoit Affiliate Ops:2026-02-11": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "Levoit Affiliate Ops:2026-03-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Levoit Affiliate Ops:2026-03-10": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 1
+  },
+  "Levoit Affiliate Ops:2026-03-17": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Levoit Affiliate Ops:2026-03-18": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Levoit Affiliate Ops:2026-03-19": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 2
+  },
+  "Levoit Affiliate Ops:2026-04-08": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Levoit Affiliate Ops:2026-04-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Levoit Affiliate Ops:2026-04-16": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-02-04": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 3
+  },
+  "Oh Beauty Shopify:2026-02-05": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-02-06": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-02-08": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-02-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "Oh Beauty Shopify:2026-02-12": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "Oh Beauty Shopify:2026-02-13": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-02-19": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-02-23": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-02-24": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-02-25": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 1
+  },
+  "Oh Beauty Shopify:2026-02-27": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-02-28": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-03-02": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-03-03": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-03-04": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-03-06": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-03-09": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 3
+  },
+  "Oh Beauty Shopify:2026-03-10": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-03-11": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-03-12": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "Oh Beauty Shopify:2026-03-13": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 0
+  },
+  "Oh Beauty Shopify:2026-03-16": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 1
+  },
+  "Oh Beauty Shopify:2026-03-20": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "Oh Beauty Shopify:2026-03-23": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-03-31": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-04-01": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-04-02": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-04-06": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-04-07": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-04-08": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-04-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify:2026-04-13": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-04-21": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-04-23": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-04-24": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 1
+  },
+  "Oh Beauty Shopify:2026-04-27": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-04-28": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-04-30": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "TCL独立站增长与运营组  内部:2026-04-24": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 4
+  },
+  "TCL独立站增长与运营组  内部:2026-04-25": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "TCL独立站增长与运营组  内部:2026-04-27": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "TCL独立站增长与运营组  内部:2026-04-30": {
+    "processed": true,
+    "decisions": 5,
+    "tasks": 5
+  },
+  "TCL独立站增长与运营组  内部:2026-05-01": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 2
   }
 }

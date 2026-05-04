@@ -615,12 +615,28 @@ wsClient.start({
             const script = isFiles ? 'learn_files.js' : 'learn.js';
             const hours = parseInt(clean.replace(/[^\d]/g,'')) || 24;
 
-            // "learn all" — first refresh chat list, then learn from everything
+            // "learn all" — history fetch → batch_learn → conversation learn → file learn
             if (isAll) {
-              reply = `🌐 全量学习启动：刷新群成员 → 对话学习 → 文件学习...`;
+              reply = `🌐 全量学习启动：获取历史记录 → 批量提炼 → 对话学习 → 文件学习...`;
               await send(receiveId, receiveIdType, reply);
 
-              // Step 1: refresh chat list from Feishu API
+              // Step 1: fetch 7 days of history from all groups
+              const fetchChild = spawn('node', [path.join(__dirname,'fetch_history.js'), '--all', '--days', '7', '--no-process'], { cwd: __dirname });
+              let fetchOut = '';
+              fetchChild.stdout.on('data', d => fetchOut += d);
+              await new Promise(r => fetchChild.on('close', r));
+              const fetchGroups = (fetchOut.match(/Groups fetched: (\d+)/) || [])[1] || '?';
+              const fetchMsgs = (fetchOut.match(/Total messages: (\d+)/) || [])[1] || '?';
+
+              // Step 2: batch learn from history (dedup, only processes new days)
+              const batchChild = spawn('node', [path.join(__dirname,'batch_learn.js')], { cwd: __dirname });
+              let batchOut = '';
+              batchChild.stdout.on('data', d => batchOut += d);
+              await new Promise(r => batchChild.on('close', r));
+              const batchDays = (batchOut.match(/Days digested: (\d+)/) || [])[1] || '0';
+              const batchCost = (batchOut.match(/Cost: \$([0-9.]+)/) || [])[1] || '?';
+
+              // Step 3: refresh chat list from Feishu API
               const tok = await getTenantToken();
               const chatsRes = await feishuApi('GET', '/im/v1/chats?page_size=100', null, tok);
               const liveChats = chatsRes.data?.items || [];
@@ -631,7 +647,7 @@ wsClient.start({
               }
               saveData(ops);
 
-              // Step 2: run both learn scripts
+              // Step 4: run conversation + file learn scripts
               const conv = spawn('node', [path.join(__dirname,'learn.js'), '168'], { cwd: __dirname });
               let cOut = '';
               conv.stdout.on('data', d => cOut += d);
@@ -644,8 +660,8 @@ wsClient.start({
 
               const summary = (cOut + '\n' + fOut).split('\n').filter(l =>
                 l.includes('🧠') || l.includes('📎') || l.includes('📥') || l.includes('📊') || l.includes('📌') || l.includes('✅') || l.includes('⏭️') || l.includes('Cost') || l.includes('Files')
-              ).slice(-30).join('\n');
-              reply = `🌐 全量学习完成\n\n📋 ${liveChats.length} 个群组已扫描:\n${liveChats.map(c=>`  • ${c.name}`).join('\n')}\n\n${summary}`;
+              ).slice(-20).join('\n');
+              reply = `🌐 全量学习完成\n\n📡 历史获取: ${fetchGroups} 群, ${fetchMsgs} 条消息\n🧠 批量提炼: ${batchDays} 天 (¥${batchCost})\n📋 ${liveChats.length} 个群组已扫描\n\n${summary}`;
               break;
             }
 
@@ -1023,6 +1039,30 @@ cron.schedule('0 3 * * *', async () => {
     child.stdout.on('data', d => console.log('[learn]', d.toString().trim()));
     child.stderr.on('data', d => console.error('[learn err]', d.toString().trim()));
   } catch(e) { console.error('[CRON] Learn error:', e.message); }
+}, { timezone: 'Asia/Shanghai' });
+
+// Every Sunday at 02:00 AM — Fetch last 7 days of history from all groups
+cron.schedule('0 2 * * 0', async () => {
+  console.log('[CRON] Sunday 02:00 — Fetching group history (7 days)...');
+  try {
+    const child = spawn('node', [path.join(__dirname, 'fetch_history.js'), '--all', '--days', '7', '--no-process'], { cwd: __dirname });
+    child.stdout.on('data', d => console.log('[fetch]', d.toString().trim()));
+    child.stderr.on('data', d => console.error('[fetch err]', d.toString().trim()));
+    await new Promise(r => child.on('close', r));
+    console.log('[CRON] ✅ History fetch complete');
+  } catch(e) { console.error('[CRON] History fetch error:', e.message); }
+}, { timezone: 'Asia/Shanghai' });
+
+// Every Sunday at 02:30 AM — Batch learn: process history into vault (dedup, low-cost)
+cron.schedule('30 2 * * 0', async () => {
+  console.log('[CRON] Sunday 02:30 — Batch learning from history into vault...');
+  try {
+    const child = spawn('node', [path.join(__dirname, 'batch_learn.js')], { cwd: __dirname });
+    child.stdout.on('data', d => console.log('[batch_learn]', d.toString().trim()));
+    child.stderr.on('data', d => console.error('[batch_learn err]', d.toString().trim()));
+    await new Promise(r => child.on('close', r));
+    console.log('[CRON] ✅ Batch learn complete');
+  } catch(e) { console.error('[CRON] Batch learn error:', e.message); }
 }, { timezone: 'Asia/Shanghai' });
 
 // Every day at 6:00 PM — Evening summary to Barron
