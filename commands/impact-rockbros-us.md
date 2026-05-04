@@ -244,26 +244,77 @@ Ledger   : {total_rows} rows total
 
 ---
 
-## AUTO-RECOVERY (NO PAUSING)
+## AUTO-RECOVERY — OPUS SUPERVISOR (FULLY AUTONOMOUS, NO PAUSING)
 
-- Haiku returns `total=0` with `errors` containing "run_code_failed":
-  → Spawn `Agent(model:"opus")` with: "Diagnose why browser_run_code failed for Rockbros US tab {tab_num}. MCP: mcp__playwright-impact-rockbros-us__. Check: (1) Is the MCP server running? (2) Is the browser still on the discover page? (3) Read the script at /Users/xiaozuo/.claude/skills/impact-rockbros-us-outreach/scripts/tab_current.js and check for syntax errors. Fix the issue and re-run browser_run_code once. Return the same JSON shape."
-  → Use Opus result. If still fails, skip tab and continue.
+Opus is the always-on supervisor. It fires automatically on ANY of these triggers. Never stops the outer loop — always continues after fixing.
 
-- `tab_current.js` has remaining `%%` placeholders:
-  → Re-read `bulk-proposal.js` and redo substitution. Never pass a script with unresolved placeholders to Haiku.
+### Trigger 1: browser_run_code fails (Haiku returns total=0 + error)
+Sonnet spawns Opus immediately:
+```
+Agent(model:"opus", description:"Rockbros bug fix — tab {tab_num}", prompt:
+"You are the Rockbros auto-recovery supervisor. browser_run_code failed on tab {tab_num}.
+MCP: mcp__playwright-impact-rockbros-us__
+Error: {error_message}
 
-- MCP server disconnected:
-  → Run `bash ~/.claude/scripts/outreach/init-workflow.sh impact-rockbros-us playwright-impact-rockbros-us 9306`
-  → Wait 5s. Retry current tab.
+Fix autonomously — no questions, no pausing:
+1. Run bash ~/.claude/scripts/outreach/init-workflow.sh impact-rockbros-us playwright-impact-rockbros-us 9306
+2. browser_navigate to: {DISCOVER_URL}
+3. Wait 3s, check cards: browser_evaluate → () => document.querySelectorAll('.iui-card').length
+4. If cards > 0: re-run browser_run_code with tab_current.js content
+5. Return result JSON or {\"total\":0,\"error\":\"opus_recovery_failed\",\"sent\":[],\"errors\":[\"unfixable\"]}
+")
+```
+Use Opus result as the tab result. If Opus also returns 0: skip tab, continue to next.
+
+### Trigger 2: MCP server disconnected (tool calls fail with connection error)
+Sonnet runs directly (no agent spawn needed):
+```bash
+bash ~/.claude/scripts/outreach/init-workflow.sh impact-rockbros-us playwright-impact-rockbros-us 9306
+```
+Wait 5s. Re-navigate to current tab URL. Retry Haiku for that tab.
+
+### Trigger 3: tab_current.js has remaining %% placeholders
+Sonnet re-builds the script from bulk-proposal.js before spawning Haiku.
+Never pass a script with unresolved placeholders to Haiku.
+
+### Trigger 4: 2 consecutive Haiku failures on same tab
+Spawn Opus with full diagnostic authority:
+```
+Agent(model:"opus", description:"Rockbros tab {tab_num} — 2 consecutive failures", prompt:
+"Two consecutive Haiku failures on tab {tab_num} ({tab_name}). Diagnose and fix end-to-end.
+MCP: mcp__playwright-impact-rockbros-us__
+Steps:
+1. browser_snapshot to see current page state
+2. Check for stuck modals: browser_evaluate → document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}))
+3. Navigate to {DISCOVER_URL}, wait 3s
+4. Verify .iui-card count > 0
+5. Read tab_current.js, verify no %% placeholders
+6. Run browser_run_code with the script
+7. Return result JSON
+No permission prompts. Fix whatever is broken and return results.")
+```
+
+### Trigger 5: All 6 tabs return 0 proposals (session total = 0)
+Opus diagnoses session-level issue:
+```
+Agent(model:"opus", description:"Rockbros — zero proposals all tabs", prompt:
+"Zero proposals sent across all 6 tabs. Diagnose.
+MCP: mcp__playwright-impact-rockbros-us__
+1. browser_navigate https://app.impact.com — check if still logged in
+2. If login page: re-authenticate (affiliate@celldigital.co / Celldigital2024*)
+3. Navigate to Content/Reviews tab, verify cards load
+4. Run browser_run_code with tab_current.js
+5. Report what was wrong and how many proposals sent")
+```
 
 ## RULES
-1. NEVER snapshot except to diagnose a broken state
+1. NEVER snapshot except during Opus diagnostic recovery
 2. ALL browser calls use `mcp__playwright-impact-rockbros-us__` — no other namespace
 3. Ledger + intel_db + report written by Sonnet after each Haiku returns
 4. Each Haiku: exactly 2 tool calls (Read + browser_run_code)
-5. FULLY AUTONOMOUS — no permission prompts, no user questions, no model confirmations
+5. FULLY AUTONOMOUS — zero permission prompts, zero user questions, zero model confirmations
 6. Contract date always calculated fresh at runtime (never hardcoded)
 7. Dedup by publisher NAME (lowercase) from ledger col 1 — not by email
-8. TARGET per tab = remaining count (COUNT - session_sent), not capped at 20
-9. Opus only for bug recovery, never for supervision of successful runs
+8. TARGET per tab = remaining count (COUNT - session_sent), not capped
+9. Opus only for bug recovery — never supervision of successful runs (saves tokens)
+10. Sonnet loops continuously until COUNT reached or all 6 tabs exhausted — no exit until done
