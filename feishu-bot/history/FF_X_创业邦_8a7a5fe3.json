@@ -1,0 +1,17 @@
+[
+  {
+    "id": "om_x100b51686a97e4a0b3ca95af2681cec",
+    "chatId": "oc_35d6353c7b67b2c68fa01b978a7a5fe3",
+    "msgType": "system",
+    "senderId": "",
+    "senderType": "",
+    "text": "",
+    "rawContent": "{\"template\":\"The account of the group owner {name} has been closed. Group disbanded automatically.\",\"from_user\":[],\"to_chatters\":[],\"divider_text\":{}}",
+    "createTime": 1776665157676,
+    "updateTime": 1776665157676,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
+  }
+]

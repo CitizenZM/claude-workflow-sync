@@ -64740,5 +64740,50 @@
     "links": [],
     "thread": null,
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50b7cd5c90acb3d27aa8a6fa525",
+    "chatId": "oc_86d82f40cae15a4db8782f9b99a73e6b",
+    "msgType": "text",
+    "senderId": "ou_5baf62db0a508d938f0256f740aa2b22",
+    "senderType": "open_id",
+    "text": "https://g7e86skuvdo6qabu-68771512385.shopifypreview.com/products_preview?preview_key=f664caa0aaa09b8cab4d796116d24e8a",
+    "rawContent": "{\"text\":\"https://g7e86skuvdo6qabu-68771512385.shopifypreview.com/products_preview?preview_key=f664caa0aaa09b8cab4d796116d24e8a\"}",
+    "createTime": 1777875001247,
+    "updateTime": 1777875011361,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50b7ca2df8a4b348a74c88d95b9",
+    "chatId": "oc_86d82f40cae15a4db8782f9b99a73e6b",
+    "msgType": "image",
+    "senderId": "ou_5baf62db0a508d938f0256f740aa2b22",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"image_key\":\"img_v3_0211c_4f780774-6580-43b2-ac96-a4a4a9d189dg\"}",
+    "createTime": 1777875022426,
+    "updateTime": 1777875022426,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50b7c8b7b0acb3e39c37648b1e2",
+    "chatId": "oc_86d82f40cae15a4db8782f9b99a73e6b",
+    "msgType": "text",
+    "senderId": "ou_5baf62db0a508d938f0256f740aa2b22",
+    "senderType": "open_id",
+    "text": "目前下面的卖点信息需要重新整理一下",
+    "rawContent": "{\"text\":\"目前下面的卖点信息需要重新整理一下\"}",
+    "createTime": 1777875047755,
+    "updateTime": 1777875047755,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
   }
 ]

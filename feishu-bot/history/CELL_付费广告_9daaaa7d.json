@@ -35916,5 +35916,20 @@
     "links": [],
     "thread": null,
     "replyMsgId": "om_x100b5042da3d64a0b3f26a0764342f9"
+  },
+  {
+    "id": "om_x100b50b6bae618a4c2295e23b6edfd5",
+    "chatId": "oc_a660a96e0fabc1bc10ffa5059daaaa7d",
+    "msgType": "post",
+    "senderId": "ou_af18b8d12a967ef9c0f61e4fd168f179",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"\",\"content\":[[{\"tag\":\"text\",\"text\":\"凡凡，关于母亲节促销，我这边同步一下：\",\"style\":[]},{\"tag\":\"text\",\"text\":\"促销信息问题\",\"style\":[\"bold\"]},{\"tag\":\"text\",\"text\":\"：之前我没有收到母亲节促销的具体时间安排，所以5/1-5/2广告花费没有对应加量，导致看起来比4月底还低。\",\"style\":[]},{\"tag\":\"text\",\"text\":\"我已做的调整\",\"style\":[\"bold\"]},{\"tag\":\"text\",\"text\":\"：我翻了tcl群聊按照下图所示从产品以及折扣补上了促销文案，也已经给促销相关的产品加了预算，接下来几天的广告节奏会跟上来。\",\"style\":[]},{\"tag\":\"text\",\"text\":\"后续建议\",\"style\":[\"bold\"]},{\"tag\":\"text\",\"text\":\"：以后有类似的促销活动，麻烦提前3-7天把时间段和重点产品同步给我，我好提前规划预算和素材，避免再出现花费掉档的情况。\",\"style\":[]},{\"tag\":\"text\",\"text\":\"你看这样是否可以？如果有其他需要调整的地方，也随时说。\",\"style\":[]},{\"tag\":\"at\",\"user_id\":\"@_user_1\",\"user_name\":\"飞书用户9150UN\",\"style\":[]},{\"tag\":\"text\",\"text\":\" \",\"style\":[]},{\"tag\":\"img\",\"image_key\":\"img_v3_0211c_3e1e7c2f-8fdb-46b4-9055-c5bf655bc12g\",\"width\":957,\"height\":797},{\"tag\":\"img\",\"image_key\":\"img_v3_0211c_ea5d2de9-424a-46f8-89e9-48b68040110g\",\"width\":566,\"height\":170}]]}",
+    "createTime": 1777874400436,
+    "updateTime": 1777874400436,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
   }
 ]
