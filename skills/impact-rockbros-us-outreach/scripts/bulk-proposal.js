@@ -249,27 +249,37 @@ async (_rootPage) => {
     } finally { _busy = false; }
     await sleep(300);
 
-    const btnRect = await safeEval((i) => {
+    const btnResult = await safeEval((i) => {
       const cards = Array.from(document.querySelectorAll('.iui-card'));
       const c = cards[i];
       if (!c) return null;
       const btn = Array.from(c.querySelectorAll('button')).find(b => /send proposal/i.test(b.innerText || ''));
       if (!btn) return null;
       const r = btn.getBoundingClientRect();
-      return { x: r.x, y: r.y, w: r.width, h: r.height };
+      // If button has valid coords, return them; otherwise JS-click directly
+      if (r.width > 0) {
+        return { x: r.x, y: r.y, w: r.width, h: r.height, jsClick: false };
+      }
+      // Button found but not yet rendered with coords — click via JS
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      btn.click();
+      return { jsClick: true };
     }, idx);
 
-    // Bug 2 fix: NO fallback. If button isn't visible, skip cleanly.
-    if (!btnRect || btnRect.w === 0) {
+    if (!btnResult) {
       return { error: 'no-send-btn' };
     }
 
-    _busy = true;
-    try {
-      await page.mouse.move(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
-      await sleep(80);
-      await page.mouse.click(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
-    } finally { _busy = false; }
+    if (!btnResult.jsClick) {
+      // Normal mouse click path
+      _busy = true;
+      try {
+        await page.mouse.move(btnResult.x + btnResult.w / 2, btnResult.y + btnResult.h / 2);
+        await sleep(80);
+        await page.mouse.click(btnResult.x + btnResult.w / 2, btnResult.y + btnResult.h / 2);
+      } finally { _busy = false; }
+    }
+    // If jsClick=true, button already clicked above
 
     try {
       await page.waitForFunction(() => {
