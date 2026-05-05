@@ -247,7 +247,7 @@ async (_rootPage) => {
       await sleep(50);
       await page.mouse.move(cardRect.x + cardRect.w / 2, cardRect.y + cardRect.h / 2, { steps: 10 });
     } finally { _busy = false; }
-    await sleep(300);
+    await sleep(500); // increased from 300 to allow hover animation
 
     const btnResult = await safeEval((i) => {
       const cards = Array.from(document.querySelectorAll('.iui-card'));
@@ -255,13 +255,13 @@ async (_rootPage) => {
       if (!c) return null;
       const btn = Array.from(c.querySelectorAll('button')).find(b => /send proposal/i.test(b.innerText || ''));
       if (!btn) return null;
+      // Scroll button into view to ensure layout is computed
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
       const r = btn.getBoundingClientRect();
-      // If button has valid coords, return them; otherwise JS-click directly
       if (r.width > 0) {
         return { x: r.x, y: r.y, w: r.width, h: r.height, jsClick: false };
       }
-      // Button found but not yet rendered with coords — click via JS
-      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      // Still 0 — JS click directly
       btn.click();
       return { jsClick: true };
     }, idx);
