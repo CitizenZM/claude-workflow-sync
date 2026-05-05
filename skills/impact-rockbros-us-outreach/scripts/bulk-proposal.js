@@ -389,92 +389,79 @@ async (_rootPage) => {
   };
 
   const setStartDate = async () => {
-    const coords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      if (!f) return null;
-      const doc = f.contentDocument;
-      const btn = doc.querySelector('button[data-testid="uicl-date-input"]');
-      if (!btn) return null;
-      btn.scrollIntoView({ block: 'center' });
-      const r = btn.getBoundingClientRect();
-      const ifr = f.getBoundingClientRect();
-      return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2 };
-    });
-    if (!coords) return { error: 'no-date-btn' };
+    // Use Playwright Frame locator for reliable iframe interaction
+    const frames = page.frames();
+    const pf = frames.find(f => f.url().includes('send-proposal-new-partner-flow'));
+    if (!pf) return { error: 'no-date-iframe' };
+
+    // Check if date already set
     _busy = true;
-    try { await page.mouse.click(coords.x, coords.y); }
+    let dateVal = '';
+    try { dateVal = await pf.locator('input[name="startDateTime"]').inputValue({ timeout: 2000 }).catch(() => ''); }
     finally { _busy = false; }
-    await sleep(300);
-    const todayCoords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const doc = f.contentDocument;
-      const btn = Array.from(doc.querySelectorAll('button, a, [role="button"]'))
-        .find(b => /^today$/i.test((b.innerText || '').trim()));
-      if (!btn) return null;
-      const r = btn.getBoundingClientRect();
-      const ifr = f.getBoundingClientRect();
-      return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2 };
-    });
-    if (!todayCoords) return { error: 'no-today-btn' };
+    if (dateVal && dateVal.length > 5) return { ok: true, alreadySet: true };
+
+    // Click the date picker button
     _busy = true;
-    try { await page.mouse.click(todayCoords.x, todayCoords.y); }
-    finally { _busy = false; }
+    try {
+      await pf.locator('button[data-testid="uicl-date-input"]').first().click({ timeout: 5000 });
+    } catch(e) {
+      _busy = false;
+      return { error: 'no-date-btn: ' + String(e).slice(0,60) };
+    } finally { _busy = false; }
+    await sleep(400);
+
+    // Click "Today"
+    _busy = true;
+    try {
+      await pf.locator('button, a').filter({ hasText: /^today$/i }).first().click({ timeout: 5000 });
+    } catch(e) {
+      _busy = false;
+      return { error: 'no-today-btn: ' + String(e).slice(0,60) };
+    } finally { _busy = false; }
     await sleep(300);
-    const ok = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const doc = f.contentDocument;
-      const inp = doc.querySelector('input[name="startDateTime"]');
-      return inp && /"date":"\d{4}-\d{2}-\d{2}"/.test(inp.value);
-    });
-    return ok ? { ok: true } : { error: 'date-not-set' };
+
+    // Verify
+    _busy = true;
+    let val = '';
+    try { val = await pf.locator('input[name="startDateTime"]').inputValue({ timeout: 2000 }).catch(() => ''); }
+    finally { _busy = false; }
+    return val && val.length > 5 ? { ok: true } : { error: 'date-not-set' };
   };
 
   const submitProposal = async () => {
-    const coords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      if (!f) return null;
-      const doc = f.contentDocument;
-      const btn = Array.from(doc.querySelectorAll('button'))
-        .find(b => /^send proposal$/i.test((b.innerText || '').trim()) && !b.disabled);
-      if (!btn) return null;
-      btn.scrollIntoView({ block: 'center' });
-      const r = btn.getBoundingClientRect();
-      const ifr = f.getBoundingClientRect();
-      return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2 };
-    });
-    if (!coords) return { error: 'no-submit-btn' };
-    _busy = true;
-    try { await page.mouse.click(coords.x, coords.y); }
-    finally { _busy = false; }
-    await sleep(400);
+    // Use Frame locator for reliable iframe button clicks
+    const frames = page.frames();
+    const pf = frames.find(f => f.url().includes('send-proposal-new-partner-flow'));
+    if (!pf) return { error: 'no-submit-iframe' };
 
+    // Click "Send Proposal" button (not disabled)
     _busy = true;
     try {
-      await page.waitForFunction(() => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        if (!f || !f.contentDocument) return false;
-        return Array.from(f.contentDocument.querySelectorAll('button'))
-          .some(b => /^i understand$/i.test((b.innerText || '').trim()));
-      }, { timeout: 5000 });
+      await pf.locator('button').filter({ hasText: /^send proposal$/i }).locator(':not([disabled])').first().click({ timeout: 5000 });
+    } catch(e) {
+      _busy = false;
+      return { error: 'no-submit-btn: ' + String(e).slice(0, 60) };
+    } finally { _busy = false; }
+    await sleep(400);
+
+    // Wait for "I Understand" confirmation dialog
+    _busy = true;
+    try {
+      await pf.locator('button').filter({ hasText: /^i understand$/i }).waitFor({ state: 'visible', timeout: 5000 });
     } catch { _busy = false; return { error: 'no-confirm-dialog' }; }
     finally { _busy = false; }
 
-    const confirmCoords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const doc = f.contentDocument;
-      const btn = Array.from(doc.querySelectorAll('button'))
-        .find(b => /^i understand$/i.test((b.innerText || '').trim()));
-      if (!btn) return null;
-      btn.scrollIntoView({ block: 'center' });
-      const r = btn.getBoundingClientRect();
-      const ifr = f.getBoundingClientRect();
-      return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2 };
-    });
-    if (!confirmCoords) return { error: 'no-i-understand-btn' };
+    // Click "I Understand"
     _busy = true;
-    try { await page.mouse.click(confirmCoords.x, confirmCoords.y); }
-    finally { _busy = false; }
+    try {
+      await pf.locator('button').filter({ hasText: /^i understand$/i }).first().click({ timeout: 3000 });
+    } catch(e) {
+      _busy = false;
+      return { error: 'no-i-understand-btn: ' + String(e).slice(0, 60) };
+    } finally { _busy = false; }
 
+    // Wait for iframe to close
     _busy = true;
     try {
       await page.waitForFunction(() => {
