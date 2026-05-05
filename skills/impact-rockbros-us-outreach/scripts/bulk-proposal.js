@@ -666,7 +666,14 @@ async (_rootPage) => {
     }
 
     if (results.length >= TARGET) break;
-    if (processedThisPass === 0) scrollPasses++;
+    if (processedThisPass === 0) {
+      scrollPasses++;
+      // Stop scrolling if we've had 5 consecutive passes with no new eligible cards
+      // (all cards seen, no Send Proposal buttons, tab exhausted)
+      if (scrollPasses >= 5) break;
+    } else {
+      scrollPasses = 0; // reset on any progress
+    }
     // Use real mouse wheel events — windows.scrollBy doesn't trigger Impact's infinite scroll
     await page.mouse.wheel(0, 1000);
     await sleep(800);
