@@ -378,73 +378,65 @@ async (_rootPage) => {
   };
 
   const setStartDate = async () => {
-    // Inject today's date directly into the React state via the hidden input
-    const ok = await safeEval(() => {
+    // Check if already correctly set
+    const already = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const val = f?.contentDocument?.querySelector('input[name="startDateTime"]')?.value || '';
+      return val.includes('"date":"20');
+    });
+    if (already) return { ok: true, alreadySet: true };
+
+    // Get calendar button coordinates using scrollIntoView + getBCR
+    const calCoords = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f?.contentDocument;
-      const win = f?.contentWindow;
-      if (!doc || !win) return false;
-
-      const inp = doc.querySelector('input[name="startDateTime"]');
-      if (!inp) return false;
-
-      // Build today's date in the format Impact expects
-      const now = new Date();
-      const pad = n => String(n).padStart(2, '0');
-      const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
-
-      // Build the encoded value Impact uses for the startDateTime input
-      const val = JSON.stringify({
-        startDate: { date: dateStr, hour: 'ZERO', minute: 0, immediateOption: null },
-        endDate: { date: null, hour: 'ZERO', minute: 0, immediateOption: null },
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/Los_Angeles',
-        limitedTime: false
-      });
-
-      // Set value via React's native value setter
-      const setter = Object.getOwnPropertyDescriptor(win.HTMLInputElement.prototype, 'value')?.set;
-      if (setter) {
-        setter.call(inp, val);
-        inp.dispatchEvent(new win.Event('input', { bubbles: true }));
-        inp.dispatchEvent(new win.Event('change', { bubbles: true }));
-      } else {
-        inp.value = val;
-      }
-
-      // Also try clicking "Today" button if visible (belt + suspenders)
-      const todayBtn = Array.from(doc.querySelectorAll('button, a, [role="button"]'))
-        .find(b => /^today$/i.test((b.innerText||'').trim()));
-      if (todayBtn) todayBtn.click();
-
-      return inp.value && inp.value.includes(dateStr);
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const btn = doc.querySelector('button[data-testid="uicl-date-input"]');
+      if (!btn) return null;
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = btn.getBoundingClientRect();
+      return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
     });
+    if (!calCoords) return { error: 'no-date-btn' };
 
-    if (!ok) {
-      // Fallback: open date picker and click Today
-      await safeEval(() => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        const doc = f?.contentDocument;
-        const btn = doc?.querySelector('button[data-testid="uicl-date-input"]');
-        if (btn) { btn.scrollIntoView({ block: 'center' }); btn.click(); }
-      });
-      await sleep(600);
-      await safeEval(() => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        const doc = f?.contentDocument;
-        const today = Array.from(doc?.querySelectorAll('button,a,[role=button]')||[]).find(b=>/^today$/i.test(b.innerText?.trim()));
-        if (today) today.click();
-      });
-      await sleep(300);
-    }
+    // Click calendar button via proper mouse events (triggers React state)
+    _busy = true;
+    try { await page.mouse.click(calCoords.x, calCoords.y); }
+    finally { _busy = false; }
+    await sleep(800);
 
-    // Verify date is now set (contains a date string)
+    // Get "Today" button coordinates
+    const todayCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const btn = Array.from(doc.querySelectorAll('button, a, [role="button"]'))
+        .find(b => /^today$/i.test((b.innerText||'').trim()));
+      if (!btn) return null;
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = btn.getBoundingClientRect();
+      return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
+    });
+    if (!todayCoords) return { error: 'no-today-btn' };
+
+    // Click "Today" via proper mouse events (updates React state correctly)
+    _busy = true;
+    try { await page.mouse.click(todayCoords.x, todayCoords.y); }
+    finally { _busy = false; }
+    await sleep(500);
+
+    // Verify: date must be set in React state (no "date":null)
     const verify = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const inp = f?.contentDocument?.querySelector('input[name="startDateTime"]');
-      const val = inp?.value || '';
-      return val.includes('"date":"20') || (val.length > 50 && !val.includes('"date":null'));
+      const val = f?.contentDocument?.querySelector('input[name="startDateTime"]')?.value || '';
+      const errors = Array.from(f?.contentDocument?.querySelectorAll('[class*=error]')||[])
+        .map(e => e.innerText.trim()).filter(t => t.includes('date'));
+      return { hasDate: val.includes('"date":"20'), errors };
     });
-    return verify ? { ok: true } : { error: 'date-not-set' };
+    if (!verify?.hasDate) return { error: 'date-not-set-in-react', errors: verify?.errors };
+    return { ok: true };
   };
 
   const submitProposal = async () => {
