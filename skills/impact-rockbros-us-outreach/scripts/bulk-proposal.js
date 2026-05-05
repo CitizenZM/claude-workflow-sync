@@ -271,16 +271,14 @@ async (_rootPage) => {
       await page.mouse.click(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
     } finally { _busy = false; }
 
-    _busy = true;
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
         return f && f.offsetWidth > 200 && f.offsetHeight > 200;
       }, { timeout: 8000 });
     } catch {
-      _busy = false;
       return { error: 'no-iframe' };
-    } finally { _busy = false; }
+    }
     await sleep(400);
     return { ok: true };
   };
@@ -324,18 +322,7 @@ async (_rootPage) => {
     _busy = true;
     try { await page.mouse.click(coords.x, coords.y); }
     finally { _busy = false; }
-    await sleep(1000); // wait for dropdown animation to complete
-
-    // Wait for li options to appear (up to 3s)
-    _busy = true;
-    try {
-      await page.waitForFunction(() => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        const lis = Array.from(f?.contentDocument?.querySelectorAll('li') || []).filter(l => (l.innerText||'').trim().length > 0);
-        return lis.length >= 2; // at least Select + one option
-      }, { timeout: 3000 });
-    } catch { /* dropdown may already be there */ }
-    finally { _busy = false; }
+    await sleep(1200); // wait for dropdown animation + React render
 
     // Get "Public Term" option coords (scroll it into view too)
     const optCoords = await safeEval(() => {
@@ -465,15 +452,13 @@ async (_rootPage) => {
     if (!submitOk) return { error: 'no-submit-btn' };
     await sleep(400);
 
-    // Wait for "I Understand" to appear
-    _busy = true;
-    try {
-      await page.waitForFunction(() => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        return f?.contentDocument && Array.from(f.contentDocument.querySelectorAll('button')).some(b => /^i understand$/i.test((b.innerText||'').trim()));
-      }, { timeout: 5000 });
-    } catch { _busy = false; return { error: 'no-confirm-dialog' }; }
-    finally { _busy = false; }
+    // Wait for "I Understand" to appear (no _busy — waitForFunction doesn't need it)
+    await sleep(800);
+    const hasIUnderstand = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      return !!(f?.contentDocument && Array.from(f.contentDocument.querySelectorAll('button')).some(b => /^i understand$/i.test((b.innerText||'').trim())));
+    });
+    if (!hasIUnderstand) return { error: 'no-confirm-dialog' };
 
     // Click "I Understand" via JS click
     const confirmOk = await safeEval(() => {
@@ -488,25 +473,22 @@ async (_rootPage) => {
     });
     if (!confirmOk) return { error: 'no-i-understand-btn' };
 
-    _busy = true;
+    // Wait for iframe to close (no _busy — waitForFunction doesn't need it)
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
         if (!f || f.offsetWidth === 0 || f.offsetHeight === 0) return true;
-        // Also done if iframe shows "Access is Denied" or error
         const body = f.contentDocument?.body?.innerText || '';
         if (/access is denied|you do not have access|error/i.test(body)) return true;
         return false;
       }, { timeout: 10000 });
-      _busy = false;
-      // Check if it was an access denied error
-      const denied = await page.evaluate(() => {
+      const denied = await safeEval(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
         return /access is denied|you do not have access/i.test(f?.contentDocument?.body?.innerText || '');
-      }).catch(() => false);
+      });
       if (denied) return { error: 'access-denied' };
       return { ok: true };
-    } catch { _busy = false; return { error: 'modal-did-not-close' }; }
+    } catch { return { error: 'modal-did-not-close' }; }
   };
 
   const closeModal = async () => {
