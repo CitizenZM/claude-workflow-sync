@@ -488,7 +488,7 @@ async (_rootPage) => {
   await sleep(400);
 
   let scrollPasses = 0;
-  const MAX_SCROLL_PASSES = 200;
+  const MAX_SCROLL_PASSES = 500;
 
   while (results.length < TARGET && scrollPasses < MAX_SCROLL_PASSES) {
     const cards = await readGridCards();
@@ -647,7 +647,10 @@ async (_rootPage) => {
 
     if (results.length >= TARGET) break;
     if (processedThisPass === 0) scrollPasses++;
-    await safeEval(() => window.scrollBy(0, window.innerHeight * 0.9));
+    // Use real mouse wheel events — windows.scrollBy doesn't trigger Impact's infinite scroll
+    await page.mouse.wheel(0, 1000);
+    await sleep(800);
+    await page.mouse.wheel(0, 1000);
     await sleep(800);
   }
 
