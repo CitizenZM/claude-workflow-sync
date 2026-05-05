@@ -400,7 +400,9 @@ async (_rootPage) => {
         const dayCell = frame.locator('td').filter({
           has: frame.locator('span').filter({ hasText: new RegExp(`^${targetDay}$`) })
         });
-        const count = await dayCell.count();
+        // count() has no timeout arg — use a race with a short sleep to avoid 30s hang
+        const countPromise = dayCell.count();
+        const count = await Promise.race([countPromise, sleep(3000).then(() => 0)]);
         if (count > 0) {
           await dayCell.first().click({ timeout: 3000 });
         } else {
@@ -541,7 +543,17 @@ async (_rootPage) => {
       });
     } catch {}
     try { await page.keyboard.press('Escape'); } catch {}
-    await sleep(250);
+    await sleep(300);
+    // If iframe still visible after close attempt, force-remove from DOM
+    await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      if (f && f.offsetWidth > 0) {
+        // Remove iframe and its container
+        const container = f.closest('.modal-container, [class*="slideout"], [class*="modal"]') || f;
+        container.remove();
+      }
+    }).catch(() => {});
+    await sleep(150);
   };
 
   // ── MAIN LOOP ─────────────────────────────────────────────────────────
@@ -701,9 +713,6 @@ async (_rootPage) => {
 
         results.push(pubData);
         processedThisPass++;
-        // Close the reset form explicitly so next card starts clean
-        await closeModal();
-        await ensureDiscover();
         await sleep(250);
       } catch (e) {
         errors.push({ name, step: 'exception', reason: String(e).slice(0, 200) });
