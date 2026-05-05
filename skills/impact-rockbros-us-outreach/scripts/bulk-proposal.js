@@ -303,76 +303,71 @@ async (_rootPage) => {
   };
 
   const selectTerm = async () => {
-    const coords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      if (!f) return null;
-      const doc = f.contentDocument;
-      if (!doc) return null;
-      const btn = doc.querySelector('button.iui-multi-select-input-button');
-      if (!btn) return null;
-      const r = btn.getBoundingClientRect();
-      const ifr = f.getBoundingClientRect();
-      return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2, currentText: (btn.innerText || '').trim() };
-    });
-    if (!coords) return { error: 'no-term-btn' };
-    if (coords.currentText && !/^select$/i.test(coords.currentText)) return { ok: true, alreadySet: coords.currentText };
-
+    // Get the proposal iframe as a Playwright Frame object for reliable locator-based interaction
     _busy = true;
-    try { await page.mouse.click(coords.x, coords.y); }
-    finally { _busy = false; }
-    await sleep(400);
+    let proposalFrame = null;
+    try {
+      const frames = page.frames();
+      proposalFrame = frames.find(f => f.url().includes('send-proposal-new-partner-flow'));
+    } finally { _busy = false; }
 
+    if (!proposalFrame) return { error: 'no-term-iframe' };
+
+    // Check current term value
+    let currentText = '';
+    try {
+      _busy = true;
+      currentText = await proposalFrame.locator('button.iui-multi-select-input-button').first().innerText({ timeout: 3000 });
+      _busy = false;
+    } catch { _busy = false; }
+
+    if (currentText && !/^select$/i.test(currentText.trim())) {
+      return { ok: true, alreadySet: currentText.trim() };
+    }
+
+    // Click the Template Term dropdown button
     _busy = true;
     try {
-      await page.waitForFunction(() => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        const doc = f && f.contentDocument;
-        return doc && doc.querySelectorAll('li[role="option"]').length > 0;
-      }, { timeout: 5000 });
-    } catch { _busy = false; return { error: 'no-term-options' }; }
-    finally { _busy = false; }
+      await proposalFrame.locator('button.iui-multi-select-input-button').first().click({ timeout: 5000 });
+    } catch(e) {
+      _busy = false;
+      return { error: 'term-btn-click-failed: ' + String(e).slice(0,80) };
+    } finally { _busy = false; }
+    await sleep(600);
 
-    const optCoords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const doc = f.contentDocument;
-      const opts = Array.from(doc.querySelectorAll('li[role="option"]'));
-      // Strict priority: Public Terms first, then any non-Select option
-      let pick = opts.find(o => /^public terms$/i.test((o.innerText||'').trim()));
-      if (!pick) pick = opts.find(o => /public terms/i.test(o.innerText));
-      if (!pick) pick = opts.find(o => !/^select$/i.test((o.innerText || '').trim()) && (o.innerText||'').trim().length > 0);
-      if (!pick) return null;
-      const r = pick.getBoundingClientRect();
-      const ifr = f.getBoundingClientRect();
-      return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2, text: pick.innerText.trim() };
-    });
-    if (!optCoords) return { error: 'no-public-terms' };
+    // Wait for "Public Term" li to appear and click it
     _busy = true;
-    try { await page.mouse.click(optCoords.x, optCoords.y); }
-    finally { _busy = false; }
+    try {
+      // The dropdown renders li elements — find "Public Term" by text
+      const publicTermLoc = proposalFrame.locator('li').filter({ hasText: /^public term$/i });
+      await publicTermLoc.waitFor({ state: 'visible', timeout: 5000 });
+      await publicTermLoc.click({ timeout: 3000 });
+    } catch(e) {
+      _busy = false;
+      // Fallback: try any li that isn't "Select" and isn't a percentage commission
+      try {
+        _busy = true;
+        const allLis = proposalFrame.locator('li').filter({ hasNotText: /^select$/i }).filter({ hasNotText: /^[0-9]+%/ });
+        await allLis.first().click({ timeout: 3000 });
+      } catch(e2) {
+        _busy = false;
+        return { error: 'no-public-terms: ' + String(e).slice(0,60) };
+      }
+    } finally { _busy = false; }
     await sleep(500);
 
-    // VERIFY term was actually selected — read back the button text
-    const verify = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const doc = f && f.contentDocument;
-      const btn = doc?.querySelector('button.iui-multi-select-input-button');
-      return (btn?.innerText || '').trim();
-    });
-    if (!verify || /^select/i.test(verify)) {
-      // Retry: click again
+    // Verify selection
+    let picked = '';
+    try {
       _busy = true;
-      try { await page.mouse.click(optCoords.x, optCoords.y); }
-      finally { _busy = false; }
-      await sleep(600);
-      const verify2 = await safeEval(() => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        const doc = f && f.contentDocument;
-        const btn = doc?.querySelector('button.iui-multi-select-input-button');
-        return (btn?.innerText || '').trim();
-      });
-      if (!verify2 || /^select/i.test(verify2)) return { error: 'term-not-applied', attempted: optCoords.text };
+      picked = await proposalFrame.locator('button.iui-multi-select-input-button').first().innerText({ timeout: 3000 });
+      _busy = false;
+    } catch { _busy = false; }
+
+    if (!picked || /^select$/i.test(picked.trim())) {
+      return { error: 'term-not-applied', got: picked };
     }
-    return { ok: true, picked: optCoords.text, verified: verify || optCoords.text };
+    return { ok: true, picked: picked.trim(), verified: true };
   };
 
   const fillMessage = async (text) => {
