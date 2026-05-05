@@ -26,10 +26,31 @@ async (_rootPage) => {
   // ── HELPERS ────────────────────────────────────────────────────────────
 
   const ensureDiscover = async () => {
-    const u = page.url();
-    if (!u.includes('partner_discover') || u.includes('slideout_id=')) {
+    try {
+      const u = page.url();
+      if (!u.includes('partner_discover') || u.includes('slideout_id=')) {
+        await page.goto(DISCOVER_URL, { waitUntil: 'domcontentloaded' }).catch(() => {});
+        await sleep(400);
+      }
+    } catch (e) {
+      // Context destroyed during url() check — page is mid-navigation, wait and retry
+      await sleep(1000);
       await page.goto(DISCOVER_URL, { waitUntil: 'domcontentloaded' }).catch(() => {});
-      await sleep(250);
+      await sleep(400);
+    }
+  };
+
+  // Wrap evaluate calls to catch context-destroyed gracefully
+  const safeEval = async (fn, arg) => {
+    try {
+      return arg !== undefined ? await page.evaluate(fn, arg) : await page.evaluate(fn);
+    } catch (e) {
+      if (String(e).includes('context was destroyed') || String(e).includes('Execution context')) {
+        await sleep(800);
+        await ensureDiscover();
+        return arg !== undefined ? await page.evaluate(fn, arg) : await page.evaluate(fn);
+      }
+      throw e;
     }
   };
 
@@ -454,7 +475,7 @@ async (_rootPage) => {
   await sleep(250);
 
   // No pre-scroll — wastes 48s per tab. Cards load via scroll in main loop.
-  await page.evaluate(() => window.scrollTo(0, 0));
+  await safeEval(() => window.scrollTo(0, 0));
   await sleep(400);
 
   let scrollPasses = 0;
@@ -611,7 +632,7 @@ async (_rootPage) => {
 
     if (results.length >= TARGET) break;
     if (processedThisPass === 0) scrollPasses++;
-    await page.evaluate(() => window.scrollBy(0, window.innerHeight * 0.9));
+    await safeEval(() => window.scrollBy(0, window.innerHeight * 0.9));
     await sleep(800);
   }
 
