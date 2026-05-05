@@ -354,7 +354,25 @@ async (_rootPage) => {
       const r = li.getBoundingClientRect();
       return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
     });
-    if (!optCoords || optCoords.err) return { error: 'no-public-term-li', detail: optCoords };
+    if (!optCoords || optCoords.err) {
+      // No "Public Term" li visible — dropdown closed or publisher has no public term.
+      // Press Escape to close any open dropdown and proceed;
+      // if term is required, submitProposal will fail with validation error (handled by stale-form check).
+      try { await page.keyboard.press('Escape'); } catch {}
+      await sleep(200);
+      // Check if term is already set (some publishers auto-select only term)
+      const autoTerm = await safeEval(() => {
+        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+        const doc = f?.contentDocument;
+        const btn = Array.from(doc?.querySelectorAll('button.iui-multi-select-input-button') || [])
+          .filter(b => b.offsetWidth > 0)
+          .find(b => !/^\d|AM|PM|GMT|Ongoing/i.test(b.innerText?.trim()));
+        const t = (btn?.innerText || '').trim();
+        return t && !/^select$/i.test(t) ? t : null;
+      });
+      if (autoTerm) return { ok: true, alreadySet: autoTerm };
+      return { error: 'no-public-term-li', detail: optCoords };
+    }
 
     _busy = true;
     try { await page.mouse.click(optCoords.x, optCoords.y); }
