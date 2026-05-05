@@ -301,60 +301,44 @@ async (_rootPage) => {
   };
 
   const selectTerm = async () => {
-    // Scroll term button into view, then get viewport coordinates
-    const coords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      if (!f) return null;
-      const doc = f.contentDocument;
-      if (!doc) return null;
-      const btn = doc.querySelector('button.iui-multi-select-input-button');
-      if (!btn) return null;
-      // Scroll into view FIRST so getBCR gives positive viewport coordinates
-      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
-      const r = btn.getBoundingClientRect();
-      const ifr = f.getBoundingClientRect();
-      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2, text: (btn.innerText||'').trim() };
-    });
-    if (!coords) return { error: 'no-term-btn' };
-    if (coords.text && !/^select$/i.test(coords.text)) return { ok: true, alreadySet: coords.text };
-    if (coords.y < 0 || coords.y > 2000) return { error: 'term-btn-out-of-view: y=' + coords.y };
+    const frame = page.frameLocator('iframe[src*="send-proposal-new-partner-flow"]');
 
+    // Check current state — if already set, skip
+    const currentText = await frame.locator('button.iui-multi-select-input-button').first()
+      .innerText({ timeout: 3000 }).catch(() => '');
+    if (currentText && !/^select$/i.test(currentText.trim())) {
+      return { ok: true, alreadySet: currentText.trim() };
+    }
+
+    // Click the term dropdown button (first iui-multi-select-input-button = Template Term)
     _busy = true;
-    try { await page.mouse.click(coords.x, coords.y); }
-    finally { _busy = false; }
-    await sleep(1200); // wait for dropdown animation + React render
+    try {
+      await frame.locator('button.iui-multi-select-input-button').first().click({ timeout: 5000 });
+    } finally { _busy = false; }
+    await sleep(800);
 
-    // Get "Public Term" option coords (scroll it into view too)
-    const optCoords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const doc = f?.contentDocument;
-      const ifr = f?.getBoundingClientRect();
-      if (!doc || !ifr) return null;
-      const lis = Array.from(doc.querySelectorAll('li')).filter(l => (l.innerText||'').trim().length > 0);
-      let pick = lis.find(l => /^public term$/i.test((l.innerText||'').trim()));
-      if (!pick) pick = lis.find(l => /public term/i.test(l.innerText));
-      if (!pick) pick = lis.find(l => !/^select$/i.test((l.innerText||'').trim()) && !/^[0-9]/.test((l.innerText||'').trim()));
-      if (!pick) return null;
-      pick.scrollIntoView({ block: 'center', behavior: 'instant' });
-      const r = pick.getBoundingClientRect();
-      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2, text: pick.innerText.trim() };
-    });
-    if (!optCoords) return { error: 'no-public-terms' };
-    if (optCoords.y < 0 || optCoords.y > 2000) return { error: 'option-out-of-view: y=' + optCoords.y };
-
+    // Click "Public Term" option in the dropdown list
     _busy = true;
-    try { await page.mouse.click(optCoords.x, optCoords.y); }
-    finally { _busy = false; }
-    await sleep(500);
+    try {
+      // Prefer exact match, fall back to partial
+      const exactLocator = frame.locator('li').filter({ hasText: /^public term$/i });
+      const partialLocator = frame.locator('li').filter({ hasText: /public term/i });
+      const count = await exactLocator.count();
+      if (count > 0) {
+        await exactLocator.first().click({ timeout: 3000 });
+      } else {
+        await partialLocator.first().click({ timeout: 3000 });
+      }
+    } finally { _busy = false; }
+    await sleep(400);
 
-    // Verify
-    const verify = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const btn = f?.contentDocument?.querySelector('button.iui-multi-select-input-button');
-      return (btn?.innerText||'').trim();
-    });
-    if (!verify || /^select$/i.test(verify)) return { error: 'term-not-applied', got: verify };
-    return { ok: true, picked: verify };
+    // Verify selection
+    const picked = await frame.locator('button.iui-multi-select-input-button').first()
+      .innerText({ timeout: 3000 }).catch(() => '');
+    if (!picked || /^select$/i.test(picked.trim())) {
+      return { error: 'term-not-applied', got: picked.trim() };
+    }
+    return { ok: true, picked: picked.trim() };
   };
 
   const fillMessage = async (text) => {
