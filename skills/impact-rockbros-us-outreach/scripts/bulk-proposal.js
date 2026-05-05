@@ -318,32 +318,33 @@ async (_rootPage) => {
       return { ok: true, alreadySet: currentText.trim() };
     }
 
-    // Click the term dropdown button (first iui-multi-select-input-button = Template Term)
+    // Use frameLocator for both clicks — no page.evaluate between them, so no focus events
+    // that would close the dropdown. The term button is the first VISIBLE button with
+    // text "Select" (not a digit), confirmed by DOM inspection.
     _busy = true;
     try {
-      await frame.locator('button.iui-multi-select-input-button').first().click({ timeout: 5000 });
+      // Click term button: filter to visible buttons, pick the one with "Select" text
+      // (not "0"/"00"/"AM" which are time pickers)
+      await frame.locator('button.iui-multi-select-input-button')
+        .filter({ hasNotText: /^\d|AM|PM|GMT|Ongoing/i })
+        .filter({ hasText: /Select/i })
+        .first()
+        .click({ timeout: 5000 });
     } finally { _busy = false; }
     await sleep(800);
 
-    // Click "Public Term" — find the VISIBLE li and use mouse.click on its coordinates
-    const optCoords = await safeEval(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const doc = f?.contentDocument;
-      const ifr = f?.getBoundingClientRect();
-      if (!doc || !ifr) return null;
-      const lis = Array.from(doc.querySelectorAll('li'))
-        .filter(l => l.offsetWidth > 0 && /public term/i.test(l.innerText || ''));
-      if (!lis.length) return null;
-      const li = lis[0];
-      li.scrollIntoView({ block: 'center', behavior: 'instant' });
-      const r = li.getBoundingClientRect();
-      return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
-    });
-    if (!optCoords) return { error: 'no-public-term-option' };
-
     _busy = true;
-    try { await page.mouse.click(optCoords.x, optCoords.y); }
-    finally { _busy = false; }
+    try {
+      // Click "Public Term" li — use filter with exact text, first visible match
+      const exactLocator = frame.locator('li').filter({ hasText: /^public term$/i });
+      const partialLocator = frame.locator('li').filter({ hasText: /public term/i });
+      const count = await exactLocator.count();
+      if (count > 0) {
+        await exactLocator.first().click({ timeout: 3000 });
+      } else {
+        await partialLocator.first().click({ timeout: 3000 });
+      }
+    } finally { _busy = false; }
     await sleep(400);
 
     // Verify selection
@@ -700,6 +701,9 @@ async (_rootPage) => {
 
         results.push(pubData);
         processedThisPass++;
+        // Close the reset form explicitly so next card starts clean
+        await closeModal();
+        await ensureDiscover();
         await sleep(250);
       } catch (e) {
         errors.push({ name, step: 'exception', reason: String(e).slice(0, 200) });
