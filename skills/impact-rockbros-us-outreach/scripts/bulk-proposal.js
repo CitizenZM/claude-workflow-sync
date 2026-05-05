@@ -324,7 +324,18 @@ async (_rootPage) => {
     _busy = true;
     try { await page.mouse.click(coords.x, coords.y); }
     finally { _busy = false; }
-    await sleep(600);
+    await sleep(1000); // wait for dropdown animation to complete
+
+    // Wait for li options to appear (up to 3s)
+    _busy = true;
+    try {
+      await page.waitForFunction(() => {
+        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+        const lis = Array.from(f?.contentDocument?.querySelectorAll('li') || []).filter(l => (l.innerText||'').trim().length > 0);
+        return lis.length >= 2; // at least Select + one option
+      }, { timeout: 3000 });
+    } catch { /* dropdown may already be there */ }
+    finally { _busy = false; }
 
     // Get "Public Term" option coords (scroll it into view too)
     const optCoords = await safeEval(() => {
