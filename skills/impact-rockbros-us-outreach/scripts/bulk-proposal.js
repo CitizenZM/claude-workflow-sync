@@ -303,71 +303,60 @@ async (_rootPage) => {
   };
 
   const selectTerm = async () => {
-    // Get the proposal iframe as a Playwright Frame object for reliable locator-based interaction
+    // Scroll term button into view, then get viewport coordinates
+    const coords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      if (!f) return null;
+      const doc = f.contentDocument;
+      if (!doc) return null;
+      const btn = doc.querySelector('button.iui-multi-select-input-button');
+      if (!btn) return null;
+      // Scroll into view FIRST so getBCR gives positive viewport coordinates
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = btn.getBoundingClientRect();
+      const ifr = f.getBoundingClientRect();
+      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2, text: (btn.innerText||'').trim() };
+    });
+    if (!coords) return { error: 'no-term-btn' };
+    if (coords.text && !/^select$/i.test(coords.text)) return { ok: true, alreadySet: coords.text };
+    if (coords.y < 0 || coords.y > 2000) return { error: 'term-btn-out-of-view: y=' + coords.y };
+
     _busy = true;
-    let proposalFrame = null;
-    try {
-      const frames = page.frames();
-      proposalFrame = frames.find(f => f.url().includes('send-proposal-new-partner-flow'));
-    } finally { _busy = false; }
-
-    if (!proposalFrame) return { error: 'no-term-iframe' };
-
-    // Check current term value
-    let currentText = '';
-    try {
-      _busy = true;
-      currentText = await proposalFrame.locator('button.iui-multi-select-input-button').first().innerText({ timeout: 3000 });
-      _busy = false;
-    } catch { _busy = false; }
-
-    if (currentText && !/^select$/i.test(currentText.trim())) {
-      return { ok: true, alreadySet: currentText.trim() };
-    }
-
-    // Click the Template Term dropdown button
-    _busy = true;
-    try {
-      await proposalFrame.locator('button.iui-multi-select-input-button').first().click({ timeout: 5000 });
-    } catch(e) {
-      _busy = false;
-      return { error: 'term-btn-click-failed: ' + String(e).slice(0,80) };
-    } finally { _busy = false; }
+    try { await page.mouse.click(coords.x, coords.y); }
+    finally { _busy = false; }
     await sleep(600);
 
-    // Wait for "Public Term" li to appear and click it
+    // Get "Public Term" option coords (scroll it into view too)
+    const optCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const lis = Array.from(doc.querySelectorAll('li')).filter(l => (l.innerText||'').trim().length > 0);
+      let pick = lis.find(l => /^public term$/i.test((l.innerText||'').trim()));
+      if (!pick) pick = lis.find(l => /public term/i.test(l.innerText));
+      if (!pick) pick = lis.find(l => !/^select$/i.test((l.innerText||'').trim()) && !/^[0-9]/.test((l.innerText||'').trim()));
+      if (!pick) return null;
+      pick.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = pick.getBoundingClientRect();
+      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2, text: pick.innerText.trim() };
+    });
+    if (!optCoords) return { error: 'no-public-terms' };
+    if (optCoords.y < 0 || optCoords.y > 2000) return { error: 'option-out-of-view: y=' + optCoords.y };
+
     _busy = true;
-    try {
-      // The dropdown renders li elements — find "Public Term" by text
-      const publicTermLoc = proposalFrame.locator('li').filter({ hasText: /^public term$/i });
-      await publicTermLoc.waitFor({ state: 'visible', timeout: 5000 });
-      await publicTermLoc.click({ timeout: 3000 });
-    } catch(e) {
-      _busy = false;
-      // Fallback: try any li that isn't "Select" and isn't a percentage commission
-      try {
-        _busy = true;
-        const allLis = proposalFrame.locator('li').filter({ hasNotText: /^select$/i }).filter({ hasNotText: /^[0-9]+%/ });
-        await allLis.first().click({ timeout: 3000 });
-      } catch(e2) {
-        _busy = false;
-        return { error: 'no-public-terms: ' + String(e).slice(0,60) };
-      }
-    } finally { _busy = false; }
+    try { await page.mouse.click(optCoords.x, optCoords.y); }
+    finally { _busy = false; }
     await sleep(500);
 
-    // Verify selection
-    let picked = '';
-    try {
-      _busy = true;
-      picked = await proposalFrame.locator('button.iui-multi-select-input-button').first().innerText({ timeout: 3000 });
-      _busy = false;
-    } catch { _busy = false; }
-
-    if (!picked || /^select$/i.test(picked.trim())) {
-      return { error: 'term-not-applied', got: picked };
-    }
-    return { ok: true, picked: picked.trim(), verified: true };
+    // Verify
+    const verify = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const btn = f?.contentDocument?.querySelector('button.iui-multi-select-input-button');
+      return (btn?.innerText||'').trim();
+    });
+    if (!verify || /^select$/i.test(verify)) return { error: 'term-not-applied', got: verify };
+    return { ok: true, picked: verify };
   };
 
   const fillMessage = async (text) => {
@@ -389,79 +378,104 @@ async (_rootPage) => {
   };
 
   const setStartDate = async () => {
-    // Use Playwright Frame locator for reliable iframe interaction
-    const frames = page.frames();
-    const pf = frames.find(f => f.url().includes('send-proposal-new-partner-flow'));
-    if (!pf) return { error: 'no-date-iframe' };
+    // Check if already set
+    const already = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const inp = f?.contentDocument?.querySelector('input[name="startDateTime"]');
+      return inp && inp.value && inp.value.length > 5;
+    });
+    if (already) return { ok: true, alreadySet: true };
 
-    // Check if date already set
+    // Scroll date button into view and click
+    const coords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      if (!f) return null;
+      const doc = f.contentDocument;
+      const btn = doc?.querySelector('button[data-testid="uicl-date-input"]');
+      if (!btn) return null;
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = btn.getBoundingClientRect();
+      const ifr = f.getBoundingClientRect();
+      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2 };
+    });
+    if (!coords) return { error: 'no-date-btn' };
     _busy = true;
-    let dateVal = '';
-    try { dateVal = await pf.locator('input[name="startDateTime"]').inputValue({ timeout: 2000 }).catch(() => ''); }
+    try { await page.mouse.click(coords.x, coords.y); }
     finally { _busy = false; }
-    if (dateVal && dateVal.length > 5) return { ok: true, alreadySet: true };
-
-    // Click the date picker button
-    _busy = true;
-    try {
-      await pf.locator('button[data-testid="uicl-date-input"]').first().click({ timeout: 5000 });
-    } catch(e) {
-      _busy = false;
-      return { error: 'no-date-btn: ' + String(e).slice(0,60) };
-    } finally { _busy = false; }
     await sleep(400);
 
-    // Click "Today"
+    // Find and click "Today"
+    const todayCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const btn = Array.from(doc.querySelectorAll('button, a, [role="button"]')).find(b => /^today$/i.test((b.innerText||'').trim()));
+      if (!btn) return null;
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = btn.getBoundingClientRect();
+      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2 };
+    });
+    if (!todayCoords) return { error: 'no-today-btn' };
     _busy = true;
-    try {
-      await pf.locator('button, a').filter({ hasText: /^today$/i }).first().click({ timeout: 5000 });
-    } catch(e) {
-      _busy = false;
-      return { error: 'no-today-btn: ' + String(e).slice(0,60) };
-    } finally { _busy = false; }
+    try { await page.mouse.click(todayCoords.x, todayCoords.y); }
+    finally { _busy = false; }
     await sleep(300);
 
-    // Verify
-    _busy = true;
-    let val = '';
-    try { val = await pf.locator('input[name="startDateTime"]').inputValue({ timeout: 2000 }).catch(() => ''); }
-    finally { _busy = false; }
-    return val && val.length > 5 ? { ok: true } : { error: 'date-not-set' };
+    const ok = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const inp = f?.contentDocument?.querySelector('input[name="startDateTime"]');
+      return inp && inp.value && inp.value.length > 5;
+    });
+    return ok ? { ok: true } : { error: 'date-not-set' };
   };
 
   const submitProposal = async () => {
-    // Use Frame locator for reliable iframe button clicks
-    const frames = page.frames();
-    const pf = frames.find(f => f.url().includes('send-proposal-new-partner-flow'));
-    if (!pf) return { error: 'no-submit-iframe' };
-
-    // Click "Send Proposal" button (not disabled)
+    // Scroll "Send Proposal" button into view and click
+    const submitCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const btn = Array.from(doc.querySelectorAll('button')).find(b => /^send proposal$/i.test((b.innerText||'').trim()) && !b.disabled);
+      if (!btn) return null;
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = btn.getBoundingClientRect();
+      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2 };
+    });
+    if (!submitCoords) return { error: 'no-submit-btn' };
     _busy = true;
-    try {
-      await pf.locator('button').filter({ hasText: /^send proposal$/i }).locator(':not([disabled])').first().click({ timeout: 5000 });
-    } catch(e) {
-      _busy = false;
-      return { error: 'no-submit-btn: ' + String(e).slice(0, 60) };
-    } finally { _busy = false; }
+    try { await page.mouse.click(submitCoords.x, submitCoords.y); }
+    finally { _busy = false; }
     await sleep(400);
 
-    // Wait for "I Understand" confirmation dialog
+    // Wait for "I Understand" to appear
     _busy = true;
     try {
-      await pf.locator('button').filter({ hasText: /^i understand$/i }).waitFor({ state: 'visible', timeout: 5000 });
+      await page.waitForFunction(() => {
+        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+        return f?.contentDocument && Array.from(f.contentDocument.querySelectorAll('button')).some(b => /^i understand$/i.test((b.innerText||'').trim()));
+      }, { timeout: 5000 });
     } catch { _busy = false; return { error: 'no-confirm-dialog' }; }
     finally { _busy = false; }
 
-    // Click "I Understand"
+    // Scroll "I Understand" into view and click
+    const confirmCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const btn = Array.from(doc.querySelectorAll('button')).find(b => /^i understand$/i.test((b.innerText||'').trim()));
+      if (!btn) return null;
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = btn.getBoundingClientRect();
+      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2 };
+    });
+    if (!confirmCoords) return { error: 'no-i-understand-btn' };
     _busy = true;
-    try {
-      await pf.locator('button').filter({ hasText: /^i understand$/i }).first().click({ timeout: 3000 });
-    } catch(e) {
-      _busy = false;
-      return { error: 'no-i-understand-btn: ' + String(e).slice(0, 60) };
-    } finally { _busy = false; }
+    try { await page.mouse.click(confirmCoords.x, confirmCoords.y); }
+    finally { _busy = false; }
 
-    // Wait for iframe to close
     _busy = true;
     try {
       await page.waitForFunction(() => {
