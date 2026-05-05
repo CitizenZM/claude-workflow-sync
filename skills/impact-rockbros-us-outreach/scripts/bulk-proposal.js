@@ -303,6 +303,14 @@ async (_rootPage) => {
   const selectTerm = async () => {
     const frame = page.frameLocator('iframe[src*="send-proposal-new-partner-flow"]');
 
+    // If form already has validation errors (stale submit), close and signal re-open
+    const hasErrors = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      return Array.from(doc?.querySelectorAll('[class*=error]') || []).some(e => e.innerText?.trim());
+    });
+    if (hasErrors) return { error: 'stale-form-with-errors' };
+
     // Check current state — if already set, skip
     const currentText = await frame.locator('button.iui-multi-select-input-button').first()
       .innerText({ timeout: 3000 }).catch(() => '');
@@ -317,19 +325,25 @@ async (_rootPage) => {
     } finally { _busy = false; }
     await sleep(800);
 
-    // Click "Public Term" option in the dropdown list
+    // Click "Public Term" — find the VISIBLE li and use mouse.click on its coordinates
+    const optCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const lis = Array.from(doc.querySelectorAll('li'))
+        .filter(l => l.offsetWidth > 0 && /public term/i.test(l.innerText || ''));
+      if (!lis.length) return null;
+      const li = lis[0];
+      li.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = li.getBoundingClientRect();
+      return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
+    });
+    if (!optCoords) return { error: 'no-public-term-option' };
+
     _busy = true;
-    try {
-      // Prefer exact match, fall back to partial
-      const exactLocator = frame.locator('li').filter({ hasText: /^public term$/i });
-      const partialLocator = frame.locator('li').filter({ hasText: /public term/i });
-      const count = await exactLocator.count();
-      if (count > 0) {
-        await exactLocator.first().click({ timeout: 3000 });
-      } else {
-        await partialLocator.first().click({ timeout: 3000 });
-      }
-    } finally { _busy = false; }
+    try { await page.mouse.click(optCoords.x, optCoords.y); }
+    finally { _busy = false; }
     await sleep(400);
 
     // Verify selection
