@@ -4522,5 +4522,75 @@
     ],
     "thread": "omt_1a9d9108f98f9ce6",
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50b277af20bcb224175e82abe86",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_1fe06eb245aec1a5adca4a3057e13827",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🔥【产品功能升级】🔥商家同一主体可再新开4个店铺（无需加白）\",\"elements\":[[{\"tag\":\"text\",\"text\":\"尊敬的商家朋友：\"},{\"tag\":\"text\",\"text\":\"\\n\\n\"},{\"tag\":\"text\",\"text\":\"✨ 即日起无需开白，商家同一主体可申请再新开4个店铺；\"},{\"tag\":\"text\",\"text\":\"\\n**商家新开店铺用处：1）铺货布局店群 2）分类目精细运营 3）多店高效冷启动测品 **\\n\\n\"},{\"tag\":\"text\",\"text\":\"步骤一：自查是否满足开通条件\"},{\"tag\":\"text\",\"text\":\"\\n入驻状态：审批；合作状态：转正\\n\"},{\"tag\":\"text\",\"text\":\"步骤二：自行根据以下链接开通\"},{\"tag\":\"text\",\"text\":\"\\n商家需要登陆\"},{\"tag\":\"text\",\"text\":\"已入驻账号\"},{\"tag\":\"text\",\"text\":\"，登陆下方链接\\n\"},{\"tag\":\"a\",\"href\":\"https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service\",\"text\":\"https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service\"},{\"tag\":\"text\",\"text\":\"\\n按照指引完成开通需要的资料\\n提交审核后，顶部可切换店铺，查看审核状态\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02pn_8bdb56d4-a5c3-4afa-9743-a9e13783aa8g\"}],[{\"tag\":\"button\",\"text\":\"商家多开店铺手册\",\"type\":\"primary\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/FoPgbUzISaj7e6szTKkloJdZgug?ccm_open_type=im_card_automation_link\",\"text\":\"行业重点信息通知\"}]]}",
+    "createTime": 1777886102608,
+    "updateTime": 1777886102608,
+    "hasLinks": true,
+    "links": [
+      "https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service",
+      "https://bytedance.sg.larkoffice.com/base/FoPgbUzISaj7e6szTKkloJdZgug?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a9deb5f0ccedc8e",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50a19ae450b8e15ab71773bd2b5",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "cli_a136ebe23478900b",
+    "senderType": "app_id",
+    "text": "",
+    "rawContent": "{\"title\":\"【订单相关问题处理办法】\",\"elements\":[[{\"tag\":\"text\",\"text\":\"1.\"},{\"tag\":\"text\",\"text\":\"产品催上架：\"},{\"tag\":\"text\",\"text\":\"商家后台显示各项指标都通过，但产品实际未上架，登记【催上架】表格\\n链接：\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw\"},{\"tag\":\"text\",\"text\":\"\\n2.\"},{\"tag\":\"text\",\"text\":\"改标题、图片驳回、视频上架催审核、产品补充国家上架、退供审核、修改产品属性、质检订单异常处理上架等问题都可以登记表格\"},{\"tag\":\"text\",\"text\":\"\\n跟单同学每天处理：\\n\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\"},{\"tag\":\"text\",\"text\":\"\\n3.\"},{\"tag\":\"text\",\"text\":\"首单重新启动&取消系统下的备货单\"},{\"tag\":\"text\",\"text\":\"\\n\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\"},{\"tag\":\"text\",\"text\":\"\\n4.\"},{\"tag\":\"text\",\"text\":\"所有关于订单、上架、发货等过程遇到的问题，都可以在订单群找到跟单同学处理，请扫码入群\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02l4_17b7914f-c191-4e06-a3b6-f6d258e0eccg\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link\",\"text\":\"家装建材重要提醒\"}]]}",
+    "createTime": 1777950018716,
+    "updateTime": 1777950018716,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw",
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw",
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw",
+      "https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a9cd58bbbce99b9",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50a2fa8894b8b2b57b3228283b3",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_b0b40381e71ea966c1234e83177517fe",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🌍欢迎加入TikTok Shop全托管模式\",\"elements\":[[{\"tag\":\"at\",\"user_id\":\"@_all\",\"user_name\":\"all\"},{\"tag\":\"text\",\"text\":\"入局最佳时期，只要你是有供应链资源、拥有跨境经验、有意向跨境供货的内贸商家\\n\\n🔥全球商机一键解锁，现已开放美国、英国、墨西哥、沙特、欧盟（西班牙/德国/意大利/法国）、日本\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"商家专注提供优质好货\"},{\"tag\":\"text\",\"text\":\"\\n平台统一运营，负责全链路发货运输等工作，商家仅需提报商品和供货\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"快速回款，够安心\"},{\"tag\":\"text\",\"text\":\"\\n本币(人民币或美金)快速结算，无汇率风险\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"无压力销售，够放心\"},{\"tag\":\"text\",\"text\":\"\\n0入驻费、0流量费、0海外仓储成本\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02oi_912bdffc-14e6-495d-9c76-f4d4d27a5fcg\"}],[{\"tag\":\"button\",\"text\":\"🎙️点击预约｜TikTok Shop官方直播\",\"type\":\"primary\"},{\"tag\":\"button\",\"text\":\"➡️点击入驻｜全托管极速开店通道\",\"type\":\"danger\"},{\"tag\":\"button\",\"text\":\"📖点击获取｜全托管保姆级开店攻略\",\"type\":\"danger\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link\",\"text\":\"TikTok Shop官方招商信息推送\"}]]}",
+    "createTime": 1777953604711,
+    "updateTime": 1777953604711,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a9ce38d778e9c87",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50ab9ac9c4a4e2d9acf7a35b539",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "text",
+    "senderId": "ou_6dbf918e965be32924dc0733830f516e",
+    "senderType": "open_id",
+    "text": "换群",
+    "rawContent": "{\"text\":\"换群\"}",
+    "createTime": 1777990976699,
+    "updateTime": 1777990976699,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_1a9c7589628f5981",
+    "replyMsgId": null
   }
 ]

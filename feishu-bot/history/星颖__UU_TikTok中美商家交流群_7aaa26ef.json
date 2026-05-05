@@ -1018,5 +1018,35 @@
     "links": [],
     "thread": null,
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50b2374804a8c35b7261b6ad56f",
+    "chatId": "oc_607783a3b7e3a59d16f6a2fc7aaa26ef",
+    "msgType": "text",
+    "senderId": "ou_d7f29b6cf72834ac6c36233ae4ed0f5f",
+    "senderType": "open_id",
+    "text": "ACCU定邀链接 谁有",
+    "rawContent": "{\"text\":\"ACCU定邀链接 谁有\"}",
+    "createTime": 1777887128479,
+    "updateTime": 1777887128479,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50ac70ac7cacb3e3c70c109f8c8",
+    "chatId": "oc_607783a3b7e3a59d16f6a2fc7aaa26ef",
+    "msgType": "image",
+    "senderId": "ou_a8c284076dbaa3a2fa02118d184648dc",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "This message was recalled",
+    "createTime": 1777959910489,
+    "updateTime": 1777965328139,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
   }
 ]

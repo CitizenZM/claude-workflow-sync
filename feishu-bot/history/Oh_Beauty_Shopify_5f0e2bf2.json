@@ -3533,5 +3533,20 @@
     "links": [],
     "thread": null,
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50928ec630a4b32505264455874",
+    "chatId": "oc_8cab76b855b684a28c9aef6e5f0e2bf2",
+    "msgType": "text",
+    "senderId": "ou_bc4235d6b6701b8342cbb16afb32421b",
+    "senderType": "open_id",
+    "text": "@_user_1 We need to schedule a meeting here tonight to go over some pdp changes and loyalty feature issues, what time will you be free?",
+    "rawContent": "{\"text\":\"@_user_1 We need to schedule a meeting here tonight to go over some pdp changes and loyalty feature issues, what time will you be free?\"}",
+    "createTime": 1778019329710,
+    "updateTime": 1778022715933,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_1a9fe4c99dcf5c9e",
+    "replyMsgId": null
   }
 ]

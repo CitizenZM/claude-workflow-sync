@@ -4328,5 +4328,80 @@
     "processed": true,
     "decisions": 1,
     "tasks": 0
+  },
+  "CELL 付费广告:2026-05-05": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 1
+  },
+  "Cell Digital 亚马逊联盟财务:2026-05-05": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-05-05": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "Oh Beauty Shopify 运营:2026-05-04": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Partner Accelerator Community:2026-05-04": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "Partner Accelerator Community:2026-05-05": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 1
+  },
+  "TCL 客服群:2026-05-04": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "TCL 客服群:2026-05-05": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "TCL独立站技术协同群  N2M:2026-05-05": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "TSP Partner x ACE Strategy Tra:2026-05-04": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "TTS 家装建材 五金工具全托管招商 群:2026-05-05": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "US TSP Announcements:2026-05-05": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "星颖  UU TikTok中美商家交流群:2026-05-04": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "星颖  UU TikTok中美商家交流群:2026-05-05": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "麦天宝 X N2M 达人合作:2026-05-05": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
   }
 }

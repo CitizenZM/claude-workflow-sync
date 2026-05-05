@@ -1,9 +1,11 @@
 {
-  "access_token": "u-4bRtEshHp5T9VtNVA0rTam4l75Cw5lMPiiGy3BA0283g",
-  "refresh_token": "ur-4AUIzvpPB0ErtuevgMUWLx4l5D4w5loXUyGy3QM02d2h",
+  "access_token": "u-5yPnOCbGF9dpCTT0tEInyZ4l7f6w5lgVMOGy3wM02c2g",
+  "refresh_token": "ur-6duogw9v96aGkIGmjMukdo4l75Iw5lgXryGyjwM02cng",
   "expires_in": 7200,
   "refresh_expires_in": 2592000,
   "scope": "auth:user.id:read im:chat:readonly im:message im:message:readonly",
-  "saved_at": 1777872349152,
-  "expires_at": 1777879489152
+  "name": "",
+  "open_id": "",
+  "saved_at": 1778024598225,
+  "expires_at": 1778031738225
 }

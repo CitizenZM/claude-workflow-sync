@@ -13,5 +13,20 @@
     "links": [],
     "thread": null,
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50ba45dfa4a0d470e8fe2c7f042",
+    "chatId": "oc_baffbfbbb72fa154fbf248ef51867fa4",
+    "msgType": "system",
+    "senderId": "",
+    "senderType": "",
+    "text": "",
+    "rawContent": "{\"template\":\"{from_user} invited {to_chatters} to the group. New members can view all chat history.\",\"from_user\":[\"Brad Seipp\"],\"to_chatters\":[\"Katlyn Diaz\"],\"divider_text\":{}}",
+    "createTime": 1777918129149,
+    "updateTime": 1777918129149,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
   }
 ]

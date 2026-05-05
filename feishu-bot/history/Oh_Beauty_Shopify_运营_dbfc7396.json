@@ -8921,5 +8921,35 @@
     "links": [],
     "thread": null,
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50b009672ca0b228eb054052eec",
+    "chatId": "oc_2db7f11cf53ad017569411c9dbfc7396",
+    "msgType": "text",
+    "senderId": "ou_5baf62db0a508d938f0256f740aa2b22",
+    "senderType": "open_id",
+    "text": "SkinCeuticals这个品牌的GWP是今天要停掉吗",
+    "rawContent": "{\"text\":\"SkinCeuticals这个品牌的GWP是今天要停掉吗\"}",
+    "createTime": 1777878138809,
+    "updateTime": 1777878138809,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50b00924f530b343aa51424cd12",
+    "chatId": "oc_2db7f11cf53ad017569411c9dbfc7396",
+    "msgType": "text",
+    "senderId": "ou_5baf62db0a508d938f0256f740aa2b22",
+    "senderType": "open_id",
+    "text": "@_user_1",
+    "rawContent": "{\"text\":\"@_user_1\"}",
+    "createTime": 1777878142750,
+    "updateTime": 1777878142826,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
   }
 ]

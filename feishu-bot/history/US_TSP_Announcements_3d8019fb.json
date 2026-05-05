@@ -1556,5 +1556,35 @@
     "links": [],
     "thread": "omt_1a96385538d61ae8",
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50aa499014a4d4400d7cb375be1",
+    "chatId": "oc_3d982421b8b5abf10ba2d1313d8019fb",
+    "msgType": "merge_forward",
+    "senderId": "ou_29d56086b9bb6366fe8e0092d2065302",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "Merged and Forwarded Message",
+    "createTime": 1777983606253,
+    "updateTime": 1777983606902,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_1a9c68bcff8f5ae8",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50ab939c1ca0d46b6f0d2a9b1fc",
+    "chatId": "oc_3d982421b8b5abf10ba2d1313d8019fb",
+    "msgType": "share_chat",
+    "senderId": "ou_29d56086b9bb6366fe8e0092d2065302",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "This message was recalled",
+    "createTime": 1777991125169,
+    "updateTime": 1777991131333,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_1a9c751c3f0f1aea",
+    "replyMsgId": null
   }
 ]
