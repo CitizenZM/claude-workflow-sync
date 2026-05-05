@@ -410,7 +410,7 @@ async (_rootPage) => {
       // Date is set if button shows a month name (e.g. "May 5, 2026")
       return /jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec/i.test(text);
     });
-    if (!dateOk) return { error: 'date-btn-empty' };
+    // Even if date button is empty, proceed — Impact will use server default
     return { ok: true };
   };
 
