@@ -9,7 +9,7 @@ async (_rootPage) => {
   const _pages = _rootPage.context().pages();
   const page = _pages.find(p => p.url().includes('app.impact.com')) || _rootPage;
   await page.bringToFront();
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(200);
 
   const DISCOVER_URL  = "%%DISCOVER_URL%%";
   const MSG           = "%%MSG%%";
@@ -29,7 +29,7 @@ async (_rootPage) => {
     const u = page.url();
     if (!u.includes('partner_discover') || u.includes('slideout_id=')) {
       await page.goto(DISCOVER_URL, { waitUntil: 'domcontentloaded' }).catch(() => {});
-      await sleep(3000);
+      await sleep(250);
     }
   };
 
@@ -213,12 +213,12 @@ async (_rootPage) => {
       return { x: r.x, y: r.y, w: r.width, h: r.height };
     }, idx);
     if (!cardRect) return { error: 'card-vanished' };
-    await sleep(400);
+    await sleep(80);
 
     await page.mouse.move(10, 10);
-    await sleep(100);
+    await sleep(50);
     await page.mouse.move(cardRect.x + cardRect.w / 2, cardRect.y + cardRect.h / 2, { steps: 10 });
-    await sleep(800);
+    await sleep(300);
 
     const btnRect = await page.evaluate((i) => {
       const cards = Array.from(document.querySelectorAll('.iui-card'));
@@ -232,7 +232,7 @@ async (_rootPage) => {
 
     if (!btnRect || btnRect.w === 0) {
       await page.mouse.click(cardRect.x + cardRect.w / 2, cardRect.y + cardRect.h / 2);
-      await sleep(1500);
+      await sleep(250);
       const slideoutBtn = await page.evaluate(() => {
         const btn = Array.from(document.querySelectorAll('button')).find(b => /send proposal/i.test(b.innerText || ''));
         if (!btn) return null;
@@ -251,17 +251,17 @@ async (_rootPage) => {
           await ensureDiscover();
           return { error: 'no-iframe-after-slideout' };
         }
-        await sleep(1000);
+        await sleep(400);
         return { ok: true };
       }
       await page.keyboard.press('Escape').catch(() => {});
-      await sleep(500);
+      await sleep(200);
       await ensureDiscover();
       return { error: 'no-send-btn' };
     }
 
     await page.mouse.move(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
-    await sleep(150);
+    await sleep(80);
     await page.mouse.click(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
     try {
       await page.waitForFunction(() => {
@@ -271,7 +271,7 @@ async (_rootPage) => {
     } catch {
       return { error: 'no-iframe' };
     }
-    await sleep(1000);
+    await sleep(400);
     return { ok: true };
   };
 
@@ -308,7 +308,7 @@ async (_rootPage) => {
     if (coords.currentText && !/^select$/i.test(coords.currentText)) return { ok: true, alreadySet: coords.currentText };
 
     await page.mouse.click(coords.x, coords.y);
-    await sleep(1000);
+    await sleep(400);
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
@@ -330,7 +330,7 @@ async (_rootPage) => {
     });
     if (!optCoords) return { error: 'no-public-terms' };
     await page.mouse.click(optCoords.x, optCoords.y);
-    await sleep(1000);
+    await sleep(400);
     return { ok: true, picked: optCoords.text };
   };
 
@@ -366,7 +366,7 @@ async (_rootPage) => {
     });
     if (!coords) return { error: 'no-date-btn' };
     await page.mouse.click(coords.x, coords.y);
-    await sleep(800);
+    await sleep(300);
     const todayCoords = await page.evaluate(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f.contentDocument;
@@ -379,7 +379,7 @@ async (_rootPage) => {
     });
     if (!todayCoords) return { error: 'no-today-btn' };
     await page.mouse.click(todayCoords.x, todayCoords.y);
-    await sleep(700);
+    await sleep(300);
     const ok = await page.evaluate(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f.contentDocument;
@@ -404,7 +404,7 @@ async (_rootPage) => {
     });
     if (!coords) return { error: 'no-submit-btn' };
     await page.mouse.click(coords.x, coords.y);
-    await sleep(1000);
+    await sleep(400);
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
@@ -446,28 +446,16 @@ async (_rootPage) => {
       });
     } catch {}
     await page.keyboard.press('Escape').catch(() => {});
-    await sleep(600);
+    await sleep(250);
   };
 
   // ── MAIN LOOP ─────────────────────────────────────────────────────────
   await ensureDiscover();
-  await sleep(1500);
+  await sleep(250);
 
-  // Pre-scroll: load as many cards as possible before starting proposals
-  // This surfaces publishers from the full 87K pool, not just the first 25
-  let preScrollCount = 0;
-  const PRE_SCROLL_TARGET = 300; // load ~300 cards upfront
-  while (preScrollCount < 60) { // 60 scrolls × ~5 new cards = ~300 cards
-    const before = await page.evaluate(() => document.querySelectorAll('.iui-card').length);
-    await page.evaluate(() => window.scrollBy(0, window.innerHeight * 2));
-    await sleep(800);
-    const after = await page.evaluate(() => document.querySelectorAll('.iui-card').length);
-    preScrollCount++;
-    if (after >= PRE_SCROLL_TARGET) break;
-    if (after === before && preScrollCount > 10) break; // no new cards loading
-  }
+  // No pre-scroll — wastes 48s per tab. Cards load via scroll in main loop.
   await page.evaluate(() => window.scrollTo(0, 0));
-  await sleep(1000);
+  await sleep(400);
 
   let scrollPasses = 0;
   const MAX_SCROLL_PASSES = 200;
@@ -613,7 +601,7 @@ async (_rootPage) => {
 
         results.push(pubData);
         processedThisPass++;
-        await sleep(600);
+        await sleep(250);
       } catch (e) {
         errors.push({ name, step: 'exception', reason: String(e).slice(0, 200) });
         await closeModal();
@@ -624,7 +612,7 @@ async (_rootPage) => {
     if (results.length >= TARGET) break;
     if (processedThisPass === 0) scrollPasses++;
     await page.evaluate(() => window.scrollBy(0, window.innerHeight * 0.9));
-    await sleep(2000);
+    await sleep(800);
   }
 
   return {
