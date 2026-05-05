@@ -375,100 +375,23 @@ async (_rootPage) => {
   };
 
   const setStartDate = async () => {
-    // Use Playwright's frameLocator for reliable iframe element interaction.
-    // frameLocator handles cross-frame clicks correctly without causing focus events
-    // that would dismiss the calendar.
-    // Target: +3 days from now (safe for GMT+8 timezone past-date validation).
+    // With LA timezone (America/Los_Angeles), today's date is valid.
+    // The form pre-fills today's date — just verify it's set and return.
+    // No calendar interaction needed.
 
-    const targetDay = new Date(Date.now() + 3 * 86400000).getDate();
-
-    try {
-      // Get the proposal iframe as a Playwright frame locator
-      const frame = page.frameLocator('iframe[src*="send-proposal-new-partner-flow"]');
-
-      // Click the FIRST date button (date/month/year, not hour/minute/timezone)
-      // There are 3 buttons matching the selector; first() = date picker
-      _busy = true;
-      try {
-        await frame.locator('button[data-testid="uicl-date-input"]').first().click({ timeout: 5000 });
-      } finally { _busy = false; }
-      await sleep(2000); // wait for calendar to render
-
-      // Click the target day cell — filter TD by span with exact day number
-      _busy = true;
-      try {
-        const dayCell = frame.locator('td').filter({
-          has: frame.locator('span').filter({ hasText: new RegExp(`^${targetDay}$`) })
-        });
-        // count() has no timeout arg — use a race with a short sleep to avoid 30s hang
-        const countPromise = dayCell.count();
-        const count = await Promise.race([countPromise, sleep(3000).then(() => 0)]);
-        if (count > 0) {
-          await dayCell.first().click({ timeout: 3000 });
-        } else {
-          // Fallback: any element with exact day number text
-          await frame.locator(`text="${targetDay}"`).first().click({ timeout: 3000 }).catch(() => {});
-        }
-      } finally { _busy = false; }
-      await sleep(800);
-    } catch (e) {
-      // If frameLocator fails, fall back to coordinates approach
-      const calCoords = await safeEval(() => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        const doc = f?.contentDocument;
-        const ifr = f?.getBoundingClientRect();
-        if (!doc || !ifr) return null;
-        const btn = doc.querySelector('button[data-testid="uicl-date-input"]');
-        if (!btn) return null;
-        btn.scrollIntoView({ block: 'center', behavior: 'instant' });
-        const r = btn.getBoundingClientRect();
-        return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
-      });
-      if (!calCoords) return { error: 'no-date-btn' };
-      _busy = true;
-      try { await page.mouse.click(calCoords.x, calCoords.y); }
-      finally { _busy = false; }
-      await sleep(2500);
-      // After mouse.click opened calendar, use another mouse.click on day cell coordinates
-      // Day cell position is calculated from known calendar layout offsets
-      const cellCoords = await safeEval((day) => {
-        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        const doc = f?.contentDocument;
-        const ifr = f?.getBoundingClientRect();
-        if (!doc || !ifr) return null;
-        const tds = Array.from(doc.querySelectorAll('td')).filter(td => {
-          return Array.from(td.querySelectorAll('span')).some(s => (s.innerText||'').trim() === String(day)) && td.offsetWidth > 0;
-        });
-        if (tds.length === 0) return null;
-        const td = tds[0];
-        td.scrollIntoView({ block: 'center', behavior: 'instant' });
-        const r = td.getBoundingClientRect();
-        return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
-      }, targetDay);
-      if (!cellCoords) return { error: 'no-calendar-cell-fallback' };
-      _busy = true;
-      try { await page.mouse.click(cellCoords.x, cellCoords.y); }
-      finally { _busy = false; }
-      await sleep(800);
-    }
-
-    // Verify date was updated in React/Vue hidden input
-    const verify = await safeEval(() => {
+    // The form pre-fills today's date (May 5) with LA timezone — already valid.
+    // Just verify the date button shows a date value (not empty).
+    const dateOk = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const val = f?.contentDocument?.querySelector('input[name="startDateTime"]')?.value || '';
-      const j = val.indexOf('{');
-      if (j < 0) return { hasDate: false };
-      try {
-        const s = JSON.parse(val.slice(j));
-        return { hasDate: !!s.startDate?.date, date: s.startDate?.date };
-      } catch { return { hasDate: false }; }
+      const doc = f?.contentDocument;
+      if (!doc) return false;
+      const btn = doc.querySelector('button[data-testid="uicl-date-input"]');
+      const text = (btn?.innerText || '').trim();
+      // Date is set if button shows a month name (e.g. "May 5, 2026")
+      return /jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec/i.test(text);
     });
-
-    if (!verify?.hasDate) return { error: 'date-not-set', got: verify };
-    // Note: stale "past date" errors may show in the UI even after setting a future date.
-    // Do NOT check for past-date error here — the date is set +3 days ahead, submit will work.
-
-    return { ok: true, date: verify.date, day: targetDay };
+    if (!dateOk) return { error: 'date-btn-empty' };
+    return { ok: true };
   };
 
   const submitProposal = async () => {
