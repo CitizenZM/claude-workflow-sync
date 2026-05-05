@@ -431,22 +431,18 @@ async (_rootPage) => {
   };
 
   const submitProposal = async () => {
-    // Scroll "Send Proposal" button into view and click
-    const submitCoords = await safeEval(() => {
+    // Click "Send Proposal" via JS click (avoids viewport coordinate issues)
+    const submitOk = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f?.contentDocument;
-      const ifr = f?.getBoundingClientRect();
-      if (!doc || !ifr) return null;
+      if (!doc) return false;
       const btn = Array.from(doc.querySelectorAll('button')).find(b => /^send proposal$/i.test((b.innerText||'').trim()) && !b.disabled);
-      if (!btn) return null;
+      if (!btn) return false;
       btn.scrollIntoView({ block: 'center', behavior: 'instant' });
-      const r = btn.getBoundingClientRect();
-      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2 };
+      btn.click();
+      return true;
     });
-    if (!submitCoords) return { error: 'no-submit-btn' };
-    _busy = true;
-    try { await page.mouse.click(submitCoords.x, submitCoords.y); }
-    finally { _busy = false; }
+    if (!submitOk) return { error: 'no-submit-btn' };
     await sleep(400);
 
     // Wait for "I Understand" to appear
@@ -459,22 +455,18 @@ async (_rootPage) => {
     } catch { _busy = false; return { error: 'no-confirm-dialog' }; }
     finally { _busy = false; }
 
-    // Scroll "I Understand" into view and click
-    const confirmCoords = await safeEval(() => {
+    // Click "I Understand" via JS click
+    const confirmOk = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f?.contentDocument;
-      const ifr = f?.getBoundingClientRect();
-      if (!doc || !ifr) return null;
+      if (!doc) return false;
       const btn = Array.from(doc.querySelectorAll('button')).find(b => /^i understand$/i.test((b.innerText||'').trim()));
-      if (!btn) return null;
+      if (!btn) return false;
       btn.scrollIntoView({ block: 'center', behavior: 'instant' });
-      const r = btn.getBoundingClientRect();
-      return { x: ifr.left + r.left + r.width / 2, y: ifr.top + r.top + r.height / 2 };
+      btn.click();
+      return true;
     });
-    if (!confirmCoords) return { error: 'no-i-understand-btn' };
-    _busy = true;
-    try { await page.mouse.click(confirmCoords.x, confirmCoords.y); }
-    finally { _busy = false; }
+    if (!confirmOk) return { error: 'no-i-understand-btn' };
 
     _busy = true;
     try {
