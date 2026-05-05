@@ -241,13 +241,12 @@ async (_rootPage) => {
     if (!cardRect) return { error: 'card-vanished' };
     await sleep(80);
 
+    // Use Playwright element hover() — this reliably triggers CSS :hover for reveal animations
     _busy = true;
     try {
-      await page.mouse.move(10, 10);
-      await sleep(50);
-      await page.mouse.move(cardRect.x + cardRect.w / 2, cardRect.y + cardRect.h / 2, { steps: 10 });
+      await page.locator('.iui-card').nth(idx).hover({ timeout: 5000 });
     } finally { _busy = false; }
-    await sleep(500); // increased from 300 to allow hover animation
+    await sleep(400);
 
     const btnResult = await safeEval((i) => {
       const cards = Array.from(document.querySelectorAll('.iui-card'));
@@ -255,13 +254,11 @@ async (_rootPage) => {
       if (!c) return null;
       const btn = Array.from(c.querySelectorAll('button')).find(b => /send proposal/i.test(b.innerText || ''));
       if (!btn) return null;
-      // Scroll button into view to ensure layout is computed
       btn.scrollIntoView({ block: 'center', behavior: 'instant' });
       const r = btn.getBoundingClientRect();
       if (r.width > 0) {
         return { x: r.x, y: r.y, w: r.width, h: r.height, jsClick: false };
       }
-      // Still 0 — JS click directly
       btn.click();
       return { jsClick: true };
     }, idx);
