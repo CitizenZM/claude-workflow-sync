@@ -472,9 +472,19 @@ async (_rootPage) => {
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        return !f || f.offsetWidth === 0 || f.offsetHeight === 0;
+        if (!f || f.offsetWidth === 0 || f.offsetHeight === 0) return true;
+        // Also done if iframe shows "Access is Denied" or error
+        const body = f.contentDocument?.body?.innerText || '';
+        if (/access is denied|you do not have access|error/i.test(body)) return true;
+        return false;
       }, { timeout: 10000 });
       _busy = false;
+      // Check if it was an access denied error
+      const denied = await page.evaluate(() => {
+        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+        return /access is denied|you do not have access/i.test(f?.contentDocument?.body?.innerText || '');
+      }).catch(() => false);
+      if (denied) return { error: 'access-denied' };
       return { ok: true };
     } catch { _busy = false; return { error: 'modal-did-not-close' }; }
   };
