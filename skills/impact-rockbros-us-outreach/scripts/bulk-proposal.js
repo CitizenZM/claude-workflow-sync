@@ -578,6 +578,22 @@ async (_rootPage) => {
       seen.add(nLower);
 
       try {
+        // If a stale error-state iframe is still present, do a full page reload to clear it
+        const staleIframe = await safeEval(() => {
+          const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+          if (!f || f.offsetWidth === 0) return false;
+          return Array.from(f.contentDocument?.querySelectorAll('[class*=error]') || []).some(e => e.innerText?.trim());
+        });
+        if (staleIframe) {
+          await safeEval(() => {
+            document.querySelectorAll('iframe[src*="send-proposal-new-partner-flow"]').forEach(f => {
+              const c = f.closest('.modal-container, [class*="slideout"], [class*="modal"]') || f;
+              c.remove();
+            });
+          });
+          await sleep(300);
+        }
+
         const open = await openProposalForIdx(idx);
         if (open.error) {
           errors.push({ name, step: 'open', reason: open.error });
@@ -603,7 +619,12 @@ async (_rootPage) => {
         if (term.error) {
           errors.push({ name, step: 'term', reason: term.error, meta });
           await closeModal();
-          await ensureDiscover();
+          // Force-navigate to clear stale form state regardless of current URL
+          _navigating = true;
+          try {
+            await page.goto(DISCOVER_URL, { waitUntil: 'domcontentloaded', timeout: 15000 }).catch(() => {});
+            await sleep(500);
+          } finally { _navigating = false; }
           continue;
         }
 
