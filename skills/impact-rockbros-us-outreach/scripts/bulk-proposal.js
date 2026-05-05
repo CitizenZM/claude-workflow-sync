@@ -301,8 +301,6 @@ async (_rootPage) => {
   };
 
   const selectTerm = async () => {
-    const frame = page.frameLocator('iframe[src*="send-proposal-new-partner-flow"]');
-
     // If form already has validation errors (stale submit), close and signal re-open
     const hasErrors = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
@@ -318,42 +316,64 @@ async (_rootPage) => {
       return { ok: true, alreadySet: currentText.trim() };
     }
 
-    // Use frameLocator for both clicks — no page.evaluate between them, so no focus events
-    // that would close the dropdown. The term button is the first VISIBLE button with
-    // text "Select" (not a digit), confirmed by DOM inspection.
-    _busy = true;
-    try {
-      // Click term button: filter to visible buttons, pick the one with "Select" text
-      // (not "0"/"00"/"AM" which are time pickers)
-      await frame.locator('button.iui-multi-select-input-button')
-        .filter({ hasNotText: /^\d|AM|PM|GMT|Ongoing/i })
-        .filter({ hasText: /Select/i })
-        .first()
-        .click({ timeout: 5000 });
-    } finally { _busy = false; }
-    await sleep(800);
+    // Use BCR-based page.mouse.click for both clicks — proven reliable approach.
+    // frameLocator computes wrong coordinates; direct BCR + mouse.click works correctly.
+
+    // Step 1: Get term button coords and click it
+    const termCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      // Term button is the first visible iui-multi-select-input-button with "Select" text
+      const btn = Array.from(doc.querySelectorAll('button.iui-multi-select-input-button'))
+        .filter(b => b.offsetWidth > 0)
+        .find(b => /^select$/i.test(b.innerText?.trim()) || !/^\d|AM|PM|GMT|Ongoing/i.test(b.innerText?.trim()));
+      if (!btn) return null;
+      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = btn.getBoundingClientRect();
+      return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
+    });
+    if (!termCoords) return { error: 'no-term-btn-coords' };
 
     _busy = true;
-    try {
-      // Click "Public Term" li — use filter with exact text, first visible match
-      const exactLocator = frame.locator('li').filter({ hasText: /^public term$/i });
-      const partialLocator = frame.locator('li').filter({ hasText: /public term/i });
-      const count = await exactLocator.count();
-      if (count > 0) {
-        await exactLocator.first().click({ timeout: 3000 });
-      } else {
-        await partialLocator.first().click({ timeout: 3000 });
-      }
-    } finally { _busy = false; }
+    try { await page.mouse.click(termCoords.x, termCoords.y); }
+    finally { _busy = false; }
+    await sleep(600);
+
+    // Step 2: Get "Public Term" li coords and click it
+    const optCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const li = Array.from(doc.querySelectorAll('li'))
+        .find(l => l.offsetWidth > 0 && /public term/i.test(l.innerText || ''));
+      if (!li) return { err: 'no-li', count: doc.querySelectorAll('li').length };
+      li.scrollIntoView({ block: 'center', behavior: 'instant' });
+      const r = li.getBoundingClientRect();
+      return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2) };
+    });
+    if (!optCoords || optCoords.err) return { error: 'no-public-term-li', detail: optCoords };
+
+    _busy = true;
+    try { await page.mouse.click(optCoords.x, optCoords.y); }
+    finally { _busy = false; }
     await sleep(400);
 
-    // Verify selection
-    const picked = await frame.locator('button.iui-multi-select-input-button').first()
-      .innerText({ timeout: 3000 }).catch(() => '');
-    if (!picked || /^select$/i.test(picked.trim())) {
-      return { error: 'term-not-applied', got: picked.trim() };
+    // Verify selection via safeEval
+    const picked = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const btn = Array.from(doc?.querySelectorAll('button.iui-multi-select-input-button') || [])
+        .filter(b => b.offsetWidth > 0)
+        .find(b => !/^\d|AM|PM|GMT|Ongoing/i.test(b.innerText?.trim()));
+      return (btn?.innerText || '').trim();
+    });
+    if (!picked || /^select$/i.test(picked)) {
+      return { error: 'term-not-applied', got: picked };
     }
-    return { ok: true, picked: picked.trim() };
+    return { ok: true, picked };
   };
 
   const fillMessage = async (text) => {
