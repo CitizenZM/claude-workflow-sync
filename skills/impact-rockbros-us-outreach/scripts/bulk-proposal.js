@@ -336,8 +336,10 @@ async (_rootPage) => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f.contentDocument;
       const opts = Array.from(doc.querySelectorAll('li[role="option"]'));
-      let pick = opts.find(o => /public terms/i.test(o.innerText));
-      if (!pick) pick = opts.find(o => !/^select$/i.test((o.innerText || '').trim()));
+      // Strict priority: Public Terms first, then any non-Select option
+      let pick = opts.find(o => /^public terms$/i.test((o.innerText||'').trim()));
+      if (!pick) pick = opts.find(o => /public terms/i.test(o.innerText));
+      if (!pick) pick = opts.find(o => !/^select$/i.test((o.innerText || '').trim()) && (o.innerText||'').trim().length > 0);
       if (!pick) return null;
       const r = pick.getBoundingClientRect();
       const ifr = f.getBoundingClientRect();
@@ -347,8 +349,30 @@ async (_rootPage) => {
     _busy = true;
     try { await page.mouse.click(optCoords.x, optCoords.y); }
     finally { _busy = false; }
-    await sleep(400);
-    return { ok: true, picked: optCoords.text };
+    await sleep(500);
+
+    // VERIFY term was actually selected — read back the button text
+    const verify = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f && f.contentDocument;
+      const btn = doc?.querySelector('button.iui-multi-select-input-button');
+      return (btn?.innerText || '').trim();
+    });
+    if (!verify || /^select/i.test(verify)) {
+      // Retry: click again
+      _busy = true;
+      try { await page.mouse.click(optCoords.x, optCoords.y); }
+      finally { _busy = false; }
+      await sleep(600);
+      const verify2 = await safeEval(() => {
+        const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+        const doc = f && f.contentDocument;
+        const btn = doc?.querySelector('button.iui-multi-select-input-button');
+        return (btn?.innerText || '').trim();
+      });
+      if (!verify2 || /^select/i.test(verify2)) return { error: 'term-not-applied', attempted: optCoords.text };
+    }
+    return { ok: true, picked: optCoords.text, verified: verify || optCoords.text };
   };
 
   const fillMessage = async (text) => {
