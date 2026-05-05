@@ -1,9 +1,20 @@
-// Impact Rockbros US — bulk proposal + full data collection (v10 2026-05-04)
+// Impact Rockbros US — bulk proposal + full data collection (v11 2026-05-04)
 // Tokens replaced by runner:
 //   %%MSG%%, %%CONTRACT_DATE%%, %%ALREADY%%, %%TARGET%%, %%DISCOVER_URL%%
 //
-// v10: Full publisher intel scraped via /partner-ui/api/slideout + /mediaproperties APIs.
-// Returns enriched publisher objects with all detail-page fields.
+// v11 fixes:
+//   Bug 1: Execution-context-destroyed crash. ensureDiscover() never calls
+//          page.goto() while a page.evaluate() could be in flight. A _busy
+//          flag guards every evaluate; when busy, ensureDiscover only
+//          presses Escape and waits — it never navigates.
+//   Bug 2: Random clicking. Removed the "click card center when Send Proposal
+//          isn't visible" fallback. If the button isn't visible after hover,
+//          the card is skipped (error: 'no-send-btn'). No more accidental
+//          slideout opens.
+//   Bug 3: Fetch-inside-evaluate fragility. Slideout + mediaproperties API
+//          calls are wrapped in safeEval with retry, only run AFTER the
+//          modal is closed (well, after the proposal completes), and have
+//          explicit error handling so a failed fetch never aborts the loop.
 
 async (_rootPage) => {
   const _pages = _rootPage.context().pages();
@@ -23,40 +34,73 @@ async (_rootPage) => {
   const errors     = [];
   const seen       = new Set();
 
+  // ── BUSY FLAG ─────────────────────────────────────────────────────────
+  // _busy is true whenever we're actively inside any page.evaluate / page.mouse
+  // / page.waitForFunction call where destroying the execution context would
+  // crash us. ensureDiscover() refuses to navigate while _busy is true.
+  let _busy = false;
+  let _navigating = false;
+
+  const withBusy = async (fn) => {
+    _busy = true;
+    try { return await fn(); }
+    finally { _busy = false; }
+  };
+
   // ── HELPERS ────────────────────────────────────────────────────────────
 
   const ensureDiscover = async () => {
+    // NEVER navigate while a page.evaluate / mouse op is in flight — it would
+    // destroy the execution context and crash the entire tab run.
+    if (_busy) {
+      try { await page.keyboard.press('Escape'); } catch {}
+      await sleep(400);
+      return;
+    }
+    if (_navigating) { await sleep(600); return; }
     try {
       const u = page.url();
       if (!u.includes('partner_discover') || u.includes('slideout_id=')) {
-        await page.goto(DISCOVER_URL, { waitUntil: 'domcontentloaded' }).catch(() => {});
-        await sleep(400);
+        _navigating = true;
+        try {
+          await page.goto(DISCOVER_URL, { waitUntil: 'domcontentloaded' }).catch(() => {});
+          await sleep(400);
+        } finally { _navigating = false; }
       }
     } catch (e) {
-      // Context destroyed during url() check — page is mid-navigation, wait and retry
-      await sleep(1000);
-      await page.goto(DISCOVER_URL, { waitUntil: 'domcontentloaded' }).catch(() => {});
-      await sleep(400);
+      _navigating = false;
+      // Don't retry on context-destroyed — that means another op is racing us
+      if (String(e).includes('context') || String(e).includes('closed')) return;
+      await sleep(600);
     }
   };
 
-  // Wrap evaluate calls to catch context-destroyed gracefully
+  // Wrap evaluate calls: set _busy, retry once on context-destroyed
   const safeEval = async (fn, arg) => {
+    _busy = true;
     try {
       return arg !== undefined ? await page.evaluate(fn, arg) : await page.evaluate(fn);
     } catch (e) {
-      if (String(e).includes('context was destroyed') || String(e).includes('Execution context')) {
+      const msg = String(e);
+      if (msg.includes('context was destroyed') || msg.includes('Execution context')) {
+        _busy = false;
         await sleep(800);
         await ensureDiscover();
-        return arg !== undefined ? await page.evaluate(fn, arg) : await page.evaluate(fn);
+        _busy = true;
+        try {
+          return arg !== undefined ? await page.evaluate(fn, arg) : await page.evaluate(fn);
+        } catch { return null; }
       }
       throw e;
+    } finally {
+      _busy = false;
     }
   };
 
-  // Fetch authenticated JSON from Impact API using the browser's session cookies
+  // Authenticated JSON fetch via the page's own session cookies.
+  // Wrapped in safeEval so a context destruction returns null instead of crashing.
   const apiFetch = async (url) => {
-    return await page.evaluate(async (u) => {
+    return await safeEval(async (u) => {
       try {
         const r = await fetch(u, { credentials: 'include' });
         if (!r.ok) return null;
@@ -65,148 +109,110 @@ async (_rootPage) => {
     }, url);
   };
 
-  // ── GRID DATA COLLECTION ────────────────────────────────────────────────
-  // Intercept the listings API response to get full grid records (all 25+)
-  const captureGridData = async () => {
-    return await page.evaluate(() => {
-      // Walk Ractive/ExtJS component store to find the loaded records
-      // Impact uses ExtJS grid — records are in Ext.ComponentManager stores
-      try {
-        const stores = Ext?.ComponentManager?.all?.map || {};
-        for (const [key, cmp] of Object.entries(stores)) {
-          const store = cmp?.store || cmp?.getStore?.();
-          if (store?.getData && store.getCount?.() > 0) {
-            const recs = [];
-            store.each(r => recs.push(r.getData ? r.getData() : r.data));
-            if (recs[0]?.radius_publisher_id !== undefined) return recs;
-          }
-        }
-      } catch {}
-      return null;
-    });
-  };
-
   // ── SLIDEOUT API DATA COLLECTION ────────────────────────────────────────
   const fetchSlideoutData = async (radiusPublisherId) => {
-    const callbackUrl = encodeURIComponent(DISCOVER_URL);
-    const slideoutUrl = `/partner-ui/api/slideout?supplyPlatformProgramId=${radiusPublisherId}&supplyPlatformName=impact&callbackUrl=${callbackUrl}`;
-    const data = await apiFetch(slideoutUrl);
-    if (!data) return null;
+    try {
+      const callbackUrl = encodeURIComponent(DISCOVER_URL);
+      const slideoutUrl = `/partner-ui/api/slideout?supplyPlatformProgramId=${radiusPublisherId}&supplyPlatformName=impact&callbackUrl=${callbackUrl}`;
+      const data = await apiFetch(slideoutUrl);
+      if (!data) return null;
 
-    const prog = data.program || {};
+      const prog = data.program || {};
+      const contacts = (prog.contacts || []).map(c => ({
+        name: c.name || null,
+        email: c.email || null,
+        role: c.role || c.type || null,
+        phone: c.phone || null,
+      }));
+      const primaryContact = contacts[0] || {};
+      const addr = (prog.addresses || [])[0] || {};
+      const country = addr.country?.country2Code || null;
+      const corpAddress = addr.address || null;
+      const city = addr.city || null;
+      const state = addr.state || null;
+      const categories = (prog.categories || []).map(c => c.name || c).filter(Boolean);
+      const contentTags = (prog.attributes || [])
+        .filter(a => a.type === 'content_tag').map(a => a.value).filter(Boolean);
+      const editorialTags = (prog.attributes || [])
+        .filter(a => a.type === 'editorial_tag' && !/^\d+$/.test(a.value)).map(a => a.value).filter(Boolean);
+      const mediaProperties = (prog.mediaProperties || []).map(m => m.url || m.website || m).filter(Boolean);
+      const website = mediaProperties[0] || (prog.links || []).find(l => l.type === 'website')?.url || null;
+      const languages = (prog.languages || []).map(l => l.name || l).filter(Boolean);
+      const promoMethods = (prog.promotionalMethods || []).map(m => m.name || m).filter(Boolean);
+      const allContacts = contacts.map(c => `${c.name||''}${c.role?' ('+c.role+')':''} ${c.email||''}`).filter(s=>s.trim());
+      const links = (prog.links || []);
 
-    // Extract contacts
-    const contacts = (prog.contacts || []).map(c => ({
-      name: c.name || null,
-      email: c.email || null,
-      role: c.role || c.type || null,
-      phone: c.phone || null,
-    }));
-    const primaryContact = contacts[0] || {};
-
-    // Extract address
-    const addr = (prog.addresses || [])[0] || {};
-    const country = addr.country?.country2Code || null;
-    const corpAddress = addr.address || null;
-    const city = addr.city || null;
-    const state = addr.state || null;
-
-    // Extract categories
-    const categories = (prog.categories || []).map(c => c.name || c).filter(Boolean);
-
-    // Extract tags from attributes
-    const contentTags = (prog.attributes || [])
-      .filter(a => a.type === 'content_tag').map(a => a.value).filter(Boolean);
-    const editorialTags = (prog.attributes || [])
-      .filter(a => a.type === 'editorial_tag' && !/^\d+$/.test(a.value)).map(a => a.value).filter(Boolean);
-
-    // Extract media properties (websites)
-    const mediaProperties = (prog.mediaProperties || []).map(m => m.url || m.website || m).filter(Boolean);
-    const website = mediaProperties[0] || (prog.links || []).find(l => l.type === 'website')?.url || null;
-
-    // Extract languages
-    const languages = (prog.languages || []).map(l => l.name || l).filter(Boolean);
-
-    // Extract promotional methods
-    const promoMethods = (prog.promotionalMethods || []).map(m => m.name || m).filter(Boolean);
-
-    // Extract all contacts
-    const allContacts = contacts.map(c => `${c.name||''}${c.role?' ('+c.role+')':''} ${c.email||''}`).filter(s=>s.trim());
-
-    // Social followers from mediaProperties detail
-    const links = (prog.links || []);
-
-    return {
-      psi:                   data.relationship?.psi || prog.psi || null,
-      slideout_token:        data.slideoutToken || null,
-      radius_publisher_id:   radiusPublisherId,
-      // Identity
-      description:           prog.description || prog.shortDescription || null,
-      ideal_partner_desc:    prog.idealPartnerDescription || null,
-      size_rating:           prog.sizeRating || null,
-      marketplace_state:     prog.marketplaceState || null,
-      total_audience_size:   prog.totalAudienceSize || null,
-      proposal_accept_rate:  prog.proposalAcceptRate7Day || null,
-      proposal_response_rate:prog.proposalResponseRate7Day || null,
-      program_type:          prog.programType || null,
-      program_subtypes:      prog.programSubtypes || [],
-      // Contact
-      contact_name:          primaryContact.name || null,
-      contact_email:         primaryContact.email || null,
-      contact_role:          primaryContact.role || null,
-      all_contacts:          allContacts,
-      contacts_raw:          contacts,
-      // Location
-      corporate_address:     corpAddress,
-      city:                  city,
-      state:                 state,
-      country:               country,
-      // Categories & tags
-      categories:            categories,
-      content_tags:          contentTags,
-      editorial_tags:        editorialTags,
-      // Properties
-      website:               website,
-      media_properties:      mediaProperties,
-      links:                 links,
-      languages:             languages,
-      promotional_methods:   promoMethods,
-    };
+      return {
+        psi:                   data.relationship?.psi || prog.psi || null,
+        slideout_token:        data.slideoutToken || null,
+        radius_publisher_id:   radiusPublisherId,
+        description:           prog.description || prog.shortDescription || null,
+        ideal_partner_desc:    prog.idealPartnerDescription || null,
+        size_rating:           prog.sizeRating || null,
+        marketplace_state:     prog.marketplaceState || null,
+        total_audience_size:   prog.totalAudienceSize || null,
+        proposal_accept_rate:  prog.proposalAcceptRate7Day || null,
+        proposal_response_rate:prog.proposalResponseRate7Day || null,
+        program_type:          prog.programType || null,
+        program_subtypes:      prog.programSubtypes || [],
+        contact_name:          primaryContact.name || null,
+        contact_email:         primaryContact.email || null,
+        contact_role:          primaryContact.role || null,
+        all_contacts:          allContacts,
+        contacts_raw:          contacts,
+        corporate_address:     corpAddress,
+        city:                  city,
+        state:                 state,
+        country:               country,
+        categories:            categories,
+        content_tags:          contentTags,
+        editorial_tags:        editorialTags,
+        website:               website,
+        media_properties:      mediaProperties,
+        links:                 links,
+        languages:             languages,
+        promotional_methods:   promoMethods,
+      };
+    } catch (e) {
+      return null;
+    }
   };
 
   // ── MEDIA PROPERTIES (TRAFFIC DATA) ────────────────────────────────────
   const fetchMediaProperties = async (slideoutToken, radiusPublisherId) => {
     if (!slideoutToken) return {};
-    const url = `/partner-ui/api/slideout/mediaproperties?slideoutToken=${slideoutToken}&supplyPlatformProgramId=${radiusPublisherId}`;
-    const data = await apiFetch(url);
-    if (!data) return {};
+    try {
+      const url = `/partner-ui/api/slideout/mediaproperties?slideoutToken=${slideoutToken}&supplyPlatformProgramId=${radiusPublisherId}`;
+      const data = await apiFetch(url);
+      if (!data) return {};
 
-    const traffic = {};
-    for (const [siteUrl, siteData] of Object.entries(data)) {
-      const web = siteData?.intelligenceApiWeb?.Traffic?.Summary || {};
-      if (web.Visits) {
-        traffic[siteUrl] = {
-          visits:          web.Visits || null,
-          rank:            web.Rank || null,
-          users:           web.Users || null,
-          bounce_rate:     web.BounceRate || null,
-          pages_per_visit: web.PagesPerVisit || null,
-          mobile_share:    web.MobileShare || null,
-          search_traffic:  web.Search || null,
-          direct_traffic:  web.DirectTraffic || null,
-          social_traffic:  web.Social || null,
-          referral_traffic:web.ReferralTraffic || null,
-          date_updated:    web.DateLastUpdated || null,
-        };
-        break; // take first site as primary
+      const traffic = {};
+      for (const [siteUrl, siteData] of Object.entries(data)) {
+        const web = siteData?.intelligenceApiWeb?.Traffic?.Summary || {};
+        if (web.Visits) {
+          traffic[siteUrl] = {
+            visits:          web.Visits || null,
+            rank:            web.Rank || null,
+            users:           web.Users || null,
+            bounce_rate:     web.BounceRate || null,
+            pages_per_visit: web.PagesPerVisit || null,
+            mobile_share:    web.MobileShare || null,
+            search_traffic:  web.Search || null,
+            direct_traffic:  web.DirectTraffic || null,
+            social_traffic:  web.Social || null,
+            referral_traffic:web.ReferralTraffic || null,
+            date_updated:    web.DateLastUpdated || null,
+          };
+          break;
+        }
       }
-    }
-    return traffic;
+      return traffic;
+    } catch { return {}; }
   };
 
   // ── CARD READING ────────────────────────────────────────────────────────
   const readGridCards = async () => {
-    return await page.evaluate(() => {
+    return await safeEval(() => {
       const cards = Array.from(document.querySelectorAll('.iui-card'));
       return cards.map((c, i) => {
         const nameEl =
@@ -215,17 +221,16 @@ async (_rootPage) => {
         let name = '';
         if (nameEl) name = (nameEl.innerText || '').trim().split('\n')[0].trim();
         if (!name) name = (c.innerText || '').trim().split('\n')[0].trim();
-
-        // Extract partner_id from send-proposal action data if available
-        const actions = c.querySelectorAll('[data-event-id="sendProposal"]');
         return { name, idx: i };
       }).filter(x => x.name);
-    });
+    }) || [];
   };
 
   // ── PROPOSAL FLOW ────────────────────────────────────────────────────────
+  // Bug 2 fix: NO MORE card-center click fallback. If Send Proposal button
+  // isn't visible after hover, we skip the card cleanly.
   const openProposalForIdx = async (idx) => {
-    const cardRect = await page.evaluate((i) => {
+    const cardRect = await safeEval((i) => {
       const cards = Array.from(document.querySelectorAll('.iui-card'));
       const c = cards[i];
       if (!c) return null;
@@ -236,12 +241,15 @@ async (_rootPage) => {
     if (!cardRect) return { error: 'card-vanished' };
     await sleep(80);
 
-    await page.mouse.move(10, 10);
-    await sleep(50);
-    await page.mouse.move(cardRect.x + cardRect.w / 2, cardRect.y + cardRect.h / 2, { steps: 10 });
+    _busy = true;
+    try {
+      await page.mouse.move(10, 10);
+      await sleep(50);
+      await page.mouse.move(cardRect.x + cardRect.w / 2, cardRect.y + cardRect.h / 2, { steps: 10 });
+    } finally { _busy = false; }
     await sleep(300);
 
-    const btnRect = await page.evaluate((i) => {
+    const btnRect = await safeEval((i) => {
       const cards = Array.from(document.querySelectorAll('.iui-card'));
       const c = cards[i];
       if (!c) return null;
@@ -251,53 +259,34 @@ async (_rootPage) => {
       return { x: r.x, y: r.y, w: r.width, h: r.height };
     }, idx);
 
+    // Bug 2 fix: NO fallback. If button isn't visible, skip cleanly.
     if (!btnRect || btnRect.w === 0) {
-      await page.mouse.click(cardRect.x + cardRect.w / 2, cardRect.y + cardRect.h / 2);
-      await sleep(250);
-      const slideoutBtn = await page.evaluate(() => {
-        const btn = Array.from(document.querySelectorAll('button')).find(b => /send proposal/i.test(b.innerText || ''));
-        if (!btn) return null;
-        const r = btn.getBoundingClientRect();
-        return { x: r.x, y: r.y, w: r.width, h: r.height };
-      });
-      if (slideoutBtn && slideoutBtn.w > 0) {
-        await page.mouse.click(slideoutBtn.x + slideoutBtn.w / 2, slideoutBtn.y + slideoutBtn.h / 2);
-        try {
-          await page.waitForFunction(() => {
-            const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-            return f && f.offsetWidth > 200 && f.offsetHeight > 200;
-          }, { timeout: 8000 });
-        } catch {
-          await page.keyboard.press('Escape').catch(() => {});
-          await ensureDiscover();
-          return { error: 'no-iframe-after-slideout' };
-        }
-        await sleep(400);
-        return { ok: true };
-      }
-      await page.keyboard.press('Escape').catch(() => {});
-      await sleep(200);
-      await ensureDiscover();
       return { error: 'no-send-btn' };
     }
 
-    await page.mouse.move(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
-    await sleep(80);
-    await page.mouse.click(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
+    _busy = true;
+    try {
+      await page.mouse.move(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
+      await sleep(80);
+      await page.mouse.click(btnRect.x + btnRect.w / 2, btnRect.y + btnRect.h / 2);
+    } finally { _busy = false; }
+
+    _busy = true;
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
         return f && f.offsetWidth > 200 && f.offsetHeight > 200;
       }, { timeout: 8000 });
     } catch {
+      _busy = false;
       return { error: 'no-iframe' };
-    }
+    } finally { _busy = false; }
     await sleep(400);
     return { ok: true };
   };
 
   const extractMeta = async () => {
-    return await page.evaluate(() => {
+    return await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       if (!f) return null;
       try {
@@ -314,7 +303,7 @@ async (_rootPage) => {
   };
 
   const selectTerm = async () => {
-    const coords = await page.evaluate(() => {
+    const coords = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       if (!f) return null;
       const doc = f.contentDocument;
@@ -328,17 +317,22 @@ async (_rootPage) => {
     if (!coords) return { error: 'no-term-btn' };
     if (coords.currentText && !/^select$/i.test(coords.currentText)) return { ok: true, alreadySet: coords.currentText };
 
-    await page.mouse.click(coords.x, coords.y);
+    _busy = true;
+    try { await page.mouse.click(coords.x, coords.y); }
+    finally { _busy = false; }
     await sleep(400);
+
+    _busy = true;
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
         const doc = f && f.contentDocument;
         return doc && doc.querySelectorAll('li[role="option"]').length > 0;
       }, { timeout: 5000 });
-    } catch { return { error: 'no-term-options' }; }
+    } catch { _busy = false; return { error: 'no-term-options' }; }
+    finally { _busy = false; }
 
-    const optCoords = await page.evaluate(() => {
+    const optCoords = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f.contentDocument;
       const opts = Array.from(doc.querySelectorAll('li[role="option"]'));
@@ -350,13 +344,15 @@ async (_rootPage) => {
       return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2, text: pick.innerText.trim() };
     });
     if (!optCoords) return { error: 'no-public-terms' };
-    await page.mouse.click(optCoords.x, optCoords.y);
+    _busy = true;
+    try { await page.mouse.click(optCoords.x, optCoords.y); }
+    finally { _busy = false; }
     await sleep(400);
     return { ok: true, picked: optCoords.text };
   };
 
   const fillMessage = async (text) => {
-    return await page.evaluate((msg) => {
+    return await safeEval((msg) => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       if (!f) return { error: 'no-iframe' };
       const doc = f.contentDocument;
@@ -374,7 +370,7 @@ async (_rootPage) => {
   };
 
   const setStartDate = async () => {
-    const coords = await page.evaluate(() => {
+    const coords = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       if (!f) return null;
       const doc = f.contentDocument;
@@ -386,9 +382,11 @@ async (_rootPage) => {
       return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2 };
     });
     if (!coords) return { error: 'no-date-btn' };
-    await page.mouse.click(coords.x, coords.y);
+    _busy = true;
+    try { await page.mouse.click(coords.x, coords.y); }
+    finally { _busy = false; }
     await sleep(300);
-    const todayCoords = await page.evaluate(() => {
+    const todayCoords = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f.contentDocument;
       const btn = Array.from(doc.querySelectorAll('button, a, [role="button"]'))
@@ -399,9 +397,11 @@ async (_rootPage) => {
       return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2 };
     });
     if (!todayCoords) return { error: 'no-today-btn' };
-    await page.mouse.click(todayCoords.x, todayCoords.y);
+    _busy = true;
+    try { await page.mouse.click(todayCoords.x, todayCoords.y); }
+    finally { _busy = false; }
     await sleep(300);
-    const ok = await page.evaluate(() => {
+    const ok = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f.contentDocument;
       const inp = doc.querySelector('input[name="startDateTime"]');
@@ -411,7 +411,7 @@ async (_rootPage) => {
   };
 
   const submitProposal = async () => {
-    const coords = await page.evaluate(() => {
+    const coords = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       if (!f) return null;
       const doc = f.contentDocument;
@@ -424,8 +424,12 @@ async (_rootPage) => {
       return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2 };
     });
     if (!coords) return { error: 'no-submit-btn' };
-    await page.mouse.click(coords.x, coords.y);
+    _busy = true;
+    try { await page.mouse.click(coords.x, coords.y); }
+    finally { _busy = false; }
     await sleep(400);
+
+    _busy = true;
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
@@ -433,9 +437,10 @@ async (_rootPage) => {
         return Array.from(f.contentDocument.querySelectorAll('button'))
           .some(b => /^i understand$/i.test((b.innerText || '').trim()));
       }, { timeout: 5000 });
-    } catch { return { error: 'no-confirm-dialog' }; }
+    } catch { _busy = false; return { error: 'no-confirm-dialog' }; }
+    finally { _busy = false; }
 
-    const confirmCoords = await page.evaluate(() => {
+    const confirmCoords = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f.contentDocument;
       const btn = Array.from(doc.querySelectorAll('button'))
@@ -447,26 +452,31 @@ async (_rootPage) => {
       return { x: ifr.x + r.x + r.width / 2, y: ifr.y + r.y + r.height / 2 };
     });
     if (!confirmCoords) return { error: 'no-i-understand-btn' };
-    await page.mouse.click(confirmCoords.x, confirmCoords.y);
+    _busy = true;
+    try { await page.mouse.click(confirmCoords.x, confirmCoords.y); }
+    finally { _busy = false; }
+
+    _busy = true;
     try {
       await page.waitForFunction(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
         return !f || f.offsetWidth === 0 || f.offsetHeight === 0;
       }, { timeout: 10000 });
+      _busy = false;
       return { ok: true };
-    } catch { return { error: 'modal-did-not-close' }; }
+    } catch { _busy = false; return { error: 'modal-did-not-close' }; }
   };
 
   const closeModal = async () => {
     try {
-      await page.evaluate(() => {
+      await safeEval(() => {
         const closeBtn = document.querySelector(
           '.modal-container button[aria-label*="close" i], .modal-container [class*="close" i]'
         );
         if (closeBtn) closeBtn.click();
       });
     } catch {}
-    await page.keyboard.press('Escape').catch(() => {});
+    try { await page.keyboard.press('Escape'); } catch {}
     await sleep(250);
   };
 
@@ -474,7 +484,6 @@ async (_rootPage) => {
   await ensureDiscover();
   await sleep(250);
 
-  // No pre-scroll — wastes 48s per tab. Cards load via scroll in main loop.
   await safeEval(() => window.scrollTo(0, 0));
   await sleep(400);
 
@@ -496,14 +505,15 @@ async (_rootPage) => {
         const open = await openProposalForIdx(idx);
         if (open.error) {
           errors.push({ name, step: 'open', reason: open.error });
-          if (open.error === 'no-iframe' || open.error === 'no-iframe-after-slideout') {
+          if (open.error === 'no-iframe') {
             await closeModal();
             await ensureDiscover();
           }
+          // 'no-send-btn' / 'card-vanished' — no cleanup needed, just continue
           continue;
         }
 
-        // Extract basic meta from iframe URL (partner_id, psi, contact_name, contact_email)
+        // Extract iframe meta (partner_id, psi, contact_name, contact_email)
         const meta = await extractMeta();
         if (!meta || !meta.partner_id) {
           errors.push({ name, step: 'meta', reason: 'no-partner-id' });
@@ -512,25 +522,67 @@ async (_rootPage) => {
           continue;
         }
 
-        // ── FULL DATA COLLECTION via APIs (parallel) ──────────────────
-        const slideoutData = await fetchSlideoutData(meta.partner_id);
-        const trafficData = slideoutData?.slideout_token
-          ? await fetchMediaProperties(slideoutData.slideout_token, meta.partner_id)
-          : {};
+        // ── PROPOSAL FORM ─────────────────────────────────────────────
+        const term = await selectTerm();
+        if (term.error) {
+          errors.push({ name, step: 'term', reason: term.error, meta });
+          await closeModal();
+          await ensureDiscover();
+          continue;
+        }
 
-        // Primary traffic site data
+        const dateRes = await setStartDate();
+        if (dateRes.error) {
+          errors.push({ name, step: 'date', reason: dateRes.error, meta });
+          await closeModal();
+          await ensureDiscover();
+          continue;
+        }
+
+        const msg = await fillMessage(MSG);
+        if (msg.error) {
+          errors.push({ name, step: 'message', reason: msg.error, meta });
+          await closeModal();
+          await ensureDiscover();
+          continue;
+        }
+
+        const sub = await submitProposal();
+        if (sub.error) {
+          errors.push({ name, step: 'submit', reason: sub.error, meta });
+          await closeModal();
+          await ensureDiscover();
+          continue;
+        }
+
+        // ── DATA COLLECTION (after modal closed; safe + isolated) ─────
+        // Bug 3 fix: these run AFTER submitProposal cleared the modal.
+        // safeEval-wrapped apiFetch returns null on failure; we never throw.
+        let slideoutData = null;
+        let trafficData = {};
+        try {
+          slideoutData = await fetchSlideoutData(meta.partner_id);
+          if (slideoutData?.slideout_token) {
+            trafficData = await fetchMediaProperties(slideoutData.slideout_token, meta.partner_id);
+          }
+        } catch (e) {
+          // never let data collection break the proposal record
+        }
+
         const primaryTraffic = Object.values(trafficData)[0] || {};
         const primarySite = Object.keys(trafficData)[0] || slideoutData?.website || null;
 
-        // ── COMPLETE PUBLISHER OBJECT ──────────────────────────────────
         const pubData = {
-          // Outreach fields (from iframe)
+          // Outreach fields
           name,
           partner_id:           meta.partner_id,
           psi:                  meta.psi || slideoutData?.psi || null,
           contact_name:         meta.contact_name || slideoutData?.contact_name || null,
           contact_email:        meta.contact_email || slideoutData?.contact_email || null,
-          term:                 null, // filled after selectTerm
+          term:                 term.picked || term.alreadySet || 'Public Terms',
+          term_text:            term.picked || term.alreadySet || 'Public Terms',
+          term_verified:        true,
+          date_verified:        true,
           contract_date:        CONTRACT_DATE,
           outreach_msg:         MSG,
           proposal_sent:        true,
@@ -539,7 +591,7 @@ async (_rootPage) => {
           description:          slideoutData?.description || null,
           size_rating:          slideoutData?.size_rating || null,
           partner_size:         slideoutData?.size_rating || null,
-          business_model:       null, // from grid — set below
+          business_model:       null,
           marketplace_state:    slideoutData?.marketplace_state || null,
           total_audience_size:  slideoutData?.total_audience_size || null,
           proposal_accept_rate: slideoutData?.proposal_accept_rate || null,
@@ -565,7 +617,7 @@ async (_rootPage) => {
           languages:            slideoutData?.languages || [],
           promotional_methods:  slideoutData?.promotional_methods || [],
           links:                slideoutData?.links || [],
-          // Traffic (Semrush)
+          // Traffic
           traffic_visits:       primaryTraffic.visits || null,
           traffic_rank:         primaryTraffic.rank || null,
           traffic_users:        primaryTraffic.users || null,
@@ -582,43 +634,6 @@ async (_rootPage) => {
           slideout_token:       slideoutData?.slideout_token || null,
           scraped_at:           new Date().toISOString(),
         };
-
-        // Continue with proposal flow
-        const term = await selectTerm();
-        if (term.error) {
-          errors.push({ name, step: 'term', reason: term.error, meta });
-          await closeModal();
-          await ensureDiscover();
-          continue;
-        }
-        pubData.term = term.picked || term.alreadySet || 'Public Terms';
-        pubData.term_text = pubData.term;
-        pubData.term_verified = true;
-
-        const dateRes = await setStartDate();
-        if (dateRes.error) {
-          errors.push({ name, step: 'date', reason: dateRes.error, meta });
-          await closeModal();
-          await ensureDiscover();
-          continue;
-        }
-        pubData.date_verified = true;
-
-        const msg = await fillMessage(MSG);
-        if (msg.error) {
-          errors.push({ name, step: 'message', reason: msg.error, meta });
-          await closeModal();
-          await ensureDiscover();
-          continue;
-        }
-
-        const sub = await submitProposal();
-        if (sub.error) {
-          errors.push({ name, step: 'submit', reason: sub.error, meta });
-          await closeModal();
-          await ensureDiscover();
-          continue;
-        }
 
         results.push(pubData);
         processedThisPass++;
