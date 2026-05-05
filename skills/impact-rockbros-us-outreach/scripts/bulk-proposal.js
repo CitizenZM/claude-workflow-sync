@@ -404,12 +404,27 @@ async (_rootPage) => {
     finally { _busy = false; }
     await sleep(800);
 
-    // Get "Today" button coordinates
+    // Find a future date cell (2 days ahead) or "Today" button
+    // Using 2 days ahead avoids timezone issues (GMT+8 users see today as yesterday UTC)
     const todayCoords = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f?.contentDocument;
       const ifr = f?.getBoundingClientRect();
       if (!doc || !ifr) return null;
+
+      // Prefer clicking on a specific future date number (2 days from now) in the calendar grid
+      const now = new Date();
+      const futureDay = new Date(now.getTime() + 2 * 86400000).getDate(); // 2 days ahead
+      // Find all date cells that match this day number
+      const dateCells = Array.from(doc.querySelectorAll('td,[role=gridcell],[class*="day"],[class*="date"]'))
+        .filter(e => e.offsetWidth > 0 && String(e.innerText?.trim()) === String(futureDay));
+      if (dateCells.length > 0) {
+        const cell = dateCells[0];
+        cell.scrollIntoView({ block: 'center', behavior: 'instant' });
+        const r = cell.getBoundingClientRect();
+        return { x: Math.round(ifr.left + r.left + r.width / 2), y: Math.round(ifr.top + r.top + r.height / 2), day: futureDay };
+      }
+      // Fallback: "Today" button
       const btn = Array.from(doc.querySelectorAll('button, a, [role="button"]'))
         .find(b => /^today$/i.test((b.innerText||'').trim()));
       if (!btn) return null;
@@ -425,15 +440,54 @@ async (_rootPage) => {
     finally { _busy = false; }
     await sleep(500);
 
-    // Verify: date must be set in React state (no "date":null)
+    // Verify: date must be set in React state
     const verify = await safeEval(() => {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const val = f?.contentDocument?.querySelector('input[name="startDateTime"]')?.value || '';
-      const errors = Array.from(f?.contentDocument?.querySelectorAll('[class*=error]')||[])
-        .map(e => e.innerText.trim()).filter(t => t.includes('date'));
-      return { hasDate: val.includes('"date":"20'), errors };
+      return { hasDate: val.includes('"date":"20') };
     });
-    if (!verify?.hasDate) return { error: 'date-not-set-in-react', errors: verify?.errors };
+    if (!verify?.hasDate) return { error: 'date-not-set-in-react' };
+
+    // Check if "Today" caused a "date in past" error (timezone issue: GMT+8 = next day)
+    // If so, try clicking tomorrow's date in the calendar
+    const pastErr = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      return Array.from(doc?.querySelectorAll('[class*=error]')||[]).some(e => /past|future/i.test(e.innerText));
+    });
+    // Always try to find tomorrow's date to be safe (avoids past-date timezone issues)
+    const tomorrowCoords = await safeEval(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument;
+      const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      // Find the "today" highlighted cell then get the next sibling
+      const todayCells = Array.from(doc.querySelectorAll('[class*="today"],[aria-label*="today"],[data-today]'));
+      const todayCell = todayCells[0];
+      if (todayCell) {
+        const next = todayCell.nextElementSibling || todayCell.closest('tr')?.nextElementSibling?.querySelector('td');
+        if (next && next !== todayCell) {
+          next.scrollIntoView({block:'center'});
+          const r = next.getBoundingClientRect();
+          return { x: Math.round(ifr.left + r.left + r.width/2), y: Math.round(ifr.top + r.top + r.height/2) };
+        }
+      }
+      // Fallback: find tomorrow button if it exists
+      const tomorrowBtn = Array.from(doc.querySelectorAll('button,td,[role=gridcell]'))
+        .find(b => /^tomorrow$/i.test(b.innerText?.trim()));
+      if (tomorrowBtn) {
+        tomorrowBtn.scrollIntoView({block:'center'});
+        const r = tomorrowBtn.getBoundingClientRect();
+        return { x: Math.round(ifr.left + r.left + r.width/2), y: Math.round(ifr.top + r.top + r.height/2) };
+      }
+      return null;
+    });
+    if (pastErr && tomorrowCoords) {
+      _busy = true;
+      try { await page.mouse.click(tomorrowCoords.x, tomorrowCoords.y); }
+      finally { _busy = false; }
+      await sleep(400);
+    }
     return { ok: true };
   };
 
