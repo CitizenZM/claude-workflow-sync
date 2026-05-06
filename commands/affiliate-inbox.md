@@ -337,7 +337,9 @@ Hi [Name],
 
 [Confirm enthusiasm — "happy to connect" / "no worries on the reschedule"].
 
-I have availability [DAY1 DATE at TIME PT / DAY2 DATE at TIME PT / DAY3 DATE at TIME PT] for a 30-minute call to align on [specific topic from thread]. Which works best? I'll send the invite right after you confirm.
+I have availability [DAY1 DATE at TIME PT / DAY2 DATE at TIME PT / DAY3 DATE at TIME PT] for a 30-minute call to align on [specific topic from thread]. Which works best? Reply to confirm and we'll get it locked in.
+
+⚠️ NEVER include "I'll send the calendar invite" — calendar invites must be created manually from affiliate@celldigital.co Google Calendar, never from barronzuo@gmail.com (personal account exposes real name).
 
 [Signature]
 ```
@@ -447,6 +449,9 @@ For DE/IT/ES/FR replies, **keep the Programs Table content in English** (program
 
 🚫 Never send: contracts, exclusivity, pricing commitments, sample SLA promises
 🚫 Never promise: inventory, exclusivity, custom payment terms, "exception", "just for you"
+🚫 Never reference sending a calendar invite — use "Reply to confirm and we'll get it locked in" only
+🚫 Never create or send calendar invites — if needed, must be done manually from affiliate@celldigital.co Google Calendar (NOT barronzuo@gmail.com — personal Gmail exposes real name)
+🚫 Never use personal name (Barron, Barron Zuo) — always sign as CellDigital Affiliate Team
 🚫 Never reply if: Trigger Guard matched, Chinese-language sender, or already replied/drafted < 3d
 🚫 Never offer rates above: 20% (any program), 18% (OUFER), 10% (TCL US) — FLAG instead
 🚫 Never promote deprecated brands: COSORI, LEVOIT, INSTA360, SEGWAY — redirect to active 5
