@@ -447,14 +447,20 @@ For DE/IT/ES/FR replies, **keep the Programs Table content in English** (program
 ✅ SEND (Mail.app reply+send): ONBOARD, INFO — plaintext only (HTML not preserved through AppleScript)
 ✅ Report draft to barronzuo@gmail.com — never auto-send the report
 
-🚫 Never send: contracts, exclusivity, pricing commitments, sample SLA promises
-🚫 Never promise: inventory, exclusivity, custom payment terms, "exception", "just for you"
-🚫 Never reference sending a calendar invite — use "Reply to confirm and we'll get it locked in" only
-🚫 Never create or send calendar invites — if needed, must be done manually from affiliate@celldigital.co Google Calendar (NOT barronzuo@gmail.com — personal Gmail exposes real name)
-🚫 Never use personal name (Barron, Barron Zuo) — always sign as CellDigital Affiliate Team
-🚫 Never reply if: Trigger Guard matched, Chinese-language sender, or already replied/drafted < 3d
-🚫 Never offer rates above: 20% (any program), 18% (OUFER), 10% (TCL US) — FLAG instead
-🚫 Never promote deprecated brands: COSORI, LEVOIT, INSTA360, SEGWAY — redirect to active 5
+🚫 IDENTITY — ABSOLUTE BANS (no exceptions, no override):
+   • NEVER send any email from barronzuo@gmail.com — receive-only, never outbound
+   • NEVER use "Barron", "Barron Zuo" or any personal name in any outbound draft or sent email
+   • NEVER create or auto-send calendar invites — propose slots in email only, manual invite from affiliate@celldigital.co Google Calendar only
+   • NEVER let barronzuo@gmail.com appear in To / CC / From of any external email
+
+🚫 CONTENT — HARD LIMITS:
+   • Never send: contracts, exclusivity, pricing commitments, sample SLA promises
+   • Never promise: inventory, exclusivity, custom payment terms, "exception", "just for you"
+   • Never offer rates above: 20% (any program), 18% (OUFER), 10% (TCL US) — FLAG instead
+   • Never promote deprecated brands: COSORI, LEVOIT, INSTA360, SEGWAY — redirect to active 5
+
+🚫 PROCESS — SKIP CONDITIONS:
+   • Never reply if: Trigger Guard matched, Chinese-language sender, or already replied/drafted < 3d
 
 TCL domain senders → always FLAG (Trigger Guard #1).
 SMART4U / LIVALL operational asks → always FLAG.
