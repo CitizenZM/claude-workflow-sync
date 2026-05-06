@@ -5,6 +5,7 @@
   ],
   "routes": [
     { "src": "/wecom/callback(.*)", "dest": "/api/wecom/callback.js" },
+    { "src": "/webhook-send", "dest": "/api/webhook-send.js" },
     { "src": "/health", "dest": "/api/health.js" },
     { "src": "/test-send", "dest": "/api/test-send.js" }
   ]
