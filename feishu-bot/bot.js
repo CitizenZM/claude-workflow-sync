@@ -8,6 +8,7 @@ const path = require('path');
 const conv = require('./conversation');
 const vault = require('./vault');
 const fac  = require('./facilitator');
+const wt   = require('./work_threads');
 const { spawn } = require('child_process');
 
 const APP_ID = process.env.FEISHU_APP_ID;
@@ -359,6 +360,8 @@ function parseCmd(text) {
   if (t.startsWith('取消 ') || t.startsWith('cancel ')) return 'FAC_CANCEL';
   if (t === '群任务' || t === 'group tasks' || t === '本群任务') return 'FAC_GROUP_TASKS';
   if (t === '项目总览' || t === 'project overview') return 'FAC_OVERVIEW';
+  if (t.startsWith('谁做了') || t.startsWith('做了什么') || t.match(/^(.+)(今天|本周|做了什么)/)) return 'PERSON_QUERY';
+  if (t.startsWith('who did') || t.startsWith('what did')) return 'PERSON_QUERY';
   if (t === 'chase' || t === '催进度' || t === '跟进') return 'FAC_CHASE';
   if (t === 'help' || t === '帮助' || t === '?') return 'HELP';
   if (t === 'learn' || t === 'learn now' || t === '学习' || t.startsWith('learn ')) return 'LEARN';
@@ -475,6 +478,9 @@ wsClient.start({
         // --- Req 2: Clear mentions if the mentioned person speaks ---
         fac.markMentionResponded(groupKey, senderName);
         fac.markMentionResponded(groupKey, senderId);
+
+        // --- Req 7: Record to per-person work thread ---
+        wt.recordMessage(senderId, { group: groupKey, text: clean, timestamp: Date.now() });
 
         // --- Req 2: Handle "稍后" defer ---
         if (/^(稍后|later|hold|等一下)/i.test(clean)) {
@@ -1022,6 +1028,16 @@ copy(JSON.stringify(window.__clawd.export()))
             break;
           }
 
+          case 'PERSON_QUERY': {
+            // Extract person name from query
+            const q = clean.replace(/^(谁做了|做了什么|who did|what did)\s*/i, '').replace(/(今天|本周|today|this week|做了什么)/gi, '').trim();
+            const name = wt.resolveName(q) || q;
+            const isWeek = /本周|this week|week/.test(clean);
+            const data = isWeek ? wt.getPersonWeek(name) : wt.getPersonToday(name);
+            reply = data ? data.summary : `❓ 未找到 "${q}" 的工作记录`;
+            break;
+          }
+
           case 'HELP': {
             reply = `🤖 Clawdbot v6 命令\n\n📊 数据查询\n• status — 系统状态\n• bitable status — TCL Tracker\n• 群任务 — 本群任务看板\n• 项目总览 — 所有群项目\n• 催进度 — 本群待跟进\n• daily briefing — 今日摘要\n\n✏️ 任务\n• 完成 <任务> — 标记完成\n• 延期 <任务> <原因> — 延期\n• 取消 <编号> — 取消\n\n🧪 测试\n• test stale — 超期检查\n• test n2m — N2M 监控\n\n⚙️ 控制\n• silent on/off — 切换静默\n• voice — 语言风格\n\n🧠 知识\n• brain <话题> — 查询记忆\n• learn all — 全量学习`;
             break;
@@ -1265,8 +1281,8 @@ cron.schedule('*/5 * * * *', async () => {
   }
 }, { timezone: 'Asia/Shanghai' });
 
-// ═══ Req 4: Every hour (work hours) — Urgent chase summary ═══════════════
-cron.schedule('0 10-21 * * 1-6', async () => {
+// ═══ Req 4: Every hour (China 8am-11pm) — Urgent chase summary ═══════════
+cron.schedule('0 8-23 * * 1-6', async () => {
   const ops = loadData();
   const state = fac.loadState();
 
@@ -1566,7 +1582,8 @@ async function startup() {
 ║ ✅ R5: Bitable/file sync (5-min refresh)     ║
 ║ ✅ R6: Per-group task isolation              ║
 ║ ⏰ Cron: */5min sync | 09:00 AM | 18:00 PM  ║
-║ ⏰ Hourly chase: 10-21 Mon-Sat              ║
+║ ✅ R7: Per-person work threads              ║
+║ ⏰ Hourly chase: 08-23 Mon-Sat (CST)       ║
 ╚══════════════════════════════════════════════╝
 `);
 }
