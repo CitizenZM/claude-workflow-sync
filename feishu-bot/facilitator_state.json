@@ -147,7 +147,22 @@
       "name": "CELL_EDM",
       "tasks": [],
       "mentions": [],
-      "hourlyDigest": [],
+      "hourlyDigest": [
+        {
+          "sender": "b3e62f",
+          "text": "这个价格真的是个问题 我们每周调价 所以要看一下怎么能换成一个从$xxx起",
+          "timestamp": 1778094248280,
+          "hasChase": false,
+          "hasUrgent": false
+        },
+        {
+          "sender": "b3e62f",
+          "text": "还有折扣力度也要稍微控制一下",
+          "timestamp": 1778094259880,
+          "hasChase": false,
+          "hasUrgent": false
+        }
+      ],
       "dailyCompleted": [],
       "dailyCreated": [],
       "lastMorningBrief": 0,
