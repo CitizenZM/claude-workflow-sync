@@ -2,6 +2,7 @@
 
 ## Feedback
 - [feedback_autonomous_mode.md](feedback_autonomous_mode.md) — User wants fully autonomous execution, no pausing for questions
+- [feedback_impact_hover_method.md](feedback_impact_hover_method.md) — Impact cards: use locator.hover() not mouse.move(); partnerStatuses=1 opens message modal not proposal form
 - [cro_design_framework.md](cro_design_framework.md) — 3D design evaluation framework: user conversion, e-commerce CRO, brand design. 3-pass refinement with bilingual annotation standard
 - [feedback_playwright_token_efficiency.md](feedback_playwright_token_efficiency.md) — Never use browser_snapshot for automation; use browser_evaluate with pre-mapped selectors
 - [feedback_workflow_naming.md](feedback_workflow_naming.md) — All outreach/project workflows must use naming: [Platform] [Brand] [Region] Affiliate Outreach [MonthDDYYYY]
