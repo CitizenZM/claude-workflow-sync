@@ -4,45 +4,115 @@
       "key": "N2M",
       "chatId": "oc_86d82f40cae15a4db8782f9b99a73e6b",
       "name": "N2M",
-      "tasks": [],
+      "tasks": [
+        {
+          "id": "1778043696198-ojr6",
+          "title": "C1新品产品资料处理",
+          "owner": "冯昭祥",
+          "deadline": "2026-05-06",
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.198Z",
+          "updatedAt": "2026-05-06T05:01:36.199Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "N2M"
+        },
+        {
+          "id": "1778043696200-tiwl",
+          "title": "公开James文档权限",
+          "owner": "冯昭祥",
+          "deadline": "2026-05-06",
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.200Z",
+          "updatedAt": "2026-05-06T05:01:36.200Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "N2M"
+        },
+        {
+          "id": "1778043696201-rjjq",
+          "title": "PDP优化自查",
+          "owner": "冯昭祥",
+          "deadline": null,
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.201Z",
+          "updatedAt": "2026-05-06T05:01:36.201Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "N2M"
+        }
+      ],
       "mentions": [],
       "hourlyDigest": [
         {
-          "sender": "aa2b22",
-          "text": "https://us.tcl.com/products/linkport-ik511",
-          "timestamp": 1778030634116,
-          "hasChase": false,
-          "hasUrgent": false
-        },
-        {
-          "sender": "81e4a1",
-          "text": "10点的会开始么？",
-          "timestamp": 1778032971250,
+          "sender": "b3e62f",
+          "text": "这边客服的问题",
+          "timestamp": 1778043452301,
           "hasChase": false,
           "hasUrgent": false
         },
         {
           "sender": "b3e62f",
-          "text": "明天同一时间",
-          "timestamp": 1778033131039,
+          "text": "这边客服的问题",
+          "timestamp": 1778043452334,
           "hasChase": false,
           "hasUrgent": false
         },
         {
-          "sender": "81e4a1",
-          "text": "https://k1dlid7h4q3.feishu.cn/base/ULgAbO391aTHXvsh2q5cECE1nwd?last_doc_message_id=7636594761814428863&scene=feed&theme=light&contentTheme=DARK&sub_scene=tab&sourceType=feed&table=tblbmakMHbl2ndk0&view=vewEpAM5uV",
-          "timestamp": 1778034213212,
+          "sender": "b3e62f",
+          "text": "我在查了",
+          "timestamp": 1778043457568,
+          "hasChase": false,
+          "hasUrgent": false
+        },
+        {
+          "sender": "2cd540",
+          "text": "好的",
+          "timestamp": 1778043470286,
           "hasChase": false,
           "hasUrgent": false
         }
       ],
       "dailyCompleted": [],
-      "dailyCreated": [],
+      "dailyCreated": [
+        "1778043696198-ojr6",
+        "1778043696200-tiwl",
+        "1778043696201-rjjq"
+      ],
       "lastMorningBrief": 0,
       "lastEveningBrief": 0,
       "lastHourlyChase": 0,
       "messageCount24h": 0,
-      "context": ""
+      "context": "",
+      "pendingQuestions": [
+        {
+          "id": "q-1778043696208",
+          "asker": "冯昭祥",
+          "question": "tv价格是要我这边改吗？",
+          "timestamp": 1778043696208,
+          "answered": false,
+          "answeredAt": null,
+          "answeredBy": null
+        },
+        {
+          "id": "q-1778043696209",
+          "asker": "冯昭祥",
+          "question": "Shopify权限是不是改了？",
+          "timestamp": 1778043696209,
+          "answered": false,
+          "answeredAt": null,
+          "answeredBy": null
+        }
+      ]
     },
     "CELL_EDM": {
       "key": "CELL_EDM",
@@ -63,11 +133,29 @@
       "key": "Oh_Beauty_Shopify_运营",
       "chatId": "oc_2db7f11cf53ad017569411c9dbfc7396",
       "name": "Oh_Beauty_Shopify_运营",
-      "tasks": [],
+      "tasks": [
+        {
+          "id": "1778043696203-ao9o",
+          "title": "跟进客户banner图",
+          "owner": "冯昭祥",
+          "deadline": null,
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.203Z",
+          "updatedAt": "2026-05-06T05:01:36.203Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "Oh_Beauty_Shopify_运营"
+        }
+      ],
       "mentions": [],
       "hourlyDigest": [],
       "dailyCompleted": [],
-      "dailyCreated": [],
+      "dailyCreated": [
+        "1778043696203-ao9o"
+      ],
       "lastMorningBrief": 0,
       "lastEveningBrief": 0,
       "lastHourlyChase": 0,
@@ -78,19 +166,60 @@
       "key": "CELL_付费广告",
       "chatId": "oc_a660a96e0fabc1bc10ffa5059daaaa7d",
       "name": "CELL_付费广告",
-      "tasks": [],
+      "tasks": [
+        {
+          "id": "1778043696201-hksb",
+          "title": "给huanhuan brief母亲节折扣",
+          "owner": "欢欢",
+          "deadline": "2026-05-08",
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.201Z",
+          "updatedAt": "2026-05-06T05:01:36.201Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "CELL_付费广告"
+        },
+        {
+          "id": "1778043696202-36uk",
+          "title": "重建TV campaign",
+          "owner": "欢欢",
+          "deadline": null,
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.202Z",
+          "updatedAt": "2026-05-06T05:01:36.202Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "CELL_付费广告"
+        }
+      ],
       "mentions": [],
       "hourlyDigest": [
         {
           "sender": "68f179",
-          "text": "TCL当月截止目前总花费8063.16、ROAS 0.59\n新品当月截止目前花费2370.67、ROAS0.13\n非新品当月截止目前花费5722.88、ROAS0.78\n当天实时花费1462.52、ROAS 0.14\n下一步重点优化或调整动作 重建TV campaign，打破系统往低价 TAB sku学习的路径。为pmax 添加feed only assets",
-          "timestamp": 1778032531396,
+          "text": "https://k1dlid7h4q3.feishu.cn/wiki/ZDGTwmVWlinlIxk2XU0cu2zDnnc",
+          "timestamp": 1778043619382,
+          "hasChase": false,
+          "hasUrgent": false
+        },
+        {
+          "sender": "68f179",
+          "text": "https://k1dlid7h4q3.feishu.cn/wiki/A0qKwRlx3iAyOVkLDjXc0R0znVb",
+          "timestamp": 1778043637193,
           "hasChase": false,
           "hasUrgent": false
         }
       ],
       "dailyCompleted": [],
-      "dailyCreated": [],
+      "dailyCreated": [
+        "1778043696201-hksb",
+        "1778043696202-36uk"
+      ],
       "lastMorningBrief": 0,
       "lastEveningBrief": 0,
       "lastHourlyChase": 0,
@@ -116,11 +245,29 @@
       "key": "TCL独立站增长与运营组",
       "chatId": "oc_231d03989be38743b75ee192a969d3b9",
       "name": "TCL独立站增长与运营组",
-      "tasks": [],
+      "tasks": [
+        {
+          "id": "1778043696205-wj19",
+          "title": "Memorial Day SOP",
+          "owner": "刘兴竺",
+          "deadline": "2026-05-16",
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.205Z",
+          "updatedAt": "2026-05-06T05:01:36.205Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "TCL独立站增长与运营组"
+        }
+      ],
       "mentions": [],
       "hourlyDigest": [],
       "dailyCompleted": [],
-      "dailyCreated": [],
+      "dailyCreated": [
+        "1778043696205-wj19"
+      ],
       "lastMorningBrief": 0,
       "lastEveningBrief": 0,
       "lastHourlyChase": 0,
@@ -291,11 +438,76 @@
       "lastHourlyChase": 0,
       "messageCount24h": 0,
       "context": ""
+    },
+    "TCL_客服群": {
+      "key": "TCL_客服群",
+      "chatId": null,
+      "name": "",
+      "tasks": [
+        {
+          "id": "1778043696203-c1t1",
+          "title": "处理Justine退款",
+          "owner": "金叙呈",
+          "deadline": "2026-05-06",
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.203Z",
+          "updatedAt": "2026-05-06T05:01:36.203Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "TCL_客服群"
+        },
+        {
+          "id": "1778043696204-of4o",
+          "title": "更新订单状态",
+          "owner": "金叙呈",
+          "deadline": "2026-05-06",
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.204Z",
+          "updatedAt": "2026-05-06T05:01:36.204Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "TCL_客服群"
+        },
+        {
+          "id": "1778043696204-0p49",
+          "title": "客服自动化优化",
+          "owner": "金叙呈",
+          "deadline": null,
+          "source": "chat",
+          "urgency": "normal",
+          "status": "open",
+          "createdAt": "2026-05-06T05:01:36.204Z",
+          "updatedAt": "2026-05-06T05:01:36.204Z",
+          "reminders": [],
+          "deferReason": null,
+          "completedAt": null,
+          "groupKey": "TCL_客服群"
+        }
+      ],
+      "mentions": [],
+      "hourlyDigest": [],
+      "dailyCompleted": [],
+      "dailyCreated": [
+        "1778043696203-c1t1",
+        "1778043696204-of4o",
+        "1778043696204-0p49"
+      ],
+      "lastMorningBrief": 0,
+      "lastEveningBrief": 0,
+      "lastHourlyChase": 0,
+      "messageCount24h": 0,
+      "context": ""
     }
   },
   "globalTasks": [],
   "lastSync": 0,
-  "lastBitableSync": 1778043003728,
+  "lastBitableSync": 1778043603328,
   "bitableTasks": [
     {
       "recordId": "recOtQ9qVH",
@@ -305,7 +517,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8Ih7H8cuoe",
@@ -315,7 +527,7 @@
       "due": null,
       "module": "Traffic",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8Ihg40Kcre",
@@ -325,7 +537,7 @@
       "due": "2026-01-22",
       "module": "Affiliate",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8Ii44EaBt7",
@@ -335,7 +547,7 @@
       "due": "2026-01-19",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8J9g9cxvXB",
@@ -345,7 +557,7 @@
       "due": null,
       "module": "Onsite - Marketing页面需求",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8JNU9CJZAX",
@@ -355,7 +567,7 @@
       "due": null,
       "module": "Traffic",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8PbrT1gM3q",
@@ -365,7 +577,7 @@
       "due": null,
       "module": "Traffic",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8PbNJtwsjw",
@@ -375,7 +587,7 @@
       "due": null,
       "module": "Traffic",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8PIThVEZKN",
@@ -385,7 +597,7 @@
       "due": "2026-01-21",
       "module": "Traffic",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8PJA9JYiZS",
@@ -395,7 +607,7 @@
       "due": "2026-01-22",
       "module": "Affiliate",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8PJCsxnVaF",
@@ -405,7 +617,7 @@
       "due": "2026-05-04",
       "module": "",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8TnBwiiBhM",
@@ -415,7 +627,7 @@
       "due": "2026-01-19",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8To57S0Fjr",
@@ -425,7 +637,7 @@
       "due": "2026-01-20",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8TodRjynLE",
@@ -435,7 +647,7 @@
       "due": "2026-01-19",
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8TopGuno3K",
@@ -445,7 +657,7 @@
       "due": "2026-01-19",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8TMeInknny",
@@ -455,7 +667,7 @@
       "due": null,
       "module": "Traffic",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8UW0sdEXLh",
@@ -465,7 +677,7 @@
       "due": "2026-01-20",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv8ZAJ47mztR",
@@ -475,7 +687,7 @@
       "due": "2026-01-21",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv95nA1XuccC",
@@ -485,7 +697,7 @@
       "due": "2026-01-22",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96TjwRl9P0",
@@ -495,7 +707,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96TyzrpR2I",
@@ -505,7 +717,7 @@
       "due": null,
       "module": "",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96TBJc7as2",
@@ -515,7 +727,7 @@
       "due": "2026-01-22",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96TJJqTZY3",
@@ -525,7 +737,7 @@
       "due": null,
       "module": "Onsite - Marketing页面需求",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96TK1tvjZg",
@@ -535,7 +747,7 @@
       "due": "2026-05-04",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96U4GBJ9ka",
@@ -545,7 +757,7 @@
       "due": "2026-01-21",
       "module": "Onsite - 站内优化",
       "priority": "P2",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96UbzgwYLj",
@@ -555,7 +767,7 @@
       "due": "2026-01-21",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96VjLNmIlE",
@@ -565,7 +777,7 @@
       "due": "2026-01-26",
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96VyjL5Gnq",
@@ -575,7 +787,7 @@
       "due": "2026-01-04",
       "module": "Onsite - Marketing页面需求",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96VBv2XxTw",
@@ -585,7 +797,7 @@
       "due": "2026-01-02",
       "module": "Onsite - Marketing页面需求",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96VE8hlZ6l",
@@ -595,7 +807,7 @@
       "due": "2026-01-11",
       "module": "Onsite - Marketing页面需求",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96VMtPJODF",
@@ -605,7 +817,7 @@
       "due": "2026-01-27",
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96VMGdRP17",
@@ -615,7 +827,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv96VMSgdwyJ",
@@ -625,7 +837,17 @@
       "due": "2026-01-18",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
+    },
+    {
+      "recordId": "recv96Wdd2q8ej",
+      "task": "新客首单优惠弹窗文稿：\nHeadline\n Don’t Miss Your Exclusive Welcome Offer\nSub-headline\n Sign up for the latest news and enjoy exclusive savings on your first TCL order.\n\nOffer Details\n $10 OFF orders over $169\n $15 OFF orders over $299\n $25 OFF orders over $499\n $50 OFF orders over $999\n 10% OFF selected accessories*\n\nCTA 按钮\nUnlock Savings\n\nFootnote / 条款提示（小字）\n *Accessory discount applies to selected models only. New customers only. One-time use. Terms apply.",
+      "owner": "",
+      "status": "取消",
+      "due": "2026-01-25",
+      "module": "Onsite - 站内优化",
+      "priority": "P0",
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv974fDXQnSU",
@@ -635,7 +857,7 @@
       "due": "2026-01-22",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv97bfRUqC2U",
@@ -645,7 +867,7 @@
       "due": "2026-01-25",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv97cdBU4VKL",
@@ -655,7 +877,7 @@
       "due": "2026-05-11",
       "module": "Onsite - 站内优化",
       "priority": "P2",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv97d6APn0aR",
@@ -665,7 +887,7 @@
       "due": "2026-01-22",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv97qTSlSg7o",
@@ -675,7 +897,7 @@
       "due": "2026-01-22",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv97rbTC8ITu",
@@ -685,7 +907,7 @@
       "due": "2026-01-22",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv97rHz3ucQm",
@@ -695,7 +917,7 @@
       "due": "2026-01-25",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv97s7hjT06V",
@@ -705,7 +927,7 @@
       "due": "2026-01-25",
       "module": "Onsite - Marketing页面需求",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv97ssBWHpvg",
@@ -715,7 +937,7 @@
       "due": "2026-01-22",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9n2DCFTR5R",
@@ -725,7 +947,7 @@
       "due": "2026-01-25",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9oOt9G4Qgr",
@@ -735,7 +957,7 @@
       "due": "2026-01-25",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9tSGCKXAOV",
@@ -745,7 +967,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P2",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9tSQFWdrf8",
@@ -755,7 +977,7 @@
       "due": "2026-01-29",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9tTdqrgwcY",
@@ -765,7 +987,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9tTeUwWXqe",
@@ -775,7 +997,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9tUUmgBaaz",
@@ -785,7 +1007,7 @@
       "due": null,
       "module": "Onsite - Marketing页面需求",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9tVjszWkK6",
@@ -795,7 +1017,7 @@
       "due": null,
       "module": "Onsite - Marketing页面需求",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9zjkXVB6JS",
@@ -805,7 +1027,7 @@
       "due": "2026-01-26",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9zjrbJu112",
@@ -815,7 +1037,7 @@
       "due": "2026-01-27",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9EMhsC0EfD",
@@ -825,7 +1047,7 @@
       "due": "2026-01-28",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9J8eyu3UKz",
@@ -835,7 +1057,7 @@
       "due": "2026-01-29",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9KXmXEp935",
@@ -845,7 +1067,7 @@
       "due": "2026-01-29",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9LTns0WGa7",
@@ -855,7 +1077,7 @@
       "due": "2026-01-29",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9LTwuMGNao",
@@ -865,7 +1087,7 @@
       "due": "2026-01-29",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9LUZBrhGAc",
@@ -875,7 +1097,7 @@
       "due": "2026-01-29",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9LYd3HBvel",
@@ -885,7 +1107,7 @@
       "due": "2026-01-29",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recv9M3AQ0AOi1",
@@ -895,7 +1117,7 @@
       "due": "2026-01-29",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recva3Gz99PYRC",
@@ -905,7 +1127,7 @@
       "due": "2026-02-01",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recva3GFzb698Q",
@@ -915,7 +1137,7 @@
       "due": "2026-02-01",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recva3NcBnEoDo",
@@ -925,7 +1147,7 @@
       "due": "2026-01-29",
       "module": "Onsite - Marketing页面需求",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recva3Nho6AdMl",
@@ -935,7 +1157,7 @@
       "due": null,
       "module": "Onsite - Marketing页面需求",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvadLFiKICuJ",
@@ -945,7 +1167,7 @@
       "due": "2026-02-03",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvajComwLvlg",
@@ -955,7 +1177,7 @@
       "due": "2026-02-04",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvalAkvxoTiW",
@@ -965,7 +1187,7 @@
       "due": "2026-02-09",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvao7c6b9PI6",
@@ -975,7 +1197,7 @@
       "due": "2026-02-05",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvao7h0ahoL5",
@@ -985,7 +1207,7 @@
       "due": "2026-02-08",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvapTsoGcuMu",
@@ -995,7 +1217,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaIRZTP53GJ",
@@ -1005,7 +1227,7 @@
       "due": "2026-02-02",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaIS30Tp8xr",
@@ -1015,7 +1237,7 @@
       "due": "2026-02-03",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaIS3the0uE",
@@ -1025,7 +1247,7 @@
       "due": "2026-02-04",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaIS3IcBy2F",
@@ -1035,7 +1257,7 @@
       "due": "2026-02-05",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaIS7WnSxnO",
@@ -1045,7 +1267,7 @@
       "due": "2026-02-08",
       "module": "发货和售后",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaOhWJ1ydHf",
@@ -1055,7 +1277,7 @@
       "due": "2026-02-09",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaOiG0aNZrL",
@@ -1065,7 +1287,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaOZOH7uIyG",
@@ -1075,7 +1297,7 @@
       "due": "2026-02-15",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvaZmLxAtbEG",
@@ -1085,7 +1307,7 @@
       "due": "2026-02-22",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvccOpsjr8SI",
@@ -1095,7 +1317,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvccOMX8zYD7",
@@ -1105,7 +1327,7 @@
       "due": "2026-03-26",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvccP2UjVsMd",
@@ -1115,7 +1337,7 @@
       "due": "2026-03-01",
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcpo7vBjqii",
@@ -1125,7 +1347,7 @@
       "due": "2026-03-09",
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcpodoLfOFA",
@@ -1135,7 +1357,7 @@
       "due": "2026-02-26",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcprBu2fbdQ",
@@ -1145,7 +1367,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcprLoefOgf",
@@ -1155,7 +1377,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcpskjkCHnK",
@@ -1165,7 +1387,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcpyeaCs0Cz",
@@ -1175,7 +1397,7 @@
       "due": "2026-03-05",
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcvhxzwmRZG",
@@ -1185,7 +1407,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcvhC0hDe3z",
@@ -1195,7 +1417,7 @@
       "due": "2026-03-01",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcvkk9ow4Fk",
@@ -1205,7 +1427,7 @@
       "due": "2026-03-05",
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcvl7J1aEuo",
@@ -1215,7 +1437,7 @@
       "due": null,
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcvlcT7EZ2z",
@@ -1225,7 +1447,7 @@
       "due": "2026-03-10",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcvmLjqLzTQ",
@@ -1235,7 +1457,7 @@
       "due": "2026-02-25",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvcJllu7oquJ",
@@ -1245,7 +1467,7 @@
       "due": "2026-03-03",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvdlV1NAcolH",
@@ -1255,7 +1477,7 @@
       "due": "2026-03-13",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvdkSaM4m8vz",
@@ -1265,7 +1487,7 @@
       "due": "2026-03-08",
       "module": "Onsite - 站内优化",
       "priority": "",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvdDwaggaLPM",
@@ -1275,7 +1497,7 @@
       "due": "2026-03-12",
       "module": "Onsite - 站内优化",
       "priority": "P0",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
     },
     {
       "recordId": "recvdDwJxx3HZM",
@@ -1285,7 +1507,101 @@
       "due": "2026-03-13",
       "module": "Onsite - 站内优化",
       "priority": "P1",
-      "lastSynced": 1778043003728
+      "lastSynced": 1778043603328
+    }
+  ],
+  "projectClusters": {
+    "TCL": {
+      "groups": [
+        "TCL独立站技术协同群__N2M_",
+        "N2M",
+        "TCL独立站增长与运营组",
+        "TCL_客服群"
+      ],
+      "keyFiles": [],
+      "milestones": [
+        {
+          "id": "ms-1778043696209",
+          "title": "母亲节促销上线",
+          "date": "2026-05-11",
+          "tasks": [],
+          "status": "active",
+          "createdAt": "2026-05-06T05:01:36.209Z"
+        },
+        {
+          "id": "ms-1778043696210",
+          "title": "Memorial Day",
+          "date": "2026-05-26",
+          "tasks": [],
+          "status": "active",
+          "createdAt": "2026-05-06T05:01:36.210Z"
+        }
+      ],
+      "stakeholders": [
+        "冯昭祥",
+        "金叙呈",
+        "刘兴竺",
+        "Mingyi",
+        "James Hou"
+      ]
+    },
+    "CELL": {
+      "groups": [
+        "CELL_付费广告",
+        "CELL_EDM",
+        "CELL_联盟运营"
+      ],
+      "keyFiles": [],
+      "milestones": [],
+      "stakeholders": [
+        "欢欢",
+        "帆帆"
+      ]
+    },
+    "OhBeauty": {
+      "groups": [
+        "Oh_Beauty_Shopify_运营"
+      ],
+      "keyFiles": [],
+      "milestones": [],
+      "stakeholders": [
+        "冯昭祥"
+      ]
+    }
+  },
+  "clientSLA": [
+    {
+      "id": "c-1778043696206-55o",
+      "groupKey": "N2M",
+      "item": "C1新品素材图片",
+      "requestedBy": "冯昭祥",
+      "details": "",
+      "requestedAt": "2026-05-06",
+      "resolved": false,
+      "resolvedAt": null,
+      "remindersSent": 0
+    },
+    {
+      "id": "c-1778043696207-61i",
+      "groupKey": "Oh_Beauty_Shopify_运营",
+      "item": "GWP促销信息",
+      "requestedBy": "冯昭祥",
+      "details": "",
+      "requestedAt": "2026-05-06",
+      "resolved": false,
+      "resolvedAt": null,
+      "remindersSent": 0
+    },
+    {
+      "id": "c-1778043696208-aud",
+      "groupKey": "Oh_Beauty_Shopify_运营",
+      "item": "Banner图片",
+      "requestedBy": "冯昭祥",
+      "details": "",
+      "requestedAt": "2026-05-06",
+      "resolved": false,
+      "resolvedAt": null,
+      "remindersSent": 0
     }
   ]
 }

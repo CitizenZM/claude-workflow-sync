@@ -356,6 +356,7 @@ function parseCmd(text) {
   if (t === 'forget' || t === 'reset memory' || t === '清除记忆') return 'RESET_MEMORY';
   if (t === 'silent on' || t === 'mute' || t === '静默' || t === '关闭对话') return 'SILENT_ON';
   if (t === 'silent off' || t === 'unmute' || t === '解除静默' || t === '开启对话') return 'SILENT_OFF';
+  if (t.startsWith('客户已确认 ') || t.startsWith('client confirmed ')) return 'CLIENT_RESOLVED';
   if (t.startsWith('完成 ') || t.startsWith('done ') || t.startsWith('✅ ')) return 'FAC_DONE';
   if (t.startsWith('延期 ') || t.startsWith('defer ')) return 'FAC_DEFER';
   if (t.startsWith('取消 ') || t.startsWith('cancel ')) return 'FAC_CANCEL';
@@ -365,6 +366,12 @@ function parseCmd(text) {
   if (t.startsWith('谁做了') || t.startsWith('做了什么') || t.match(/^(.+)(今天|本周|做了什么)/)) return 'PERSON_QUERY';
   if (t.startsWith('who did') || t.startsWith('what did')) return 'PERSON_QUERY';
   if (t === 'chase' || t === '催进度' || t === '跟进') return 'FAC_CHASE';
+  if (t === 'dashboard' || t === '仪表盘' || t === '面板') return 'DASHBOARD';
+  if (t === '客户阻塞' || t === 'client sla' || t === '等客户') return 'CLIENT_SLA';
+  if (t === '项目文件' || t.startsWith('project files')) return 'PROJECT_FILES';
+  if (t === '未回答' || t === 'unanswered' || t === '问题追踪') return 'UNANSWERED';
+  if (t.startsWith('添加里程碑') || t.startsWith('add milestone')) return 'ADD_MILESTONE';
+  if (t === '里程碑' || t === 'milestones') return 'MILESTONES';
   if (t === 'help' || t === '帮助' || t === '?') return 'HELP';
   if (t === 'learn' || t === 'learn now' || t === '学习' || t.startsWith('learn ')) return 'LEARN';
   if (t === 'vault' || t === 'memory' || t === '记忆库') return 'VAULT_INFO';
@@ -547,6 +554,57 @@ wsClient.start({
           }
         }
 
+        // --- v7: Detect client dependencies ---
+        if (fac.detectClientDependency(text)) {
+          try {
+            const cdRes = await openai.chat.completions.create({
+              model: 'gpt-4o-mini', max_tokens: 150,
+              messages: [{ role: 'user', content: `从这条消息提取"等客户确认/提供"的具体事项。\n消息: "${text}"\n\n返回JSON: {"item":"等什么", "details":"细节"} 或 null。只返回JSON。` }]
+            });
+            const cd = JSON.parse(cdRes.choices[0].message.content.trim().replace(/```json|```/g, '').trim());
+            if (cd && cd.item) {
+              fac.recordClientDependency(groupKey, { item: cd.item, requestedBy: senderName, details: cd.details || '' });
+              console.log(`🔶 Client dep tracked: ${cd.item} in ${groupKey}`);
+            }
+          } catch {}
+        }
+
+        // --- v7: Detect questions for gap tracking ---
+        if (text.includes('？') || text.includes('?') || /吗$|呢$|么$/.test(text.trim())) {
+          fac.recordQuestion(groupKey, { asker: senderName, question: text.slice(0, 200), timestamp: Date.now() });
+        }
+
+        // --- v7: Detect file links → register to project ---
+        if (fac.detectFileLink(text)) {
+          const projMatch = fac.findProjectForGroup(groupKey);
+          if (projMatch) {
+            const urlMatch = text.match(/(https?:\/\/[^\s]+)/);
+            if (urlMatch) {
+              fac.registerFile(projMatch.project, {
+                url: urlMatch[1],
+                type: 'shared',
+                name: urlMatch[1].slice(-40),
+                sharedBy: senderName,
+                group: groupKey,
+              });
+              console.log(`📎 File registered: ${projMatch.project} from ${groupKey}`);
+            }
+          }
+        }
+
+        // --- v7: Mark questions answered when someone replies ---
+        // If the previous message was a question and this is a non-question response
+        if (!(text.includes('？') || text.includes('?')) && text.length > 5) {
+          const unanswered = fac.getUnansweredQuestions(groupKey, 60);
+          if (unanswered.length > 0) {
+            // Mark the most recent question as answered (best-effort)
+            const recent = unanswered[unanswered.length - 1];
+            if (recent.minutesAgo < 30) {
+              fac.markQuestionAnswered(groupKey, recent.question.slice(0, 20), senderName);
+            }
+          }
+        }
+
         // --- Silent task extraction with accountability (Req 1) ---
         try {
           const res = await openai.chat.completions.create({
@@ -689,7 +747,11 @@ wsClient.start({
             const voice = conv.loadVoice();
             const voiceStatus = voice.profile ? `✅ ${voice.sampleCount} samples learned` : `📝 ${voice.sampleCount}/5 samples (need 5+)`;
             const silentStatus = ops.silentMode ? '🔇 ON (AI回复关闭)' : '🔊 OFF (AI回复正常)';
-            reply = `🤖 Clawdbot v5\n\n📊 Bitable: ${bitableStatus}\n💬 N2M Group: ${n2mStatus}\n👤 Barron ID: ${barronStatus}\n📋 Tasks: ${ops.tasks?.length || 0}\n🎭 Voice: ${voiceStatus}\n🔇 Silent Mode: ${silentStatus}\n\n⏰ Cron: 09:00 stale+N2M | 18:00 briefing | 03:00 voice update`;
+            const facState = fac.loadState();
+            const groupCount = Object.keys(facState.groups || {}).filter(g => facState.groups[g].chatId).length;
+            const clientSLACount = fac.getPendingClientSLA().length;
+            const milestoneCount = fac.getUpcomingMilestones(14).length;
+            reply = `🤖 Clawdbot v7\n\n📊 Bitable: ${bitableStatus}\n💬 N2M Group: ${n2mStatus}\n👤 Barron ID: ${barronStatus}\n📋 Tasks: ${ops.tasks?.length || 0}\n🎭 Voice: ${voiceStatus}\n🔇 Silent Mode: ${silentStatus}\n📡 活跃群组: ${groupCount}\n🔶 客户阻塞: ${clientSLACount}项\n🏗️ 近期里程碑: ${milestoneCount}\n\n⏰ Cron:\n• 08:00 Barron Dashboard\n• 09:00 各群早报\n• */30min Gap检测\n• */5min @mention升级+Bitable\n• 10-23h 每小时紧急追踪\n• 17:00 客户SLA预警\n• 18:00 各群晚报+日结\n• 03:00 学习+voice更新`;
             break;
           }
 
@@ -931,6 +993,17 @@ copy(JSON.stringify(window.__clawd.export()))
             break;
           }
 
+          // ── v7: Client SLA resolved ──────────────────────────────────────
+          case 'CLIENT_RESOLVED': {
+            const frag = clean.replace(/^(客户已确认|client confirmed)\s+/i, '').trim();
+            const gk = resolveGroupKey(chatId);
+            const entry = fac.resolveClientDependency(gk, frag);
+            reply = entry
+              ? `✅ 客户已确认: ${entry.item} (等了${Math.floor((Date.now() - new Date(entry.requestedAt).getTime()) / 86400000)}天)`
+              : `❓ 未找到相关客户阻塞项: "${frag}"`;
+            break;
+          }
+
           // ── Facilitator commands (Req 1/6) ──────────────────────────────────
           case 'FAC_DONE': {
             const frag = clean.replace(/^(完成|done|✅)\s+/i, '').trim();
@@ -1030,6 +1103,84 @@ copy(JSON.stringify(window.__clawd.export()))
             break;
           }
 
+          case 'DASHBOARD': {
+            const dashboard = fac.buildBarronDashboard();
+            reply = fac.formatBarronDashboard(dashboard, null);
+            break;
+          }
+
+          case 'CLIENT_SLA': {
+            const pending = fac.getPendingClientSLA();
+            if (!pending.length) {
+              reply = '✅ 暂无客户侧阻塞项';
+            } else {
+              reply = `🔶 等客户确认 (${pending.length}):\n\n`;
+              pending.sort((a, b) => b.waitingDays - a.waitingDays).forEach(c => {
+                const flag = c.waitingDays >= 5 ? '🔴' : c.waitingDays >= 3 ? '🟡' : '⚪';
+                reply += `${flag} ${c.item} — 已等${c.waitingDays}天\n   来源: ${c.groupKey} | 提出人: ${c.requestedBy || '?'}\n`;
+              });
+              reply += '\n回复「客户已确认 <事项关键词>」标记完成';
+            }
+            break;
+          }
+
+          case 'PROJECT_FILES': {
+            const q = clean.replace(/^(项目文件|project files)\s*/i, '').trim().toUpperCase() || 'TCL';
+            const files = fac.getProjectFiles(q);
+            if (!files.length) {
+              reply = `📂 ${q} 暂无注册文件\n\n群内分享的文件链接会自动归档`;
+            } else {
+              reply = `📂 ${q} 项目文件 (${files.length}):\n\n`;
+              files.forEach((f, i) => {
+                reply += `${i + 1}. ${f.name}\n   📅 ${f.sharedAt} | 👤 ${f.sharedBy} | 来自 ${f.group}\n   🔗 ${f.url.slice(0, 60)}...\n`;
+              });
+            }
+            break;
+          }
+
+          case 'UNANSWERED': {
+            const gk = resolveGroupKey(chatId);
+            const questions = fac.getUnansweredQuestions(gk, 480);
+            if (!questions.length) {
+              reply = `✅ ${gk} 过去8小时无未回答问题`;
+            } else {
+              reply = `❓ ${gk} 未回答问题 (${questions.length}):\n\n`;
+              questions.slice(0, 10).forEach((q, i) => {
+                reply += `${i + 1}. "${q.question.slice(0, 80)}" — ${q.asker} (${q.minutesAgo}分钟前)\n`;
+              });
+            }
+            break;
+          }
+
+          case 'ADD_MILESTONE': {
+            // 添加里程碑 TCL 母亲节促销 2026-05-11
+            const parts = clean.replace(/^(添加里程碑|add milestone)\s*/i, '').split(/\s+/);
+            const project = (parts[0] || '').toUpperCase();
+            const date = parts[parts.length - 1];
+            const title = parts.slice(1, -1).join(' ');
+            if (!project || !title || !date || !/\d{4}-\d{2}-\d{2}/.test(date)) {
+              reply = '用法: 添加里程碑 <项目> <标题> <YYYY-MM-DD>\n例: 添加里程碑 TCL 母亲节促销 2026-05-11';
+            } else {
+              const ms = fac.addMilestone(project, { title, date });
+              reply = ms ? `🏗️ 里程碑已添加: ${title} — ${date} (${project})` : `❌ 项目 ${project} 不存在`;
+            }
+            break;
+          }
+
+          case 'MILESTONES': {
+            const ms = fac.getUpcomingMilestones(30);
+            if (!ms.length) {
+              reply = '🏗️ 暂无近期里程碑\n\n添加: 添加里程碑 TCL 母亲节促销 2026-05-11';
+            } else {
+              reply = `🏗️ 近期里程碑:\n\n`;
+              ms.forEach(m => {
+                const flag = m.daysLeft <= 0 ? '🔴' : m.daysLeft <= 3 ? '🟡' : '🟢';
+                reply += `${flag} ${m.title} — ${m.daysLeft <= 0 ? '已过期' : `T-${m.daysLeft}天`} (${m.project})\n`;
+              });
+            }
+            break;
+          }
+
           case 'MEETING_REPORT': {
             reply = '📹 正在扫描最近会议...';
             await send(receiveId, receiveIdType, reply);
@@ -1051,7 +1202,7 @@ copy(JSON.stringify(window.__clawd.export()))
           }
 
           case 'HELP': {
-            reply = `🤖 Clawdbot v6 命令\n\n📊 数据查询\n• status — 系统状态\n• bitable status — TCL Tracker\n• 群任务 — 本群任务看板\n• 项目总览 — 所有群项目\n• 催进度 — 本群待跟进\n• daily briefing — 今日摘要\n\n✏️ 任务\n• 完成 <任务> — 标记完成\n• 延期 <任务> <原因> — 延期\n• 取消 <编号> — 取消\n\n🧪 测试\n• test stale — 超期检查\n• test n2m — N2M 监控\n\n⚙️ 控制\n• silent on/off — 切换静默\n• voice — 语言风格\n\n🧠 知识\n• brain <话题> — 查询记忆\n• learn all — 全量学习`;
+            reply = `🤖 Clawdbot v7 命令\n\n📊 数据查询\n• dashboard / 仪表盘 — Barron管理面板\n• status — 系统状态\n• 群任务 — 本群任务看板\n• 项目总览 — 所有群项目\n• 催进度 — 本群待跟进\n\n🏗️ 项目管理\n• 里程碑 — 查看近期里程碑\n• 添加里程碑 <项目> <标题> <日期>\n• 客户阻塞 / 等客户 — 客户侧SLA\n• 项目文件 <项目> — 查看关键文件\n• 未回答 — 本群未回答问题\n\n✏️ 任务\n• 完成 <任务> — 标记完成\n• 延期 <任务> <原因>\n• 取消 <编号>\n\n👤 人员\n• 谁做了什么 / <名字>今天做了什么\n• 会议报告 — 最近会议\n\n⚙️ 控制\n• silent on/off — 切换静默\n• learn all — 全量学习\n• brain <话题> — 查询记忆`;
             break;
           }
 
@@ -1160,7 +1311,7 @@ copy(JSON.stringify(window.__clawd.export()))
       }
     },
 
-    // Meeting ended — auto-generate report
+    // Meeting ended — auto-generate report + extract action items
     'vc.meeting.meeting_ended_v1': async (event) => {
       console.log(`📹 Meeting ended event received`);
       try {
@@ -1170,6 +1321,36 @@ copy(JSON.stringify(window.__clawd.export()))
           const msg = `📹 会议报告 | ${result.meetingData.topic}\n\n${result.report.slice(0, 1500)}`;
           await sendToDM(ops.barronOpenId, msg);
           console.log(`✅ Meeting report sent to Barron`);
+
+          // v7: Extract action items from meeting report → create tasks
+          try {
+            const actionRes = await openai.chat.completions.create({
+              model: 'gpt-4o-mini', max_tokens: 400,
+              messages: [{ role: 'user', content: `${fac.TASK_EXTRACT_PROMPT}\n\nMeeting report:\n"${result.report}"` }]
+            });
+            const meetingTasks = JSON.parse(actionRes.choices[0].message.content.trim().replace(/```json|```/g, '').trim());
+            if (Array.isArray(meetingTasks) && meetingTasks.length) {
+              // Find which group this meeting belongs to
+              const topic = result.meetingData.topic || '';
+              let targetGroup = 'N2M'; // default
+              for (const [key] of Object.entries(ops.chats || {})) {
+                if (topic.includes(key) || key.includes(topic.slice(0, 10))) {
+                  targetGroup = key;
+                  break;
+                }
+              }
+              for (const t of meetingTasks) {
+                fac.createTask(targetGroup, {
+                  title: t.title,
+                  owner: t.owner,
+                  deadline: t.deadline,
+                  source: 'meeting',
+                  urgency: t.urgency || 'normal',
+                });
+              }
+              console.log(`📌 Extracted ${meetingTasks.length} action item(s) from meeting`);
+            }
+          } catch {}
 
           // Record to participants' work threads
           (result.meetingData.participants || []).forEach(p => {
@@ -1378,13 +1559,74 @@ cron.schedule('0 8-23 * * 1-6', async () => {
   }
 }, { timezone: 'Asia/Shanghai' });
 
+// ═══ v7: 08:00 — Barron Dashboard (DM only) ═══════════════════════════════
+cron.schedule('0 8 * * *', async () => {
+  console.log('[CRON] 08:00 — Barron Dashboard...');
+  const ops = loadData();
+  if (!ops.barronOpenId) return;
+
+  try {
+    const dashboard = fac.buildBarronDashboard();
+    const msg = fac.formatBarronDashboard(dashboard, null);
+    await sendToDM(ops.barronOpenId, msg);
+    console.log('[08:00] 🎯 Dashboard sent to Barron');
+  } catch(e) {
+    console.error('[08:00] Dashboard error:', e.message);
+  }
+}, { timezone: 'Asia/Shanghai' });
+
+// ═══ v7: Every 30min — Gap detection (unanswered questions alert) ══════════
+cron.schedule('*/30 * * * *', async () => {
+  const state = fac.loadState();
+  const ops = loadData();
+
+  for (const gk of Object.keys(state.groups)) {
+    const group = state.groups[gk];
+    if (!group.chatId) continue;
+
+    const unanswered = fac.getUnansweredQuestions(gk, 60); // Last 60 min
+    if (unanswered.length < 3) continue; // Only alert if 3+ accumulated
+
+    let msg = `❓ 未回答提醒 | ${group.name || gk}\n\n以下问题暂无人回应:\n`;
+    unanswered.slice(0, 5).forEach((q, i) => {
+      msg += `${i + 1}. "${q.question.slice(0, 80)}" — ${q.asker} (${q.minutesAgo}分钟前)\n`;
+    });
+    msg += `\n请知道答案的同事回复`;
+
+    await sendToChat(group.chatId, msg);
+    console.log(`[30min] ❓ Gap alert: ${unanswered.length} unanswered in ${gk}`);
+  }
+}, { timezone: 'Asia/Shanghai' });
+
+// ═══ v7: Client SLA daily check — 17:00 pre-EOD warning to Barron ══════════
+cron.schedule('0 17 * * 1-6', async () => {
+  const ops = loadData();
+  if (!ops.barronOpenId) return;
+
+  const pending = fac.getPendingClientSLA();
+  if (!pending.length) return;
+
+  const critical = pending.filter(c => c.waitingDays >= 3);
+  if (!critical.length) return;
+
+  let msg = `🔶 收工前提醒 | 客户侧阻塞\n\n`;
+  critical.sort((a, b) => b.waitingDays - a.waitingDays).forEach(c => {
+    const action = c.waitingDays >= 5 ? '🔴 建议直接call' : '🟡 建议催促';
+    msg += `• ${c.item} — 已等${c.waitingDays}天 ${action}\n  来源: ${c.groupKey}\n`;
+  });
+  msg += `\n共 ${pending.length} 项等客户确认`;
+
+  await sendToDM(ops.barronOpenId, msg);
+  console.log(`[17:00] 🔶 Client SLA warning sent to Barron (${critical.length} critical)`);
+}, { timezone: 'Asia/Shanghai' });
+
 // ═══ Req 4 + Morning brief: 09:00 — Day start summary per group ════════════
 cron.schedule('0 9 * * *', async () => {
   console.log('[CRON] 09:00 — Morning brief + stale check...');
   const ops = loadData();
   const state = fac.loadState();
 
-  // Per-group morning briefs
+  // Per-group morning briefs (NO workload info in group messages)
   for (const gk of Object.keys(state.groups)) {
     const group = state.groups[gk];
     if (!group.chatId || !group.tasks.length) continue;
@@ -1412,6 +1654,17 @@ cron.schedule('0 9 * * *', async () => {
     if (data.noDeadline.length) {
       msg += `⚠️ 缺截止日期 (${data.noDeadline.length}):\n`;
       data.noDeadline.slice(0, 5).forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}\n`);
+      msg += '\n';
+    }
+
+    // v7: Client SLA per group (if any)
+    const clientSLA = fac.getPendingClientSLA(gk);
+    if (clientSLA.length) {
+      msg += `🔶 等客户确认 (${clientSLA.length}):\n`;
+      clientSLA.forEach(c => {
+        const flag = c.waitingDays >= 5 ? '🔴' : c.waitingDays >= 3 ? '🟡' : '⚪';
+        msg += `${flag} ${c.item} — 已等${c.waitingDays}天\n`;
+      });
       msg += '\n';
     }
 
@@ -1511,7 +1764,7 @@ cron.schedule('0 18 * * *', async () => {
 
   let barronSummary = `🌆 日结总览 | ${new Date().toLocaleDateString('zh-CN')}\n\n`;
 
-  // Per-group evening review
+  // Per-group evening review (NO workload info in group messages)
   for (const gk of Object.keys(state.groups)) {
     const group = state.groups[gk];
     if (!group.chatId) continue;
@@ -1549,6 +1802,28 @@ cron.schedule('0 18 * * *', async () => {
 
     // Add to Barron's summary
     barronSummary += `📌 ${data.groupName}: ✅${data.completed.length} 🟡${notDone.length} 📋${carriedOver.length}\n`;
+  }
+
+  // v7: Workload analysis — Barron DM ONLY (never in group)
+  const workload = fac.analyzeWorkload();
+  const overloaded = Object.entries(workload.loadMap).filter(([_, v]) => v.level === 'overloaded');
+  if (overloaded.length) {
+    barronSummary += `\n👥 人员负荷预警:\n`;
+    overloaded.forEach(([name, data]) => {
+      barronSummary += `🔴 ${name}: ${data.tasks}项/${data.groups}群 (${data.groupList.join(', ')})\n`;
+    });
+  }
+
+  // v7: Client SLA in Barron summary
+  const clientSLA = fac.getPendingClientSLA();
+  if (clientSLA.length) {
+    const critical = clientSLA.filter(c => c.waitingDays >= 3);
+    if (critical.length) {
+      barronSummary += `\n🔶 客户侧阻塞 (${critical.length}项≥3天):\n`;
+      critical.slice(0, 5).forEach(c => {
+        barronSummary += `• ${c.item} — ${c.waitingDays}天 (${c.groupKey})\n`;
+      });
+    }
   }
 
   // Bitable summary for Barron
