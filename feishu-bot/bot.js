@@ -9,6 +9,7 @@ const conv = require('./conversation');
 const vault = require('./vault');
 const fac  = require('./facilitator');
 const wt   = require('./work_threads');
+const mtg  = require('./meeting_report');
 const { spawn } = require('child_process');
 
 const APP_ID = process.env.FEISHU_APP_ID;
@@ -360,6 +361,7 @@ function parseCmd(text) {
   if (t.startsWith('取消 ') || t.startsWith('cancel ')) return 'FAC_CANCEL';
   if (t === '群任务' || t === 'group tasks' || t === '本群任务') return 'FAC_GROUP_TASKS';
   if (t === '项目总览' || t === 'project overview') return 'FAC_OVERVIEW';
+  if (t === '会议报告' || t === 'meeting report' || t === '会议') return 'MEETING_REPORT';
   if (t.startsWith('谁做了') || t.startsWith('做了什么') || t.match(/^(.+)(今天|本周|做了什么)/)) return 'PERSON_QUERY';
   if (t.startsWith('who did') || t.startsWith('what did')) return 'PERSON_QUERY';
   if (t === 'chase' || t === '催进度' || t === '跟进') return 'FAC_CHASE';
@@ -1028,6 +1030,16 @@ copy(JSON.stringify(window.__clawd.export()))
             break;
           }
 
+          case 'MEETING_REPORT': {
+            reply = '📹 正在扫描最近会议...';
+            await send(receiveId, receiveIdType, reply);
+            try {
+              const report = await mtg.scanAndReport(7);
+              reply = report;
+            } catch(e) { reply = `❌ 会议报告失败: ${e.message}`; }
+            break;
+          }
+
           case 'PERSON_QUERY': {
             // Extract person name from query
             const q = clean.replace(/^(谁做了|做了什么|who did|what did)\s*/i, '').replace(/(今天|本周|today|this week|做了什么)/gi, '').trim();
@@ -1145,6 +1157,33 @@ copy(JSON.stringify(window.__clawd.export()))
       } catch(e) {
         console.error('Handler error:', e.message);
         try { await send(receiveId, receiveIdType, `⚠️ Error: ${e.message.slice(0,100)}`); } catch {}
+      }
+    },
+
+    // Meeting ended — auto-generate report
+    'vc.meeting.meeting_ended_v1': async (event) => {
+      console.log(`📹 Meeting ended event received`);
+      try {
+        const result = await mtg.handleMeetingEnded(event);
+        const ops = loadData();
+        if (ops.barronOpenId && result.report) {
+          const msg = `📹 会议报告 | ${result.meetingData.topic}\n\n${result.report.slice(0, 1500)}`;
+          await sendToDM(ops.barronOpenId, msg);
+          console.log(`✅ Meeting report sent to Barron`);
+
+          // Record to participants' work threads
+          (result.meetingData.participants || []).forEach(p => {
+            const name = wt.resolveName(p.id || p);
+            if (name) {
+              wt.recordMessage(name, {
+                group: 'Meeting',
+                text: `参加会议: ${result.meetingData.topic} (${Math.round(result.meetingData.duration/60)}min)`,
+              });
+            }
+          });
+        }
+      } catch(e) {
+        console.error('Meeting report error:', e.message);
       }
     },
 
