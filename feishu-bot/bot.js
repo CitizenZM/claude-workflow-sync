@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const conv = require('./conversation');
 const vault = require('./vault');
+const fac  = require('./facilitator');
 const { spawn } = require('child_process');
 
 const APP_ID = process.env.FEISHU_APP_ID;
@@ -323,6 +324,16 @@ async function autoReplyForBarron(text, chatId, senderId, senderName) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Command handlers
 // ─────────────────────────────────────────────────────────────────────────────
+// ── Resolve group key from chat_id (per-group isolation, Req 6) ─────────────
+function resolveGroupKey(chatId) {
+  const ops = loadData();
+  // Reverse lookup: find the registered name for this chatId
+  for (const [key, id] of Object.entries(ops.chats || {})) {
+    if (id === chatId) return key;
+  }
+  return chatId.slice(-8); // fallback
+}
+
 function parseCmd(text) {
   const t = text.trim().toLowerCase();
   if (t === 'show tasks' || t === '任务列表') return 'LIST';
@@ -343,6 +354,12 @@ function parseCmd(text) {
   if (t === 'forget' || t === 'reset memory' || t === '清除记忆') return 'RESET_MEMORY';
   if (t === 'silent on' || t === 'mute' || t === '静默' || t === '关闭对话') return 'SILENT_ON';
   if (t === 'silent off' || t === 'unmute' || t === '解除静默' || t === '开启对话') return 'SILENT_OFF';
+  if (t.startsWith('完成 ') || t.startsWith('done ') || t.startsWith('✅ ')) return 'FAC_DONE';
+  if (t.startsWith('延期 ') || t.startsWith('defer ')) return 'FAC_DEFER';
+  if (t.startsWith('取消 ') || t.startsWith('cancel ')) return 'FAC_CANCEL';
+  if (t === '群任务' || t === 'group tasks' || t === '本群任务') return 'FAC_GROUP_TASKS';
+  if (t === '项目总览' || t === 'project overview') return 'FAC_OVERVIEW';
+  if (t === 'chase' || t === '催进度' || t === '跟进') return 'FAC_CHASE';
   if (t === 'help' || t === '帮助' || t === '?') return 'HELP';
   if (t === 'learn' || t === 'learn now' || t === '学习' || t.startsWith('learn ')) return 'LEARN';
   if (t === 'vault' || t === 'memory' || t === '记忆库') return 'VAULT_INFO';
@@ -431,38 +448,138 @@ wsClient.start({
       const clean = text.replace(/@\S+/g, '').trim();
       const cmd = parseCmd(clean);
 
-      // ── Group: silent task extraction + Feature 3 auto-reply ───────────────
+      // ── Resolve group key for per-group isolation ─────────────────────────
+      const groupKey = resolveGroupKey(chatId);
+
+      // ── Group: facilitation engine (Req 3: smart intervention) ──────────
       if (chatType === 'group' && !isMentioned) {
         const ops = loadData();
+        const senderName = sender.sender_id?.name || senderId.slice(-6);
 
-        // Feature 3: Auto-reply when someone asks @Barron (DISABLED in silent mode)
+        // --- Req 2: Track @mentions for 30-min follow-up ---
+        const atMatches = text.match(/[@＠](\S+)/g);
+        if (atMatches) {
+          for (const at of atMatches) {
+            const mentioned = at.replace(/[@＠]/, '');
+            if (mentioned && !mentioned.includes('all') && !mentioned.includes('所有人')) {
+              fac.recordMention(groupKey, {
+                mentionedUser: mentioned,
+                mentionerName: senderName,
+                messageText: text,
+              });
+              console.log(`📡 @mention tracked: ${mentioned} by ${senderName} in ${groupKey}`);
+            }
+          }
+        }
+
+        // --- Req 2: Clear mentions if the mentioned person speaks ---
+        fac.markMentionResponded(groupKey, senderName);
+        fac.markMentionResponded(groupKey, senderId);
+
+        // --- Req 2: Handle "稍后" defer ---
+        if (/^(稍后|later|hold|等一下)/i.test(clean)) {
+          fac.deferMention(groupKey, senderName);
+          fac.deferMention(groupKey, senderId);
+        }
+
+        // --- Req 4: Record for hourly digest ---
+        const hasUrgent = fac.detectUrgency(text);
+        const hasChase = fac.detectChase(text);
+        fac.recordHourlyMessage(groupKey, {
+          sender: senderName,
+          text,
+          hasChase,
+          hasUrgent,
+        });
+
+        // --- Req 3: Check smart intervention rules ---
+        const today = new Date().toISOString().slice(0, 10);
+        const groupTasks = fac.getGroupTasks(groupKey, 'open');
+        const isDeadlineDay = groupTasks.some(t => t.deadline === today);
+        const pendingMentions = fac.getMentionsNeedingReminder(groupKey);
+        const hourlyUrgent = fac.getHourlyUrgentItems(groupKey);
+        const isMultipleChase = Object.values(hourlyUrgent.chaseTargets).some(c => c >= 3);
+
+        const intervention = fac.shouldIntervene({
+          isMentioned: false,
+          isScheduledTime: false,
+          isDeadlineDay,
+          isPreMeeting: false,
+          mentionEscalation: pendingMentions.length > 0,
+          isMultipleChaseNoReply: isMultipleChase,
+          isUrgentKeyword: hasUrgent && hasChase,
+        });
+
+        // --- Req 2: Send @mention reminders ---
+        if (pendingMentions.length > 0) {
+          for (const m of pendingMentions) {
+            const elapsed = Math.floor((Date.now() - m.timestamp) / 60000);
+            if (m.remindersSent === 0) {
+              // 30min: gentle group reminder
+              await sendToChat(chatId,
+                `⏰ @${m.mentionedUser} ${m.mentionerName}在${elapsed}分钟前提到了你：\n「${m.messageText.slice(0, 100)}」\n——回复「稍后」我帮你记着`
+              );
+              fac.bumpMentionReminder(groupKey, m.id);
+              console.log(`⏰ 30min reminder sent: ${m.mentionedUser} in ${groupKey}`);
+            } else if (m.remindersSent === 1) {
+              // 2h: DM the person (if we have their ID — for now group msg)
+              await sendToChat(chatId,
+                `🔔 @${m.mentionedUser} 已过${elapsed}分钟未回复 ${m.mentionerName} 的消息，请确认`
+              );
+              fac.bumpMentionReminder(groupKey, m.id);
+            } else if (m.remindersSent === 2) {
+              // 4h: escalate to Barron
+              if (ops.barronOpenId) {
+                await sendToDM(ops.barronOpenId,
+                  `🚨 升级提醒 | ${groupKey}\n\n@${m.mentionedUser} 超过${elapsed}分钟未回复\n原消息: 「${m.messageText.slice(0, 100)}」\n发送人: ${m.mentionerName}`
+                );
+              }
+              fac.bumpMentionReminder(groupKey, m.id);
+            }
+          }
+        }
+
+        // --- Silent task extraction with accountability (Req 1) ---
+        try {
+          const res = await openai.chat.completions.create({
+            model: 'gpt-4o-mini', max_tokens: 300,
+            messages: [{ role: 'user', content: `${fac.TASK_EXTRACT_PROMPT}\n\nMessage from ${senderName}:\n"${text}"` }]
+          });
+          const tasks = JSON.parse(res.choices[0].message.content.trim().replace(/```json|```/g, '').trim());
+          if (Array.isArray(tasks) && tasks.length) {
+            const needsInfo = [];
+            for (const t of tasks) {
+              const result = fac.createTask(groupKey, {
+                title: t.title,
+                owner: t.owner,
+                deadline: t.deadline,
+                source: 'chat',
+                urgency: t.urgency || 'normal',
+              });
+              if (!result.validation.valid) needsInfo.push(result);
+            }
+            console.log(`📌 Extracted ${tasks.length} task(s) from ${groupKey}`);
+
+            // Req 1: Prompt for missing owner/deadline
+            if (needsInfo.length > 0) {
+              const prompt = fac.formatMissingPrompt(needsInfo.map(r => r.task));
+              if (prompt) {
+                await sendToChat(chatId, prompt);
+              }
+            }
+          }
+        } catch {}
+
+        // --- Feature 3: Auto-reply @Barron (only when not in silent mode) ---
         if (ops.barronOpenId && !ops.silentMode) {
-          const autoReply = await autoReplyForBarron(text, chatId, senderId, sender.sender_id?.name);
+          const autoReply = await autoReplyForBarron(text, chatId, senderId, senderName);
           if (autoReply) {
             await sendToChat(chatId, `[Clawdbot代Barron回复]\n\n${autoReply}`);
-            console.log(`[${new Date().toISOString()}] 🤖 Auto-replied for Barron in group ${chatId}`);
+            console.log(`[${new Date().toISOString()}] 🤖 Auto-replied for Barron in ${groupKey}`);
             return;
           }
         }
 
-        // Silent task extraction
-        try {
-          const res = await openai.chat.completions.create({
-            model: 'gpt-4o-mini', max_tokens: 200,
-            messages: [{ role:'user', content:`Extract tasks from: "${text}". Return JSON array [{"title":"...","due":"date or null","assignee":"name or null"}] or [].` }]
-          });
-          const tasks = JSON.parse(res.choices[0].message.content.trim().replace(/```json|```/g,'').trim());
-          if (Array.isArray(tasks) && tasks.length) {
-            const ops2 = loadData();
-            ops2.tasks.push(...tasks.map(t => ({
-              id: `${Date.now()}${Math.random().toString(36).slice(2,5)}`,
-              title: t.title, due: t.due||null, assignee: t.assignee||null,
-              chat: chatId, createdAt: new Date().toISOString(), done: false
-            })));
-            saveData(ops2);
-            console.log(`📌 Extracted ${tasks.length} task(s) from group`);
-          }
-        } catch {}
         return;
       }
 
@@ -806,8 +923,107 @@ copy(JSON.stringify(window.__clawd.export()))
             break;
           }
 
+          // ── Facilitator commands (Req 1/6) ──────────────────────────────────
+          case 'FAC_DONE': {
+            const frag = clean.replace(/^(完成|done|✅)\s+/i, '').trim();
+            const gk = resolveGroupKey(chatId);
+            const task = fac.completeTask(gk, frag);
+            reply = task
+              ? `✅ 完成: ${task.title}${task.owner ? ` (@${task.owner})` : ''}`
+              : `❓ 未找到任务: "${frag}"`;
+            break;
+          }
+
+          case 'FAC_DEFER': {
+            const parts = clean.replace(/^(延期|defer)\s+/i, '').split(/\s+/);
+            const frag = parts[0];
+            const reason = parts.slice(1).join(' ') || '未说明原因';
+            const gk = resolveGroupKey(chatId);
+            const task = fac.deferTask(gk, frag, reason);
+            reply = task
+              ? `⏸️ 延期: ${task.title}\n原因: ${reason}\n\n下次提醒时我会跟进`
+              : `❓ 未找到任务: "${frag}"`;
+            break;
+          }
+
+          case 'FAC_CANCEL': {
+            const frag = clean.replace(/^(取消|cancel)\s+/i, '').trim();
+            const gk = resolveGroupKey(chatId);
+            const task = fac.completeTask(gk, frag); // reuse complete to remove
+            if (task) { task.status = 'cancelled'; }
+            reply = task ? `🗑️ 已取消: ${task.title}` : `❓ 未找到任务: "${frag}"`;
+            break;
+          }
+
+          case 'FAC_GROUP_TASKS': {
+            const gk = resolveGroupKey(chatId);
+            const ctx = fac.getGroupContext(gk);
+            const tasks = ctx.tasks;
+            if (!tasks.length) {
+              reply = `✅ ${ctx.name || gk} — 暂无待办任务`;
+            } else {
+              const now = new Date();
+              const today = now.toISOString().slice(0, 10);
+              const overdue = tasks.filter(t => t.deadline && t.deadline < today);
+              const dueToday = tasks.filter(t => t.deadline === today);
+              const upcoming = tasks.filter(t => !t.deadline || t.deadline > today);
+              const noOwner = tasks.filter(t => !t.owner);
+
+              reply = `📋 ${ctx.name || gk} 任务看板\n\n`;
+              if (overdue.length) reply += `🔴 逾期 (${overdue.length}):\n${overdue.map(t => `• ${t.title} — @${t.owner||'❓'} | 截止 ${t.deadline}`).join('\n')}\n\n`;
+              if (dueToday.length) reply += `🟡 今日到期 (${dueToday.length}):\n${dueToday.map(t => `• ${t.title} — @${t.owner||'❓'}`).join('\n')}\n\n`;
+              if (upcoming.length) reply += `🟢 进行中 (${upcoming.length}):\n${upcoming.slice(0, 8).map(t => `• ${t.title} — @${t.owner||'❓'}${t.deadline ? ` | ${t.deadline}` : ' | ⚠️无截止日期'}`).join('\n')}\n\n`;
+              if (noOwner.length) reply += `⚠️ ${noOwner.length} 个任务缺少责任人，请补充`;
+            }
+            break;
+          }
+
+          case 'FAC_OVERVIEW': {
+            const state = fac.loadState();
+            const groups = Object.keys(state.groups);
+            if (!groups.length) {
+              reply = '📊 暂无项目数据。加入群组后会自动开始追踪。';
+            } else {
+              reply = `📊 项目总览 | ${new Date().toLocaleDateString('zh-CN')}\n\n`;
+              for (const gk of groups) {
+                const ctx = fac.getGroupContext(gk);
+                const open = ctx.tasks.filter(t => t.status !== 'done');
+                const overdue = open.filter(t => t.deadline && t.deadline < new Date().toISOString().slice(0, 10));
+                const mentions = ctx.mentions.length;
+                reply += `📌 ${ctx.name || gk}: ${open.length}待办${overdue.length ? ` | 🔴${overdue.length}逾期` : ''}${mentions ? ` | ⏰${mentions}未回复` : ''}\n`;
+              }
+            }
+            break;
+          }
+
+          case 'FAC_CHASE': {
+            const gk = resolveGroupKey(chatId);
+            const urgent = fac.getHourlyUrgentItems(gk);
+            const mentions = fac.getPendingMentions(gk);
+            if (!urgent.urgentCount && !mentions.length) {
+              reply = `✅ ${gk} 过去1小时无紧急待跟进事项`;
+            } else {
+              reply = `🔔 ${gk} 待跟进\n\n`;
+              if (mentions.length) {
+                reply += `⏰ 未回复 @提醒 (${mentions.length}):\n`;
+                mentions.forEach(m => {
+                  const min = Math.floor((Date.now() - m.timestamp) / 60000);
+                  reply += `• @${m.mentionedUser} — ${min}分钟未回复 (${m.mentionerName})\n`;
+                });
+                reply += '\n';
+              }
+              if (Object.keys(urgent.chaseTargets).length) {
+                reply += `📢 被催促人员:\n`;
+                for (const [person, count] of Object.entries(urgent.chaseTargets)) {
+                  reply += `• @${person} — 被催 ${count} 次\n`;
+                }
+              }
+            }
+            break;
+          }
+
           case 'HELP': {
-            reply = `🤖 Clawdbot 命令\n\n📊 数据查询\n• status / 状态 — 系统状态\n• bitable status — TCL Tracker 未完成任务\n• show tasks — 任务列表\n• show timeline — 截止日期\n• daily briefing / 日报 — 今日摘要\n\n🧪 测试\n• test stale — 立即超期检查\n• test n2m — 立即 N2M 监控\n\n⚙️ 控制\n• silent on / 关闭对话 — 关闭 AI 回复\n• silent off / 开启对话 — 恢复 AI 回复\n• voice — 查看语言风格\n• forget — 清除对话记忆\n\n✏️ 任务\n• done [任务名] — 标记完成\n• clear done — 清除已完成`;
+            reply = `🤖 Clawdbot v6 命令\n\n📊 数据查询\n• status — 系统状态\n• bitable status — TCL Tracker\n• 群任务 — 本群任务看板\n• 项目总览 — 所有群项目\n• 催进度 — 本群待跟进\n• daily briefing — 今日摘要\n\n✏️ 任务\n• 完成 <任务> — 标记完成\n• 延期 <任务> <原因> — 延期\n• 取消 <编号> — 取消\n\n🧪 测试\n• test stale — 超期检查\n• test n2m — N2M 监控\n\n⚙️ 控制\n• silent on/off — 切换静默\n• voice — 语言风格\n\n🧠 知识\n• brain <话题> — 查询记忆\n• learn all — 全量学习`;
             break;
           }
 
@@ -939,7 +1155,10 @@ copy(JSON.stringify(window.__clawd.export()))
         if (name.includes('CELL') && name.includes('付费')) ops.chats.CELL_EDM = chatId;
 
         saveData(ops);
-        console.log(`✅ Registered as "${cleanKey}"`);
+
+        // Register with facilitator (Req 6: per-group isolation)
+        fac.registerGroup(cleanKey, chatId, name);
+        console.log(`✅ Registered as "${cleanKey}" (facilitator + ops)`);
 
         // Notify Barron via DM (silent join — don't message in group)
         if (ops.barronOpenId) {
@@ -979,12 +1198,175 @@ copy(JSON.stringify(window.__clawd.export()))
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Scheduled jobs
+// Scheduled jobs — Facilitation Engine v6
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Every day at 9:00 AM — Bitable stale check + N2M monitoring report
+// ═══ Req 2: Every 5 minutes — Real-time sync + @mention escalation check ═══
+cron.schedule('*/5 * * * *', async () => {
+  const ops = loadData();
+  const state = fac.loadState();
+
+  // Scan all active groups for pending @mention reminders
+  for (const gk of Object.keys(state.groups)) {
+    const group = state.groups[gk];
+    if (!group.chatId) continue;
+
+    const pending = fac.getMentionsNeedingReminder(gk);
+    for (const m of pending) {
+      const elapsed = Math.floor((Date.now() - m.timestamp) / 60000);
+      if (m.remindersSent === 0) {
+        await sendToChat(group.chatId,
+          `⏰ @${m.mentionedUser} ${m.mentionerName}在${elapsed}分钟前提到了你：\n「${m.messageText.slice(0, 120)}」\n——回复「稍后」我帮你记着`
+        );
+        fac.bumpMentionReminder(gk, m.id);
+        console.log(`[5min] ⏰ 30min reminder: ${m.mentionedUser} in ${gk}`);
+      } else if (m.remindersSent === 1) {
+        await sendToChat(group.chatId,
+          `🔔 @${m.mentionedUser} 已过${elapsed}分钟未回复，请确认`
+        );
+        fac.bumpMentionReminder(gk, m.id);
+        console.log(`[5min] 🔔 2h reminder: ${m.mentionedUser} in ${gk}`);
+      } else if (m.remindersSent === 2 && ops.barronOpenId) {
+        await sendToDM(ops.barronOpenId,
+          `🚨 升级提醒 | ${group.name || gk}\n\n@${m.mentionedUser} 超过${elapsed}分钟未回复\n原消息: 「${m.messageText.slice(0, 120)}」\n发送人: ${m.mentionerName}`
+        );
+        fac.bumpMentionReminder(gk, m.id);
+        console.log(`[5min] 🚨 4h escalation: ${m.mentionedUser} → Barron`);
+      }
+    }
+  }
+
+  // Req 5: Sync Bitable every 5 min, detect changes
+  const conf = ops.bitables?.[0];
+  if (conf) {
+    try {
+      const result = await readBitableTasks(conf.appToken, conf.tableId);
+      if (result.tasks?.length) {
+        const oldTasks = state.bitableTasks || [];
+        const changes = fac.getBitableChanges(oldTasks, result.tasks);
+        fac.recordBitableSync(result.tasks);
+
+        // Notify on significant changes
+        if (changes.completed.length || changes.overdueNew.length) {
+          const n2mChatId = ops.chats?.N2M || ops.chats?.TCL独立站技术协同群__N2M_;
+          const parts = [];
+          if (changes.completed.length) {
+            parts.push(`✅ 完成: ${changes.completed.map(t => t.task).join(', ')}`);
+          }
+          if (changes.overdueNew.length) {
+            parts.push(`🔴 新逾期: ${changes.overdueNew.map(t => `${t.task} (@${t.owner||'?'})`).join(', ')}`);
+          }
+          if (parts.length && ops.barronOpenId) {
+            await sendToDM(ops.barronOpenId, `📊 Bitable变更\n\n${parts.join('\n')}`);
+          }
+        }
+      }
+    } catch(e) { /* silent fail for 5-min sync */ }
+  }
+}, { timezone: 'Asia/Shanghai' });
+
+// ═══ Req 4: Every hour (work hours) — Urgent chase summary ═══════════════
+cron.schedule('0 10-21 * * 1-6', async () => {
+  const ops = loadData();
+  const state = fac.loadState();
+
+  for (const gk of Object.keys(state.groups)) {
+    const group = state.groups[gk];
+    if (!group.chatId) continue;
+
+    const urgent = fac.getHourlyUrgentItems(gk);
+    const mentions = fac.getPendingMentions(gk);
+
+    // Only send hourly chase if there ARE urgent items
+    if (urgent.urgentCount === 0 && mentions.length === 0) continue;
+
+    let msg = `🔔 ${group.name || gk} | 整点跟进\n\n`;
+    let hasSomething = false;
+
+    if (mentions.length) {
+      msg += `⏰ 待回复 (${mentions.length}):\n`;
+      mentions.forEach(m => {
+        const min = Math.floor((Date.now() - m.timestamp) / 60000);
+        msg += `• @${m.mentionedUser} — ${min}分钟未回 (${m.mentionerName})\n`;
+      });
+      msg += '\n';
+      hasSomething = true;
+    }
+
+    const chaseEntries = Object.entries(urgent.chaseTargets).filter(([_, c]) => c >= 2);
+    if (chaseEntries.length) {
+      msg += `📢 多次催促:\n`;
+      chaseEntries.forEach(([person, count]) => {
+        msg += `• @${person} — 被催 ${count} 次\n`;
+      });
+      msg += '\n';
+      hasSomething = true;
+    }
+
+    if (urgent.urgentCount) {
+      msg += `🚨 紧急消息 (${urgent.urgentCount}):\n`;
+      urgent.urgentMessages.slice(0, 3).forEach(m => {
+        msg += `• ${m.sender}: ${m.text.slice(0, 80)}\n`;
+      });
+      hasSomething = true;
+    }
+
+    if (hasSomething) {
+      // Send to group
+      await sendToChat(group.chatId, msg);
+      // Also DM Barron
+      if (ops.barronOpenId) {
+        await sendToDM(ops.barronOpenId, msg);
+      }
+      console.log(`[hourly] 🔔 Chase sent for ${gk}`);
+    }
+  }
+}, { timezone: 'Asia/Shanghai' });
+
+// ═══ Req 4 + Morning brief: 09:00 — Day start summary per group ════════════
 cron.schedule('0 9 * * *', async () => {
-  console.log('[CRON] 09:00 — Running daily checks...');
+  console.log('[CRON] 09:00 — Morning brief + stale check...');
+  const ops = loadData();
+  const state = fac.loadState();
+
+  // Per-group morning briefs
+  for (const gk of Object.keys(state.groups)) {
+    const group = state.groups[gk];
+    if (!group.chatId || !group.tasks.length) continue;
+
+    const data = fac.buildMorningBriefData(gk);
+    if (data.totalOpen === 0) continue;
+
+    let msg = `🌅 早报 | ${data.groupName} | ${new Date().toLocaleDateString('zh-CN')}\n\n`;
+
+    if (data.overdue.length) {
+      msg += `🔴 逾期 (${data.overdue.length}):\n`;
+      data.overdue.forEach(t => msg += `• ${t.title} — @${t.owner||'❓'} (截止 ${t.deadline})\n`);
+      msg += '\n';
+    }
+    if (data.dueToday.length) {
+      msg += `🟡 今日到期 (${data.dueToday.length}):\n`;
+      data.dueToday.forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}\n`);
+      msg += '\n';
+    }
+    if (data.noOwner.length) {
+      msg += `⚠️ 缺责任人 (${data.noOwner.length}):\n`;
+      data.noOwner.forEach(t => msg += `• ${t.title} — 请认领\n`);
+      msg += '\n';
+    }
+    if (data.noDeadline.length) {
+      msg += `⚠️ 缺截止日期 (${data.noDeadline.length}):\n`;
+      data.noDeadline.slice(0, 5).forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}\n`);
+      msg += '\n';
+    }
+
+    msg += `📋 共 ${data.totalOpen} 项待办 | 请相关同事确认今日重点`;
+
+    await sendToChat(group.chatId, msg);
+    console.log(`[09:00] 🌅 Morning brief sent: ${gk}`);
+  }
+
+  // Also run legacy checks
   await runBitableStaleCheck(false);
   await runN2MMonitoring(false);
 }, { timezone: 'Asia/Shanghai' });
@@ -1065,26 +1447,77 @@ cron.schedule('30 2 * * 0', async () => {
   } catch(e) { console.error('[CRON] Batch learn error:', e.message); }
 }, { timezone: 'Asia/Shanghai' });
 
-// Every day at 6:00 PM — Evening summary to Barron
+// ═══ Evening review: 18:00 — Day end per-group review + DM Barron ═══════════
 cron.schedule('0 18 * * *', async () => {
-  console.log('[CRON] 18:00 — Evening summary...');
+  console.log('[CRON] 18:00 — Evening review...');
   const ops = loadData();
   const barronId = ops.barronOpenId;
-  if (!barronId) return;
+  const state = fac.loadState();
 
+  let barronSummary = `🌆 日结总览 | ${new Date().toLocaleDateString('zh-CN')}\n\n`;
+
+  // Per-group evening review
+  for (const gk of Object.keys(state.groups)) {
+    const group = state.groups[gk];
+    if (!group.chatId) continue;
+
+    const data = fac.buildEveningReviewData(gk);
+    const openTasks = group.tasks.filter(t => t.status !== 'done' && t.status !== 'cancelled');
+    if (!data.completed.length && !openTasks.length) continue;
+
+    let msg = `🌆 日结 | ${data.groupName} | ${new Date().toLocaleDateString('zh-CN')}\n\n`;
+
+    if (data.completed.length) {
+      msg += `✅ 今日完成 (${data.completed.length}):\n`;
+      data.completed.forEach(t => msg += `• ${t.title} — @${t.owner||'?'}\n`);
+      msg += '\n';
+    }
+
+    const notDone = openTasks.filter(t => data.stillOpen.find(s => s.id === t.id));
+    const carriedOver = openTasks.filter(t => !data.stillOpen.find(s => s.id === t.id));
+
+    if (notDone.length) {
+      msg += `🟡 今日未完成 (${notDone.length}):\n`;
+      notDone.forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}${t.deferReason ? ` (延期: ${t.deferReason})` : ''}\n`);
+      msg += '\n';
+    }
+
+    if (carriedOver.length) {
+      msg += `📋 继续跟进 (${carriedOver.length}):\n`;
+      carriedOver.slice(0, 5).forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}${t.deadline ? ` | ${t.deadline}` : ''}\n`);
+      msg += '\n';
+    }
+
+    msg += `辛苦了，明天见 🤝`;
+
+    await sendToChat(group.chatId, msg);
+
+    // Add to Barron's summary
+    barronSummary += `📌 ${data.groupName}: ✅${data.completed.length} 🟡${notDone.length} 📋${carriedOver.length}\n`;
+  }
+
+  // Bitable summary for Barron
   const conf = ops.bitables?.[0];
-  if (!conf) return;
+  if (conf) {
+    try {
+      const result = await readBitableTasks(conf.appToken, conf.tableId);
+      const incomplete = (result.tasks||[]).filter(t=>!['已完成','Done'].includes(t.status));
+      const now = new Date();
+      const overdue = incomplete.filter(t=>t.due&&new Date(t.due)<now);
+      barronSummary += `\n📊 Bitable: ${incomplete.length}未完成, ${overdue.length}逾期`;
+      if (overdue.length) {
+        barronSummary += `\n${overdue.slice(0,5).map(t=>`  🔴 ${t.task} (@${t.owner||'?'})`).join('\n')}`;
+      }
+    } catch {}
+  }
 
-  const result = await readBitableTasks(conf.appToken, conf.tableId);
-  const incomplete = (result.tasks||[]).filter(t=>!['已完成','Done'].includes(t.status));
-  const now = new Date();
-  const overdue = incomplete.filter(t=>t.due&&new Date(t.due)<now);
-  const dueSoon = incomplete.filter(t=>t.due&&new Date(t.due)>=now&&(new Date(t.due)-now)<48*3.6e6);
+  if (barronId) {
+    await sendToDM(barronId, barronSummary);
+    console.log('[CRON] Evening review sent');
+  }
 
-  const summary = `📊 Evening Summary — ${new Date().toLocaleDateString('zh-CN')}\n\n🔴 Overdue: ${overdue.length}\n🟡 Due tomorrow: ${dueSoon.length}\n📋 Total incomplete: ${incomplete.length}\n\n${overdue.length ? `Overdue:\n${overdue.slice(0,5).map(t=>`• ${t.task} (${t.owner||'?'})`).join('\n')}` : '✅ No overdue tasks!'}`;
-
-  await sendToDM(barronId, summary);
-  console.log('[CRON] Evening summary sent to Barron');
+  // Daily reset
+  fac.resetDaily();
 }, { timezone: 'Asia/Shanghai' });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1107,22 +1540,34 @@ async function startup() {
   const barronStatus = ops.barronOpenId ? `✅ ${ops.barronOpenId.slice(-8)}` : '⚠️  Send a DM to capture';
   const bitableStatus = ops.bitables?.length ? `✅ ${ops.bitables[0].name}` : '❌ Not connected';
 
+  // Initialize facilitator with existing groups
+  const facState = fac.loadState();
+  for (const [key, id] of Object.entries(ops.chats || {})) {
+    fac.registerGroup(key, id, key);
+  }
+  const facGroups = Object.keys(facState.groups).length;
+
   console.log(`
-╔══════════════════════════════════════════╗
-║   Clawdbot — Operations Manager v4       ║
-║   App: ${APP_ID}    ║
-║   Mode: WebSocket Long Connection        ║
-╠══════════════════════════════════════════╣
-║ Bitable:  ${bitableStatus.padEnd(30)} ║
-║ N2M Group:${n2mStatus.padEnd(30)} ║
-║ Barron ID:${barronStatus.padEnd(30)} ║
-╠══════════════════════════════════════════╣
-║ Features:                                ║
-║ ✅ F1: N2M daily unanswered scan         ║
-║ ✅ F2: Bitable stale task @reminders     ║
-║ ✅ F3: Auto-reply @Barron questions      ║
-║ ⏰ Cron: 09:00 & 18:00 (Asia/Shanghai)  ║
-╚══════════════════════════════════════════╝
+╔══════════════════════════════════════════════╗
+║   Clawdbot — Facilitation Engine v6          ║
+║   App: ${APP_ID}        ║
+║   Mode: WebSocket Long Connection            ║
+╠══════════════════════════════════════════════╣
+║ Bitable:  ${bitableStatus.padEnd(34)} ║
+║ N2M Group:${n2mStatus.padEnd(34)} ║
+║ Barron ID:${barronStatus.padEnd(34)} ║
+║ Groups:   ${String(facGroups + ' tracked').padEnd(34)} ║
+╠══════════════════════════════════════════════╣
+║ Facilitation Engine:                         ║
+║ ✅ R1: Accountability (owner+deadline)       ║
+║ ✅ R2: @Mention 30min/2h/4h escalation      ║
+║ ✅ R3: Smart intervention (no random chat)   ║
+║ ✅ R4: Hourly urgent chase (10:00-21:00)     ║
+║ ✅ R5: Bitable/file sync (5-min refresh)     ║
+║ ✅ R6: Per-group task isolation              ║
+║ ⏰ Cron: */5min sync | 09:00 AM | 18:00 PM  ║
+║ ⏰ Hourly chase: 10-21 Mon-Sat              ║
+╚══════════════════════════════════════════════╝
 `);
 }
 
