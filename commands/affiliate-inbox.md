@@ -1,265 +1,269 @@
 ---
-name: affiliate-inbox
-description: Affiliate inbox triage for affiliate@celldigital.co. Scans unreplied threads, flags sensitive ones, drafts strategic replies (brand-aware, language-aware), reports to barronzuo@gmail.com. Usage: /affiliate-inbox [window=24h|72h|7d|21d]
-version: 3.1
+name: AffCelldigital-AutoREPLY
+description: Affiliate inbox triage for affiliate@celldigital.co. Scans unreplied threads, classifies by publisher type, creates Gmail DRAFT replies (never auto-sends), updates Google Sheets trackers, reports to barronzuo@gmail.com. Usage: /AffCelldigital-AutoREPLY [window=4h|24h|72h|7d|21d|180d]
+version: 4.0
 ---
 
-# Affiliate Inbox v3.0
+# AffCelldigital AutoREPLY v4.0
 
 **Account:** affiliate@celldigital.co · **CC always:** affiliate@xark.io · **Report to:** barronzuo@gmail.com · **Sign:** CellDigital Affiliate Team
 
+**GOLDEN RULE: Claude drafts — Barron sends. NOTHING auto-sends. Every reply is a Gmail draft.**
+
 ---
 
-## ACTIVE PROGRAMS — these are the ONLY 5 programs we currently manage
+## IDENTITY — ABSOLUTE BANS (no exceptions)
 
-| Brand | Network | Region | Advertiser ID | Commission | Cookie | AOV | Subject keywords |
+- **NEVER send any email from barronzuo@gmail.com** — receive-only, never outbound
+- **NEVER use "Barron", "Barron Zuo" or any personal name** in any draft or outbound email
+- **NEVER auto-send calendar invites** — propose slots in email only; manual invite from affiliate@celldigital.co Google Calendar only
+- **NEVER let barronzuo@gmail.com appear in To/CC/From** of any external-facing email
+
+---
+
+## ACTIVE PROGRAMS — 5 programs only
+
+| Program | Network | Region | Adv ID | Prog ID | Commission | Cookie | AOV |
 |---|---|---|---|---|---|---|---|
-| ROCKBROS EU | AWIN | EU | 122456 | **20%** CPS | ~30d | ~$60 | Rockbros, ROCKBROS, Yiwu Rock + EU/DE/UK/IT/ES/FR |
-| ROCKBROS US | AWIN | US | 58007 | **20%** CPS | 30d | ~$60 | Rockbros, ROCKBROS, Yiwu Rock + US |
-| OUFER BODY JEWELRY | AWIN | US/Global | 91941 | **15%** CPS | 45d | $100 | OUFER, body jewelry, oufer |
-| TCL US | Impact | US | 48321 | **8–10%** CPA/CPS | 30d | $300–$800 | TCL, TTE, TCL US |
-| Ottocast | Impact | US | 49590 | **20%** CPS (Amazon Attrib.) | 14–30d | $100–$200 | Ottocast, Cartizan, car tech |
+| ROCKBROS EU | AWIN | EU | — | 122456 | **20% CPS** | ~30d | ~$60 |
+| ROCKBROS US | AWIN | US | — | 58007 | **20% CPS** | 30d | ~$60 |
+| OUFER BODY JEWELRY | AWIN | US/Global | — | 91941 | **15% CPS** | 45d | $100 |
+| TCL US | Impact | US | 6955824 | 48321 | **8–10% CPA/CPS** | 30d | $300–$800 |
+| Ottocast | Impact | US | CARTIZAN | 49590 | **20% CPS** (Amazon Attrib.) | 14–30d | $100–$200 |
 
-**Negotiation anchors:**
-- ROCKBROS EU/US: anchor 20% — already top of market, no further uplift
-- OUFER: anchor 15% — uplift to 18% only at $5K+ GMV/mo (FLAG above 18%)
-- TCL US: 8% standard; 10% only for tier-1 publishers (Consumer Reports, large platforms, retailers); FLAG above 10%
-- Ottocast: anchor 20% — Amazon Attribution model, no uplift
+### Commission Hard-Max Table
 
-**Deprecated — do NOT promote or onboard new partners:**
-- COSORI, LEVOIT, INSTA360, SEGWAY — paused / no longer managed. If asked, redirect to the 5 active programs above.
+| Program | Base | Standard Counter | Hard Max |
+|---|---|---|---|
+| OUFER | 15% | 20% (+5% CPS uplift) | 25% → Barron required |
+| ROCKBROS US/EU | 20% | 20% (already top) → use LA Party framing | 25% → Barron required |
+| TCL US | 8% | **10% hard max** — no exceptions, no escalation above 10% | 10% = ceiling |
+| Ottocast | 20% | 20% | 25% → Barron required |
 
-**Always FLAG (operational, no draft):**
-- SMART4U / LIVALL — Shopify owner / access / operational issues route to Barron + tech team
-- TCL domain senders (`@tcl.com`, `@tte.com`, etc.) — see Trigger Guard
+**LA Creator Party framing** (for ROCKBROS/OUFER when creator pushes for flat fee or higher commission):
+> "We're building our creator community and inviting top performers to our LA creator party in August. Creators who drive strong results in the first CPS campaign unlock flat-fee budget for round 2."
 
----
+**Deprecated (do NOT promote):** COSORI, LEVOIT, INSTA360, SEGWAY — paused/no longer managed. Redirect to the 5 active programs.
 
-## PROGRAMS TABLE BLOCK — embed in every reply until publisher confirms all 5
+**Always FLAG (no draft):** SMART4U / LIVALL operational requests → route to Barron + tech team.
 
-**Rule:** Include this block in every draft (ONBOARD, INFO, NEGOTIATE, SEED, FOLLOWUP) **unless** the thread shows the publisher has already confirmed joining all 5. Even when they ask about one specific brand, include the full table to drive cross-program signups. Skip only for: MEETING (purely conversational), COMPLAINT (issue-focused), or when the publisher has explicitly confirmed all 5.
+### Join Links
 
-**Use Gmail MCP `create_draft` with both `body` (plaintext) and `htmlBody` (HTML).** Mail.app `send` path: render plaintext only.
-
-### HTML version (use in `htmlBody`)
-
-```html
-<p>Below are our 5 active programs — happy to get you set up across whichever fit your audience:</p>
-<table style="border-collapse:collapse;width:100%;font-family:Arial,Helvetica,sans-serif;font-size:13px;border:1px solid #d0d7de;">
-  <thead>
-    <tr style="background:#f6f8fa;">
-      <th style="border:1px solid #d0d7de;padding:8px;text-align:left;">Program</th>
-      <th style="border:1px solid #d0d7de;padding:8px;text-align:left;">Network</th>
-      <th style="border:1px solid #d0d7de;padding:8px;text-align:left;">Region</th>
-      <th style="border:1px solid #d0d7de;padding:8px;text-align:left;">Commission</th>
-      <th style="border:1px solid #d0d7de;padding:8px;text-align:left;">Cookie</th>
-      <th style="border:1px solid #d0d7de;padding:8px;text-align:left;">AOV</th>
-      <th style="border:1px solid #d0d7de;padding:8px;text-align:left;">Why join</th>
-      <th style="border:1px solid #d0d7de;padding:8px;text-align:left;">Sign up</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>ROCKBROS EU</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">AWIN</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">EU</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>20% CPS</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">~30 days</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">~$60</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">Cycling niche, EU logistics, wide SKU coverage</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><a href="https://ui.awin.com/express-signup/en/awin/122456/7f8849cb-3c46-4014-9237-287f2090d18e?t=DnFneLX7OWO-Lmhq_IQhOfSbAwBkVTom1yojuGCeJr8">Join</a></td>
-    </tr>
-    <tr style="background:#fafbfc;">
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>ROCKBROS US</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">AWIN</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">US</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>20% CPS</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">30 days</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">~$60</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">High repeat purchase, strong DTC funnel, outdoor category</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><a href="https://ui.awin.com/express-signup/en/awin/58007/ce7cc3a1-6665-4b40-a44b-776e58d80ec5?t=CXpEJMHyUjxMkTLLvSRMNZ-uuGiiuOhbFMDhKCoZrjM">Join</a></td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>OUFER BODY JEWELRY</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">AWIN</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">US / Global</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>15% CPS</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>45 days</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>$100</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">Higher-AOV jewelry, strong margin, repeat + gifting</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><a href="https://ui.awin.com/express-signup/en/awin/91941/92c75d69-1a73-4726-b7cc-7eeec85b4490?t=J5wwJuxPmdReox77nbUimQQkKwAA3KTQI1_BmF59I9s">Join</a></td>
-    </tr>
-    <tr style="background:#fafbfc;">
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>TCL US</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">Impact</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">US</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>8–10% CPA/CPS</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">30 days</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">$300–$800</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">Global top-tier TV brand, high AOV electronics, strong demand</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><a href="https://app.impact.com/advertiser-advertiser-info/TTE-Technology-Inc.brand">Join</a></td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>Ottocast</strong></td>
-      <td style="border:1px solid #d0d7de;padding:8px;">Impact</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">US</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><strong>20% CPS</strong> (Amazon Attribution)</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">14–30 days</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">$100–$200</td>
-      <td style="border:1px solid #d0d7de;padding:8px;">Car tech accessories, Amazon conversion, high-intent traffic</td>
-      <td style="border:1px solid #d0d7de;padding:8px;"><a href="https://app.impact.com/advertiser-advertiser-info/CARTIZAN-CORPORATION-LIMITED.brand">Join</a></td>
-    </tr>
-  </tbody>
-</table>
-<p style="font-size:12px;color:#586069;margin-top:6px;"><em>Click any "Join" link for auto-approval. Reply to confirm which you've joined and we'll prioritize asset delivery.</em></p>
-```
-
-### Plaintext fallback (use in `body`, also for AppleScript path)
-
-```
-Below are our 5 active programs — happy to get you set up across whichever fit your audience:
-
-• ROCKBROS EU  — AWIN · EU · 20% CPS · ~30d cookie · ~$60 AOV · Cycling niche, EU logistics
-  Join: https://ui.awin.com/express-signup/en/awin/122456/7f8849cb-3c46-4014-9237-287f2090d18e?t=DnFneLX7OWO-Lmhq_IQhOfSbAwBkVTom1yojuGCeJr8
-
-• ROCKBROS US  — AWIN · US · 20% CPS · 30d cookie · ~$60 AOV · High repeat, DTC, outdoor
-  Join: https://ui.awin.com/express-signup/en/awin/58007/ce7cc3a1-6665-4b40-a44b-776e58d80ec5?t=CXpEJMHyUjxMkTLLvSRMNZ-uuGiiuOhbFMDhKCoZrjM
-
-• OUFER BODY JEWELRY — AWIN · US/Global · 15% CPS · 45d cookie · $100 AOV · Higher-AOV jewelry, repeat + gifting
-  Join: https://ui.awin.com/express-signup/en/awin/91941/92c75d69-1a73-4726-b7cc-7eeec85b4490?t=J5wwJuxPmdReox77nbUimQQkKwAA3KTQI1_BmF59I9s
-
-• TCL US        — Impact · US · 8–10% CPA/CPS · 30d cookie · $300–$800 AOV · Global top TV brand
-  Join: https://app.impact.com/advertiser-advertiser-info/TTE-Technology-Inc.brand
-
-• Ottocast      — Impact · US · 20% CPS (Amazon Attribution) · 14–30d cookie · $100–$200 AOV · Car tech, Amazon conversion
-  Join: https://app.impact.com/advertiser-advertiser-info/CARTIZAN-CORPORATION-LIMITED.brand
-
-Click any "Join" link for auto-approval. Reply to confirm which you've joined and we'll prioritize asset delivery.
-```
-
-### Confirmation tracking
-If publisher's prior messages contain phrases like `"joined"`, `"accepted"`, `"I'm in"`, `"approved"`, `"active on [program]"`, `"tracking confirmed"` for specific programs, you may bold those rows or note "✓ joined" — but **default behavior is to include all 5 rows every time until the thread explicitly confirms all 5 are joined**.
+| Program | Join Link |
+|---|---|
+| ROCKBROS EU (Awin 122456) | https://ui.awin.com/express-signup/en/awin/122456/7f8849cb-3c46-4014-9237-287f2090d18e?t=DnFneLX7OWO-Lmhq_IQhOfSbAwBkVTom1yojuGCeJr8 |
+| ROCKBROS US (Awin 58007) | https://ui.awin.com/express-signup/en/awin/58007/ce7cc3a1-6665-4b40-a44b-776e58d80ec5?t=CXpEJMHyUjxMkTLLvSRMNZ-uuGiiuOhbFMDhKCoZrjM |
+| OUFER (Awin 91941) | https://ui.awin.com/express-signup/en/awin/91941/92c75d69-1a73-4726-b7bc-7eeec85b4490?t=J5wwJuxPmdReox77nbUimQQkKwAA3KTQI1_BmF59I9s |
+| TCL US (Impact) | https://app.impact.com/advertiser-advertiser-info/TTE-Technology-Inc.brand |
+| Ottocast (Impact) | https://app.impact.com/advertiser-advertiser-info/CARTIZAN-CORPORATION-LIMITED.brand |
 
 ---
 
-## TRIGGER GUARD — FLAG only, no draft
+## CONTEXT-SENSITIVE FORM LINKS
 
-Evaluate in this order. Match → FLAG, skip drafting, log reason in report.
+Use ONLY the relevant form — never include both unless the same thread covers both topics.
 
-1. **TCL domain sender** — `@tcl.com @tte.com @tclusa.com @tclelectronics.com @tpv.com @tclresearch.com @tclcom.com @tta.com`. Also `@alibaba-inc.com` if subject/body mentions TCL.
-2. **Financial** — invoice, payment not received, past due, billing, overdue, balance due, remittance, refund, charge reversal, special pricing, distributor pricing, wholesale, payment failed, fee waiver, pricing request
+| Thread contains | Include |
+|---|---|
+| Sample/product keywords only | **Sample Form only** |
+| Coupon/code/promo keywords only | **Code Form only** |
+| Both sample + code keywords | **Both forms** |
+| General partnership (no sample/code) | **Programs portfolio table** (no forms) |
+
+**Sample Request Form:**
+```
+https://docs.google.com/forms/d/e/1FAIpQLSeswmEJ_Ub4gQIjNf0chuWBTYaeaTno_xWZwDca73HQloE_ug/viewform?usp=publish-editor
+```
+Trigger keywords: sample, samples, product sample, send sample, testing product, review product
+
+**Exclusive Code Form:**
+```
+https://docs.google.com/forms/d/e/1FAIpQLScd8bI-uKTUOlas1aTI18l9daF5JAZ9UX5xVNAO5HsRwwuiDQ/viewform?usp=publish-editor
+```
+Trigger keywords: coupon, promo code, discount code, exclusive code, voucher, tracking code
+
+---
+
+## GOOGLE SHEETS TRACKERS
+
+After processing each thread, update the relevant Google Sheet via Drive MCP (`create_file`, `contentMimeType: text/csv`). Read the existing snapshot first, modify rows, overwrite.
+
+### Sheet 1 — Sample Request Tracker
+**ID:** `1CcekGJgEKFrOxxjPEiKUUdfhzJg_NoLUIQiCwoWSxw4`
+**Columns:** Date | Publisher Name | Contact Email | URL/Handle | Intro/Niche | Business Model | Commission Ask | Address | Requested Sample | Program | Status | Form Submitted? | Notes
+
+- New sample thread → add row, Status = "New", Form Submitted? = No
+- Follow-up → update Status + Notes
+- They confirm form submitted → Form Submitted? = Yes
+- 3+ unreplied → Status = "⚠️ URGENT"
+
+### Sheet 2 — Code Request Tracker
+**ID:** `1CzTKKmMnwwntZwKtk0fDBMVL08LSeS6s3csHfdx6P9M`
+**Columns:** Date | Publisher Name | Contact Email | Program | Brand | Code Requested | Code Issued | Status | Notes
+
+- New code request → add row, Code Issued = "Not yet"
+- Code confirmed issued → update Code Issued field
+- 3+ unreplied follow-ups → Status = "⚠️ URGENT"
+
+### Sheet 3 — Publisher Relationship CRM
+**ID:** `1rSIh-fsmo70qwfbs02Mwy-bEVXF57XC8M4xtksUpKrU`
+**Columns:** Publisher Name | Contact Email | URL/Platform | Programs | Status | Last Contact Date | Key Discussion | Next Step | Sample Sent? | Code Issued? | Notes
+
+- For EVERY thread processed (skip or draft): update Last Contact Date, Status, Key Discussion, Next Step
+- Flag anything requiring Barron's decision with ⚠️ in Notes
+
+---
+
+## INTERNAL TEAM DIRECTORY
+
+| Name | Email | Role / Skip rule |
+|---|---|---|
+| Lillian Li | lillian.li@celldigital.co | Internal — skip if last sender unless routed to affiliate inbox |
+| Joey | joey@celldigital.co | Internal — skip if last sender |
+| Maggie | maggie@ottocast.com | Ottocast creator partnerships |
+| Rocky Mao | rocky.mao@ottocast.com | Ottocast contact |
+
+---
+
+## TRIGGER GUARD — FLAG only, no draft, no send
+
+Evaluate in this order. Match → FLAG, skip drafting, log in report.
+
+1. **TCL domain sender** — `@tcl.com @tte.com @tclusa.com @tclelectronics.com @tpv.com @tclresearch.com @tclcom.com @tta.com`; also `@alibaba-inc.com` when TCL mentioned
+2. **Financial** — invoice, payment not received, past due, billing, overdue, balance due, remittance, refund, special pricing, distributor pricing, wholesale, payment failed, fee waiver, pricing request
 3. **Legal** — legal, compliance, GDPR, data compliance, privacy policy, attorney, counsel, "please advise", cease and desist, trademark, IP infringement, dispute, liability, lawsuit, "on behalf of"
-4. **Contract** — contract, contract terms, agreement, terms and conditions, signed agreement, NDA, non-disclosure, SOW, statement of work, master service, addendum, amendment, renewal, "please sign", DocuSign
+4. **Contract** — contract, contract terms, agreement, terms and conditions, signed agreement, NDA, non-disclosure, SOW, statement of work, addendum, amendment, renewal, "please sign", DocuSign
 5. **Fee confirmation** — flat fee, placement fee, sponsored fee, guaranteed fee, upfront payment, media buy, "confirm the fee", "invoice attached", "payment confirmation", "fee structure", "pay $", "wire transfer"
-6. **Commission conflicts** — two rates conflict in same thread; sender quotes higher rate than contract; "email states / proposal shows / promised / agreed to" + %; commission > 8% requested; "exception / just for you / special rate / custom rate" + %
+6. **Commission conflicts** — two rates conflict in same thread; sender quotes higher rate than contract; "email states / promised / agreed to" + %; any TCL request above 10%; "exception / just for you / custom rate" + %
+
+**Integration/onboarding fees** (NOT an immediate FLAG): Do NOT refuse or FLAG immediately. Buy time → ask qualifying questions (placement details, traffic stats, timeline, case study) → report to Barron with full publisher stats + fee amount + recommendation. Await Barron's explicit approval.
+
+**Pixel / MasterTag / Shopify app / script install** (HARD BLOCK):
+- Never agree
+- Reply: "We require a DPA before evaluating any website integration"
+- Offer CPAi as alternative (CPA-on-incrementals, no site-side integration needed)
+- FLAG in daily report for Barron decision
 
 ---
 
 ## EXECUTION FLOW
 
-### Step 0 — Pre-flight (single osascript)
+### Step 0 — Pre-flight
 ```bash
 osascript -e 'tell application "Mail"
   set a to name of every account
   if a contains "affiliate@celldigital.co" and a contains "affiliate@xark.io" then return "OK"
-  return "FAIL: " & (a as string)
+  return "FAIL"
 end tell'
 ```
-If not `OK` → draft failure email to barronzuo@gmail.com via Gmail MCP, ABORT.
+If not OK → create failure draft to barronzuo@gmail.com, ABORT.
 
-### Step 1 — Build draft cache (single Gmail MCP call)
-Call `list_drafts` with pageSize 50. If output is large, save to file and parse with python. Extract `(recipient_email, subject)` pairs only. Discard bodies.
+### Step 1 — Build draft cache (1 call)
+Call `list_drafts` pageSize 50. Extract `(recipient_email, subject)` pairs only — discard bodies.
 
-### Step 2 — Scan inbox
-Call `search_threads` with `pageSize: 50`:
+### Step 2 — Search inbox
+
+**Primary scan (default / 4h run):**
 ```
-in:inbox newer_than:{window} -category:promotions -category:updates -category:social -category:forums
+in:inbox newer_than:4h -from:affiliate@celldigital.co -is:draft
 ```
-Window default `24h`; arg `72h` for weekend, `7d` weekly, `21d` deep scan. Paginate via `nextPageToken` if results == 50.
 
-### Step 3 — Filter (no get_thread yet — use snippets)
-For each thread, work with the message metadata returned by search_threads (sender, subject, date, snippet, toRecipients). Decide:
+**Daily keyword scans (run once per day in addition to primary):**
+```
+in:anywhere newer_than:1d (sample OR samples OR "product sample") -from:affiliate@celldigital.co
+in:anywhere newer_than:1d (coupon OR "promo code" OR "discount code" OR "exclusive code") -from:affiliate@celldigital.co
+in:anywhere newer_than:1d (affiliate OR publisher OR partnership OR collaboration) -from:affiliate@celldigital.co
+```
 
-| Signal in snippet/metadata | Action |
+**Window overrides via arg:**
+- `24h` → `newer_than:24h` on inbox query
+- `72h` → weekend catch-up
+- `7d` / `21d` → deep scan
+- `180d` → full historical catch-up (paginate with `nextPageToken` until empty)
+
+### Step 3 — Filter (snippet-first, no get_thread yet)
+
+| Signal | Action |
 |---|---|
-| Sender contains `affiliate@celldigital.co`, `affiliate@xark.io`, or last-message-from-us | **SKIP — replied** |
-| Subject + recipient match an entry in draft cache (within 3d) | **SKIP — drafted** |
-| Subject + recipient match draft cache (older than 3d) | Queue as **FOLLOWUP** |
-| Sender domain in: `aliexpress.com`, `noreply@*`, `mailer-daemon@*`, `notifications@*`, `account-updates@*`, calendar invites from `barronzuo@gmail.com`, internal `lillian.li@celldigital.co` etc. | **SKIP — noise** |
-| Trigger Guard match (any of 1–6 above) | **FLAG** — log, no draft |
-| Otherwise | **QUEUE** for classification |
+| Sender is affiliate@celldigital.co / affiliate@xark.io / last-message-from-us | **SKIP — already replied** |
+| Subject + recipient in draft cache (< 3 days old) | **SKIP — draft pending** |
+| Subject + recipient in draft cache (3+ days old) | Queue as **FOLLOWUP** |
+| Sender domain in noise list (below) | **SKIP — noise** |
+| Trigger Guard match (any of 1–6) | **FLAG** |
+| Integration/pixel/tag request | **Qualify first, then FLAG to Barron** |
+| Otherwise | **QUEUE for classification** |
 
-### Step 4 — Classify queued threads (snippet-first)
-For most threads the snippet (≤200 chars) is enough. Only call `get_thread` (FULL_CONTENT) when:
-- Snippet is truncated mid-sentence and intent is unclear
-- Multiple messages in thread and you need history
-- Sender is tier-1 (Consumer Reports, major networks, >$1M/mo platforms) — confirm specifics
+**Noise sender list (skip immediately):**
+- `ae-best-wishes-notify27@selections.aliexpress.com`, `ae-best-message-notice27@newarrival.aliexpress.com`
+- `noreply@awin.com`, `account-updates@awin.com`, `no-reply@awin.com`
+- `notifications@app.impact.com`, `noreply@impact.com`, `pxa@impact.com`
+- `allison@minty.com` (weekly reports)
+- `*@medium.com`, `*@muckrack.com`
+- `noreply@avantlink.com`
+- `mailer-daemon@*`, `postmaster@*`
+- Calendar invites from `barronzuo@gmail.com`, `lillian.li@celldigital.co`
+- `lillian.li@celldigital.co` (internal, unless explicitly routed)
+- SafeOpt, CJ Affiliate automated notifications
 
-Assign one type per thread:
+### Step 4 — Thread priority scoring
 
-| Type | Signal | Routing |
+Before classifying, sort queued threads by priority:
+
+| Priority | Signal | Handle first? |
 |---|---|---|
-| ONBOARD | accepted invite, asking how-to, platform setup, status check | SEND via Mail.app |
-| INFO | general program question, no negotiation element | SEND via Mail.app |
-| NEGOTIATE | rate ask, counter-offer, exclusivity ask, large platform pitch | DRAFT via Mail.app |
-| SEED | sample/gifting request | DRAFT via Mail.app |
-| MEETING | explicit call/meeting/reschedule request | DRAFT via Mail.app |
-| FOLLOWUP | old draft 3+ days, or partner re-pinging us | DRAFT via Mail.app |
-| COMPLAINT | tracking/payment/dispute issue | DRAFT via Mail.app |
-| FLAG | trigger guard matched, ambiguous, or any rule conflict | No email — report only |
-| SPAM | unsolicited, payment ask, vague sender | No email — report only |
+| 🔴 CRITICAL | 3+ unreplied follow-ups + specific deliverable promised (code/sample) | Yes — draft immediately |
+| 🟠 HIGH | 3+ unreplied follow-ups, no specific deliverable | Yes |
+| 🟡 MEDIUM | 1–2 unreplied follow-ups OR shipping address provided | Before new threads |
+| ⚪ NORMAL | First contact, no follow-up | Standard order |
+| 🔵 LOW | Active relationship, monitoring, no urgency | Last |
 
-### Step 5 — Draft body (use snippet bank below + brand router context)
-Pull first name from "Hi [Name]" pattern in thread, or from sender's display name, or fall back to no greeting (just "Hi,").
+### Step 5 — Classify by BOTH thread type AND publisher type
 
-Detect language from snippet:
-- German (DE) cues: "Hallo", "Vielen Dank", "Einladung", "Partnerprogramm" → reply in German
-- Italian (IT) cues: "Ciao", "Grazie", "ti ha invitato" → reply in Italian
-- Spanish (ES): "Hola", "Gracias" + Spanish grammar → reply in Spanish
-- French (FR): "Bonjour", "Merci" + French grammar → reply in French
-- Chinese (汉字 / 中文): always **FLAG** — likely internal/client escalation
-- Default: English
+Use snippet-first (MINIMAL format). Only call `get_thread(FULL_CONTENT)` when:
+- Snippet truncated and intent unclear
+- Multi-message thread with history needed
+- Tier-1 publisher (Consumer Reports, major platform, 500K+ followers)
 
-Apply the snippet bank for the assigned type. Length: ≤150 words for ONBOARD/INFO; ≤200 words for NEGOTIATE/SEED/COMPLAINT.
+**Thread type → routing:**
 
-### Step 6 — Execute via Mail.app
-**SEND** (ONBOARD, INFO):
-```bash
-osascript -e 'tell application "Mail"
-  set m to first item of (messages of mailbox "INBOX" of account "affiliate@celldigital.co" whose sender contains "SENDER")
-  set r to reply m without opening window
-  tell r
-    set content to "BODY"
-    make new to recipient at end of cc recipients with properties {address:"affiliate@xark.io"}
-    send
-  end tell
-end tell'
-```
-Fallback if NOT_FOUND: Gmail MCP `create_draft`, log `draft_fallback` in report.
+| Type | Signal | Action |
+|---|---|---|
+| SAMPLE | "sample", "product", "review", "send me" | Form: Sample Form link only |
+| CODE | "coupon", "promo code", "discount code", "tracking code" | Form: Code Form link only |
+| SAMPLE+CODE | Both in same thread | Both forms |
+| ONBOARD | "accepted invite", "joined program", "how do I", status check | Programs table reply |
+| NEGOTIATE | Rate ask, counter-offer, integration fee | Programs table + counter strategy |
+| SEED | Gifting/collaboration request (no specific sample form) | Programs table + qualification ask |
+| MEETING | Explicit call/meeting request | Meeting reply (no programs table) |
+| FOLLOWUP | Old draft 3+ days, or publisher re-pinging | Programs table + warm re-engage |
+| COMPLAINT | Tracking/payment/dispute issue | Empathy + resolution path (no table) |
+| FLAG | Trigger Guard matched | No draft — report only |
+| SPAM | Unsolicited, vague, payment request | No draft — report only |
 
-**DRAFT** (NEGOTIATE, SEED, MEETING, FOLLOWUP, COMPLAINT):
-Use Gmail MCP `create_draft` directly (it's faster than AppleScript and the user reviews drafts in Gmail web anyway). Pass `to`, `cc:["affiliate@xark.io"]`, `subject:"Re: ORIGINAL"`, `body`.
+**Publisher type → tone and next step:**
 
-### Step 7 — Report draft (Gmail MCP create_draft)
-**To:** barronzuo@gmail.com
-**Subject:** `[Affiliate Reply Report] YYYY-MM-DD — N sent / N drafts / N flagged ({window})`
-**Body sections (markdown):** Sent, Drafts Saved, Flagged for Human Review (with reason + recommended action), Skipped, Errors, Next Recommended Action (1 sentence).
+| Publisher Type | Signals | Strategy |
+|---|---|---|
+| Micro-influencer (<50K) | Gmail/iCloud, IG/TikTok/YouTube mentions, "my page" | Qualify first (platform, size, content type) → sample form if eligible |
+| Mid-tier creator (50K–500K) | Personal domain or agency, media kit provided | Direct to CPS offer → programs table |
+| Large creator (500K+) | Verified accounts, PR company, agent involved | FLAG as high-value opportunity → Barron handles |
+| Deal/coupon site | @simplybestcoupons.com, @mydealz.de, @pepper.de, coupon in name | Code form → confirm Impact/Awin program enrollment |
+| CSS/comparison shopping | "Google Shopping", "CSS partner", "comparison", "Premium CSS" | Confirm EU vs US → ROCKBROS EU (Awin 122456) |
+| Programmatic/retargeting | "MasterTag", "pixel", "retargeting", "CPM", "website script", "JavaScript tag" | DPA first → CPAi alternative → FLAG to Barron |
+| Editorial/content site | "sponsored", "quiz", "DA", "monthly visitors", "article placement" | CPS-first + ask for rate card; DA 80+ → flag for Barron call |
+| Platform PDM/agency | @impact.com, @awin.com, @google.com | VIP — respond same day, flag all meetings to Barron |
+
+### Step 6 — Draft body
+
+Pull first name from "Hi [Name]" or sender display name.
+
+Detect language from snippet: German (Hallo/Vielen Dank/Einladung) → DE reply; Italian (Ciao/Grazie) → IT; Spanish (Hola/Gracias) → ES; French (Bonjour/Merci) → FR; Chinese (汉字) → **FLAG always** (likely client escalation).
+
+Every draft via Gmail MCP `create_draft` (to, cc: affiliate@xark.io, subject: Re: [original], body, htmlBody). **No Mail.app auto-send — drafts only.**
 
 ---
 
-## SNIPPET BANK — reply scaffolding
-
-Customize **bracketed slots** per thread. Reply structure for ONBOARD/INFO/NEGOTIATE/SEED/FOLLOWUP:
-
-```
-[Greeting]
-[Specific reply — 2–4 sentences addressing their actual question]
-[Programs Table block — see PROGRAMS TABLE BLOCK section above]
-[CTA — single forward-moving question]
-[Signature]
-```
-
-For MEETING/COMPLAINT: skip the Programs Table (conversation is purpose-specific).
+## REPLY SNIPPETS
 
 ### Signature (always)
 ```
@@ -268,135 +272,176 @@ CellDigital Affiliate Team
 affiliate@celldigital.co
 ```
 
-### ONBOARD — partner accepted invite / asking setup
-**Specific reply slot (before table):**
+### Creator — Qualification First (SAMPLE thread)
 ```
 Hi [Name],
 
-[Acknowledge their action — "great to have you onboard" / "thanks for accepting"]. [1 sentence on what they need next for the brand they joined — feed, banner, or step].
+Thanks for reaching out — we love connecting with creators in the [niche] space!
 
-[Insert Programs Table here — drives them to join the other 4 programs]
+Before we get started, could you share:
+• Which platforms are you most active on, and what's your approximate following?
+• What type of content do you typically create (reviews, unboxings, lifestyle)?
+• Any previous brand collaboration examples?
 
-[CTA — "Reply to confirm which programs you've joined and we'll prioritize getting assets over within 24h. What category interests you most?"]
+Once we have a sense of the fit, here's how to get things moving:
+[Sample Form link]
 
-[Signature]
+Looking forward to hearing more!
 ```
 
-### INFO — general program question
-**Specific reply slot:**
-```
-Hi [Name],
-
-[Direct answer to their question — 1–2 sentences]. For the brand you mentioned: [pull commission/cookie/AOV row from Active Programs table inline].
-
-[Insert Programs Table here]
-
-[CTA — "Which programs above would be the best fit for your audience?"]
-
-[Signature]
-```
-
-### NEGOTIATE — rate ask / large platform / counter-offer
-**Specific reply slot:**
+### Deal/Coupon Site — Code Form (CODE thread)
 ```
 Hi [Name],
 
-[Acknowledge interest WITHOUT conceding rate]. Our published rates are already top of market — see below.
+Great to connect! To get your exclusive tracking code set up, please complete our code request form:
+[Code Form link]
 
-[Insert Programs Table here — anchors the rate visually]
-
-To size the right structure for your audience, can you share: [traffic volume / EPC / typical brand campaign metrics / redemption volume]? [If TCL: "TCL has tier-1 publisher uplift to 10% — happy to discuss once we see audience numbers."]
-
-[CTA — request the data that will unlock the deal]
-
-[Signature]
+Once submitted, we'll follow up with your code and setup details. Make sure you're enrolled in the program first:
+• TCL US: [Impact join link] (for TCL codes)
+• ROCKBROS/OUFER: [Awin join link for relevant program] (for Awin codes)
 ```
-**Hard rules:**
-- Never offer above 20% on any program
-- TCL above 10% → FLAG
-- OUFER above 18% → FLAG
-- Never use "exception" / "just for you" / "special rate"
 
-### SEED — sample/gifting request
-**Specific reply slot:**
+### Programmatic Publisher — DPA Request
 ```
 Hi [Name],
 
-Thanks for reaching out about samples — [niche fit, 1 sentence]. Before we send product, can you share [media kit / 3 recent posts / channel link + average views / monthly impressions]?
+Thank you for the detailed overview — [company]'s approach to [retargeting/cart recovery/display] is clearly structured.
 
-[Insert Programs Table here — get them signed up while we evaluate samples]
+Before we can evaluate any website integration, we have a few standard due-diligence steps:
 
-[CTA — "Send those over and once you're approved on the relevant programs above we can ship a sample package within a week."]
+1. Data Processing Agreement: We require a signed DPA before evaluating any tag placement. Could you share your standard DPA?
+2. Traffic composition: What percentage of conversions are incremental (new customers) vs. existing/retargeted traffic?
+3. Deduplication: How do you handle overlap with our existing network partners on [Awin/Impact]?
+4. Case study: Could you share an anonymized example from a similar brand?
 
-[Signature]
+We also support CPA-on-incrementals (CPAi) — which often achieves the same results without requiring a site-side integration. Happy to explore that path if simpler.
 ```
 
-### MEETING — call request or reschedule (NO TABLE)
-```
-Hi [Name],
-
-[Confirm enthusiasm — "happy to connect" / "no worries on the reschedule"].
-
-I have availability [DAY1 DATE at TIME PT / DAY2 DATE at TIME PT / DAY3 DATE at TIME PT] for a 30-minute call to align on [specific topic from thread]. Which works best? Reply to confirm and we'll get it locked in.
-
-⚠️ NEVER include "I'll send the calendar invite" — calendar invites must be created manually from affiliate@celldigital.co Google Calendar, never from barronzuo@gmail.com (personal account exposes real name).
-
-[Signature]
-```
-*(Slots: pick the next 3 Tue/Thu/Fri mornings 9–10am PT from today's date.)*
-
-### FOLLOWUP — re-engage stale conversation
-**Specific reply slot:**
+### NEGOTIATE — Creator Flat Fee Counter (OUFER)
 ```
 Hi [Name],
 
-Apologies for the delay — [brief acknowledgment, no excuses].
+For a first collaboration, our standard structure is CPS-based. For OUFER, we offer 20% CPS — a strong rate compared to industry standard — which keeps the partnership performance-aligned from the start.
 
-[Recap where the conversation left off — 1 sentence]. [New value hook — seasonal campaign, Q[N] launch, new program added, expanded territory].
+[Insert Programs Table]
 
-[Insert Programs Table here — also useful as a refresher of available programs]
+Top-performing CPS creators also get invited to our LA creator event in August. Creators who drive strong results in the first campaign unlock flat-fee budget for round 2.
 
-[CTA — concrete next step to re-open]
-
-[Signature]
+[CTA — request their stats or confirmation to proceed on CPS]
 ```
 
-### COMPLAINT — tracking / payment / dispute (NO TABLE)
+### NEGOTIATE — Creator Flat Fee Counter (ROCKBROS)
 ```
 Hi [Name],
 
-Thanks for flagging — [acknowledge specific issue, no defensiveness]. I'll check with our [network team / Impact / Awin] within 24h to investigate. To speed this up, can you send your [publisher ID / transaction ID / order date]?
+ROCKBROS is already at 20% CPS — genuinely top of market for cycling/outdoor. We can't go higher on commission, but our top-performing CPS creators get invited to our LA creator event in August where we unlock flat-fee partnerships for round 2.
 
-[CTA — "I'll come back with an update by [day]."]
+[Insert Programs Table]
 
-[Signature]
+[CTA — ask for content stats to assess fit]
+```
+
+### MEETING — Time Slots
+```
+Hi [Name],
+
+[Confirm enthusiasm / apologize if reschedule]. 
+
+I have availability [DAY1 DATE at TIME PT / DAY2 DATE at TIME PT / DAY3 DATE at TIME PT] for a 30-minute call to align on [specific topic]. Which works best? Reply to confirm and we'll get it locked in.
+```
+*(Slots: next 3 Tue/Thu/Fri mornings 9–10am PT. NEVER promise to send a calendar invite — manual invite only from affiliate@celldigital.co Google Calendar if needed.)*
+
+### Programs Portfolio Table (HTML — general partnership threads)
+```html
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse; font-family:Arial,sans-serif; font-size:13px; width:100%;">
+  <thead style="background-color:#f0f0f0;">
+    <tr>
+      <th>Program Name</th><th>Network</th><th>Region</th><th>Commission</th><th>Model</th><th>Cookie</th><th>Avg Order</th><th>Key Selling Points</th><th>Join</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>ROCKBROS EU</td><td>AWIN</td><td>EU</td><td><strong>20%</strong></td><td>CPS</td><td>~30d</td><td>~$60</td><td>Cycling niche, EU logistics, wide SKU</td><td><a href="https://ui.awin.com/express-signup/en/awin/122456/7f8849cb-3c46-4014-9237-287f2090d18e?t=DnFneLX7OWO-Lmhq_IQhOfSbAwBkVTom1yojuGCeJr8">Join</a></td></tr>
+    <tr><td>ROCKBROS US</td><td>AWIN</td><td>US</td><td><strong>20%</strong></td><td>CPS</td><td>30d</td><td>~$60</td><td>High repeat purchase, DTC funnel, outdoor</td><td><a href="https://ui.awin.com/express-signup/en/awin/58007/ce7cc3a1-6665-4b40-a44b-776e58d80ec5?t=CXpEJMHyUjxMkTLLvSRMNZ-uuGiiuOhbFMDhKCoZrjM">Join</a></td></tr>
+    <tr><td>OUFER BODY JEWELRY</td><td>AWIN</td><td>US/Global</td><td><strong>15%</strong></td><td>CPS</td><td><strong>45d</strong></td><td><strong>$100</strong></td><td>Higher AOV jewelry, repeat + gifting</td><td><a href="https://ui.awin.com/express-signup/en/awin/91941/92c75d69-1a73-4726-b7bc-7eeec85b4490?t=J5wwJuxPmdReox77nbUimQQkKwAA3KTQI1_BmF59I9s">Join</a></td></tr>
+    <tr><td>TCL US</td><td>Impact</td><td>US</td><td><strong>8–10%</strong></td><td>CPA/CPS (CPAi)</td><td>30d</td><td>$300–$800</td><td>Global top TV brand, high AOV electronics</td><td><a href="https://app.impact.com/advertiser-advertiser-info/TTE-Technology-Inc.brand">Join</a></td></tr>
+    <tr><td>Ottocast</td><td>Impact</td><td>US</td><td><strong>20%</strong></td><td>CPS (Amazon Attribution)</td><td>14–30d</td><td>$100–$200</td><td>Car tech accessories, Amazon conversion</td><td><a href="https://app.impact.com/advertiser-advertiser-info/CARTIZAN-CORPORATION-LIMITED.brand">Join</a></td></tr>
+  </tbody>
+</table>
+<p style="font-size:12px;color:#586069;margin-top:6px;"><em>Click any "Join" link for auto-approval. Reply to confirm which you've joined and we'll prioritize asset delivery.</em></p>
 ```
 
 ---
 
-## LANGUAGE PACKS (quick scaffolds)
+## LANGUAGE PACKS
 
-**DE (German):**
-- Greeting: `Hallo [Name],`
-- Signature line above team: `Beste Grüße,`
-- Common phrases: "Vielen Dank für Ihre Nachricht", "Wir freuen uns auf die Zusammenarbeit"
+For DE/IT/ES/FR: translate the intro + CTA; keep program table in English.
+- **DE:** `Vielen Dank für Ihre Nachricht.` / `Beste Grüße,`
+- **IT:** `Grazie per il messaggio.` / `Cordiali saluti,`
+- **ES:** `Gracias por contactarnos.` / `Saludos,`
+- **FR:** `Merci pour votre message.` / `Cordialement,`
+- **ZH (Chinese text):** Always **FLAG** — likely client/internal escalation, route to Barron.
 
-**IT (Italian):**
-- Greeting: `Ciao [Name],`
-- Signature: `Cordiali saluti,`
-- Common: "Grazie per il messaggio", "Restiamo in contatto"
+---
 
-**ES (Spanish):**
-- Greeting: `Hola [Name],`
-- Signature: `Saludos,`
-- Common: "Gracias por contactarnos", "Quedamos a la espera"
+## STEP 7 — Summary report draft to barronzuo@gmail.com
 
-**FR (French):**
-- Greeting: `Bonjour [Name],`
-- Signature: `Cordialement,`
-- Common: "Merci pour votre message", "Au plaisir d'échanger"
+**Subject:** `[Affiliate Reply Report] YYYY-MM-DD — N new drafts (window/run type)`
 
-**ZH (Chinese):** Do NOT auto-reply. Always FLAG with reason "Chinese-language email — likely internal client escalation, route to Barron".
+**Body sections:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━
+SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━
+Threads scanned: N  |  New drafts: N  |  Flags: N  |  Skipped: N
+
+━━━━━━━━━━━━━━━━━━━━━━━
+NEW DRAFTS CREATED (review & send)
+━━━━━━━━━━━━━━━━━━━━━━━
+1. [Publisher] ([email]) — [Type / Priority]
+   Context: [1–2 sentence summary]
+   Strategy: [What draft proposes]
+   Prereq: [Anything Barron must do first, e.g. "Set up SBC5 code in Impact"]
+
+━━━━━━━━━━━━━━━━━━━━━━━
+⚠️ FLAGS — Human review required
+━━━━━━━━━━━━━━━━━━━━━━━
+[Publisher] | [Flag reason] | [Recommended action]
+
+━━━━━━━━━━━━━━━━━━━━━━━
+PENDING DRAFTS AWAITING YOUR REVIEW
+━━━━━━━━━━━━━━━━━━━━━━━
+[Drafts from prior runs not yet sent — list by age]
+
+━━━━━━━━━━━━━━━━━━━━━━━
+TOP ACTIONS (only Barron can do these)
+━━━━━━━━━━━━━━━━━━━━━━━
+🔴 [Action] — [context]
+🟠 [Action] — [context]
+
+━━━━━━━━━━━━━━━━━━━━━━━
+INBOX HEALTH
+━━━━━━━━━━━━━━━━━━━━━━━
+Strong partnerships moving forward: [list]
+Awaiting response from them: [list]
+Flagged / on hold: [list]
+```
+
+---
+
+## ESCALATION TRIGGERS (always appear in report with ⚠️)
+
+1. **3+ unreplied follow-ups** from same publisher → CRITICAL/URGENT
+2. **A promised deliverable** (code, sample) not yet delivered → CRITICAL
+3. **Flat fee request** → flag, do not agree to any flat fee commitment
+4. **Commission increase above hard max** → flag, do not agree (TCL: 10% is ceiling; OUFER: 20% no-approval max; RockBros/Ottocast: 20% is ceiling)
+5. **Pixel / tag / script / MasterTag / Shopify app install request** → flag, never approve, offer CPAi
+6. **New integration fee proposal** → qualify (placement, traffic, timeline, case study) → flag for Barron
+7. **DPA / legal / compliance question** → flag to Barron
+8. **Creator complaint or opt-out** → handle immediately + flag
+9. **Meeting request from publisher** → confirm meeting → flag to Barron
+10. **New publisher with 500K+ followers** → flag as high-value opportunity
+11. **Chinese-language email** → flag for Barron (likely client escalation)
+12. **TCL domain email** (`@tcl.com` etc.) → flag immediately — not affiliate scope
 
 ---
 
@@ -404,35 +449,21 @@ Thanks for flagging — [acknowledge specific issue, no defensiveness]. I'll che
 
 | Failure | Response |
 |---|---|
-| Pre-flight FAIL | Gmail MCP create_draft to barronzuo@gmail.com with the failure message; ABORT |
-| `list_drafts` output > token limit | Save to file, extract subject+recipient via python; do not load full bodies |
-| `search_threads` output > token limit | Save to file, parse via python |
-| `get_thread` fails on a thread | Skip thread, log error, continue |
-| AppleScript NOT_FOUND for SEND | Fall back to Gmail MCP create_draft, mark as `draft_fallback` |
-| AppleScript syntax error | Skip thread, log; do not retry with same script |
-| Draft creation fails | Log error, continue to next thread |
-| Ambiguous classification | Default to FLAG, never auto-send |
+| Pre-flight FAIL | Draft failure report to barronzuo@gmail.com; ABORT |
+| `list_drafts` > token limit | Parse via python; extract subject+recipient only |
+| `search_threads` > token limit | Save to file; parse; never load full bodies |
+| Trigger Guard matched | FLAG in report; no draft created |
+| Thread intent ambiguous | Default to FLAG; never auto-send ambiguous replies |
 
 ---
 
 ## TOKEN DISCIPLINE
 
-- **One** `list_drafts` call total. Cache subject+recipient pairs only.
-- **One** `search_threads` call per page; never re-query same window.
-- `get_thread` only for ambiguous classification — snippets first.
-- Never read full draft bodies; only metadata.
-- Build report incrementally as a string; create one final draft.
-- Skip noise senders BEFORE any get_thread call.
-
----
-
-## LANGUAGE PACKS — note on Programs Table
-
-For DE/IT/ES/FR replies, **keep the Programs Table content in English** (program names are proper nouns, signup links are universal). Translate only the **surrounding intro line and CTA**:
-- DE: `Hier sind unsere 5 aktiven Programme — gerne richten wir Sie überall ein, wo es zu Ihrem Publikum passt:`
-- IT: `Di seguito i nostri 5 programmi attivi — siamo felici di attivarli con voi dove più adatti al vostro pubblico:`
-- ES: `A continuación nuestros 5 programas activos — estaremos encantados de configurarlos donde mejor se adapten a tu audiencia:`
-- FR: `Voici nos 5 programmes actifs — heureux de vous configurer là où cela correspond à votre audience :`
+- One `list_drafts` call; cache (recipient, subject) pairs only
+- Snippet-first classification; `get_thread(FULL_CONTENT)` only when needed
+- Skip noise senders BEFORE any get_thread call
+- Build report incrementally per thread; one final `create_draft`
+- Never load full draft bodies from cache
 
 ---
 
@@ -441,27 +472,26 @@ For DE/IT/ES/FR replies, **keep the Programs Table content in English** (program
 ```
 ✅ CC affiliate@xark.io on every reply
 ✅ Sign as CellDigital Affiliate Team
-✅ Embed Programs Table in: ONBOARD, INFO, NEGOTIATE, SEED, FOLLOWUP (skip for MEETING / COMPLAINT)
-✅ Use Gmail MCP create_draft with both `body` (text) AND `htmlBody` (HTML table) for drafts
-✅ DRAFT (Gmail MCP create_draft): NEGOTIATE, SEED, MEETING, FOLLOWUP, COMPLAINT
-✅ SEND (Mail.app reply+send): ONBOARD, INFO — plaintext only (HTML not preserved through AppleScript)
-✅ Report draft to barronzuo@gmail.com — never auto-send the report
+✅ ALL replies are Gmail MCP create_draft — DRAFT ONLY, nothing auto-sends
+✅ Report draft always to barronzuo@gmail.com
+✅ Use context-sensitive form links (sample form / code form / programs table — not all three always)
+✅ Update Google Sheets after each run via Drive MCP
 
-🚫 IDENTITY — ABSOLUTE BANS (no exceptions, no override):
-   • NEVER send any email from barronzuo@gmail.com — receive-only, never outbound
-   • NEVER use "Barron", "Barron Zuo" or any personal name in any outbound draft or sent email
-   • NEVER create or auto-send calendar invites — propose slots in email only, manual invite from affiliate@celldigital.co Google Calendar only
-   • NEVER let barronzuo@gmail.com appear in To / CC / From of any external email
+🚫 IDENTITY — ABSOLUTE (no exceptions):
+   NEVER send from barronzuo@gmail.com
+   NEVER use "Barron", "Barron Zuo" or personal name externally
+   NEVER auto-send calendar invites
 
-🚫 CONTENT — HARD LIMITS:
-   • Never send: contracts, exclusivity, pricing commitments, sample SLA promises
-   • Never promise: inventory, exclusivity, custom payment terms, "exception", "just for you"
-   • Never offer rates above: 20% (any program), 18% (OUFER), 10% (TCL US) — FLAG instead
-   • Never promote deprecated brands: COSORI, LEVOIT, INSTA360, SEGWAY — redirect to active 5
+🚫 NEGOTIATION HARD LIMITS:
+   NEVER promise pricing commitments or flat fee arrangements
+   NEVER agree above per-program hard max without Barron
+   NEVER approve pixel/tag/script/Shopify app install
+   NEVER promise inventory, exclusivity, custom payment terms
 
-🚫 PROCESS — SKIP CONDITIONS:
-   • Never reply if: Trigger Guard matched, Chinese-language sender, or already replied/drafted < 3d
+🚫 SKIP CONDITIONS:
+   NEVER reply if Trigger Guard matched
+   NEVER reply if Chinese-language sender (FLAG only)
+   NEVER draft if already replied/drafted < 3 days
 
-TCL domain senders → always FLAG (Trigger Guard #1).
-SMART4U / LIVALL operational asks → always FLAG.
+🚫 DEPRECATED: COSORI, LEVOIT, INSTA360, SEGWAY — redirect to active 5 only
 ```

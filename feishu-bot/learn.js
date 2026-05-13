@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const VAULT = process.env.VAULT_PATH || path.join(os.homedir(), 'ObsidianVault/Clawdbot');
+const VAULT = process.env.VAULT_PATH || path.join(os.homedir(), 'Documents/Obsidian/Clawdbot');
 const APP_ID = process.env.FEISHU_APP_ID;
 const APP_SECRET = process.env.FEISHU_APP_SECRET;
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });

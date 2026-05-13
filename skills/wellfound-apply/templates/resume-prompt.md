@@ -39,4 +39,4 @@ You are generating a tailored resume for Barron Zuo for a specific job applicati
 
 ### python-docx generation:
 Use `~/.claude/skills/greenhouse-apply/scripts/generate-resume.py` as template.
-Save to: `/Users/xiaozuo/Downloads/resumeandcoverletter/Barron_Zuo_{{COMPANY_SLUG}}_{{ROLE_SLUG}}_Resume.docx`
+Save to: `$HOME/Downloads/resumeandcoverletter/Barron_Zuo_{{COMPANY_SLUG}}_{{ROLE_SLUG}}_Resume.docx`

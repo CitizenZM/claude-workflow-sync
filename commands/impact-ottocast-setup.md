@@ -24,7 +24,7 @@ If exit code 2, STOP and show the printed JSON for `~/.claude.json`.
 Call Agent with `subagent_type: general-purpose`, `model: opus`, `run_in_background: true`. Load prompt from `~/.claude/skills/_shared/outreach-supervisor-prompt.md` with bindings:
 - workflow: `impact-ottocast`
 - target_total: (from $ARGUMENTS or default 2000)
-- ledger_path: `/Users/xiaozuo/impact-ottocast-ledger.md`
+- ledger_path: `$HOME/Documents/Obsidian/01-Projects/impact-ottocast-ledger.md`
 - checkpoint_path: `/tmp/outreach-impact-ottocast-checkpoint.json`
 - mcp_namespace: `mcp__playwright-impact-ottocast__`
 

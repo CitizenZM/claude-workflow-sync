@@ -26,7 +26,7 @@ If exit code 2, STOP and show the printed JSON for `~/.claude.json`.
 Call Agent with `subagent_type: general-purpose`, `model: opus`, `run_in_background: true`. Load prompt from `~/.claude/skills/_shared/outreach-supervisor-prompt.md` with bindings:
 - workflow: `impact-ottocast`
 - target_total: 1000
-- ledger_path: `/Users/xiaozuo/impact-ottocast-ledger.md`
+- ledger_path: `$HOME/Documents/Obsidian/01-Projects/impact-ottocast-ledger.md`
 - checkpoint_path: `/tmp/outreach-impact-ottocast-checkpoint.json`
 - mcp_namespace: `mcp__playwright-impact-ottocast__`
 
@@ -420,7 +420,7 @@ async () => {
 
 0. **FIRST check for `{"error":"WRONG_PROGRAM"}`** — if present, write `local_signal: "HALT:wrong-program"` + `active_id` to the checkpoint file, message the background supervisor, and stop the run autonomously. Do NOT auto-retry. No operator prompt.
 1. Parse result: `{ sent, errors_count, skipped_count, error_samples, rows, health, total_cards }`
-2. **Write rows to ledger** — `/Users/xiaozuo/impact-ottocast-ledger.md`:
+2. **Write rows to ledger** — `$HOME/Documents/Obsidian/01-Projects/impact-ottocast-ledger.md`:
    - Read the last 5 lines of the file first to get the exact last row text
    - Use that last row as the Edit anchor (single-row anchor — never multi-row)
    - Append all new rows in format: `| {n} | {e} | {p} | {date} |`
@@ -447,7 +447,7 @@ async () => {
 After all tabs complete (or 300 limit reached), write two outputs:
 
 ### A. Update Obsidian Tracker
-File: `/Volumes/workssd/ObsidianVault/06-Publishers/impact-ottocast-tracker.md`
+File: `$HOME/Documents/Obsidian/06-Publishers/impact-ottocast-tracker.md`
 
 Append a new session block:
 ```markdown
@@ -469,7 +469,7 @@ Tabs Covered:     {list}
 Tab Breakdown:    {tab: total_cards | sent | already_in_network | errors}
 New in Ledger:    {count}
 Ledger Total:     {grand_total}
-Obsidian:         /Volumes/workssd/ObsidianVault/06-Publishers/impact-ottocast-tracker.md
+Obsidian:         $HOME/Documents/Obsidian/06-Publishers/impact-ottocast-tracker.md
 =====================================
 Next run:         /impact-ottocast  (picks up where left off — DOM button state deduplicates)
 ```

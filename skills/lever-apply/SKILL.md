@@ -71,11 +71,11 @@ Reuses all greenhouse-apply config values:
 | LINKEDIN | `https://www.linkedin.com/in/barron-z-15226126a/` |
 | WEBSITE | `barronzuo.com` |
 | MIN_SALARY | `160000` |
-| LEDGER_FILE | `/Volumes/workssd/ObsidianVault/01-Projects/Lever-Application-Ledger.md` |
+| LEDGER_FILE | `$HOME/Documents/Obsidian/01-Projects/Lever-Application-Ledger.md` |
 
 ## Dedup Ledger
 
-File: `/Volumes/workssd/ObsidianVault/01-Projects/Lever-Application-Ledger.md`
+File: `$HOME/Documents/Obsidian/01-Projects/Lever-Application-Ledger.md`
 Format: `company|job_title|job_uuid|YYYY-MM-DD|status|resume_file|cl_pasted`
 
 ## Resume & Cover Letter Generation

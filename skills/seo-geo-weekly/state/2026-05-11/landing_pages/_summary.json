@@ -1,0 +1,74 @@
+[
+  {
+    "slug": "first-step-set",
+    "title": "First Step Set",
+    "discount_code": "FIRSTSTEP20",
+    "live_dates": "May 12-17, 2026",
+    "files": [
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/first-step-set/page.liquid",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/first-step-set/body.html",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/first-step-set/meta.json",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/first-step-set/faqs.json"
+    ]
+  },
+  {
+    "slug": "memorial-day-reset",
+    "title": "Memorial Day Reset",
+    "discount_code": "MEMORIAL20",
+    "live_dates": "May 22-27, 2026",
+    "files": [
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/memorial-day-reset/page.liquid",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/memorial-day-reset/body.html",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/memorial-day-reset/meta.json",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/memorial-day-reset/faqs.json"
+    ]
+  },
+  {
+    "slug": "pride-box-2026",
+    "title": "Pride Box 2026",
+    "discount_code": "PRIDE20",
+    "live_dates": "May 30 \u2013 June 5, 2026",
+    "files": [
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/pride-box-2026/page.liquid",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/pride-box-2026/body.html",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/pride-box-2026/meta.json",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/pride-box-2026/faqs.json"
+    ]
+  },
+  {
+    "slug": "anniversary-luxury-set",
+    "title": "Anniversary Luxury Set",
+    "discount_code": "LUXURY20",
+    "live_dates": "June 8-14, 2026",
+    "files": [
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/anniversary-luxury-set/page.liquid",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/anniversary-luxury-set/body.html",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/anniversary-luxury-set/meta.json",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/anniversary-luxury-set/faqs.json"
+    ]
+  },
+  {
+    "slug": "couples-gift-pack",
+    "title": "Couples Gift Pack",
+    "discount_code": "COUPLES20",
+    "live_dates": "June 15-21, 2026",
+    "files": [
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/couples-gift-pack/page.liquid",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/couples-gift-pack/body.html",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/couples-gift-pack/meta.json",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/couples-gift-pack/faqs.json"
+    ]
+  },
+  {
+    "slug": "travel-discreet-kit",
+    "title": "Travel & Discreet Kit",
+    "discount_code": "TRAVEL20",
+    "live_dates": "June 22-28, 2026",
+    "files": [
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/travel-discreet-kit/page.liquid",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/travel-discreet-kit/body.html",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/travel-discreet-kit/meta.json",
+      "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-11/landing_pages/travel-discreet-kit/faqs.json"
+    ]
+  }
+]

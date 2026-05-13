@@ -4592,5 +4592,281 @@
     "links": [],
     "thread": "omt_1a9c7589628f5981",
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b509f82f31080b4cf891b29da8ee",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_b0b40381e71ea966c1234e83177517fe",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🌍欢迎加入TikTok Shop全托管模式\",\"elements\":[[{\"tag\":\"at\",\"user_id\":\"@_all\",\"user_name\":\"all\"},{\"tag\":\"text\",\"text\":\"入局最佳时期，只要你是有供应链资源、拥有跨境经验、有意向跨境供货的内贸商家\\n\\n🔥全球商机一键解锁，现已开放美国、英国、墨西哥、沙特、欧盟（西班牙/德国/意大利/法国）、日本\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"商家专注提供优质好货\"},{\"tag\":\"text\",\"text\":\"\\n平台统一运营，负责全链路发货运输等工作，商家仅需提报商品和供货\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"快速回款，够安心\"},{\"tag\":\"text\",\"text\":\"\\n本币(人民币或美金)快速结算，无汇率风险\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"无压力销售，够放心\"},{\"tag\":\"text\",\"text\":\"\\n0入驻费、0流量费、0海外仓储成本\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02oi_912bdffc-14e6-495d-9c76-f4d4d27a5fcg\"}],[{\"tag\":\"button\",\"text\":\"🎙️点击预约｜TikTok Shop官方直播\",\"type\":\"primary\"},{\"tag\":\"button\",\"text\":\"➡️点击入驻｜全托管极速开店通道\",\"type\":\"danger\"},{\"tag\":\"button\",\"text\":\"📖点击获取｜全托管保姆级开店攻略\",\"type\":\"danger\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link\",\"text\":\"TikTok Shop官方招商信息推送\"}]]}",
+    "createTime": 1778040004356,
+    "updateTime": 1778040004356,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a9f340acfcd1ce0",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b509ad289f0ace2ecaf48fe15878",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "text",
+    "senderId": "ou_bf941d2b12417b7702ef94c2088c6467",
+    "senderType": "open_id",
+    "text": "请问一下哪个是管欧盟pop店铺的经理的，我这边有欧盟pop的店铺问题想要请教咨询一下",
+    "rawContent": "{\"text\":\"请问一下哪个是管欧盟pop店铺的经理的，我这边有欧盟pop的店铺问题想要请教咨询一下\"}",
+    "createTime": 1778051524654,
+    "updateTime": 1778051524654,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_1a9f610d61cfd982",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50f44a04d4b4e10062e807e9ad7",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "cli_a136ebe23478900b",
+    "senderType": "app_id",
+    "text": "",
+    "rawContent": "{\"title\":\"【订单相关问题处理办法】\",\"elements\":[[{\"tag\":\"text\",\"text\":\"1.\"},{\"tag\":\"text\",\"text\":\"产品催上架：\"},{\"tag\":\"text\",\"text\":\"商家后台显示各项指标都通过，但产品实际未上架，登记【催上架】表格\\n链接：\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw\"},{\"tag\":\"text\",\"text\":\"\\n2.\"},{\"tag\":\"text\",\"text\":\"改标题、图片驳回、视频上架催审核、产品补充国家上架、退供审核、修改产品属性、质检订单异常处理上架等问题都可以登记表格\"},{\"tag\":\"text\",\"text\":\"\\n跟单同学每天处理：\\n\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\"},{\"tag\":\"text\",\"text\":\"\\n3.\"},{\"tag\":\"text\",\"text\":\"首单重新启动&取消系统下的备货单\"},{\"tag\":\"text\",\"text\":\"\\n\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\"},{\"tag\":\"text\",\"text\":\"\\n4.\"},{\"tag\":\"text\",\"text\":\"所有关于订单、上架、发货等过程遇到的问题，都可以在订单群找到跟单同学处理，请扫码入群\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02l4_17b7914f-c191-4e06-a3b6-f6d258e0eccg\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link\",\"text\":\"家装建材重要提醒\"}]]}",
+    "createTime": 1778122828694,
+    "updateTime": 1778122828694,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw",
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw",
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw",
+      "https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a998885b38e59bc",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50f4aa8fe880c3d72d1bf3671d3",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_b0b40381e71ea966c1234e83177517fe",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🌍欢迎加入TikTok Shop全托管模式\",\"elements\":[[{\"tag\":\"at\",\"user_id\":\"@_all\",\"user_name\":\"all\"},{\"tag\":\"text\",\"text\":\"入局最佳时期，只要你是有供应链资源、拥有跨境经验、有意向跨境供货的内贸商家\\n\\n🔥全球商机一键解锁，现已开放美国、英国、墨西哥、欧盟（西班牙/德国/意大利/法国）、日本\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"商家专注提供优质好货\"},{\"tag\":\"text\",\"text\":\"\\n平台统一运营，负责全链路发货运输等工作，商家仅需提报商品和供货\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"快速回款，够安心\"},{\"tag\":\"text\",\"text\":\"\\n本币(人民币或美金)快速结算，无汇率风险\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"无压力销售，够放心\"},{\"tag\":\"text\",\"text\":\"\\n0入驻费、0流量费、0海外仓储成本\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02oi_912bdffc-14e6-495d-9c76-f4d4d27a5fcg\"}],[{\"tag\":\"button\",\"text\":\"🎙️点击预约｜TikTok Shop官方直播\",\"type\":\"primary\"},{\"tag\":\"button\",\"text\":\"➡️点击入驻｜全托管极速开店通道\",\"type\":\"danger\"},{\"tag\":\"button\",\"text\":\"📖点击获取｜全托管保姆级开店攻略\",\"type\":\"danger\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link\",\"text\":\"TikTok Shop官方招商信息推送\"}]]}",
+    "createTime": 1778126404562,
+    "updateTime": 1778126404562,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a99868d004d1b91",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50f1cf91aca4b4c87c20f89cba0",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_1fe06eb245aec1a5adca4a3057e13827",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🔥【产品功能升级】🔥商家同一主体可再新开4个店铺（无需加白）\",\"elements\":[[{\"tag\":\"text\",\"text\":\"尊敬的商家朋友：\"},{\"tag\":\"text\",\"text\":\"\\n\\n\"},{\"tag\":\"text\",\"text\":\"✨ 即日起无需开白，商家同一主体可申请再新开4个店铺；\"},{\"tag\":\"text\",\"text\":\"\\n**商家新开店铺用处：1）铺货布局店群 2）分类目精细运营 3）多店高效冷启动测品 **\\n\\n\"},{\"tag\":\"text\",\"text\":\"步骤一：自查是否满足开通条件\"},{\"tag\":\"text\",\"text\":\"\\n入驻状态：审批；合作状态：转正\\n\"},{\"tag\":\"text\",\"text\":\"步骤二：自行根据以下链接开通\"},{\"tag\":\"text\",\"text\":\"\\n商家需要登陆\"},{\"tag\":\"text\",\"text\":\"已入驻账号\"},{\"tag\":\"text\",\"text\":\"，登陆下方链接\\n\"},{\"tag\":\"a\",\"href\":\"https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service\",\"text\":\"https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service\"},{\"tag\":\"text\",\"text\":\"\\n按照指引完成开通需要的资料\\n提交审核后，顶部可切换店铺，查看审核状态\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02pn_8bdb56d4-a5c3-4afa-9743-a9e13783aa8g\"}],[{\"tag\":\"button\",\"text\":\"商家多开店铺手册\",\"type\":\"primary\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/FoPgbUzISaj7e6szTKkloJdZgug?ccm_open_type=im_card_automation_link\",\"text\":\"行业重点信息通知\"}]]}",
+    "createTime": 1778145302237,
+    "updateTime": 1778145302237,
+    "hasLinks": true,
+    "links": [
+      "https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service",
+      "https://bytedance.sg.larkoffice.com/base/FoPgbUzISaj7e6szTKkloJdZgug?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a99d0dce40f5ce0",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50e1b2f6f080c273f16d97e1091",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_b0b40381e71ea966c1234e83177517fe",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🌍欢迎加入TikTok Shop全托管模式\",\"elements\":[[{\"tag\":\"at\",\"user_id\":\"@_all\",\"user_name\":\"all\"},{\"tag\":\"text\",\"text\":\"入局最佳时期，只要你是有供应链资源、拥有跨境经验、有意向跨境供货的内贸商家\\n\\n🔥全球商机一键解锁，现已开放美国、英国、墨���哥、欧盟（西班牙/德国/意大利/法国）、日本\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"商家专注提供优质好货\"},{\"tag\":\"text\",\"text\":\"\\n平台统一运营，负责全链路发货运输等工作，商家仅需提报商品和供货\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"快速回款，够安心\"},{\"tag\":\"text\",\"text\":\"\\n本币(人民币或美金)快速结算，无汇率风险\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"无压力销售，够放心\"},{\"tag\":\"text\",\"text\":\"\\n0入驻费、0流量费、0海外仓储成本\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02oi_912bdffc-14e6-495d-9c76-f4d4d27a5fcg\"}],[{\"tag\":\"button\",\"text\":\"🎙️点击预约｜TikTok Shop官方直播\",\"type\":\"primary\"},{\"tag\":\"button\",\"text\":\"➡️点击入驻｜全托管极速开店通道\",\"type\":\"danger\"},{\"tag\":\"button\",\"text\":\"📖点击获取｜全托管保姆级开店攻略\",\"type\":\"danger\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link\",\"text\":\"TikTok Shop官方招商信息推送\"}]]}",
+    "createTime": 1778212804193,
+    "updateTime": 1778212804193,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a98d70a91cd1b8b",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50ec1de5b0a4e2ca011407b0d44",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "text",
+    "senderId": "ou_99678a27c51900cda8bba22be212d664",
+    "senderType": "open_id",
+    "text": "前端价格太高了怎么办",
+    "rawContent": "{\"text\":\"前端价格太高了怎么办\"}",
+    "createTime": 1778222386777,
+    "updateTime": 1778222386777,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_1a980dfba5cf5980",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50df5a8698acc4a58f4c68c9918",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_b0b40381e71ea966c1234e83177517fe",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🌍欢迎加入TikTok Shop全托管模式\",\"elements\":[[{\"tag\":\"at\",\"user_id\":\"@_all\",\"user_name\":\"all\"},{\"tag\":\"text\",\"text\":\"入局最佳时期，只要你是有供应链资源、拥有跨境经验、有意向跨境供货的内贸商家\\n\\n🔥全球商机一键解锁，现已开放美国、英国、墨西哥、欧盟（西班牙/德国/意大利/法国）、日本\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"商家专注提供优质好货\"},{\"tag\":\"text\",\"text\":\"\\n平台统一运营，负责全链路发货运输等工作，商家仅需提报商品和供货\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"快速回款，够安心\"},{\"tag\":\"text\",\"text\":\"\\n本币(人民币或美金)快速结算，无汇率风险\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"无压力销售，够放心\"},{\"tag\":\"text\",\"text\":\"\\n0入驻费、0流量费、0海外仓储成本\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02oi_912bdffc-14e6-495d-9c76-f4d4d27a5fcg\"}],[{\"tag\":\"button\",\"text\":\"🎙️点击预约｜TikTok Shop官方直播\",\"type\":\"primary\"},{\"tag\":\"button\",\"text\":\"➡️点击入驻｜全托管极速开店通道\",\"type\":\"danger\"},{\"tag\":\"button\",\"text\":\"📖点击获取｜全托管保姆级开店攻略\",\"type\":\"danger\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link\",\"text\":\"TikTok Shop官方招商信息推送\"}]]}",
+    "createTime": 1778299205102,
+    "updateTime": 1778299205102,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1a9b398d974fdbe6",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50df2dd93930e2da4a6f4c3c4f2",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "post",
+    "senderId": "ou_3341219b4ceaf19fc299dd356ac1cdb7",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"\",\"content\":[[{\"tag\":\"img\",\"image_key\":\"img_v3_0211h_638e50e7-0a7a-4fdd-be8d-6965eb0b4eeg\",\"width\":800,\"height\":2000}],[{\"tag\":\"text\",\"text\":\"🚀 5月14日 TK创业沙龙 | 仅限卖家\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"做TK别再闷头摸索了！我们请来了头部卖家，现场分享：\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"🔹 爆款打法实操\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"🔹 你不知道的行业信息差\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"✅ 纯卖家闭门交流，拒绝无效社交，只聊干货。\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"📅 5月14日. 深圳龙岗华南城\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"🎯 仅限TK创业卖家\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"想来的老板可直接报名参加，一起搞流量、搞爆款！\",\"style\":[]}]]}",
+    "createTime": 1778300465538,
+    "updateTime": 1778300465538,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_1a9b3ef86d561981",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50d908174500e1571f2973b87ef",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "cli_a136ebe23478900b",
+    "senderType": "app_id",
+    "text": "",
+    "rawContent": "{\"title\":\"【家装建材-上架遇到的高频问题合集】\",\"elements\":[[{\"tag\":\"text\",\"text\":\"下面是频发的上架问题，常发生在新品上架过程中，为了保证产品顺利上架，请重点关注\"},{\"tag\":\"text\",\"text\":\"\\n**推款中遇到任何问题可查看下表：【灯具】推款注意事项 **\\n\"},{\"tag\":\"text\",\"text\":\"1、电子电器标签必备\"},{\"tag\":\"text\",\"text\":\"：英国、美国、沙特、欧洲都需要，电子电器标签需要标签贴在包装盒+产品的实拍图，一定按照模板来打印且上传实拍图片（标签模板在下面，请点击活动）。产品要上架欧洲，电子电器标签必须含有5国语言的警示语，相关内容已加入下方的标签模板作为参考。\\n\\n\"},{\"tag\":\"text\",\"text\":\"2、英国资质要求\"},{\"tag\":\"text\",\"text\":\"：CE/UKCA证书（二者取其一，不要重复多个上传）\\n\\n\"},{\"tag\":\"text\",\"text\":\"3、美国资质要求\"},{\"tag\":\"text\",\"text\":\"：FCC ID/FCC SDOC/UL证（三者取其一，不要重复多个上传）\\n各个国家要求的资质文件上品有对应的文件框，不要贪多，按照要求每个文件框上传一个对应的文件即可\\n\\n\"},{\"tag\":\"text\",\"text\":\"4、欧洲资质要求\"},{\"tag\":\"text\",\"text\":\"： 欧盟资质要求全文档，请查询文档：\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/docx/TwpYdDNEkopljJxEJUclI9BVgdf\",\"text\":\"https://bytedance.sg.larkoffice.com/docx/TwpYdDNEkopljJxEJUclI9BVgdf\"},{\"tag\":\"text\",\"text\":\"\\na..关于欧盟产品上架中所需的能效和商品信息，获取路径参考该文档：\\n商家获取欧盟能效标识及 Product Information Sheet 的指南 ！强调，必须用jpg格式上传！必须网上下载！\\nb.查询网址为：\\n\"},{\"tag\":\"a\",\"href\":\"https://eprel.ec.europa.eu/screen/home\",\"text\":\"https://eprel.ec.europa.eu/screen/home\"},{\"tag\":\"text\",\"text\":\"\\nc.EU电子电器模板请看：\"},{\"tag\":\"a\",\"href\":\"https://bytedance.feishu.cn/sheets/NCOSsJDPchiB7BtOw8hcXOXJnG5?from=from_copylink\",\"text\":\"https://bytedance.feishu.cn/sheets/NCOSsJDPchiB7BtOw8hcXOXJnG5?from=from_copylink\"},{\"tag\":\"text\",\"text\":\"\\nd.EU开店：\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/docx/AVMsdTaTmoi40DxBvyqlA90Sgpb\",\"text\":\"https://bytedance.sg.larkoffice.com/docx/AVMsdTaTmoi40DxBvyqlA90Sgpb\"},{\"tag\":\"text\",\"text\":\"\\n\\n\"},{\"tag\":\"text\",\"text\":\"5.后台型号+电子电器标签型号+资质上的属性型号保持一致, 若一处缺失型号，会以资质信息不齐全驳回\"},{\"tag\":\"text\",\"text\":\"\\n\\n\"},{\"tag\":\"text\",\"text\":\"6.因为资质问题没上架请看下表\"},{\"tag\":\"text\",\"text\":\"：【家装】gne资质驳回高频问题总结 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.larkoffice.com/docx/EbQQdSjChoRQzbxZ4W2cHCRknqe\",\"text\":\"https://bytedance.larkoffice.com/docx/EbQQdSjChoRQzbxZ4W2cHCRknqe\"},{\"tag\":\"text\",\"text\":\"\\n\\n**7.产品基础信息显示：风控未送审或维护电子标签资质信息后，需要重新推送审核，可填表重推，【催上架】-原因：重新推送GNE审核：\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=0524cd\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=0524cd\"}],[{\"tag\":\"button\",\"text\":\"【灯具】推款注意事项\",\"type\":\"default\"},{\"tag\":\"button\",\"text\":\"电子电器标签模板\",\"type\":\"default\"},{\"tag\":\"button\",\"text\":\"各个国家要求的资质文件\",\"type\":\"default\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link\",\"text\":\"家装建材重要提醒\"}]]}",
+    "createTime": 1778308205770,
+    "updateTime": 1778308205770,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/docx/TwpYdDNEkopljJxEJUclI9BVgdf",
+      "https://eprel.ec.europa.eu/screen/home",
+      "https://bytedance.feishu.cn/sheets/NCOSsJDPchiB7BtOw8hcXOXJnG5?from=from_copylink",
+      "https://bytedance.sg.larkoffice.com/docx/AVMsdTaTmoi40DxBvyqlA90Sgpb",
+      "https://bytedance.larkoffice.com/docx/EbQQdSjChoRQzbxZ4W2cHCRknqe"
+    ],
+    "thread": "omt_1a9b5ca48a9519b9",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f34629300a4b3b1c1808e6c7d8",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_b0b40381e71ea966c1234e83177517fe",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🌍欢迎加入TikTok Shop全托管模式\",\"elements\":[[{\"tag\":\"at\",\"user_id\":\"@_all\",\"user_name\":\"all\"},{\"tag\":\"text\",\"text\":\"入局最佳时期，只要你是有供应链资源、拥有跨境经验、有意向跨境供货的内贸商家\\n\\n🔥全球商机一键解锁，现已开放美国、英国、墨西哥、欧盟（西班牙/德国/意大利/法国）、日本\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"商家专注提供优质好货\"},{\"tag\":\"text\",\"text\":\"\\n平台统一运营，负责全链路发货运输等工作，商家仅需提报商品和供货\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"快速回款，够安心\"},{\"tag\":\"text\",\"text\":\"\\n本币(人民币或美金)快速结算，无汇率风险\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"无压力销售，够放心\"},{\"tag\":\"text\",\"text\":\"\\n0入驻费、0流量费、0海外仓储成本\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02oi_912bdffc-14e6-495d-9c76-f4d4d27a5fcg\"}],[{\"tag\":\"button\",\"text\":\"🎙️点击预约｜TikTok Shop官方直播\",\"type\":\"primary\"},{\"tag\":\"button\",\"text\":\"➡️点击入驻｜全托管极速开店通道\",\"type\":\"danger\"},{\"tag\":\"button\",\"text\":\"📖点击获取｜全托管保姆级开店攻略\",\"type\":\"danger\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link\",\"text\":\"TikTok Shop官方招商信息推送\"}]]}",
+    "createTime": 1778385606312,
+    "updateTime": 1778385606312,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_19658a0ccecf5c97",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f35fe90dca4e10b35c073a6167",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "text",
+    "senderId": "ou_4d5183d53180eb7decd0738aea831480",
+    "senderType": "open_id",
+    "text": "还有两笔25年9月份的订单显示待出帐，显示订单在途，请问这种订单还要等多久才能结算的？",
+    "rawContent": "{\"text\":\"还有两笔25年9月份的订单显示待出帐，显示订单在途，请问这种订单还要等多久才能结算的？\"}",
+    "createTime": 1778391814085,
+    "updateTime": 1778391814085,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_196593ccf30f59bc",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f36101d90a4e2b79980d5e79e1",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "cli_a136ebe23478900b",
+    "senderType": "app_id",
+    "text": "",
+    "rawContent": "{\"title\":\"【2025热招类目-家装灯具、安防监控\\\\可视化门铃\\\\防护用品、建筑材料、电气设备、浴室设备等】\",\"elements\":[[{\"tag\":\"text\",\"text\":\"【家装建材类目大力招品！！上的越多现金奖励越多】\"},{\"tag\":\"text\",\"text\":\"\\n\"},{\"tag\":\"text\",\"text\":\"安防监控和可视化门铃：\"},{\"tag\":\"text\",\"text\":\"半球\\\\壁挂\\\\室内室外\\\\太阳能\\\\品牌\\\\白牌——买手@凌劲松\\n\"},{\"tag\":\"text\",\"text\":\"电气设备-排插\\\\电源\\\\开关：\"},{\"tag\":\"text\",\"text\":\"英规|美规\\\\旅行插座\\\\塔插\\\\多孔合一\\\\多功能等白牌\\\\品牌——买手@凌劲松\\n\"},{\"tag\":\"text\",\"text\":\"灯具\"},{\"tag\":\"text\",\"text\":\"：\\n\"},{\"tag\":\"text\",\"text\":\"室外照明：\"},{\"tag\":\"text\",\"text\":\"太阳能灯\\\\壁灯\\\\花园装饰灯\\\\地插灯——买手@景妍蕊\\n\"},{\"tag\":\"text\",\"text\":\"便携照明：\"},{\"tag\":\"text\",\"text\":\"手电筒\\\\工作灯\\\\露营灯\\\\头戴灯——买手@景妍蕊\\n\"},{\"tag\":\"text\",\"text\":\"室内照明：\"},{\"tag\":\"text\",\"text\":\"风扇灯\\\\台灯\\\\节日小夜灯\\\\岩石灯——买手@凌劲松\\n\"},{\"tag\":\"text\",\"text\":\"新奇照明：\"},{\"tag\":\"text\",\"text\":\"新奇特灯具\\\\灯牌\\\\多功能多场景使用的产品——买手@凌劲松\\n\"},{\"tag\":\"text\",\"text\":\"灯带灯串：\"},{\"tag\":\"text\",\"text\":\"室内室外灯串\\\\灯条-音乐节灯牌——买手@凌劲松\\n\"},{\"tag\":\"text\",\"text\":\"建筑材料\"},{\"tag\":\"text\",\"text\":\":\\n3D效果墙纸\\\\多色基础款墙纸\\\\装修工具套装\\\\窗户防晒贴纸\\\\防潮地板贴\\\\可折叠手推车——买手@景妍蕊\\n\"},{\"tag\":\"text\",\"text\":\"浴室设备\"},{\"tag\":\"text\",\"text\":\"：多功能多出水口花洒\\\\香氛过滤花洒套装\\\\电动搓背器\\\\电动起泡器\\\\浴缸按摩——买手@景妍蕊\\n\"},{\"tag\":\"text\",\"text\":\"花园用品\"},{\"tag\":\"text\",\"text\":\":动态风车风转\\\\基础款花盆套装\\\\磁悬浮花盆\\\\园艺工具套装\\\\太阳能自动浇灌系统——买手@景妍蕊\\n\\n\"},{\"tag\":\"text\",\"text\":\"热点趋势：\"},{\"tag\":\"text\",\"text\":\"春夏音乐节（科切拉）、母亲节、儿童节、太阳能灯系列、装饰幻彩灯串\\n\"},{\"tag\":\"text\",\"text\":\"不限价格区间，品质优先！\"},{\"tag\":\"text\",\"text\":\"\\n\\n\"},{\"tag\":\"text\",\"text\":\"上新越多，现金奖励越多\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02jg_19762477-dfb8-493d-bdcc-0ba51cf198ag\"}],[{\"tag\":\"button\",\"text\":\"灯具招品方向\",\"type\":\"default\"},{\"tag\":\"button\",\"text\":\"家装全类目招品\",\"type\":\"default\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link\",\"text\":\"家装建材重要提醒\"}]]}",
+    "createTime": 1778394605087,
+    "updateTime": 1778394605087,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1965ad2427cf5987",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f30879a6cacb4a321ad90d3197",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_1fe06eb245aec1a5adca4a3057e13827",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🔥【产品功能升级】🔥商家同一主体可再新开4个店铺（无需加白）\",\"elements\":[[{\"tag\":\"text\",\"text\":\"尊敬的商家朋友：\"},{\"tag\":\"text\",\"text\":\"\\n\\n\"},{\"tag\":\"text\",\"text\":\"✨ 即日起无需开白，商家同一主体可申请再新开4个店铺；\"},{\"tag\":\"text\",\"text\":\"\\n**商家新开店铺用处：1）铺货布局店群 2）分类目精细运营 3）多店高效冷启动测品 **\\n\\n\"},{\"tag\":\"text\",\"text\":\"��骤一：自查是否满足开通条件\"},{\"tag\":\"text\",\"text\":\"\\n入驻状态：审批；合作状态：转正\\n\"},{\"tag\":\"text\",\"text\":\"步骤二：自行根据以下链接开通\"},{\"tag\":\"text\",\"text\":\"\\n商家需要登陆\"},{\"tag\":\"text\",\"text\":\"已入驻账号\"},{\"tag\":\"text\",\"text\":\"，登陆下方链接\\n\"},{\"tag\":\"a\",\"href\":\"https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service\",\"text\":\"https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service\"},{\"tag\":\"text\",\"text\":\"\\n按照指引完成开通需要的资料\\n提交审核后，顶部可切换店铺，查看审核状态\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02pn_8bdb56d4-a5c3-4afa-9743-a9e13783aa8g\"}],[{\"tag\":\"button\",\"text\":\"商家多开店铺手册\",\"type\":\"primary\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/FoPgbUzISaj7e6szTKkloJdZgug?ccm_open_type=im_card_automation_link\",\"text\":\"行业重点信息通知\"}]]}",
+    "createTime": 1778404501883,
+    "updateTime": 1778404501883,
+    "hasLinks": true,
+    "links": [
+      "https://seller.tiktokshopglobalselling.com/supplier/open-seller/full-service",
+      "https://bytedance.sg.larkoffice.com/base/FoPgbUzISaj7e6szTKkloJdZgug?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1965c45c580fdce6",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f202a8e2cb0e10b632bd78379d",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "cli_a136ebe23478900b",
+    "senderType": "app_id",
+    "text": "",
+    "rawContent": "{\"title\":\"【订单相关问题处理办法】\",\"elements\":[[{\"tag\":\"text\",\"text\":\"1.\"},{\"tag\":\"text\",\"text\":\"产品催上架：\"},{\"tag\":\"text\",\"text\":\"商家后台显示各项指标都通过，但产品实际未上架，登记【催上架】表格\\n链接：\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw\"},{\"tag\":\"text\",\"text\":\"\\n2.\"},{\"tag\":\"text\",\"text\":\"改标题、图片驳回、视频上架催审核、产品补充国家上架、退供审核、修改产品属性、质检订单异常处理上架等问题都可以登记表格\"},{\"tag\":\"text\",\"text\":\"\\n跟单同学每天处理：\\n\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\"},{\"tag\":\"text\",\"text\":\"\\n3.\"},{\"tag\":\"text\",\"text\":\"首单重新启动&取消系统下的备货单\"},{\"tag\":\"text\",\"text\":\"\\n\"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\",\"text\":\"https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw\"},{\"tag\":\"text\",\"text\":\"\\n4.\"},{\"tag\":\"text\",\"text\":\"所有关于订单、上架、发货等过程遇到的问题，都可以在订单群找到跟单同学处理，请扫码入群\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02l4_17b7914f-c191-4e06-a3b6-f6d258e0eccg\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link\",\"text\":\"家装建材重要提醒\"}]]}",
+    "createTime": 1778468420398,
+    "updateTime": 1778468420398,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=SqsBQw",
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw",
+      "https://bytedance.sg.larkoffice.com/sheets/MSRasd1bfh1vq9trAdMlgB8Cgpb?sheet=GgQLvw",
+      "https://bytedance.sg.larkoffice.com/base/IxaLbc3ALaHUWysf4VucduGJnpg?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1964ce8d1c0e19bc",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f210af06c84b225d5f6b1f45d6",
+    "chatId": "oc_a0ab923d4fbad64c8cef4bb9f832c435",
+    "msgType": "interactive",
+    "senderId": "ou_b0b40381e71ea966c1234e83177517fe",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"🌍欢迎加入TikTok Shop全托管模式\",\"elements\":[[{\"tag\":\"at\",\"user_id\":\"@_all\",\"user_name\":\"all\"},{\"tag\":\"text\",\"text\":\"入局最佳时期，只要你是有供应链资源、拥有跨境经验、有意向跨境供货的内贸商家\\n\\n🔥全球商机一键解锁，现已开放美国、英国、墨西哥、欧盟（西班牙/德国/意大利/法国）、日本\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"商家专注提供优质好货\"},{\"tag\":\"text\",\"text\":\"\\n平台统一运营，负责全链路发货运输等工作，商家仅需提报商品和供货\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"快速回款，够安心\"},{\"tag\":\"text\",\"text\":\"\\n本币(人民币或美金)快速结算，无汇率风险\\n\\n📌\"},{\"tag\":\"text\",\"text\":\"无压力销售，够放心\"},{\"tag\":\"text\",\"text\":\"\\n0入驻费、0流量费、0海外仓储成本\"}],[{\"tag\":\"img\",\"image_key\":\"img_v3_02oi_912bdffc-14e6-495d-9c76-f4d4d27a5fcg\"}],[{\"tag\":\"button\",\"text\":\"🎙️点击预约｜TikTok Shop官方直播\",\"type\":\"primary\"},{\"tag\":\"button\",\"text\":\"➡️点击入驻｜全托管极速开店通道\",\"type\":\"danger\"},{\"tag\":\"button\",\"text\":\"📖点击获取｜全托管保姆级开店攻略\",\"type\":\"danger\"}],[{\"tag\":\"hr\"}],[{\"tag\":\"text\",\"text\":\"来自 \"},{\"tag\":\"a\",\"href\":\"https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link\",\"text\":\"TikTok Shop官方招商信息推送\"}]]}",
+    "createTime": 1778472004316,
+    "updateTime": 1778472004316,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.sg.larkoffice.com/base/OCoAbMGZEa7N23s87RacxAHBn8b?ccm_open_type=im_card_automation_link"
+    ],
+    "thread": "omt_1964dc8af80d5c8e",
+    "replyMsgId": null
   }
 ]

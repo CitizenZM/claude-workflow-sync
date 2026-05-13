@@ -1586,5 +1586,41 @@
     "links": [],
     "thread": "omt_1a9c751c3f0f1aea",
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b508d983e20a0d4553eb66e5903c",
+    "chatId": "oc_3d982421b8b5abf10ba2d1313d8019fb",
+    "msgType": "text",
+    "senderId": "ou_29d56086b9bb6366fe8e0092d2065302",
+    "senderType": "open_id",
+    "text": "Join us now for today's Partner Training! https://vc-us.larkoffice.com/j/924935080",
+    "rawContent": "{\"text\":\"Join us now for today's Partner Training! https://vc-us.larkoffice.com/j/924935080\"}",
+    "createTime": 1778097519321,
+    "updateTime": 1778097520308,
+    "hasLinks": false,
+    "links": [],
+    "thread": "omt_1a9e15a61ccf1ae9",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b5088844a20a0d4607012cef1f3f",
+    "chatId": "oc_3d982421b8b5abf10ba2d1313d8019fb",
+    "msgType": "post",
+    "senderId": "ou_29d56086b9bb6366fe8e0092d2065302",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"\",\"content\":[[{\"tag\":\"text\",\"text\":\"5/6 Office Hour Recap: \",\"style\":[\"bold\",\"underline\"]},{\"tag\":\"emotion\",\"emoji_type\":\"HIGHFIVE\"}],[{\"tag\":\"text\",\"text\":\"1. \",\"style\":[]},{\"tag\":\"text\",\"text\":\"SKPP Checklist (Product Optimization): \",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://bytedance.larkoffice.com/wiki/IczlwFfP9icehikohlVclCs4nzd?from=from_copylink\",\"text\":\"https://bytedance.larkoffice.com/wiki/IczlwFfP9icehikohlVclCs4nzd?from=from_copylink\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"2. \",\"style\":[]},{\"tag\":\"text\",\"text\":\"TAP Updates \",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://bytedance.larkoffice.com/wiki/TGjvwslMfiRg4pkqoMPc47LdnJe?from=space_search&previous_navigation_time=1778109285720\",\"text\":\"https://bytedance.larkoffice.com/wiki/TGjvwslMfiRg4pkqoMPc47LdnJe?from=space_search&previous_navigation_time=1778109285720\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"3. \",\"style\":[]},{\"tag\":\"text\",\"text\":\"Managed Service Plan (Previously known as Project Ascend) \",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://bytedance.larkoffice.com/wiki/S0ZPwXX6ni9YdNkT2MHcL3Tinmf\",\"text\":\"https://bytedance.larkoffice.com/wiki/S0ZPwXX6ni9YdNkT2MHcL3Tinmf\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"View the Recording here: \",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://bytedance.us.larkoffice.com/minutes/obusg5mm8d78688w87xsk5i3?from_source=finish_recording\",\"text\":\"https://bytedance.us.larkoffice.com/minutes/obusg5mm8d78688w87xsk5i3?from_source=finish_recording\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"Previous OH recordings can be accessed in our \",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://bytedance.us.larkoffice.com/docx/R1FSdvSaQoK5dpxvEy4uecBos3c#share-MLxodL7TtodYY7xIslouLkoDs6e\",\"text\":\"https://bytedance.us.larkoffice.com/docx/R1FSdvSaQoK5dpxvEy4uecBos3c#share-MLxodL7TtodYY7xIslouLkoDs6e\",\"style\":[]}]]}",
+    "createTime": 1778109609630,
+    "updateTime": 1778109610614,
+    "hasLinks": true,
+    "links": [
+      "https://bytedance.larkoffice.com/wiki/IczlwFfP9icehikohlVclCs4nzd?from=from_copylink",
+      "https://bytedance.larkoffice.com/wiki/TGjvwslMfiRg4pkqoMPc47LdnJe?from=space_search&previous_navigation_time=1778109285720",
+      "https://bytedance.larkoffice.com/wiki/S0ZPwXX6ni9YdNkT2MHcL3Tinmf",
+      "https://bytedance.us.larkoffice.com/minutes/obusg5mm8d78688w87xsk5i3?from_source=finish_recording",
+      "https://bytedance.us.larkoffice.com/docx/R1FSdvSaQoK5dpxvEy4uecBos3c#share-MLxodL7TtodYY7xIslouLkoDs6e"
+    ],
+    "thread": "omt_1a9e44615ccf1aea",
+    "replyMsgId": null
   }
 ]

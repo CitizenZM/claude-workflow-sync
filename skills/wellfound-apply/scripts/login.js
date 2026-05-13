@@ -2,7 +2,7 @@
 // Returns: { success: true, url: string } or { success: false, error: string }
 (async () => {
   const email = 'xz429@cornell.edu';
-  const password = 'Barronzuo1414514!';
+  const password = process.env.WELLFOUND_PASSWORD || '';
 
   // Try to find email field
   const emailSelectors = ['input[type="email"]', 'input[name="email"]', 'input[placeholder*="email" i]'];

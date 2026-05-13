@@ -1,0 +1,314 @@
+{
+  "pages_analyzed": 50,
+  "orphans": [
+    "/llms-full.txt",
+    "/llms.txt",
+    "/agents.md"
+  ],
+  "orphan_count": 3,
+  "link_poor_pages": [
+    [
+      "/llms-full.txt",
+      0
+    ],
+    [
+      "/llms.txt",
+      0
+    ],
+    [
+      "/agents.md",
+      0
+    ]
+  ],
+  "incoming_link_distribution": {
+    "1": 154,
+    "47": 55,
+    "2": 7,
+    "46": 4,
+    "30": 3
+  },
+  "top_internally_linked": [
+    [
+      "/pages/gift-guide",
+      47
+    ],
+    [
+      "/pages/beginners-guide",
+      47
+    ],
+    [
+      "/cdn/shop/t/4/assets/component-cart.css",
+      47
+    ],
+    [
+      "/policies/refund-policy",
+      47
+    ],
+    [
+      "/collections/bdsm-fashion",
+      47
+    ],
+    [
+      "/cdn/shop/t/4/assets/component-accordion.css",
+      47
+    ],
+    [
+      "/policies/privacy-policy",
+      47
+    ],
+    [
+      "/cdn/shopifycloud/portable-wallets/latest/accelerated-checkout-backwards-compat.css",
+      47
+    ],
+    [
+      "/collections/impact-play",
+      47
+    ],
+    [
+      "/pages/shipping",
+      47
+    ],
+    [
+      "/cdn/shop/t/4/assets/section-footer.css",
+      47
+    ],
+    [
+      "/customer_authentication/redirect",
+      47
+    ],
+    [
+      "/cdn/shop/t/4/assets/section-multicolumn.css",
+      47
+    ],
+    [
+      "/cdn/shop/t/4/assets/component-rating.css",
+      47
+    ],
+    [
+      "/collections/all",
+      47
+    ]
+  ],
+  "missing_related_link_suggestions": [
+    {
+      "from": "/products/lush-4-wearable-vibrator",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/ferri-magnetic-panty-vibrator",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/nora-rabbit-vibrator",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/max-2-male-masturbator",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/solace-pro-ai-masturbator",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/app-controlled-rabbit-vibrator-10-speed-dual-stimulation",
+        "/products/bdsm-bondage-kit-11-piece-complete-beginner-set"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/tenera-2-clitoral-stimulator",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/app-controlled-rabbit-vibrator-10-speed-dual-stimulation",
+        "/products/bdsm-bondage-kit-11-piece-complete-beginner-set"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/osci-3-oscillating-vibrator",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/app-controlled-rabbit-vibrator-10-speed-dual-stimulation",
+        "/products/customizable-kegel-balls-3-metal-weights-interchangeable",
+        "/products/edge-2-prostate-massager",
+        "/products/ferri-magnetic-panty-vibrator"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/edge-2-prostate-massager",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/lover-set-couples-bundle",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/personal-lubricant-water-based",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/app-controlled-rabbit-vibrator-10-speed-dual-stimulation",
+        "/products/bdsm-bondage-kit-11-piece-complete-beginner-set"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/midnight-leather-wrist-cuffs",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/obsidian-ankle-cuffs",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/velvet-noir-blindfold",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-nipple-clamps-tweezer-chain",
+        "/products/adjustable-silicone-ball-gag"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/noir-leather-paddle",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/app-controlled-rabbit-vibrator-10-speed-dual-stimulation",
+        "/products/bdsm-bondage-kit-11-piece-complete-beginner-set"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/raven-riding-crop",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/app-controlled-rabbit-vibrator-10-speed-dual-stimulation",
+        "/products/bdsm-bondage-kit-11-piece-complete-beginner-set"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/phantom-suede-flogger",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/obsidian-steel-collar",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/app-controlled-rabbit-vibrator-10-speed-dual-stimulation"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/signature-leather-collar",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/under-bed-restraint-system",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-metal-spreader-bar-cuffs",
+        "/products/adjustable-nipple-clamps-tweezer-chain"
+      ],
+      "existing_outgoing_count": 65
+    },
+    {
+      "from": "/products/feather-sensation-teaser",
+      "missing_related_links": [
+        "/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+        "/products/50-piece-couples-flirting-card-set-date-night-edition",
+        "/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+        "/products/adjustable-nipple-clamps-tweezer-chain",
+        "/products/adjustable-silicone-ball-gag"
+      ],
+      "existing_outgoing_count": 65
+    }
+  ]
+}

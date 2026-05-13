@@ -1,0 +1,211 @@
+{
+  "aggregate": {
+    "keywords_analyzed": 8,
+    "avg_citation_rate": 4.2,
+    "high_priority_content_gaps": 0,
+    "medium_priority_content_gaps": 0
+  },
+  "per_keyword": [
+    {
+      "keyword": "luxury BDSM kit",
+      "prompts": [
+        {
+          "prompt": "What are the best brands for luxury BDSM kit?",
+          "answer_excerpt": "",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Where can I buy luxury BDSM kit?",
+          "answer_excerpt": "",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Recommend a quality luxury BDSM kit.",
+          "answer_excerpt": "",
+          "brand_cited": false,
+          "competitors_cited": []
+        }
+      ],
+      "citation_rate": 0.0,
+      "competitor_dominance": {}
+    },
+    {
+      "keyword": "beginner BDSM kit for couples",
+      "prompts": [
+        {
+          "prompt": "What are the best brands for beginner BDSM kit for couples?",
+          "answer_excerpt": "For couples looking to explore BDSM with a beginner-friendly kit, several brands offer well-regarded options that prioritize safety and ease of use. These kits typically include a variety of items to allow couples to experiment with different types of play, such as restraint, sensory deprivation, and impact play.\n\nSome of the best brands for beginner BDSM kits for couples include:\n\n*   **Adam & Ev",
+          "brand_cited": true,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Where can I buy beginner BDSM kit for couples?",
+          "answer_excerpt": "For couples looking to explore BDSM, several online retailers offer beginner-friendly kits designed for safe and comfortable introduction to kink. These kits often prioritize items that encourage communication and gradual exploration.\n\nSome reputable online stores where you can find beginner BDSM kits for couples include:\n\n*   **Spencer's** offers a selection of affordable bondage and BDSM starter",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Recommend a quality beginner BDSM kit for couples.",
+          "answer_excerpt": "For couples new to BDSM, a quality beginner kit prioritizes safety, comfort, and versatility, allowing for gentle exploration of different sensations and dynamics. It's crucial to focus on body-safe materials and items that are easy to use and remove. Communication and establishing a safe word are paramount for a positive experience.\n\nHere's a recommendation for a quality beginner BDSM kit for cou",
+          "brand_cited": false,
+          "competitors_cited": []
+        }
+      ],
+      "citation_rate": 33.3,
+      "competitor_dominance": {}
+    },
+    {
+      "keyword": "premium bondage gear",
+      "prompts": [
+        {
+          "prompt": "What are the best brands for premium bondage gear?",
+          "answer_excerpt": "For those seeking top-tier bondage gear, several brands stand out for their commitment to luxury, craftsmanship, and high-quality materials. These brands often prioritize both aesthetic appeal and functional durability, using materials like genuine leather, robust hardware, and thoughtful designs for enhanced comfort and control.\n\nSome of the best brands for premium bondage gear include:\n\n*   **Od",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Where can I buy premium bondage gear?",
+          "answer_excerpt": "For those seeking premium bondage gear, several high-end retailers specialize in luxury BDSM equipment crafted from quality materials. These stores often emphasize design, durability, and sophisticated aesthetics.\n\nSome notable options for purchasing premium bondage gear include:\n\n*   **UPKO USA** is recognized globally for its high-end erotic luxury bondage, offering products made with Italian le",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Recommend a quality premium bondage gear.",
+          "answer_excerpt": "When seeking quality premium bondage gear, several factors contribute to its overall excellence, including the materials used, craftsmanship, design, and attention to safety and comfort.\n\n**Materials:**\nPremium bondage gear often utilizes high-grade materials known for their durability, feel, and aesthetic appeal.\n\n*   **Leather:** Full-grain leather is a top choice for cuffs, collars, and straps ",
+          "brand_cited": false,
+          "competitors_cited": []
+        }
+      ],
+      "citation_rate": 0.0,
+      "competitor_dominance": {}
+    },
+    {
+      "keyword": "body-safe bondage gear",
+      "prompts": [
+        {
+          "prompt": "What are the best brands for body-safe bondage gear?",
+          "answer_excerpt": "When choosing body-safe bondage gear, prioritizing materials and reputable retailers is key for a safe and pleasurable experience. Several materials are widely considered body-safe, and some brands and stores are known for their quality offerings.\n\n**Body-Safe Materials for Bondage Gear:**\n\n*   **Leather:** Often a popular choice, high-quality leather restraints are durable and can be comfortable,",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Where can I buy body-safe bondage gear?",
+          "answer_excerpt": "You can purchase body-safe bondage gear from a variety of online retailers that specialize in adult toys and BDSM equipment. These stores often emphasize the use of quality, body-safe materials in their products.\n\nSome reputable online stores where you can find body-safe bondage gear include:\n\n*   **The Pleasure Chest** offers a collection of bondage restraints crafted from body-safe materials, in",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Recommend a quality body-safe bondage gear.",
+          "answer_excerpt": "When choosing body-safe bondage gear, prioritizing materials, quality, and safety features is crucial for a comfortable and secure experience.\n\n**Key Considerations for Quality Body-Safe Bondage Gear:**\n\n*   **Material Quality:**\n    *   **Genuine Leather:** Often recommended for its durability, natural softness, and ability to mold to the body over time. It's strong, holds up under tension, and c",
+          "brand_cited": false,
+          "competitors_cited": []
+        }
+      ],
+      "citation_rate": 0.0,
+      "competitor_dominance": {}
+    },
+    {
+      "keyword": "discreet adult shipping",
+      "prompts": [
+        {
+          "prompt": "What are the best brands for discreet adult shipping?",
+          "answer_excerpt": "When seeking discreet shipping for adult products, several brands and retailers prioritize privacy through unmarked packaging and neutral billing. Here are some of the best brands known for their discreet adult shipping practices:\n\n*   **The Pleasure Chest** ensures every order arrives in plain, unmarked packaging with no product names or adult branding visible externally. Their billing descriptor",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Where can I buy discreet adult shipping?",
+          "answer_excerpt": "Many online retailers specializing in adult products offer discreet shipping to ensure customer privacy. These companies typically use plain, unmarked packaging without any logos or branding that would reveal the contents. The shipping labels often have generic sender names or return addresses, and billing statements are usually discreet as well.\n\nSome popular online stores known for their discree",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Recommend a quality discreet adult shipping.",
+          "answer_excerpt": "When seeking discreet adult shipping, several key factors ensure your privacy, from packaging to billing. Reputable services prioritize confidentiality, making sure the contents of your package are not revealed.\n\n**Key Features of Quality Discreet Adult Shipping:**\n\n*   **Plain Packaging:** Packages typically arrive in unmarked, plain brown or white boxes or envelopes without any branding, logos, ",
+          "brand_cited": false,
+          "competitors_cited": []
+        }
+      ],
+      "citation_rate": 0.0,
+      "competitor_dominance": {}
+    },
+    {
+      "keyword": "adult intimate wellness",
+      "prompts": [
+        {
+          "prompt": "What are the best brands for adult intimate wellness?",
+          "answer_excerpt": "When exploring the best brands for adult intimate wellness, a diverse range of companies stand out for their commitment to quality, innovation, and addressing various needs. These brands offer products from discreet sex toys and clean lubricants to specialized intimate care and educational resources.\n\nHere are some of the top brands in adult intimate wellness:\n\n**For a Holistic Approach and Clean ",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Where can I buy adult intimate wellness?",
+          "answer_excerpt": "You can purchase adult intimate wellness products from a variety of retailers, both online and in physical stores. These products often include intimate massagers, lubricants, oils, hygiene essentials, and other items designed to enhance sexual health and pleasure.\n\nHere are some common places to buy adult intimate wellness products:\n\n**Online Retailers:**\n*   **Specialized Adult Stores:** Website",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Recommend a quality adult intimate wellness.",
+          "answer_excerpt": "Adult intimate wellness is a vital aspect of overall health, encompassing physical, emotional, and sexual well-being. It involves products and practices that support the comfort, function, and health of intimate tissues and muscles, addressing common concerns like dryness, irritation, and discomfort during intimacy.\n\nWhen recommending quality adult intimate wellness products, several factors are c",
+          "brand_cited": false,
+          "competitors_cited": []
+        }
+      ],
+      "citation_rate": 0.0,
+      "competitor_dominance": {}
+    },
+    {
+      "keyword": "couples sex toys premium",
+      "prompts": [
+        {
+          "prompt": "What are the best brands for couples sex toys premium?",
+          "answer_excerpt": "For couples seeking premium sex toys, several brands consistently stand out for their quality, innovative design, and advanced features. These brands often prioritize body-safe materials, sophisticated technology, and a luxurious user experience.\n\nSome of the best brands for premium couples' sex toys include:\n\n*   **LELO** is frequently cited as a leading luxury sex toy brand, known for its Swedis",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Where can I buy couples sex toys premium?",
+          "answer_excerpt": "You can find a wide selection of premium couples' sex toys at several reputable online retailers. These stores often specialize in high-quality products designed to enhance shared intimacy.\n\nSome of the top online destinations for premium couples' sex toys include:\n\n*   **Kiiroo** offers interactive sex toys for couples that can connect to apps and content for real-time, synchronized experiences. ",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Recommend a quality couples sex toys premium.",
+          "answer_excerpt": "For couples seeking a premium sex toy to enhance intimacy and explore new sensations, several high-quality options stand out, often characterized by their innovative design, advanced technology, body-safe materials, and versatile functionality. Brands like LELO, We-Vibe, and Lovense are frequently cited for their luxury offerings in this category.\n\nOne highly recommended type of premium couples' s",
+          "brand_cited": false,
+          "competitors_cited": []
+        }
+      ],
+      "citation_rate": 0.0,
+      "competitor_dominance": {}
+    },
+    {
+      "keyword": "luxury vibrator",
+      "prompts": [
+        {
+          "prompt": "What are the best brands for luxury vibrator?",
+          "answer_excerpt": "When seeking a luxury vibrator, several brands consistently stand out for their superior materials, innovative designs, powerful features, and overall elevated experience. These high-end devices are often characterized by medical-grade silicone, quiet yet potent motors, ergonomic shapes, and extended battery life.\n\nSome of the best brands for luxury vibrators include:\n\n*   **Lelo** is frequently c",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Where can I buy luxury vibrator?",
+          "answer_excerpt": "You can purchase luxury vibrators from a variety of online retailers and directly from high-end brands. These products are often characterized by premium materials, powerful motors, elegant designs, and advanced features.\n\nHere are some places where you can buy luxury vibrators:\n\n**Online Retailers:**\n*   **Luxe Vibes Boutique** offers a selection of luxury vibrators from brands like We-Vibe, Ohmi",
+          "brand_cited": false,
+          "competitors_cited": []
+        },
+        {
+          "prompt": "Recommend a quality luxury vibrator.",
+          "answer_excerpt": "When seeking a quality luxury vibrator, several brands consistently stand out for their innovative technology, premium materials, and sophisticated designs, offering an elevated pleasure experience. Key characteristics of luxury vibrators include body-safe silicone, powerful yet quiet motors, ergonomic shapes, and often advanced features like app control or unique stimulation methods.\n\nHere are so",
+          "brand_cited": false,
+          "competitors_cited": []
+        }
+      ],
+      "citation_rate": 0.0,
+      "competitor_dominance": {}
+    }
+  ],
+  "content_gaps": []
+}

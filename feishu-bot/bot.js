@@ -73,6 +73,170 @@ async function send(receiveId, type, text) {
 async function sendToChat(chatId, text) { await send(chatId, 'chat_id', text); }
 async function sendToDM(openId, text) { await send(openId, 'open_id', text); }
 
+// ── Rich text (post) sender — supports bold, at-mentions, line breaks ─────────
+// content: array of paragraphs, each paragraph is array of inline elements
+// element: { tag: 'text'|'at', text?, user_id? }
+async function sendPostToChat(chatId, title, content) {
+  await sendPost(chatId, 'chat_id', title, content);
+}
+async function sendPostToDM(openId, title, content) {
+  await sendPost(openId, 'open_id', title, content);
+}
+async function sendPost(receiveId, receiveIdType, title, content) {
+  await client.im.message.create({
+    params: { receive_id_type: receiveIdType },
+    data: {
+      receive_id: receiveId,
+      msg_type: 'post',
+      content: JSON.stringify({ post: { zh_cn: { title, content } } })
+    }
+  });
+}
+
+// Build a bold section header paragraph
+function postHeader(label) {
+  return [{ tag: 'text', text: label, style: { bold: true } }];
+}
+// Build a plain text paragraph
+function postLine(text) {
+  return [{ tag: 'text', text }];
+}
+// Build a task item paragraph
+function postTask(emoji, text) {
+  return [{ tag: 'text', text: `${emoji} ${text}` }];
+}
+
+// ── Shared title truncator ────────────────────────────────────────────────────
+function shortTitle(raw) {
+  if (!raw) return '(无标题)';
+  let t = raw.replace(/https?:\/\/\S+/g, '[链接]');
+  t = t.split(/\n/)[0].trim();
+  return t.length > 38 ? t.slice(0, 38) + '…' : t;
+}
+
+// ── Bitable change notification builder ──────────────────────────────────────
+// Returns [title, paragraphs]. Also accepts pendingWrite[] collector for
+// caller to batch-write new unowned tasks into Bitable.
+function buildBitableChangePost(changes, pendingWrites) {
+  function dedup(tasks) {
+    const seen = new Set();
+    return tasks.filter(t => {
+      const key = shortTitle(t.task).slice(0, 18).replace(/\s/g, '');
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric', weekday: 'short' });
+  const completedCount = changes.completed?.length || 0;
+  const overdueRaw = dedup(changes.overdueNew || []);
+
+  // Tier: actionable ≤7 days late (or no due), stale >7 days late
+  const actionable = overdueRaw.filter(t => !t.due || (Date.now() - new Date(t.due)) / 86400000 <= 7);
+  const stale      = overdueRaw.filter(t => t.due && (Date.now() - new Date(t.due)) / 86400000 > 7);
+
+  const title = `📊 Bitable 变更 · ${dateStr}`;
+  const paragraphs = [];
+
+  // Summary bar
+  const summaryParts = [];
+  if (completedCount)    summaryParts.push(`✅ 完成 ${completedCount}`);
+  if (actionable.length) summaryParts.push(`🟠 待处理 ${actionable.length}`);
+  if (stale.length)      summaryParts.push(`⚫ 积压 ${stale.length}`);
+  paragraphs.push([{ tag: 'text', text: summaryParts.join('　|　') }]);
+  paragraphs.push([{ tag: 'text', text: '─────────────────────────────────' }]);
+
+  // Completed
+  if (completedCount) {
+    paragraphs.push(postHeader(`✅ 今日完成（${completedCount}）`));
+    (changes.completed || []).slice(0, 8).forEach(t => {
+      paragraphs.push(postTask('▸', `${shortTitle(t.task)}${t.owner ? ' · ' + t.owner : ''}`));
+    });
+    if (completedCount > 8) paragraphs.push(postLine(`　…另有 ${completedCount - 8} 项`));
+    paragraphs.push(postLine(''));
+  }
+
+  // Actionable overdue — table with owner suggestion + @mention
+  if (actionable.length) {
+    paragraphs.push(postHeader(`🟠 本周需处理（${actionable.length}）`));
+    paragraphs.push([{ tag: 'text', text: '  任务　　　　　　　　　　　责任人　　　截止　　　来源' }]);
+    paragraphs.push([{ tag: 'text', text: '  ──────────────────────────────────────────────' }]);
+
+    actionable.forEach(t => {
+      let ownerDisplay, ownerName;
+      if (t.owner) {
+        ownerName    = t.owner;
+        ownerDisplay = t.owner;
+      } else {
+        // Suggest owner — use groupKey from task if available, else cross-group lookup
+        const suggestion = fac.suggestOwner(t.groupKey || '', t.task);
+        ownerName    = suggestion.suggested;
+        const conf   = suggestion.confidence === 'high' ? '' : suggestion.confidence === 'medium' ? '?' : '??';
+        ownerDisplay = ownerName ? `→${ownerName}${conf}` : '🔴待认领';
+
+        // Collect for Bitable write
+        if (pendingWrites && ownerName) {
+          pendingWrites.push({
+            title:       t.task,
+            module:      t.module || 'Clawdbot追踪',
+            priority:    t.priority || 'P2',
+            dueMs:       t.due ? new Date(t.due).getTime() : null,
+            ownerOpenIds: [nameToOpenId(ownerName)].filter(Boolean),
+            status:      '进行中',
+            note:        `AI推断责任人: ${ownerName}（${suggestion.reason}）`,
+            source:      `来源群组: ${t.groupKey || '未知'}`,
+          });
+        }
+      }
+
+      const due = t.due
+        ? new Date(t.due).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' })
+        : '无截止';
+      const grp = shortTitle(t.groupKey || t.group || '').slice(0, 8);
+      const titlePad = shortTitle(t.task).padEnd(22);
+      const ownerPad = ownerDisplay.padEnd(12);
+
+      // Build rich paragraph: @mention if we have open_id
+      const ownerOpenId = ownerName ? nameToOpenId(ownerName) : null;
+      const para = [{ tag: 'text', text: `  ▸ ${titlePad}` }];
+      if (ownerOpenId && !t.owner) {
+        para.push({ tag: 'at', user_id: ownerOpenId });
+        para.push({ tag: 'text', text: `(建议)　${due.padEnd(8)}${grp}` });
+      } else {
+        para.push({ tag: 'text', text: `${ownerPad}${due.padEnd(8)}${grp}` });
+      }
+      paragraphs.push(para);
+    });
+    paragraphs.push(postLine(''));
+  }
+
+  // Stale
+  if (stale.length) {
+    paragraphs.push(postHeader(`⚫ 长期积压（${stale.length}项，>7天）— 建议关闭或重分配`));
+    stale.slice(0, 8).forEach(t => {
+      const days = t.due ? `${Math.floor((Date.now() - new Date(t.due)) / 86400000)}天` : '无截止';
+      let ownerStr = t.owner || '';
+      if (!ownerStr) {
+        const s = fac.suggestOwner(t.groupKey || '', t.task);
+        ownerStr = s.suggested ? `→${s.suggested}?` : '待认领';
+      }
+      paragraphs.push(postTask('▹', `${shortTitle(t.task)} · ${ownerStr} · 逾期${days}`));
+    });
+    if (stale.length > 8) paragraphs.push(postLine(`　…另有 ${stale.length - 8} 项`));
+    paragraphs.push(postLine(''));
+  }
+
+  paragraphs.push([{
+    tag: 'text',
+    text: `💡 「bitable status」完整列表　|　「责任人建议」查看推断　|　已自动写入 Bitable ${pendingWrites?.length ? pendingWrites.length + '条' : ''}`,
+    style: { bold: true },
+  }]);
+
+  return [title, paragraphs];
+}
+
 // ── GPT helpers ───────────────────────────────────────────────────────────────
 async function gptAnalyze(systemPrompt, userContent) {
   const res = await openai.chat.completions.create({
@@ -98,7 +262,8 @@ async function readBitableTasks(appToken, tableId) {
   return {
     tasks: (res.data?.items || []).map(r => {
       const f = r.fields || {};
-      const ownerRaw = f['Owner（Owner&执行人）'] || f['Owner'] || f['负责人'] || f['执行人'] || '';
+      // Support both old and new owner field names
+      const ownerRaw = f['Owner（提出人+跟进人）'] || f['Owner（Owner&执行人）'] || f['Owner'] || f['负责人'] || f['执行人'] || '';
       const owner = Array.isArray(ownerRaw)
         ? ownerRaw.map(u => typeof u==='object' ? u.name||u.en_name||'' : String(u)).filter(Boolean).join(', ')
         : (typeof ownerRaw==='object' ? ownerRaw.name||ownerRaw.en_name||'' : String(ownerRaw||'')).trim();
@@ -113,6 +278,57 @@ async function readBitableTasks(appToken, tableId) {
       };
     }).filter(t => t.task)
   };
+}
+
+// ── Bitable write: create a new tracking record ───────────────────────────────
+// ownerOpenIds: array of open_id strings (for Person fields)
+// dueMs: timestamp in ms, or null
+async function writeBitableTask({ title, module, priority, dueMs, ownerOpenIds, status, note, source }) {
+  const APP_TOKEN = 'ULgAbO391aTHXvsh2q5cECE1nwd';
+  const TABLE_ID  = 'tblbmakMHbl2ndk0';
+  const tok = await getTenantToken();
+
+  const fields = {
+    '具体任务': title,
+    '所属模块': module || 'Clawdbot追踪',
+    '优先级': priority || 'P2',
+    '当前状态': status || '进行中',
+  };
+
+  if (dueMs) fields['承诺交付时间'] = dueMs;
+  if (note)  fields['当日进展'] = note;
+  if (source) fields['说明'] = [{ type: 'text', text: source }];
+
+  // Person field: array of { id: open_id }
+  if (ownerOpenIds?.length) {
+    fields['Owner（提出人+跟进人）'] = ownerOpenIds.map(id => ({ id }));
+  }
+
+  const res = await feishuApi('POST',
+    `/bitable/v1/apps/${APP_TOKEN}/tables/${TABLE_ID}/records`,
+    { fields },
+    tok
+  );
+
+  if (res.code !== 0) {
+    console.error('[Bitable write] Error:', res.msg, res.code);
+    return null;
+  }
+  return res.data?.record?.record_id;
+}
+
+// ── name → open_id lookup ─────────────────────────────────────────────────────
+const ID_NAME_MAP = (() => {
+  try { return JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'id_name_map.json'), 'utf8')); }
+  catch { return {}; }
+})();
+// Build reverse map: name → open_id (full ou_ entries only)
+const NAME_TO_ID = {};
+for (const [id, name] of Object.entries(ID_NAME_MAP)) {
+  if (id.startsWith('ou_') && name) NAME_TO_ID[name] = id;
+}
+function nameToOpenId(name) {
+  return NAME_TO_ID[name] || null;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -372,6 +588,10 @@ function parseCmd(text) {
   if (t === '未回答' || t === 'unanswered' || t === '问题追踪') return 'UNANSWERED';
   if (t.startsWith('添加里程碑') || t.startsWith('add milestone')) return 'ADD_MILESTONE';
   if (t === '里程碑' || t === 'milestones') return 'MILESTONES';
+  if (t === '责任人建议' || t === 'suggest owners' || t === '推断责任人' || t === '谁负责') return 'SUGGEST_OWNERS';
+  if (t === '全局责任人' || t === 'global owners' || t === '所有缺责任人') return 'GLOBAL_OWNERS';
+  if (t === 'pm总览' || t === 'pm brief' || t === '协调总览' || t === 'pm') return 'PM_BRIEF';
+  if (t.startsWith('策略 ') || t.startsWith('pm ')) return 'PM_GROUP_DETAIL';
   if (t === 'help' || t === '帮助' || t === '?') return 'HELP';
   if (t === 'learn' || t === 'learn now' || t === '学习' || t.startsWith('learn ')) return 'LEARN';
   if (t === 'vault' || t === 'memory' || t === '记忆库') return 'VAULT_INFO';
@@ -395,15 +615,43 @@ function formatTasks(tasks) {
 }
 
 function formatBitableStatus(tasks) {
-  const incomplete = tasks.filter(t => !['已完成','Done','Completed'].includes(t.status));
-  if (!incomplete.length) return '✅ All TCL Tracker tasks completed!';
+  const done = ['已完成','Done','Completed'];
+  const incomplete = tasks.filter(t => !done.includes(t.status));
+  if (!incomplete.length) return '✅ TCL Tracker 所有任务已完成';
+
+  function shortTitle(raw) {
+    if (!raw) return '(无标题)';
+    let t = raw.replace(/https?:\/\/\S+/g, '[链接]').split(/\n/)[0].trim();
+    return t.length > 36 ? t.slice(0, 36) + '…' : t;
+  }
+
   const now = new Date();
-  return `📊 TCL Tracker — ${incomplete.length} incomplete:\n\n${
-    incomplete.slice(0,12).map(t => {
-      let flag = '⚪';
-      if (t.due) { const h=(new Date(t.due)-now)/3.6e6; flag=h<0?'🔴':h<48?'🟡':'🟢'; }
-      return `${flag} ${t.task}\n   👤 ${t.owner||'Unassigned'} | ${t.status||'Unknown'}${t.due?` | 📅 ${t.due}`:''}`;
-    }).join('\n')}`;
+  const overdue  = incomplete.filter(t => t.due && new Date(t.due) < now);
+  const dueSoon  = incomplete.filter(t => t.due && new Date(t.due) >= now && (new Date(t.due) - now) < 48 * 3.6e6);
+  const onTrack  = incomplete.filter(t => !t.due || (new Date(t.due) - now) >= 48 * 3.6e6);
+
+  const lines = [`📊 TCL Tracker · ${incomplete.length} 项未完成\n`];
+  lines.push(`🔴 逾期 ${overdue.length}　🟡 48h内到期 ${dueSoon.length}　🟢 正常 ${onTrack.length}\n`);
+  lines.push('─────────────────────');
+
+  function renderGroup(label, items, limit = 6) {
+    if (!items.length) return;
+    lines.push(`\n${label}`);
+    items.slice(0, limit).forEach(t => {
+      const owner = t.owner || '待认领';
+      const due = t.due ? new Date(t.due).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' }) : '无截止';
+      lines.push(`  ${shortTitle(t.task)}`);
+      lines.push(`    → ${owner} | ${due} | ${t.status || '-'}`);
+    });
+    if (items.length > limit) lines.push(`    …另有 ${items.length - limit} 项`);
+  }
+
+  renderGroup('🔴 逾期任务', overdue, 6);
+  renderGroup('🟡 48小时内到期', dueSoon, 4);
+  if (onTrack.length <= 5) renderGroup('🟢 进行中', onTrack, 5);
+  else lines.push(`\n🟢 进行中：${onTrack.length} 项（输入「bitable status」查看全部）`);
+
+  return lines.join('\n');
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1181,6 +1429,101 @@ copy(JSON.stringify(window.__clawd.export()))
             break;
           }
 
+          case 'SUGGEST_OWNERS': {
+            // Per-group owner suggestion for the current group
+            const soData = fac.formatOwnerSuggestionPost(groupKey, group.name || groupKey);
+            if (!soData) {
+              reply = '✅ 本群所有任务均已指定责任人';
+            } else {
+              try {
+                await sendPostToChat(chatId, soData.title, soData.paragraphs);
+                reply = '';
+              } catch {
+                const plain = soData.paragraphs.map(p => p.map(e => e.text).join('')).join('\n');
+                reply = `${soData.title}\n\n${plain}`;
+              }
+            }
+            break;
+          }
+
+          case 'GLOBAL_OWNERS': {
+            // Cross-group owner report (DM-worthy output)
+            const globalRows = fac.buildGlobalOwnerReport();
+            if (!globalRows.length) {
+              reply = '✅ 所有群组任务均已指定责任人';
+              break;
+            }
+            const urgencyIcon = u => u === 'critical' ? '🔴' : u === 'urgent' ? '🟡' : '⚪';
+            const confIcon = c => c === 'high' ? '✅' : c === 'medium' ? '🔶' : '❓';
+            const title = `🧠 全局责任人推断 — ${globalRows.length} 项待认领`;
+            const paragraphs = [];
+            paragraphs.push([{ tag: 'text', text: `共 ${globalRows.length} 项任务缺少责任人，以下为推断结果：` }]);
+            paragraphs.push([{ tag: 'text', text: '─────────────────────────────' }]);
+
+            let currentGroup = null;
+            for (const row of globalRows) {
+              if (row.group !== currentGroup) {
+                if (currentGroup) paragraphs.push([{ tag: 'text', text: '' }]);
+                paragraphs.push([{ tag: 'text', text: `📌 ${row.group}`, style: { bold: true } }]);
+                currentGroup = row.group;
+              }
+              const dl = row.deadline ? ` · ${row.deadline}` : '';
+              const alt = row.alternatives.length ? `  备选: ${row.alternatives.join('/')}` : '';
+              paragraphs.push([{
+                tag: 'text',
+                text: `${urgencyIcon(row.urgency)} ${row.title}${dl}\n    → ${row.suggested || '待认领'}  ${confIcon(row.confidence)}${alt}\n    ${row.reason}`,
+              }]);
+            }
+            paragraphs.push([{ tag: 'text', text: '' }]);
+            paragraphs.push([{ tag: 'text', text: '💡 如推断有误，@Clawdbot 指定：「任务名 由 XXX 负责」', style: { bold: true } }]);
+
+            try {
+              await sendPostToChat(chatId, title, paragraphs);
+              reply = '';
+            } catch {
+              const plain = paragraphs.map(p => p.map(e => e.text).join('')).join('\n');
+              reply = `${title}\n\n${plain}`;
+            }
+            break;
+          }
+
+          case 'PM_BRIEF': {
+            const pmPost = fac.formatPMBriefPost();
+            try {
+              await sendPostToChat(chatId, pmPost.title, pmPost.paragraphs);
+              reply = '';
+            } catch {
+              const plain = pmPost.paragraphs.map(p => p.map(e => e.text).join('')).join('\n');
+              reply = `${pmPost.title}\n\n${plain}`;
+            }
+            break;
+          }
+
+          case 'PM_GROUP_DETAIL': {
+            const groupArg = text.replace(/^(策略|pm)\s+/i, '').trim();
+            let targetKey = null;
+            for (const gk of Object.keys(fac.GROUP_PM_STRATEGY)) {
+              if (gk.includes(groupArg) || gk.replace(/_/g, '').includes(groupArg.replace(/\s/g, ''))) {
+                targetKey = gk;
+                break;
+              }
+            }
+            if (!targetKey) {
+              reply = `未找到匹配群组「${groupArg}」。可用群组:\n${Object.keys(fac.GROUP_PM_STRATEGY).map(k => '  • ' + k).join('\n')}`;
+              break;
+            }
+            const detail = fac.formatGroupPMDetail(targetKey);
+            if (!detail) { reply = '该群暂无PM策略'; break; }
+            try {
+              await sendPostToChat(chatId, detail.title, detail.paragraphs);
+              reply = '';
+            } catch {
+              const plain = detail.paragraphs.map(p => p.map(e => e.text).join('')).join('\n');
+              reply = `${detail.title}\n\n${plain}`;
+            }
+            break;
+          }
+
           case 'MEETING_REPORT': {
             reply = '📹 正在扫描最近会议...';
             await send(receiveId, receiveIdType, reply);
@@ -1202,7 +1545,7 @@ copy(JSON.stringify(window.__clawd.export()))
           }
 
           case 'HELP': {
-            reply = `🤖 Clawdbot v7 命令\n\n📊 数据查询\n• dashboard / 仪表盘 — Barron管理面板\n• status — 系统状态\n• 群任务 — 本群任务看板\n• 项目总览 — 所有群项目\n• 催进度 — 本群待跟进\n\n🏗️ 项目管理\n• 里程碑 — 查看近期里程碑\n• 添加里程碑 <项目> <标题> <日期>\n• 客户阻塞 / 等客户 — 客户侧SLA\n• 项目文件 <项目> — 查看关键文件\n• 未回答 — 本群未回答问题\n\n✏️ 任务\n• 完成 <任务> — 标记完成\n• 延期 <任务> <原因>\n• 取消 <编号>\n\n👤 人员\n• 谁做了什么 / <名字>今天做了什么\n• 会议报告 — 最近会议\n\n⚙️ 控制\n• silent on/off — 切换静默\n• learn all — 全量学习\n• brain <话题> — 查询记忆`;
+            reply = `🤖 Clawdbot v8 命令\n\n📊 数据查询\n• dashboard / 仪表盘 — Barron管理面板\n• status — 系统状态\n• 群任务 — 本群任务看板\n• 项目总览 — 所有群项目\n• 催进度 — 本群待跟进\n\n🧠 责任人推断\n• 责任人建议 — 本群缺责任人任务推断\n• 全局责任人 — 所有群组缺责任人推断\n\n🏗️ 项目管理\n• 里程碑 — 查看近期里程碑\n• 添加里程碑 <项目> <标题> <日期>\n• 客户阻塞 / 等客户 — 客户侧SLA\n• 项目文件 <项目> — 查看关键文件\n• 未回答 — 本群未回答问题\n\n✏️ 任务\n• 完成 <任务> — 标记完成\n• 延期 <任务> <原因>\n• 取消 <编号>\n\n👤 人员\n• 谁做了什么 / <名字>今天做了什么\n• 会议报告 — 最近会议\n\n⚙️ 控制\n• silent on/off — 切换静默\n• learn all — 全量学习\n• brain <话题> — 查询记忆`;
             break;
           }
 
@@ -1482,18 +1825,22 @@ cron.schedule('*/5 * * * *', async () => {
         const changes = fac.getBitableChanges(oldTasks, result.tasks);
         fac.recordBitableSync(result.tasks);
 
-        // Notify on significant changes
-        if (changes.completed.length || changes.overdueNew.length) {
-          const n2mChatId = ops.chats?.N2M || ops.chats?.TCL独立站技术协同群__N2M_;
-          const parts = [];
-          if (changes.completed.length) {
-            parts.push(`✅ 完成: ${changes.completed.map(t => t.task).join(', ')}`);
+        if ((changes.completed.length || changes.overdueNew.length) && ops.barronOpenId) {
+          const pendingWrites = [];
+          const [title, paragraphs] = buildBitableChangePost(changes, pendingWrites);
+          try {
+            await sendPostToDM(ops.barronOpenId, title, paragraphs);
+          } catch {
+            const plain = paragraphs.map(p => p.map(e => e.text || '').join('')).join('\n');
+            await sendToDM(ops.barronOpenId, `${title}\n\n${plain}`);
           }
-          if (changes.overdueNew.length) {
-            parts.push(`🔴 新逾期: ${changes.overdueNew.map(t => `${t.task} (@${t.owner||'?'})`).join(', ')}`);
+          // Write unowned tasks back to Bitable with suggested owner
+          for (const w of pendingWrites) {
+            try { await writeBitableTask(w); }
+            catch(e) { console.error('[Bitable write]', e.message); }
           }
-          if (parts.length && ops.barronOpenId) {
-            await sendToDM(ops.barronOpenId, `📊 Bitable变更\n\n${parts.join('\n')}`);
+          if (pendingWrites.length) {
+            console.log(`[Bitable] Wrote ${pendingWrites.length} new tracking records`);
           }
         }
       }
@@ -1516,43 +1863,49 @@ cron.schedule('0 8-23 * * 1-6', async () => {
     // Only send hourly chase if there ARE urgent items
     if (urgent.urgentCount === 0 && mentions.length === 0) continue;
 
-    let msg = `🔔 ${group.name || gk} | 整点跟进\n\n`;
+    const timeStr = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+    const title = `🔔 整点跟进 · ${group.name || gk} · ${timeStr}`;
+    const paragraphs = [];
     let hasSomething = false;
 
     if (mentions.length) {
-      msg += `⏰ 待回复 (${mentions.length}):\n`;
+      paragraphs.push(postHeader(`⏰ 待回复（${mentions.length}）`));
       mentions.forEach(m => {
         const min = Math.floor((Date.now() - m.timestamp) / 60000);
-        msg += `• @${m.mentionedUser} — ${min}分钟未回 (${m.mentionerName})\n`;
+        paragraphs.push(postTask('▸', `${m.mentionedUser} — ${min} 分钟未回 · 来自 ${m.mentionerName}`));
       });
-      msg += '\n';
+      paragraphs.push(postLine(''));
       hasSomething = true;
     }
 
     const chaseEntries = Object.entries(urgent.chaseTargets).filter(([_, c]) => c >= 2);
     if (chaseEntries.length) {
-      msg += `📢 多次催促:\n`;
+      paragraphs.push(postHeader('📢 被多次催促'));
       chaseEntries.forEach(([person, count]) => {
-        msg += `• @${person} — 被催 ${count} 次\n`;
+        paragraphs.push(postTask('▸', `${person} — 已被催 ${count} 次`));
       });
-      msg += '\n';
+      paragraphs.push(postLine(''));
       hasSomething = true;
     }
 
     if (urgent.urgentCount) {
-      msg += `🚨 紧急消息 (${urgent.urgentCount}):\n`;
+      paragraphs.push(postHeader(`🚨 紧急消息（${urgent.urgentCount}）`));
       urgent.urgentMessages.slice(0, 3).forEach(m => {
-        msg += `• ${m.sender}: ${m.text.slice(0, 80)}\n`;
+        paragraphs.push(postTask('▸', `${m.sender}: ${m.text.slice(0, 80)}`));
       });
       hasSomething = true;
     }
 
     if (hasSomething) {
-      // Send to group
-      await sendToChat(group.chatId, msg);
-      // Also DM Barron
+      try {
+        await sendPostToChat(group.chatId, title, paragraphs);
+      } catch {
+        const plain = paragraphs.map(p => p.map(e => e.text).join('')).join('\n');
+        await sendToChat(group.chatId, `${title}\n\n${plain}`);
+      }
       if (ops.barronOpenId) {
-        await sendToDM(ops.barronOpenId, msg);
+        const plain = paragraphs.map(p => p.map(e => e.text).join('')).join('\n');
+        await sendToDM(ops.barronOpenId, `${title}\n\n${plain}`);
       }
       console.log(`[hourly] 🔔 Chase sent for ${gk}`);
     }
@@ -1634,43 +1987,109 @@ cron.schedule('0 9 * * *', async () => {
     const data = fac.buildMorningBriefData(gk);
     if (data.totalOpen === 0) continue;
 
-    let msg = `🌅 早报 | ${data.groupName} | ${new Date().toLocaleDateString('zh-CN')}\n\n`;
+    const dateStr = new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' });
+    const title = `🌅 早报 · ${data.groupName} · ${dateStr}`;
+    const paragraphs = [];
+
+    // Stats summary line
+    const parts = [];
+    if (data.overdue.length)   parts.push(`🔴 逾期 ${data.overdue.length}`);
+    if (data.dueToday.length)  parts.push(`🟡 今日到期 ${data.dueToday.length}`);
+    if (data.noOwner.length)   parts.push(`⚠️ 缺责任人 ${data.noOwner.length}`);
+    paragraphs.push([{ tag: 'text', text: parts.join('　|　') || `共 ${data.totalOpen} 项待办` }]);
+    paragraphs.push(postLine('─────────────────────'));
 
     if (data.overdue.length) {
-      msg += `🔴 逾期 (${data.overdue.length}):\n`;
-      data.overdue.forEach(t => msg += `• ${t.title} — @${t.owner||'❓'} (截止 ${t.deadline})\n`);
-      msg += '\n';
+      paragraphs.push(postHeader('🔴 逾期任务（需立即处理）'));
+      data.overdue.forEach(t => {
+        const deadline = t.deadline ? ` · 截止 ${t.deadline}` : '';
+        paragraphs.push(postTask('▸', `${t.title} — ${t.owner || '待认领'}${deadline}`));
+      });
+      paragraphs.push(postLine(''));
     }
+
     if (data.dueToday.length) {
-      msg += `🟡 今日到期 (${data.dueToday.length}):\n`;
-      data.dueToday.forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}\n`);
-      msg += '\n';
-    }
-    if (data.noOwner.length) {
-      msg += `⚠️ 缺责任人 (${data.noOwner.length}):\n`;
-      data.noOwner.forEach(t => msg += `• ${t.title} — 请认领\n`);
-      msg += '\n';
-    }
-    if (data.noDeadline.length) {
-      msg += `⚠️ 缺截止日期 (${data.noDeadline.length}):\n`;
-      data.noDeadline.slice(0, 5).forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}\n`);
-      msg += '\n';
+      paragraphs.push(postHeader('🟡 今日到期'));
+      data.dueToday.forEach(t => {
+        paragraphs.push(postTask('▸', `${t.title} — ${t.owner || '待认领'}`));
+      });
+      paragraphs.push(postLine(''));
     }
 
     // v7: Client SLA per group (if any)
     const clientSLA = fac.getPendingClientSLA(gk);
     if (clientSLA.length) {
-      msg += `🔶 等客户确认 (${clientSLA.length}):\n`;
+      paragraphs.push(postHeader('🔶 等客户回复'));
       clientSLA.forEach(c => {
         const flag = c.waitingDays >= 5 ? '🔴' : c.waitingDays >= 3 ? '🟡' : '⚪';
-        msg += `${flag} ${c.item} — 已等${c.waitingDays}天\n`;
+        paragraphs.push(postTask(flag, `${c.item} · 已等 ${c.waitingDays} 天`));
       });
-      msg += '\n';
+      paragraphs.push(postLine(''));
     }
 
-    msg += `📋 共 ${data.totalOpen} 项待办 | 请相关同事确认今日重点`;
+    if (data.noOwner.length) {
+      paragraphs.push(postHeader('⚠️ 缺责任人（请认领）'));
+      data.noOwner.forEach(t => paragraphs.push(postTask('▹', t.title)));
+      paragraphs.push(postLine(''));
+    }
 
-    await sendToChat(group.chatId, msg);
+    if (data.noDeadline.length) {
+      paragraphs.push(postHeader('⚠️ 缺截止日期'));
+      data.noDeadline.slice(0, 5).forEach(t => {
+        paragraphs.push(postTask('▹', `${t.title} — ${t.owner || '待认领'}`));
+      });
+      paragraphs.push(postLine(''));
+    }
+
+    paragraphs.push([{ tag: 'text', text: `📋 共 ${data.totalOpen} 项待办　请相关同事确认今日重点 👇`, style: { bold: true } }]);
+
+    // Append owner suggestions inline + @mention + write to Bitable
+    if (data.noOwner.length) {
+      paragraphs.push(postLine(''));
+      paragraphs.push([{ tag: 'text', text: '─────────────────────' }]);
+      paragraphs.push([{ tag: 'text', text: '🧠 责任人推断（AI）— 已写入 Bitable', style: { bold: true } }]);
+      const confIcon = c => c === 'high' ? '✅' : c === 'medium' ? '🔶' : '❓';
+
+      for (const t of data.noOwner) {
+        const s = fac.suggestOwner(gk, t.title);
+        const alt = s.alternatives.length ? `  备选: ${s.alternatives.slice(0,2).join('/')}` : '';
+        const ownerOpenId = s.suggested ? nameToOpenId(s.suggested) : null;
+
+        // Rich paragraph: text + @mention inline
+        const para = [{ tag: 'text', text: `▸ ${shortTitle(t.title)}  →  ` }];
+        if (ownerOpenId) {
+          para.push({ tag: 'at', user_id: ownerOpenId });
+          para.push({ tag: 'text', text: ` ${confIcon(s.confidence)}${alt}` });
+        } else {
+          para.push({ tag: 'text', text: `${s.suggested || '待认领'} ${confIcon(s.confidence)}${alt}` });
+        }
+        paragraphs.push(para);
+        paragraphs.push([{ tag: 'text', text: `    ${s.reason}` }]);
+
+        // Write to Bitable
+        if (s.suggested) {
+          writeBitableTask({
+            title:        t.title,
+            module:       '早报-待认领',
+            priority:     t.urgency === 'critical' ? 'P0' : t.urgency === 'urgent' ? 'P1' : 'P2',
+            dueMs:        t.deadline ? new Date(t.deadline).getTime() : null,
+            ownerOpenIds: ownerOpenId ? [ownerOpenId] : [],
+            status:       '待确认',
+            note:         `AI推断: ${s.suggested}（${s.reason}）`,
+            source:       `来源群组: ${data.groupName}`,
+          }).catch(e => console.error('[Bitable write morning]', e.message));
+        }
+      }
+      paragraphs.push([{ tag: 'text', text: '💡 确认分工：@Clawdbot「任务名 由 XXX 负责」' }]);
+    }
+
+    try {
+      await sendPostToChat(group.chatId, title, paragraphs);
+    } catch {
+      // Fallback to plain text if post fails
+      const plain = paragraphs.map(p => p.map(e => e.text).join('')).join('\n');
+      await sendToChat(group.chatId, `${title}\n\n${plain}`);
+    }
     console.log(`[09:00] 🌅 Morning brief sent: ${gk}`);
   }
 
@@ -1773,32 +2192,56 @@ cron.schedule('0 18 * * *', async () => {
     const openTasks = group.tasks.filter(t => t.status !== 'done' && t.status !== 'cancelled');
     if (!data.completed.length && !openTasks.length) continue;
 
-    let msg = `🌆 日结 | ${data.groupName} | ${new Date().toLocaleDateString('zh-CN')}\n\n`;
-
-    if (data.completed.length) {
-      msg += `✅ 今日完成 (${data.completed.length}):\n`;
-      data.completed.forEach(t => msg += `• ${t.title} — @${t.owner||'?'}\n`);
-      msg += '\n';
-    }
-
     const notDone = openTasks.filter(t => data.stillOpen.find(s => s.id === t.id));
     const carriedOver = openTasks.filter(t => !data.stillOpen.find(s => s.id === t.id));
 
+    const dateStr = new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' });
+    const title = `🌆 日结 · ${data.groupName} · ${dateStr}`;
+    const paragraphs = [];
+
+    // Stats summary line
+    const statParts = [];
+    if (data.completed.length) statParts.push(`✅ 完成 ${data.completed.length}`);
+    if (notDone.length)        statParts.push(`🟡 未完成 ${notDone.length}`);
+    if (carriedOver.length)    statParts.push(`📋 待跟进 ${carriedOver.length}`);
+    paragraphs.push([{ tag: 'text', text: statParts.join('　|　') }]);
+    paragraphs.push(postLine('─────────────────────'));
+
+    if (data.completed.length) {
+      paragraphs.push(postHeader('✅ 今日完成'));
+      data.completed.forEach(t => paragraphs.push(postTask('▸', `${t.title} — ${t.owner || '?'}`)));
+      paragraphs.push(postLine(''));
+    }
+
     if (notDone.length) {
-      msg += `🟡 今日未完成 (${notDone.length}):\n`;
-      notDone.forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}${t.deferReason ? ` (延期: ${t.deferReason})` : ''}\n`);
-      msg += '\n';
+      paragraphs.push(postHeader('🟡 今日未完成'));
+      notDone.forEach(t => {
+        const defer = t.deferReason ? ` · 延期原因: ${t.deferReason}` : '';
+        paragraphs.push(postTask('▸', `${t.title} — ${t.owner || '❓'}${defer}`));
+      });
+      paragraphs.push(postLine(''));
     }
 
     if (carriedOver.length) {
-      msg += `📋 继续跟进 (${carriedOver.length}):\n`;
-      carriedOver.slice(0, 5).forEach(t => msg += `• ${t.title} — @${t.owner||'❓'}${t.deadline ? ` | ${t.deadline}` : ''}\n`);
-      msg += '\n';
+      paragraphs.push(postHeader('📋 继续跟进'));
+      carriedOver.slice(0, 5).forEach(t => {
+        const dl = t.deadline ? ` · 截止 ${t.deadline}` : '';
+        paragraphs.push(postTask('▹', `${t.title} — ${t.owner || '❓'}${dl}`));
+      });
+      if (carriedOver.length > 5) {
+        paragraphs.push(postLine(`　…另有 ${carriedOver.length - 5} 项`));
+      }
+      paragraphs.push(postLine(''));
     }
 
-    msg += `辛苦了，明天见 🤝`;
+    paragraphs.push([{ tag: 'text', text: '辛苦了，明天见 🤝', style: { bold: true } }]);
 
-    await sendToChat(group.chatId, msg);
+    try {
+      await sendPostToChat(group.chatId, title, paragraphs);
+    } catch {
+      const plain = paragraphs.map(p => p.map(e => e.text).join('')).join('\n');
+      await sendToChat(group.chatId, `${title}\n\n${plain}`);
+    }
 
     // Add to Barron's summary
     barronSummary += `📌 ${data.groupName}: ✅${data.completed.length} 🟡${notDone.length} 📋${carriedOver.length}\n`;

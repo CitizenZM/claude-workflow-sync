@@ -18,12 +18,19 @@ const TOKEN_FILE = path.join(__dirname, '.user_token.json');
 const PORT = 3000;
 const REDIRECT_URI = `http://localhost:${PORT}/callback`;
 
-// Use only PUBLISHED scopes (already in v1.1.2)
-// im:message + im:message:readonly are published and allow user-token message history
+// User token scopes — v1.1.6 adds drive:drive:readonly for Drive file search
 const SCOPES = [
   'im:message',
   'im:message:readonly',
-  'im:chat:readonly'
+  'im:chat:readonly',
+  'docx:document:readonly',
+  'wiki:wiki:readonly',
+  'wiki:node:read',
+  'wiki:node:retrieve',
+  'wiki:space:read',
+  'minutes:minutes:readonly',
+  'bitable:app:readonly',
+  'drive:drive:readonly'
 ].join(' ');
 
 // ── PKCE helpers ──────────────────────────────────────────────────────────────

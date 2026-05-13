@@ -522,22 +522,35 @@ Return ONLY valid JSON.`;
 // ── Default project cluster definitions ─────────────────────────────────────
 const DEFAULT_PROJECT_CLUSTERS = {
   TCL: {
-    groups: ['TCL独立站技术协同群__N2M_', 'N2M', 'TCL独立站增长与运营组', 'TCL_客服群'],
+    groups: ['TCL独立站技术协同群__N2M_', 'N2M', 'TCL独立站增长与运营组', 'TCL_客服群', 'TCL_M2AI共创'],
     keyFiles: [],
-    milestones: [],
-    stakeholders: ['冯昭祥', '金叙呈', '刘兴竺', 'Mingyi', 'James Hou'],
+    milestones: [
+      { name: '母亲节促销', date: '2026-05-11', owner: '刘兴竺' },
+      { name: 'Memorial Day SOP', date: '2026-05-16', owner: '刘兴竺' },
+      { name: 'Memorial Day促销', date: '2026-05-26', owner: '刘兴竺' },
+      { name: 'AI客服话术确认', date: '2026-05-11', owner: '金叙呈' },
+    ],
+    stakeholders: ['冯昭祥', '金叙呈', '刘兴竺', 'Mingyi', 'James Hou', 'XiaAlba'],
   },
   CELL: {
-    groups: ['CELL_付费广告', 'CELL_EDM', 'CELL_联盟运营'],
+    groups: ['CELL_付费广告', 'CELL_EDM', 'CELL_联盟运营', 'CELL_百万美金财务群', 'CELL_x_N2M_美工需求', 'N2M_项目广告优化组'],
     keyFiles: [],
     milestones: [],
-    stakeholders: ['欢欢', '帆帆'],
+    stakeholders: ['欢欢', '帆帆', 'Xinyue Zhang', '金叙呈', 'Mingyi'],
   },
   OhBeauty: {
-    groups: ['Oh_Beauty_Shopify_运营'],
+    groups: ['Oh_Beauty_Shopify_运营', 'Oh_Beauty_Shopify'],
+    keyFiles: [],
+    milestones: [
+      { name: 'OB GWP促销结束', date: '2026-05-13', owner: '帆帆' },
+    ],
+    stakeholders: ['冯昭祥', 'James Hou', '帆帆', 'Xinyue Zhang', '金叙呈'],
+  },
+  Affiliate: {
+    groups: ['Affiliate_Publisher_Development', 'Levoit_Affiliate_Ops', 'Ottocast_亚马逊联盟服务群', 'Rockbro_独立站联盟运营'],
     keyFiles: [],
     milestones: [],
-    stakeholders: ['冯昭祥'],
+    stakeholders: ['帆帆', 'Mingyi'],
   },
 };
 
@@ -971,6 +984,895 @@ function formatBarronDashboard(dashboard, calendarEvents) {
   return msg;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Owner Suggestion Engine
+// Infers the most likely responsible person for a task when owner is missing,
+// using: task title keywords, group role map, historical task patterns,
+// project cluster stakeholders, and workload balance.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Role keyword map: task title patterns → likely role/person
+const ROLE_KEYWORD_MAP = [
+  { keywords: ['设计', 'banner', '素材', '图片', '视觉', '美工', 'UI', '排版', 'GWP图', '创意图', 'mockup', '切图'], role: 'design' },
+  { keywords: ['广告', 'ROAS', 'CPC', 'CPA', 'PMax', 'PLA', 'TikTok投放', '预算', '竞价', '关键词', 'GMC', 'Shopping Ads', 'campaign'], role: 'paid_ads' },
+  { keywords: ['Shopify', '独立站', '前端', 'PDP', 'Landing', '页面', 'homepage', '上线', '代码', 'dev', '产品页', '导航', 'collection', 'theme'], role: 'frontend' },
+  { keywords: ['客服', '退款', '订单', '物流', '追踪', 'tracking', 'refund', 'CS', '售后', 'LTL', '发货', '签收', 'B2B'], role: 'cs' },
+  { keywords: ['联盟', 'Affiliate', 'Publisher', 'Impact', 'Awin', 'Levanta', '达人', '合作', 'commission', 'KOL', '网红', 'creator'], role: 'affiliate' },
+  { keywords: ['EDM', '邮件', 'Klaviyo', '模板', '邮件营销', 'flow', 'campaign邮件'], role: 'edm' },
+  { keywords: ['财务', '发票', '付款', '打款', 'invoice', 'wire', '结算', '佣金', 'ACC', '对账'], role: 'finance' },
+  { keywords: ['法务', '合同', '协议', '版权', 'legal', '审核', '合约'], role: 'legal' },
+  { keywords: ['内容', 'blog', 'SEO', '文案', 'copy', '产品描述', 'listing', '卖点', 'selling point'], role: 'content' },
+  { keywords: ['SOP', '流程', '培训', '文档', 'onboarding', '手册', '促销SOP', 'Memorial Day', '母亲节'], role: 'ops' },
+  { keywords: ['Amazon', '亚马逊', 'ASIN', 'A+', 'Levanta'], role: 'amazon' },
+  { keywords: ['库存', 'inventory', '备货', '到货', '补货', '价格', '定价', 'pricing'], role: 'supply' },
+  { keywords: ['促销', 'promotion', 'sale', '折扣', 'discount', 'GWP', '满减', 'coupon', 'promo'], role: 'promo' },
+  { keywords: ['TikTok', 'TTS', '达人带货', 'GMV', 'TikTok Shop', '样品'], role: 'tiktok' },
+];
+
+// ── v9: Person Profile — full domain/capability matrix ────────────────────
+const PERSON_PROFILE = {
+  '冯昭祥': {
+    roles: ['frontend', 'ops', 'content'],
+    primary: 'frontend',
+    groups: ['N2M', 'TCL独立站技术协同群__N2M_', 'TCL独立站增长与运营组', 'Oh_Beauty_Shopify_运营', 'Oh_Beauty_Shopify'],
+    capabilities: ['Shopify开发', 'PDP页面', 'Homepage设计', '产品上架', '前端修改', '独立站运营'],
+    maxConcurrent: 6,
+    escalateTo: 'Barron',
+  },
+  'James Hou': {
+    roles: ['frontend', 'content'],
+    primary: 'frontend',
+    groups: ['N2M', 'TCL独立站技术协同群__N2M_', 'Oh_Beauty_Shopify'],
+    capabilities: ['技术文档', 'PDP优化', 'Blog内容', 'Shopify开发', 'wiki维护'],
+    maxConcurrent: 4,
+    escalateTo: '冯昭祥',
+  },
+  '帆帆': {
+    roles: ['affiliate', 'paid_ads', 'ops', 'promo', 'finance'],
+    primary: 'affiliate',
+    groups: ['CELL_付费广告', 'CELL_联盟运营', 'TCL独立站增长与运营组', 'Affiliate_Publisher_Development', 'Oh_Beauty_Shopify_运营'],
+    capabilities: ['联盟运营', '广告briefing', '促销策划', '发票对账', 'publisher管理', 'Impact/Awin操作'],
+    maxConcurrent: 8,
+    escalateTo: 'Barron',
+  },
+  '欢欢': {
+    roles: ['paid_ads'],
+    primary: 'paid_ads',
+    groups: ['CELL_付费广告', 'N2M_项目广告优化组'],
+    capabilities: ['Google Ads', 'PMax', 'PLA', 'Shopping Ads', 'TikTok Ads', '预算分配', 'ROAS优化'],
+    maxConcurrent: 5,
+    escalateTo: '帆帆',
+  },
+  '金叙呈': {
+    roles: ['cs', 'edm'],
+    primary: 'cs',
+    groups: ['TCL_客服群', 'CELL_EDM', 'N2M'],
+    capabilities: ['客服处理', '退款流程', '订单管理', 'Klaviyo邮件', 'AI客服话术', 'LTL物流'],
+    maxConcurrent: 5,
+    escalateTo: 'Mingyi',
+  },
+  '刘兴竺': {
+    roles: ['ops', 'supply'],
+    primary: 'ops',
+    groups: ['TCL独立站增长与运营组', 'TCL独立站技术协同群__N2M_'],
+    capabilities: ['价格管理', '库存监控', '促销SOP', 'Memorial Day/母亲节运营', '数据录入'],
+    maxConcurrent: 4,
+    escalateTo: 'Mingyi',
+  },
+  'Mingyi': {
+    roles: ['finance', 'legal', 'ops'],
+    primary: 'finance',
+    groups: ['TCL独立站增长与运营组', 'TCL_客服群', 'CELL_EDM', 'CELL_百万美金财务群'],
+    capabilities: ['财务打款', '法务协调', '合同审核', 'Shopify权限', '跨部门沟通', '客户对接'],
+    maxConcurrent: 6,
+    escalateTo: 'Barron',
+  },
+  'Xinyue Zhang': {
+    roles: ['design', 'content'],
+    primary: 'design',
+    groups: ['CELL_x_N2M_美工需求', 'CELL_付费广告', 'CELL_EDM', 'Oh_Beauty_Shopify_运营'],
+    capabilities: ['Banner设计', '广告素材', 'EDM模板', '产品图', '视觉设计'],
+    maxConcurrent: 5,
+    escalateTo: '帆帆',
+  },
+  'XiaAlba': {
+    roles: ['ops', 'promo'],
+    primary: 'ops',
+    groups: ['TCL独立站增长与运营组'],
+    capabilities: ['促销SOP', '活动执行', '流程文档'],
+    maxConcurrent: 3,
+    escalateTo: '帆帆',
+  },
+  'Fan Zhang': {
+    roles: ['ops'],
+    primary: 'ops',
+    groups: [],
+    capabilities: ['运营支持'],
+    maxConcurrent: 3,
+    escalateTo: 'Barron',
+  },
+  '刘依绵': {
+    roles: ['ops'],
+    primary: 'ops',
+    groups: [],
+    capabilities: ['运营支持'],
+    maxConcurrent: 3,
+    escalateTo: 'Barron',
+  },
+  '谢腾燕': {
+    roles: ['ops'],
+    primary: 'ops',
+    groups: [],
+    capabilities: ['运营支持'],
+    maxConcurrent: 3,
+    escalateTo: 'Barron',
+  },
+  '金金': {
+    roles: ['ops'],
+    primary: 'ops',
+    groups: [],
+    capabilities: ['运营支持'],
+    maxConcurrent: 3,
+    escalateTo: 'Barron',
+  },
+};
+
+// ── v9: Per-group PM coordination strategy ────────────────────────────────
+const GROUP_PM_STRATEGY = {
+  'TCL独立站技术协同群__N2M_': {
+    cluster: 'TCL',
+    pmLead: '冯昭祥',
+    members: ['冯昭祥', 'James Hou', 'Mingyi', '刘兴竺'],
+    taskLines: ['Shopify前端开发', '产品上架/PDP', '价格管理', '权限/系统', '法务审核'],
+    interventionRules: {
+      morningBrief: true,
+      hourlyChase: true,
+      slaWatch: ['Shopify权限问题', '产品资料处理', 'PDP法务审核'],
+      escalateAfterHours: 4,
+      crossGroupSync: ['TCL独立站增长与运营组', 'TCL_客服群'],
+    },
+    coordination: '技术群以冯昭祥为主导，James协助文档/PDP。价格变更由刘兴竺执行，Mingyi负责权限和法务接口。Clawdbot重点追踪：①未处理的产品资料 ②PDP更新进度 ③系统权限异常',
+  },
+  'TCL独立站增长与运营组': {
+    cluster: 'TCL',
+    pmLead: '刘兴竺',
+    members: ['刘兴竺', '冯昭祥', '帆帆', 'Mingyi', 'XiaAlba'],
+    taskLines: ['促销活动SOP', '客户合约/法务', '联盟对接', 'Bitable任务管理', '价格策略'],
+    interventionRules: {
+      morningBrief: true,
+      hourlyChase: false,
+      slaWatch: ['客户合约签署', '促销SOP截止', 'Impact账号开通'],
+      escalateAfterHours: 8,
+      crossGroupSync: ['TCL独立站技术协同群__N2M_', 'CELL_付费广告'],
+    },
+    coordination: '运营组以刘兴竺为SOP/价格主导，帆帆负责联盟和促销briefing，Mingyi处理法务和财务。Clawdbot重点追踪：①Bitable P0/P1逾期任务 ②促销里程碑(母亲节5/11, Memorial Day 5/26) ③跨群信息同步(价格→技术群, brief→广告群)',
+  },
+  'TCL_客服群': {
+    cluster: 'TCL',
+    pmLead: '金叙呈',
+    members: ['金叙呈', 'Mingyi'],
+    taskLines: ['退款处理', '订单异常', 'LTL物流', 'AI客服话术', 'B2B询盘'],
+    interventionRules: {
+      morningBrief: true,
+      hourlyChase: true,
+      slaWatch: ['退款超24h未处理', '客户投诉', 'LTL缺追踪号'],
+      escalateAfterHours: 2,
+      crossGroupSync: ['TCL独立站技术协同群__N2M_'],
+    },
+    coordination: '客服群金叙呈全权负责，Mingyi协助权限和邮件发送。Clawdbot重点追踪：①退款超时(>24h自动升级) ②未填tracking号订单 ③AI客服话术确认进度(deadline 5/11)',
+  },
+  'CELL_付费广告': {
+    cluster: 'CELL',
+    pmLead: '欢欢',
+    members: ['欢欢', '帆帆', 'Xinyue Zhang'],
+    taskLines: ['TCL广告投放', 'OhBeauty广告', 'TikTok广告', 'campaign素材', 'ROAS优化'],
+    interventionRules: {
+      morningBrief: true,
+      hourlyChase: false,
+      slaWatch: ['促销brief未到', 'ROAS<1.0', '素材未交付'],
+      escalateAfterHours: 12,
+      crossGroupSync: ['TCL独立站增长与运营组', 'CELL_x_N2M_美工需求'],
+    },
+    coordination: '广告群欢欢为执行主导，帆帆提供brief和促销信息，Xinyue出素材。Clawdbot重点追踪：①brief交付是否及时(促销前3天) ②ROAS异常(<1.0自动预警) ③素材需求→美工群联动',
+  },
+  'CELL_EDM': {
+    cluster: 'CELL',
+    pmLead: '金叙呈',
+    members: ['金叙呈', 'Mingyi', 'Xinyue Zhang'],
+    taskLines: ['EDM模板设计', '邮件内容审核', '价格/折扣更新', 'Klaviyo配置'],
+    interventionRules: {
+      morningBrief: false,
+      hourlyChase: false,
+      slaWatch: ['EDM发送前素材未确认', '价格变更未同步'],
+      escalateAfterHours: 24,
+      crossGroupSync: ['CELL_付费广告'],
+    },
+    coordination: 'EDM群金叙呈执行，Mingyi配置和价格管理，Xinyue出模板设计。Clawdbot追踪：①模板审核进度 ②价格同步(from运营群)',
+  },
+  'CELL_联盟运营': {
+    cluster: 'CELL',
+    pmLead: '帆帆',
+    members: ['帆帆'],
+    taskLines: ['Publisher对接', 'Impact/Awin操作', '佣金对账', '发票处理', 'Ottocast联盟'],
+    interventionRules: {
+      morningBrief: false,
+      hourlyChase: false,
+      slaWatch: ['发票逾期', 'publisher回复超48h'],
+      escalateAfterHours: 24,
+      crossGroupSync: ['CELL_百万美金财务群'],
+    },
+    coordination: '联盟群帆帆独立负责。Clawdbot追踪：①Ottocast ACC发票进度 ②publisher开发pipeline ③佣金结算周期',
+  },
+  'Oh_Beauty_Shopify_运营': {
+    cluster: 'OhBeauty',
+    pmLead: '冯昭祥',
+    members: ['冯昭祥', 'James Hou', '帆帆', 'Xinyue Zhang', '金叙呈'],
+    taskLines: ['PDP/页面优化', 'GWP促销', 'Banner更新', '款项处理', '客户素材等待'],
+    interventionRules: {
+      morningBrief: true,
+      hourlyChase: false,
+      slaWatch: ['客户素材超48h', 'GWP到期未关闭', 'Banner未上线'],
+      escalateAfterHours: 8,
+      crossGroupSync: ['Oh_Beauty_Shopify', 'CELL_付费广告'],
+    },
+    coordination: 'OB运营群冯昭祥主导前端，帆帆管促销和GWP，Xinyue出设计。Clawdbot追踪：①客户SLA(素材/banner等待) ②GWP开关时间 ③促销页面排序问题',
+  },
+  'Affiliate_Publisher_Development': {
+    cluster: 'CELL',
+    pmLead: '帆帆',
+    members: ['帆帆'],
+    taskLines: ['Publisher开发', '合作谈判', 'Onboarding'],
+    interventionRules: {
+      morningBrief: false,
+      hourlyChase: false,
+      slaWatch: [],
+      escalateAfterHours: 48,
+      crossGroupSync: [],
+    },
+    coordination: '帆帆独立管理publisher开发pipeline。Clawdbot以周报频率汇总。',
+  },
+  'CELL_百万美金财务群': {
+    cluster: 'CELL',
+    pmLead: 'Mingyi',
+    members: ['Mingyi', '帆帆'],
+    taskLines: ['打款处理', '发票核对', '佣金结算'],
+    interventionRules: {
+      morningBrief: false,
+      hourlyChase: false,
+      slaWatch: ['打款退回', '发票逾期>7天'],
+      escalateAfterHours: 24,
+      crossGroupSync: ['CELL_联盟运营'],
+    },
+    coordination: 'Mingyi负责执行打款，帆帆提供发票清单。Clawdbot追踪：①打款异常(退回/失败) ②逾期发票',
+  },
+  'CELL_x_N2M_美工需求': {
+    cluster: 'CELL',
+    pmLead: 'Xinyue Zhang',
+    members: ['Xinyue Zhang', '帆帆', '欢欢'],
+    taskLines: ['广告素材', 'Banner设计', '促销图片', 'EDM模板'],
+    interventionRules: {
+      morningBrief: false,
+      hourlyChase: false,
+      slaWatch: ['素材需求超48h未交付'],
+      escalateAfterHours: 24,
+      crossGroupSync: ['CELL_付费广告', 'CELL_EDM'],
+    },
+    coordination: 'Xinyue接需求并执行，帆帆和欢欢提brief。Clawdbot追踪：①需求提交→交付时间 ②素材是否联动到广告群',
+  },
+};
+
+// Per-group role → person assignments (mirrors cluster stakeholders + group context)
+const GROUP_ROLE_MAP = {
+  'N2M': {
+    frontend: ['冯昭祥', 'James Hou'],
+    design: ['Xinyue Zhang'],
+    ops: ['冯昭祥'],
+    cs: ['金叙呈'],
+    default: ['冯昭祥'],
+  },
+  'TCL独立站技术协同群__N2M_': {
+    frontend: ['冯昭祥', 'James Hou'],
+    design: ['Xinyue Zhang'],
+    ops: ['刘兴竺'],
+    cs: ['金叙呈'],
+    supply: ['刘兴竺'],
+    legal: ['Mingyi'],
+    default: ['冯昭祥'],
+  },
+  'TCL独立站增长与运营组': {
+    frontend: ['冯昭祥', 'James Hou'],
+    ops: ['刘兴竺', 'XiaAlba'],
+    content: ['冯昭祥'],
+    legal: ['Mingyi'],
+    finance: ['Mingyi'],
+    affiliate: ['帆帆'],
+    promo: ['刘兴竺', 'XiaAlba'],
+    default: ['冯昭祥'],
+  },
+  'TCL_客服群': {
+    cs: ['金叙呈'],
+    finance: ['Mingyi'],
+    supply: ['刘兴竺'],
+    default: ['金叙呈'],
+  },
+  'CELL_付费广告': {
+    paid_ads: ['欢欢'],
+    design: ['Xinyue Zhang'],
+    ops: ['帆帆'],
+    promo: ['帆帆'],
+    default: ['欢欢'],
+  },
+  'CELL_EDM': {
+    edm: ['金叙呈', 'Mingyi'],
+    design: ['Xinyue Zhang'],
+    content: ['金叙呈'],
+    default: ['金叙呈'],
+  },
+  'CELL_联盟运营': {
+    affiliate: ['帆帆'],
+    finance: ['帆帆'],
+    amazon: ['帆帆'],
+    tiktok: ['金叙呈'],
+    default: ['帆帆'],
+  },
+  'Oh_Beauty_Shopify_运营': {
+    frontend: ['冯昭祥', 'James Hou'],
+    design: ['Xinyue Zhang'],
+    cs: ['金叙呈'],
+    promo: ['帆帆'],
+    default: ['冯昭祥'],
+  },
+  'Oh_Beauty_Shopify': {
+    frontend: ['冯昭祥', 'James Hou'],
+    content: ['James Hou'],
+    default: ['冯昭祥'],
+  },
+  'Affiliate_Publisher_Development': {
+    affiliate: ['帆帆'],
+    default: ['帆帆'],
+  },
+  'CELL_百万美金财务群': {
+    finance: ['Mingyi'],
+    affiliate: ['帆帆'],
+    default: ['Mingyi'],
+  },
+  'CELL_x_N2M_美工需求': {
+    design: ['Xinyue Zhang'],
+    default: ['Xinyue Zhang'],
+  },
+  'Levoit_Affiliate_Ops': {
+    affiliate: ['帆帆'],
+    finance: ['Mingyi'],
+    default: ['帆帆'],
+  },
+  'Ottocast_亚马逊联盟服务群': {
+    affiliate: ['帆帆'],
+    amazon: ['帆帆'],
+    finance: ['Mingyi'],
+    default: ['帆帆'],
+  },
+  'Rockbro_独立站联盟运营': {
+    affiliate: ['帆帆'],
+    default: ['帆帆'],
+  },
+  'N2M_项目广告优化组': {
+    paid_ads: ['欢欢'],
+    default: ['欢欢'],
+  },
+};
+
+// Infer task role from title
+function inferTaskRole(title) {
+  const lower = title.toLowerCase();
+  for (const { keywords, role } of ROLE_KEYWORD_MAP) {
+    if (keywords.some(k => lower.includes(k.toLowerCase()))) return role;
+  }
+  return null;
+}
+
+// Look up who handled similar tasks historically in this group
+function getHistoricalOwners(groupKey, taskTitle) {
+  const state = loadState();
+  const group = state.groups[groupKey];
+  if (!group) return {};
+  const role = inferTaskRole(taskTitle);
+  const freq = {};
+  for (const t of group.tasks) {
+    if (!t.owner || t.owner === 'null') continue;
+    if (t.status === 'done' || t.status === 'open') {
+      // Weight by role match
+      const tRole = inferTaskRole(t.title);
+      if (tRole && tRole === role) {
+        freq[t.owner] = (freq[t.owner] || 0) + 3; // strong signal
+      }
+      // Keyword overlap
+      const tWords = t.title.split(/\s+|[，。：:]/);
+      const qWords = taskTitle.split(/\s+|[，。：:]/);
+      const overlap = tWords.filter(w => w.length > 1 && qWords.includes(w)).length;
+      if (overlap > 0) {
+        freq[t.owner] = (freq[t.owner] || 0) + overlap;
+      }
+    }
+  }
+  return freq;
+}
+
+// Get current workload per person in a group
+function getGroupWorkload(groupKey) {
+  const state = loadState();
+  const group = state.groups[groupKey];
+  if (!group) return {};
+  const load = {};
+  for (const t of group.tasks) {
+    if (t.status === 'open' && t.owner && t.owner !== 'null') {
+      load[t.owner] = (load[t.owner] || 0) + 1;
+    }
+  }
+  return load;
+}
+
+// Main suggestion function — returns { suggested, confidence, reason }
+function suggestOwner(groupKey, taskTitle) {
+  const role = inferTaskRole(taskTitle);
+  const roleMap = GROUP_ROLE_MAP[groupKey] || {};
+  const histFreq = getHistoricalOwners(groupKey, taskTitle);
+  const workload = getGroupWorkload(groupKey);
+
+  // Collect candidates with scores
+  const scores = {};
+
+  // Signal 1: Role-based mapping (high weight)
+  const roleCandidates = role ? (roleMap[role] || []) : [];
+  roleCandidates.forEach(p => { scores[p] = (scores[p] || 0) + 10; });
+
+  // Signal 2: Historical pattern (medium-high weight)
+  for (const [person, freq] of Object.entries(histFreq)) {
+    scores[person] = (scores[person] || 0) + freq * 2;
+  }
+
+  // Signal 3: Cluster stakeholders fallback
+  const clusterInfo = findProjectForGroup(groupKey);
+  if (clusterInfo) {
+    clusterInfo.cluster.stakeholders.forEach(p => {
+      if (!scores[p]) scores[p] = 1; // low baseline
+    });
+  }
+
+  // Signal 4: Group default fallback
+  const defaults = roleMap.default || [];
+  defaults.forEach(p => { scores[p] = (scores[p] || 0) + 2; });
+
+  if (Object.keys(scores).length === 0) {
+    return { suggested: null, confidence: 'low', reason: '无足够上下文推断责任人', alternatives: [] };
+  }
+
+  // Penalize overloaded members (>5 open tasks in this group)
+  for (const p of Object.keys(scores)) {
+    if ((workload[p] || 0) > 5) scores[p] = Math.max(1, scores[p] - 3);
+  }
+
+  // Rank candidates
+  const ranked = Object.entries(scores)
+    .sort(([, a], [, b]) => b - a)
+    .map(([name, score]) => ({ name, score, load: workload[name] || 0 }));
+
+  const top = ranked[0];
+  const total = ranked.reduce((s, r) => s + r.score, 0);
+  const topShare = top.score / total;
+
+  // Confidence: high if top candidate has >60% of score weight
+  const confidence = topShare > 0.6 ? 'high' : topShare > 0.35 ? 'medium' : 'low';
+
+  // Build reason string
+  const reasons = [];
+  if (roleCandidates.includes(top.name) && role) reasons.push(`负责${role}相关工作`);
+  if (histFreq[top.name]) reasons.push(`历史上承接过 ${histFreq[top.name]} 个相似任务`);
+  if (defaults.includes(top.name)) reasons.push(`群组默认负责人`);
+  if ((workload[top.name] || 0) <= 2) reasons.push(`当前负荷低`);
+
+  return {
+    suggested: top.name,
+    confidence,
+    reason: reasons.join('；') || '角色匹配',
+    alternatives: ranked.slice(1, 3).map(r => r.name),
+  };
+}
+
+// Build owner suggestion report for a group — returns structured data
+function buildOwnerSuggestions(groupKey) {
+  const state = loadState();
+  const group = state.groups[groupKey];
+  if (!group) return [];
+
+  const results = [];
+  for (const t of group.tasks) {
+    if (t.status !== 'open') continue;
+    if (t.owner && t.owner !== 'null' && t.owner !== 'unknown') {
+      // Already has owner — still include with confidence=confirmed
+      results.push({
+        taskId: t.id,
+        title: t.title,
+        currentOwner: t.owner,
+        suggested: t.owner,
+        confidence: 'confirmed',
+        reason: '已指定',
+        alternatives: [],
+        deadline: t.deadline,
+        urgency: t.urgency,
+      });
+    } else {
+      const suggestion = suggestOwner(groupKey, t.title);
+      results.push({
+        taskId: t.id,
+        title: t.title,
+        currentOwner: null,
+        suggested: suggestion.suggested,
+        confidence: suggestion.confidence,
+        reason: suggestion.reason,
+        alternatives: suggestion.alternatives,
+        deadline: t.deadline,
+        urgency: t.urgency,
+      });
+    }
+  }
+  return results;
+}
+
+// Format as Feishu post paragraphs (rich text table-style)
+function formatOwnerSuggestionPost(groupKey, groupName) {
+  const suggestions = buildOwnerSuggestions(groupKey);
+  if (!suggestions.length) return null;
+
+  const unowned = suggestions.filter(s => s.confidence !== 'confirmed');
+  const owned = suggestions.filter(s => s.confidence === 'confirmed');
+
+  const urgencyIcon = u => u === 'critical' ? '🔴' : u === 'urgent' ? '🟡' : '⚪';
+  const confIcon = c => c === 'high' ? '✅' : c === 'medium' ? '🔶' : '❓';
+
+  const title = `🧠 责任人建议 · ${groupName}`;
+  const paragraphs = [];
+
+  // Summary
+  paragraphs.push([{
+    tag: 'text',
+    text: `共 ${suggestions.length} 项任务　已指定 ${owned.length}　待推断 ${unowned.length}`,
+  }]);
+  paragraphs.push([{ tag: 'text', text: '─────────────────────────────' }]);
+
+  if (unowned.length) {
+    paragraphs.push([{ tag: 'text', text: '⚠️ 缺责任人（系统推断）', style: { bold: true } }]);
+    // Column header
+    paragraphs.push([{ tag: 'text', text: '任务　　　　　　　　推荐人　置信度　备选　　　推断依据' }]);
+
+    for (const s of unowned) {
+      const conf = confIcon(s.confidence);
+      const alt = s.alternatives.length ? s.alternatives.join('/') : '—';
+      const dl = s.deadline ? ` · ${s.deadline}` : '';
+      const urg = urgencyIcon(s.urgency);
+      const titleTrunc = s.title.length > 18 ? s.title.slice(0, 18) + '…' : s.title.padEnd(20);
+      const ownerStr = (s.suggested || '待认领').padEnd(6);
+      paragraphs.push([{
+        tag: 'text',
+        text: `${urg} ${titleTrunc}${dl}\n    → ${ownerStr}  ${conf}  备选: ${alt}\n    ${s.reason}`,
+      }]);
+    }
+    paragraphs.push([{ tag: 'text', text: '' }]);
+  }
+
+  if (owned.length) {
+    paragraphs.push([{ tag: 'text', text: '✅ 已指定责任人', style: { bold: true } }]);
+    for (const s of owned) {
+      const dl = s.deadline ? ` · 截止 ${s.deadline}` : '';
+      const urg = urgencyIcon(s.urgency);
+      paragraphs.push([{ tag: 'text', text: `${urg} ${s.title}${dl}　→ ${s.currentOwner}` }]);
+    }
+  }
+
+  paragraphs.push([{ tag: 'text', text: '' }]);
+  paragraphs.push([{ tag: 'text', text: '💡 如推断有误，请直接 @Clawdbot 指定：「任务名 由 XXX 负责」', style: { bold: true } }]);
+
+  return { title, paragraphs };
+}
+
+// Cross-group: all groups with unowned tasks + suggestions
+function buildGlobalOwnerReport() {
+  const state = loadState();
+  const report = [];
+  for (const [gk, group] of Object.entries(state.groups)) {
+    const unowned = (group.tasks || []).filter(
+      t => t.status === 'open' && (!t.owner || t.owner === 'null' || t.owner === 'unknown')
+    );
+    if (!unowned.length) continue;
+    for (const t of unowned) {
+      const s = suggestOwner(gk, t.title);
+      report.push({
+        group: group.name || gk,
+        groupKey: gk,
+        taskId: t.id,
+        title: t.title,
+        suggested: s.suggested,
+        confidence: s.confidence,
+        reason: s.reason,
+        alternatives: s.alternatives,
+        deadline: t.deadline,
+        urgency: t.urgency,
+      });
+    }
+  }
+  // Sort: critical first, then high confidence first
+  return report.sort((a, b) => {
+    const urgOrder = { critical: 0, urgent: 1, normal: 2 };
+    const confOrder = { high: 0, medium: 1, low: 2 };
+    return (urgOrder[a.urgency] - urgOrder[b.urgency]) || (confOrder[a.confidence] - confOrder[b.confidence]);
+  });
+}
+
+// ── v9: Timeline-based task tracking ──────────────────────────────────────
+function recordTaskTimeline(groupKey, taskId, event) {
+  const state = loadState();
+  if (!state.taskTimelines) state.taskTimelines = {};
+  if (!state.taskTimelines[taskId]) state.taskTimelines[taskId] = [];
+  state.taskTimelines[taskId].push({
+    ts: Date.now(),
+    event,
+    groupKey,
+  });
+  saveState(state);
+}
+
+function getTaskTimeline(taskId) {
+  const state = loadState();
+  return (state.taskTimelines || {})[taskId] || [];
+}
+
+function getPersonWorkload(personName) {
+  const state = loadState();
+  const result = { open: [], overdue: [], groups: new Set(), totalOpen: 0 };
+  const now = Date.now();
+  for (const [gk, group] of Object.entries(state.groups)) {
+    for (const t of group.tasks || []) {
+      if (t.status !== 'open' || !t.owner || t.owner !== personName) continue;
+      result.totalOpen++;
+      result.groups.add(group.name || gk);
+      const isOverdue = t.deadline && new Date(t.deadline).getTime() < now;
+      if (isOverdue) result.overdue.push({ ...t, groupName: group.name || gk });
+      else result.open.push({ ...t, groupName: group.name || gk });
+    }
+  }
+  result.groups = [...result.groups];
+  return result;
+}
+
+function getGlobalPersonMatrix() {
+  const matrix = {};
+  for (const [name, profile] of Object.entries(PERSON_PROFILE)) {
+    const workload = getPersonWorkload(name);
+    matrix[name] = {
+      ...profile,
+      currentLoad: workload.totalOpen,
+      overdueCount: workload.overdue.length,
+      activeGroups: workload.groups,
+      overCapacity: workload.totalOpen > profile.maxConcurrent,
+      tasks: { open: workload.open, overdue: workload.overdue },
+    };
+  }
+  return matrix;
+}
+
+// Build PM coordination brief for a single group
+function buildGroupPMBrief(groupKey) {
+  const strategy = GROUP_PM_STRATEGY[groupKey];
+  if (!strategy) return null;
+
+  const state = loadState();
+  const group = state.groups[groupKey];
+  const tasks = (group?.tasks || []).filter(t => t.status === 'open');
+  const now = Date.now();
+
+  const overdue = tasks.filter(t => t.deadline && new Date(t.deadline).getTime() < now);
+  const upcoming = tasks.filter(t => {
+    if (!t.deadline) return false;
+    const d = new Date(t.deadline).getTime();
+    return d >= now && d <= now + 7 * 86400000;
+  });
+  const unowned = tasks.filter(t => !t.owner || t.owner === 'null');
+
+  const memberLoads = {};
+  for (const m of strategy.members) {
+    const wl = getPersonWorkload(m);
+    memberLoads[m] = { total: wl.totalOpen, overdue: wl.overdue.length, inGroup: tasks.filter(t => t.owner === m).length };
+  }
+
+  return {
+    groupKey,
+    cluster: strategy.cluster,
+    pmLead: strategy.pmLead,
+    members: strategy.members,
+    taskLines: strategy.taskLines,
+    coordination: strategy.coordination,
+    interventionRules: strategy.interventionRules,
+    stats: {
+      totalOpen: tasks.length,
+      overdue: overdue.length,
+      upcoming7d: upcoming.length,
+      unowned: unowned.length,
+    },
+    overdueTasks: overdue,
+    upcomingTasks: upcoming,
+    unownedTasks: unowned,
+    memberLoads,
+  };
+}
+
+// Build full PM brief for all managed groups — Barron's coordination view
+function buildFullPMBrief() {
+  const briefs = {};
+  for (const groupKey of Object.keys(GROUP_PM_STRATEGY)) {
+    const brief = buildGroupPMBrief(groupKey);
+    if (brief) briefs[groupKey] = brief;
+  }
+
+  const personMatrix = getGlobalPersonMatrix();
+  const overloaded = Object.entries(personMatrix)
+    .filter(([, p]) => p.overCapacity)
+    .map(([name, p]) => ({ name, load: p.currentLoad, max: p.maxConcurrent, overdue: p.overdueCount }));
+
+  const crossGroupAlerts = [];
+  for (const [gk, brief] of Object.entries(briefs)) {
+    const rules = brief.interventionRules;
+    if (brief.stats.overdue > 0) {
+      crossGroupAlerts.push({ group: gk, type: 'overdue', count: brief.stats.overdue, escalateTo: brief.pmLead });
+    }
+    if (brief.stats.unowned > 0) {
+      crossGroupAlerts.push({ group: gk, type: 'unowned', count: brief.stats.unowned, escalateTo: brief.pmLead });
+    }
+    for (const syncTarget of (rules.crossGroupSync || [])) {
+      const targetBrief = briefs[syncTarget];
+      if (targetBrief && targetBrief.stats.overdue > 0) {
+        crossGroupAlerts.push({ group: gk, type: 'sibling_overdue', target: syncTarget, count: targetBrief.stats.overdue });
+      }
+    }
+  }
+
+  return { briefs, personMatrix, overloaded, crossGroupAlerts };
+}
+
+// Format PM brief as Feishu post paragraphs for Barron DM
+function formatPMBriefPost() {
+  const { briefs, personMatrix, overloaded, crossGroupAlerts } = buildFullPMBrief();
+  const title = '📊 PM协调总览';
+  const paragraphs = [];
+
+  // Header stats
+  const totalTasks = Object.values(briefs).reduce((s, b) => s + b.stats.totalOpen, 0);
+  const totalOverdue = Object.values(briefs).reduce((s, b) => s + b.stats.overdue, 0);
+  const totalUnowned = Object.values(briefs).reduce((s, b) => s + b.stats.unowned, 0);
+  paragraphs.push([{ tag: 'text', text: `共 ${Object.keys(briefs).length} 群 | 任务 ${totalTasks} | 逾期 ${totalOverdue} | 待认领 ${totalUnowned}` }]);
+  paragraphs.push([{ tag: 'text', text: '═══════════════════════════════' }]);
+
+  // Overloaded people
+  if (overloaded.length) {
+    paragraphs.push([{ tag: 'text', text: '🔴 人员过载预警', style: { bold: true } }]);
+    for (const p of overloaded) {
+      paragraphs.push([{ tag: 'text', text: `  ${p.name}: ${p.load}/${p.max} 任务 (${p.overdue}逾期)` }]);
+    }
+    paragraphs.push([{ tag: 'text', text: '' }]);
+  }
+
+  // Per-cluster breakdown
+  const clusters = {};
+  for (const [gk, brief] of Object.entries(briefs)) {
+    const c = brief.cluster;
+    if (!clusters[c]) clusters[c] = [];
+    clusters[c].push({ gk, brief });
+  }
+
+  for (const [cluster, groups] of Object.entries(clusters)) {
+    paragraphs.push([{ tag: 'text', text: `── ${cluster} 集群 ──`, style: { bold: true } }]);
+    for (const { gk, brief } of groups) {
+      const name = brief.groupKey.replace(/_/g, ' ');
+      const s = brief.stats;
+      const status = s.overdue > 0 ? '🔴' : s.unowned > 0 ? '🟡' : '🟢';
+      paragraphs.push([{ tag: 'text', text: `${status} ${name}` }]);
+      paragraphs.push([{ tag: 'text', text: `   PM: ${brief.pmLead} | 任务${s.totalOpen} 逾期${s.overdue} 待领${s.unowned}` }]);
+
+      if (brief.overdueTasks.length) {
+        for (const t of brief.overdueTasks.slice(0, 3)) {
+          paragraphs.push([{ tag: 'text', text: `   ⚠️ ${(t.title || '').slice(0, 30)} → ${t.owner || '无'}` }]);
+        }
+      }
+
+      // Member load summary
+      const loads = Object.entries(brief.memberLoads)
+        .filter(([, l]) => l.inGroup > 0 || l.total > 0)
+        .map(([n, l]) => `${n}(${l.inGroup}/${l.total})`)
+        .join(' ');
+      if (loads) paragraphs.push([{ tag: 'text', text: `   负荷: ${loads}` }]);
+    }
+    paragraphs.push([{ tag: 'text', text: '' }]);
+  }
+
+  // Cross-group alerts
+  if (crossGroupAlerts.length) {
+    paragraphs.push([{ tag: 'text', text: '⚡ 跨群联动提醒', style: { bold: true } }]);
+    for (const a of crossGroupAlerts.slice(0, 5)) {
+      if (a.type === 'sibling_overdue') {
+        paragraphs.push([{ tag: 'text', text: `  ${a.group} ↔ ${a.target}: 关联群有${a.count}个逾期任务` }]);
+      }
+    }
+  }
+
+  paragraphs.push([{ tag: 'text', text: '' }]);
+  paragraphs.push([{ tag: 'text', text: '💡 回复「策略 [群名]」查看单群PM详情', style: { bold: true } }]);
+
+  return { title, paragraphs };
+}
+
+// Format single group PM detail for Barron
+function formatGroupPMDetail(groupKey) {
+  const brief = buildGroupPMBrief(groupKey);
+  if (!brief) return null;
+
+  const title = `📋 ${groupKey.replace(/_/g, ' ')} PM详情`;
+  const paragraphs = [];
+
+  paragraphs.push([{ tag: 'text', text: `集群: ${brief.cluster} | PM主导: ${brief.pmLead}` }]);
+  paragraphs.push([{ tag: 'text', text: `成员: ${brief.members.join(', ')}` }]);
+  paragraphs.push([{ tag: 'text', text: '' }]);
+
+  paragraphs.push([{ tag: 'text', text: '📌 协调策略', style: { bold: true } }]);
+  paragraphs.push([{ tag: 'text', text: brief.coordination }]);
+  paragraphs.push([{ tag: 'text', text: '' }]);
+
+  paragraphs.push([{ tag: 'text', text: '🔄 并行任务线', style: { bold: true } }]);
+  for (const line of brief.taskLines) {
+    paragraphs.push([{ tag: 'text', text: `  • ${line}` }]);
+  }
+  paragraphs.push([{ tag: 'text', text: '' }]);
+
+  paragraphs.push([{ tag: 'text', text: '📊 任务状态', style: { bold: true } }]);
+  paragraphs.push([{ tag: 'text', text: `  总计: ${brief.stats.totalOpen} | 逾期: ${brief.stats.overdue} | 7天内到期: ${brief.stats.upcoming7d} | 待认领: ${brief.stats.unowned}` }]);
+
+  if (brief.overdueTasks.length) {
+    paragraphs.push([{ tag: 'text', text: '' }]);
+    paragraphs.push([{ tag: 'text', text: '⚠️ 逾期任务', style: { bold: true } }]);
+    for (const t of brief.overdueTasks) {
+      paragraphs.push([{ tag: 'text', text: `  • ${(t.title || '').slice(0, 35)} → ${t.owner || '无'} (截止${t.deadline})` }]);
+    }
+  }
+
+  if (brief.unownedTasks.length) {
+    paragraphs.push([{ tag: 'text', text: '' }]);
+    paragraphs.push([{ tag: 'text', text: '❓ 待认领', style: { bold: true } }]);
+    for (const t of brief.unownedTasks) {
+      const s = suggestOwner(groupKey, t.title);
+      paragraphs.push([{ tag: 'text', text: `  • ${(t.title || '').slice(0, 35)} → 建议: ${s.suggested || '无'}(${s.confidence})` }]);
+    }
+  }
+
+  paragraphs.push([{ tag: 'text', text: '' }]);
+  paragraphs.push([{ tag: 'text', text: '👥 成员负荷', style: { bold: true } }]);
+  for (const [name, load] of Object.entries(brief.memberLoads)) {
+    const profile = PERSON_PROFILE[name];
+    const cap = profile ? profile.maxConcurrent : '?';
+    const warn = profile && load.total > profile.maxConcurrent ? ' ⚠️过载' : '';
+    paragraphs.push([{ tag: 'text', text: `  ${name}: 本群${load.inGroup} 全局${load.total}/${cap}${warn} (${load.overdue}逾期)` }]);
+  }
+
+  const rules = brief.interventionRules;
+  paragraphs.push([{ tag: 'text', text: '' }]);
+  paragraphs.push([{ tag: 'text', text: '⚙️ 干预规则', style: { bold: true } }]);
+  paragraphs.push([{ tag: 'text', text: `  晨报: ${rules.morningBrief ? '✅' : '❌'} | 小时追踪: ${rules.hourlyChase ? '✅' : '❌'} | 升级阈值: ${rules.escalateAfterHours}h` }]);
+  if (rules.slaWatch.length) {
+    paragraphs.push([{ tag: 'text', text: `  SLA监控: ${rules.slaWatch.join(', ')}` }]);
+  }
+  if (rules.crossGroupSync.length) {
+    paragraphs.push([{ tag: 'text', text: `  跨群同步: ${rules.crossGroupSync.join(', ')}` }]);
+  }
+
+  return { title, paragraphs };
+}
+
 // ── Gap detection prompt ────────────────────────────────────────────────────
 const GAP_DETECT_PROMPT = `分析以下群聊消息，识别信息缺口。输出JSON:
 {
@@ -1020,6 +1922,13 @@ module.exports = {
   buildCrossGroupSync,
   // v7: Barron Dashboard
   buildBarronDashboard, formatBarronDashboard,
+  // v8: Owner Suggestion Engine
+  suggestOwner, buildOwnerSuggestions, formatOwnerSuggestionPost, buildGlobalOwnerReport,
+  // v9: PM Coordination
+  PERSON_PROFILE, GROUP_PM_STRATEGY,
+  recordTaskTimeline, getTaskTimeline,
+  getPersonWorkload, getGlobalPersonMatrix,
+  buildGroupPMBrief, buildFullPMBrief, formatPMBriefPost, formatGroupPMDetail,
   // Prompts
   TASK_EXTRACT_PROMPT, HOURLY_CHASE_PROMPT,
   GAP_DETECT_PROMPT, CROSS_GROUP_PROMPT,

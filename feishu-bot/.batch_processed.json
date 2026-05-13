@@ -4403,5 +4403,325 @@
     "skipped": true,
     "reason": "too_few",
     "count": 0
+  },
+  "AI 产品市集 2群   Founder Park:2026-05-08": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "AI 产品市集 2群   Founder Park:2026-05-11": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "BabySmile 项目组:2026-05-07": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "CELL EDM:2026-05-06": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "CELL EDM:2026-05-07": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 5
+  },
+  "CELL EDM:2026-05-08": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "CELL EDM:2026-05-09": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "CELL EDM:2026-05-10": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "CELL EDM:2026-05-11": {
+    "processed": true,
+    "decisions": 3,
+    "tasks": 3
+  },
+  "CELL 付费广告:2026-05-06": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 5
+  },
+  "CELL 付费广告:2026-05-07": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 3
+  },
+  "CELL 付费广告:2026-05-08": {
+    "processed": true,
+    "decisions": 5,
+    "tasks": 5
+  },
+  "CELL 付费广告:2026-05-09": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "CELL 付费广告:2026-05-11": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 4
+  },
+  "CELL 百万美金财务群:2026-05-11": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "CELL 运营团队:2026-05-08": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 运营团队:2026-05-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "CELL 运营团队:2026-05-11": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 2
+  },
+  "Cell Digital 亚马逊联盟财务:2026-05-11": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "OUFER N2M 合作沟通群:2026-05-08": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "Oh Beauty Shopify:2026-05-06": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 4
+  },
+  "Oh Beauty Shopify:2026-05-07": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Oh Beauty Shopify:2026-05-08": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify:2026-05-09": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "Oh Beauty Shopify 运营:2026-05-06": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify 运营:2026-05-07": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify 运营:2026-05-08": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify 运营:2026-05-09": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Oh Beauty Shopify 运营:2026-05-11": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "Partner Accelerator Community:2026-05-06": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 3
+  },
+  "Partner Accelerator Community:2026-05-07": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
+  },
+  "Partner Accelerator Community:2026-05-08": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "Partner Accelerator Community:2026-05-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "Partner Accelerator Community:2026-05-11": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "Rockbro 独立站联盟运营:2026-05-08": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "Rockbro 独立站联盟运营:2026-05-11": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "TCL 客服群:2026-05-06": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "TCL 客服群:2026-05-07": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "TCL 客服群:2026-05-08": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 3
+  },
+  "TCL 客服群:2026-05-09": {
+    "processed": true,
+    "decisions": 5,
+    "tasks": 5
+  },
+  "TCL 客服群:2026-05-10": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "TCL 客服群:2026-05-11": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "TCL独立站增长与运营组  内部:2026-05-06": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "TCL独立站增长与运营组  内部:2026-05-07": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 2
+  },
+  "TCL独立站增长与运营组  内部:2026-05-08": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "TCL独立站技术协同群  N2M:2026-05-06": {
+    "processed": true,
+    "decisions": 5,
+    "tasks": 5
+  },
+  "TCL独立站技术协同群  N2M:2026-05-07": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 5
+  },
+  "TCL独立站技术协同群  N2M:2026-05-08": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 3
+  },
+  "TCL独立站技术协同群  N2M:2026-05-09": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 3
+  },
+  "TCL独立站技术协同群  N2M:2026-05-10": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "TCL独立站技术协同群  N2M:2026-05-11": {
+    "processed": true,
+    "decisions": 2,
+    "tasks": 5
+  },
+  "TTS 家装建材 五金工具全托管招商 群:2026-05-06": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "TTS 家装建材 五金工具全托管招商 群:2026-05-07": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "TTS 家装建材 五金工具全托管招商 群:2026-05-08": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "TTS 家装建材 五金工具全托管招商 群:2026-05-09": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "TTS 家装建材 五金工具全托管招商 群:2026-05-10": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "TTS 家装建材 五金工具全托管招商 群:2026-05-11": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 0
+  },
+  "US TSP Announcements:2026-05-06": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "ottocast 亚马逊联盟营销:2026-05-06": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 2
+  },
+  "ottocast 亚马逊联盟营销:2026-05-07": {
+    "skipped": true,
+    "reason": "too_few",
+    "count": 1
+  },
+  "ottocast 亚马逊联盟营销:2026-05-09": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 2
+  },
+  "ottocast 亚马逊联盟营销:2026-05-11": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 3
+  },
+  "未卡 FB 投放:2026-05-11": {
+    "processed": true,
+    "decisions": 1,
+    "tasks": 1
+  },
+  "花知晓 CELL美国联盟营销:2026-05-07": {
+    "processed": true,
+    "decisions": 0,
+    "tasks": 0
   }
 }

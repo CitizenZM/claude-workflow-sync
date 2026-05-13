@@ -2196,5 +2196,41 @@
     ],
     "thread": "omt_1a943cb56ecf5be0",
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50ee0a79790cc22f2149df51388",
+    "chatId": "oc_1fa3bd7d82d3683cab84fa24e33994df",
+    "msgType": "post",
+    "senderId": "ou_65b751b0fe9e414ff67050b79a893375",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"\",\"content\":[[{\"tag\":\"text\",\"text\":\"205 Human-like Memory：这可能是当下最便宜的一套 agent 记忆系统\",\"style\":[\"bold\"]}],[{\"tag\":\"text\",\"text\":\"产品官网：\",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://human-like.me/\",\"text\":\"https://human-like.me\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"过去几个月，AI 圈对\\\"记忆\\\"这件事的关注度上了一个台阶。龙虾爆火之后，大家发现，类claw 形态的 agent 极其耗 Token，跑一次 LoCoMo 这样的标准 benchmark，光跑分就要烧掉几百 million Token、大几百刀。Hermes 这一波出来之后，数字只多不少。\\\"给 agent 一个长期记忆\\\"从去年还显得是研究问题，变成今年确实有人愿意付钱解决的工程问题——前提是你得真的把成本压下来。\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"Human-like Memory 是趣丸团队内部孵化的系统。它做的事情看上去和其他记忆团队差不多：给 agent 提供一层持久的、可检索的长期记忆。但有两个点让它在当下这个时间窗口里值得单拎出来讲。\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"第一，这个团队不是纯 Developer 背景，他们一边做记忆 Infra、一边在跑自己的 C 端 AI 产品上，逼着团队对成本和实用性较真。市面上不少记忆项目是从 paper 出发的，容易堆 agentic、graph 这些看起来更\\\"技术先进\\\"的结构，跑分不一定赢、成本一定翻倍。Human-like Memory 的工程取舍是反过来的——先确定哪些复杂度是产品真用得上的，再决定加什么。\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"第二，它的成本数据具体到能直接对账。和龙虾原生记忆系统比，Token 消耗省了 85%-90%；和字节开源的 OpenViking 比，大约是它成本的 40%。LoCoMo benchmark 综合分 92.66、LongMemEval-S 86.80,相比基线有 35% 的提升。跑分这件事大家心里都有数，实际体感得用上几周才出得来，但成本是当天就能验证的——尤其对正在跑类龙虾、类 Hermes 这种重记忆 agent 的团队，接进来基本是当月看到账单变化。\",\"style\":[]}],[{\"tag\":\"img\",\"image_key\":\"img_v3_0211g_c01e6037-a68e-48cc-ae72-40e2ac01ae6g\",\"width\":2592,\"height\":1406}],[{\"tag\":\"text\",\"text\":\"机制上它把记忆拆成三层（语义、情景、程序性），分别走不同的检索范式，核心是想解决传统方案\\\"越存越多、越找不准\\\"的问题。这套拆法在认知科学里是常识，真正决定效果的是工程实现里的取舍，这部分团队选择闭源，可以申请 API 或 SDK 接入自己测。\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"接入方式：REST API、SDK、插件三种都支持。\",\"style\":[]}]]}",
+    "createTime": 1778230347736,
+    "updateTime": 1778230347736,
+    "hasLinks": true,
+    "links": [
+      "https://human-like.me/"
+    ],
+    "thread": "omt_1a982c826955db8e",
+    "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f2149db44a8b28e797d71d761e",
+    "chatId": "oc_1fa3bd7d82d3683cab84fa24e33994df",
+    "msgType": "post",
+    "senderId": "ou_c50ebcea00192376fe23a0535dada57f",
+    "senderType": "open_id",
+    "text": "",
+    "rawContent": "{\"title\":\"\",\"content\":[[{\"tag\":\"text\",\"text\":\"💡 想要你的 AI 产品被更多人看到？\",\"style\":[\"bold\"]}],[],[{\"tag\":\"text\",\"text\":\"Founder Park 发起的「AI 产品市集」，已经聚集了 23000+ 产品人、开发者、创始人、投资人和 AI 爱好者。我们正在做一件简单但重要的事：让被低估的产品、刚起步的新项目，有机会被更多人看到。\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"✅ 我们会精选优秀产品，通过公众号、社区和媒体渠道给予曝光；也会把优质产品推荐给投资人，对接商业化资源。\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"📌\",\"style\":[]},{\"tag\":\"text\",\"text\":\" AI 产品市集是什么\",\"style\":[\"bold\"]},{\"tag\":\"text\",\"text\":\"： \",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://geek.feishu.cn/wiki/QCuQw0IEtiQYwDklICVcBbptnbb?from=from_copylink\",\"text\":\"https://geek.feishu.cn/wiki/QCuQw0IEtiQYwDklICVcBbptnbb?from=from_copylink\",\"style\":[]},{\"tag\":\"text\",\"text\":\" \",\"style\":[]}],[{\"tag\":\"text\",\"text\":\"📌 产品发布申请入口\",\"style\":[\"bold\"]},{\"tag\":\"text\",\"text\":\"： \",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://geek.feishu.cn/share/base/form/shrcnVYrbvU6tXjk6MKoag5e0Eg\",\"text\":\"https://geek.feishu.cn/share/base/form/shrcnVYrbvU6tXjk6MKoag5e0Eg\",\"style\":[]},{\"tag\":\"text\",\"text\":\" \",\"style\":[]},{\"tag\":\"text\",\"text\":\"如果你自己就在做产品，欢迎提报\",\"style\":[\"underline\"]},{\"tag\":\"text\",\"text\":\"；如果你身边有朋友在做有潜力的小工具、AI 应用，也请推荐给我们。\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"🏖️ 另外，我们也将整理了我们整理了一份社区精选的\",\"style\":[]},{\"tag\":\"text\",\"text\":\"「AI 公司岗位合集」\",\"style\":[\"bold\"]},{\"tag\":\"text\",\"text\":\"，涵盖 AI 产品经理、开发工程师、增长运营、市场、销售等多个方向，并且持续更新中，欢迎收藏转发给朋友👇\",\"style\":[]}],[{\"tag\":\"text\",\"text\":\" 📎 \",\"style\":[]},{\"tag\":\"a\",\"href\":\"https://geek.feishu.cn/wiki/FR9wwdiHuiF65rkTRXkcuhLRnag\",\"text\":\"https://geek.feishu.cn/wiki/FR9wwdiHuiF65rkTRXkcuhLRnag\",\"style\":[]}],[],[{\"tag\":\"text\",\"text\":\"目前 1 、2、3、4 群已达到人数上限（5000 人），欢迎大家邀请朋友进我们的 5 群哦 ↓\",\"style\":[]}],[{\"tag\":\"img\",\"image_key\":\"img_v3_0211j_de54eff2-e22d-4078-a3ff-f3878a62784g\",\"width\":1372,\"height\":1488}]]}",
+    "createTime": 1778471025843,
+    "updateTime": 1778471025843,
+    "hasLinks": true,
+    "links": [
+      "https://geek.feishu.cn/wiki/QCuQw0IEtiQYwDklICVcBbptnbb?from=from_copylink",
+      "https://geek.feishu.cn/share/base/form/shrcnVYrbvU6tXjk6MKoag5e0Eg",
+      "https://geek.feishu.cn/wiki/FR9wwdiHuiF65rkTRXkcuhLRnag"
+    ],
+    "thread": "omt_1964d8b84a8f9c84",
+    "replyMsgId": null
   }
 ]

@@ -12,8 +12,8 @@ model: haiku
 merchant_id=91941 | filters=25,15,22 | count=500 | commission=20.0 | min_partnerships=50 | target_per_page=25
 login: affiliate@celldigital.co / Celldigital2024*
 scripts: ~/.claude/skills/awin-oufer-us-outreach/scripts/
-ledger: /Volumes/workssd/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Ledger.md
-report: /Volumes/workssd/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Report-2026-04-15.md
+ledger: $HOME/Documents/Obsidian/01-Projects/Awin-Oufer-US-Outreach-Ledger.md
+report: $HOME/Documents/Obsidian/01-Projects/Awin-Oufer-US-Outreach-Report-2026-04-15.md
 msg: "Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the NO.1 Piercing Body Jewelry you MUST see. We are offering 10-20% ultra high commission with limited time deal offer, Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer."
 
 ## Step 0: Browser Check (START HERE)

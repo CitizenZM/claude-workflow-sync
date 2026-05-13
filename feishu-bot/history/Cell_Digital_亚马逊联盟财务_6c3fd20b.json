@@ -778,5 +778,20 @@
     "links": [],
     "thread": null,
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f270ea80cacb4856f9b8ef79fd",
+    "chatId": "oc_1e59c07ac2314b0215cba0136c3fd20b",
+    "msgType": "text",
+    "senderId": "ou_f03415a5c2aff78267c1860291cc6c53",
+    "senderType": "open_id",
+    "text": "@_user_1 Hi Mingyi想问下这次新的汇款是否顺利",
+    "rawContent": "{\"text\":\"@_user_1 Hi Mingyi想问下这次新的汇款是否顺利\"}",
+    "createTime": 1778463750528,
+    "updateTime": 1778463750627,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
   }
 ]

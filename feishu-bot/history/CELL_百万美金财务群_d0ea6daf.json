@@ -2068,5 +2068,20 @@
     "links": [],
     "thread": null,
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b6f1725f484a8b4a0fc38f45dafe",
+    "chatId": "oc_59e3bda3c9235f885080763ad0ea6daf",
+    "msgType": "text",
+    "senderId": "ou_584b0bcbddf0999ded0365a6b5b3e62f",
+    "senderType": "open_id",
+    "text": "@_user_1 帆帆咱们更新一下毛利表～ 4月份的",
+    "rawContent": "{\"text\":\"@_user_1 帆帆咱们更新一下毛利表～ 4月份的\"}",
+    "createTime": 1778529971707,
+    "updateTime": 1778529971789,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
   }
 ]

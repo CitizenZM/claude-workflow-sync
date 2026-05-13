@@ -114,7 +114,7 @@ Send supervisor: `BATCH COMPLETE — summarize: <len(workflows)> workflows × <c
 Read supervisor's final JSON.
 
 ### Consolidated report
-Write `/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Outreach-Batch-Report-{TODAY}.md` (compute `new Date().toISOString().slice(0,10)` at runtime). Contents:
+Write `$HOME/Documents/Obsidian/01-Projects/Outreach-Batch-Report-{TODAY}.md` (compute `new Date().toISOString().slice(0,10)` at runtime). Contents:
 - Batch start/end timestamps + wall-clock per workflow
 - Shared-supervisor agent_id + total checkpoint events processed (from combined debug logs)
 - Per-workflow table: target | sent | unique | emails captured | errors | term_verified_rate | date_verified_rate

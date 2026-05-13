@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const VAULT = process.env.VAULT_PATH || path.join(os.homedir(), 'ObsidianVault/Clawdbot');
+const VAULT = process.env.VAULT_PATH || path.join(os.homedir(), 'Documents/Obsidian/Clawdbot');
 const INDEX_PATH = path.join(__dirname, 'embeddings.json');
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 

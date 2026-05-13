@@ -60,7 +60,7 @@ Python scripts:
 | VETERAN | `NO` |
 | RESUME_DIR | `~/Downloads/resumeandcoverletter/` |
 | RESUME_TEMPLATE | `Barron_Zuo_Resume_Dialpad_HeadOfGrowth.docx` |
-| OBSIDIAN_PATH | `/Volumes/workssd/ObsidianVault/01-Projects/` |
+| OBSIDIAN_PATH | `$HOME/Documents/Obsidian/01-Projects/` |
 | LEDGER_FILE | `Greenhouse-Application-Ledger.md` |
 
 ## DOM Selectors (to be mapped on first run)
@@ -124,7 +124,7 @@ For EACH job application, generate tailored resume and cover letter:
 - All locations must be US or international (non-China)
 
 ### Step 4: Output
-- Save as `.docx` to `RESUME_DIR` (`/Users/xiaozuo/Downloads/resumeandcoverletter/`)
+- Save as `.docx` to `RESUME_DIR` (`$HOME/Downloads/resumeandcoverletter/`)
 
 ## File Output Rules (MANDATORY)
 
@@ -132,8 +132,8 @@ All generated resume and cover letter files MUST be saved as `.docx` to the loca
 
 | File | Naming Convention | Save Path |
 |------|-------------------|-----------|
-| Resume | `Barron_Zuo_{Company}_{JobTitle}_Resume.docx` | `/Users/xiaozuo/Downloads/resumeandcoverletter/` |
-| Cover Letter | `Barron_Zuo_{Company}_{JobTitle}_Cover_Letter.docx` | `/Users/xiaozuo/Downloads/resumeandcoverletter/` |
+| Resume | `Barron_Zuo_{Company}_{JobTitle}_Resume.docx` | `$HOME/Downloads/resumeandcoverletter/` |
+| Cover Letter | `Barron_Zuo_{Company}_{JobTitle}_Cover_Letter.docx` | `$HOME/Downloads/resumeandcoverletter/` |
 
 - **Company**: PascalCase, no spaces (e.g., `Duolingo`, `ZoomInfo`, `SharkNinja`)
 - **JobTitle**: PascalCase, abbreviated if long (e.g., `Growth_Marketing_Lead`, `VP_Marketing`, `Head_Perf_Marketing`)
@@ -143,7 +143,7 @@ All generated resume and cover letter files MUST be saved as `.docx` to the loca
 
 ## Dedup Ledger
 
-File: `/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md`
+File: `$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md`
 Format: `company|job_title|job_id|YYYY-MM-DD|status|resume_file|cover_letter_file`
 
 Read before applying. Append after each submission.

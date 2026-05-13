@@ -283,5 +283,20 @@
     "links": [],
     "thread": null,
     "replyMsgId": null
+  },
+  {
+    "id": "om_x100b50f50819bcacb48c9ca45f4ee8d",
+    "chatId": "oc_aa7b6daea672ccabc9b6b51b2b2670f5",
+    "msgType": "system",
+    "senderId": "",
+    "senderType": "",
+    "text": "",
+    "rawContent": "{\"template\":\"{from_user} invited {to_chatters} to the group. New members can view all chat history.\",\"from_user\":[\"Barron\"],\"to_chatters\":[\"Clawdbot\"],\"divider_text\":{}}",
+    "createTime": 1778127981276,
+    "updateTime": 1778127981276,
+    "hasLinks": false,
+    "links": [],
+    "thread": null,
+    "replyMsgId": null
   }
 ]

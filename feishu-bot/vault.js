@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const VAULT = process.env.VAULT_PATH || path.join(os.homedir(), 'ObsidianVault/Clawdbot');
+const VAULT = process.env.VAULT_PATH || path.join(os.homedir(), 'Documents/Obsidian/Clawdbot');
 const EMBEDDINGS_PATH = path.join(__dirname, 'embeddings.json');
 
 // Lazy-load embeddings module + index

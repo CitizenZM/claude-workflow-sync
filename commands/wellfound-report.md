@@ -9,7 +9,7 @@ This command runs on **Haiku**. If on Opus/Sonnet, that's fine — this is read-
 # Wellfound Application Report
 
 Read the ledger file:
-`/Users/xiaozuo/Library/Mobile Documents/iCloud~md~obsidian/Documents/Openclaw/Wellfound-Application-Ledger.md`
+`$HOME/Documents/Obsidian/Wellfound-Application-Ledger.md`
 
 ## Generate Report
 

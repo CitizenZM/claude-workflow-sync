@@ -1,28 +1,36 @@
 ---
-description: "Impact TCL US proposal sending (Haiku). Run /impact-tcl-us-setup first.
-  Usage: /impact-tcl-us-outreach [count]
-  Default: /impact-tcl-us-outreach 500"
+description: "Impact TCL US proposal sending (Haiku). Auto-selects browser: port 9307 (impact-tcl-us-2) if live, else 9305 (impact-tcl-us). Run /impact-tcl-us-setup first. Usage: /impact-tcl-us-outreach [count] Default: /impact-tcl-us-outreach 500"
 model: haiku
 ---
 
 ## Pre-flight (autonomous — aborts, never prompts)
 - Model: **haiku** only. If Opus/Sonnet → print `⛔ Wrong model — run /model haiku then re-run /impact-tcl-us-outreach` and exit.
-- MCP: `mcp__playwright-impact-tcl-us__*` exclusively (profile `~/.claude/browser-profiles/impact-tcl-us`, port 9305). Fallback to generic `mcp__playwright__*` = forbidden.
+- **BROWSER AUTO-DETECT** (run first, before any browser call):
+  ```bash
+  if curl -s --max-time 2 http://localhost:9307/json/version >/dev/null 2>&1; then
+    ACTIVE_MCP="mcp__playwright-impact-tcl-us-2__"
+  elif curl -s --max-time 2 http://localhost:9305/json/version >/dev/null 2>&1; then
+    ACTIVE_MCP="mcp__playwright-impact-tcl-us__"
+  else
+    echo "ERROR: No TCL browser on 9305 or 9307"; exit 1
+  fi
+  ```
+  Use `${ACTIVE_MCP}` for ALL browser calls. Never mix namespaces.
 - Supervisor: provided by `/impact-tcl-us-setup`. If missing this session, spawn via `~/.claude/skills/_shared/outreach-supervisor-prompt.md` before Step 0. Full contract: `~/.claude/skills/_shared/outreach-isolation.md`.
 - Checkpoint `/tmp/outreach-impact-tcl-us-checkpoint.json`: every 10 confirmed proposals → batch-write ledger+report → write checkpoint with full scraped rows (`name, email, termVerified, termText, dateVerified`) + `errorCount` + `error_samples` + `local_signal` → message supervisor → apply verdict autonomously (continue | pause=apply fix+retry once | halt=write reason+exit). Print a non-blocking 2-line status (10 names+emails). Never wait for user input.
 
 program_id=48321 | count=500 | target_per_page=20
 login: affiliate@celldigital.co / Celldigital2024*
 scripts: ~/.claude/skills/impact-tcl-us-outreach/scripts/
-ledger: /Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Ledger.md
-report: /Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Report-2026-04-19.md
-obsidian_workflow: /Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach.md
+ledger: $HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Ledger.md
+report: $HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Report-2026-04-19.md
+obsidian_workflow: $HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach.md
 template_term: TCL US Standard Term 8%
 contract_date: DYNAMIC — always use tomorrow's date. Calculate at runtime: `new Date(Date.now()+86400000).toISOString().slice(0,10)` (e.g. if today is 2026-04-20, use 2026-04-21)
 msg: "Welcome! TCL is a global top-NO.1 TV brand and one of the fastest-growing names in smartphones, tablets, and smart home. Our program on Impact (Program ID: 48321) offers an 8% CPA commission on all sales, dedicated affiliate manager support, a full creative library, product data feeds, and exclusive promotional offers for our partners. REPLY for limited time offer!"
 
 ## Step 0: Browser Check (START HERE)
-`mcp__playwright-impact-tcl-us__browser_evaluate`: `() => document.title` — confirm on Impact.
+`${ACTIVE_MCP}browser_evaluate`: `() => document.title` — confirm on Impact.
 If not: navigate to discover URL, snapshot once for login.
 
 ## Step 1: Dedup + Propose (browser_run_code — NOT browser_evaluate)
@@ -57,7 +65,7 @@ After each proposal form opens, the script verifies before submitting:
 2c. Every 10 cumulative proposals: write checkpoint with `{batch_n, total, errorCount, rows (with termVerified + dateVerified), error_samples, local_signal}` → message supervisor → apply verdict autonomously.
 
 ## Step 3: Next Page + Loop
-Read `next-page.js`, run via `mcp__playwright-impact-tcl-us__browser_evaluate`.
+Read `next-page.js`, run via `${ACTIVE_MCP}browser_evaluate`.
 If `{ok:true}` → re-run Step 1+2 until count reached. (Supervisor verdict already gates continuation per the shared contract above.)
 If `{ok:false}` → done, go to Step 4.
 
