@@ -1,12 +1,88 @@
 ---
 name: impact-rockbros-us-affiliate-outreach
-description: Impact Rockbros USA Affiliate Outreach. Playwright browser_run_code with page.mouse.click() for term selection (evaluate clicks don't trigger React in iframe). Sonnet for setup/login, Haiku for bulk proposal loop. Opus supervises every 10 proposals. Records publisher name + email per row. Syncs to Obsidian on completion.
-tags: [affiliate, impact, rockbros, us, outreach, automation, playwright]
+description: Impact Rockbros USA Affiliate Outreach. Autonomous CDP-based runner (rockbros-runner.mjs) + supervisor (supervisor.mjs) via rebrowser-playwright over Chrome CDP port 9306. Sends proposals nonstop to 20,000 New publishers, reports every 10 sends, auto-recovers from Chrome crashes. Ledger at ~/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md.
+tags: [affiliate, impact, rockbros, us, outreach, automation, playwright, cdp, autonomous]
 ---
 
 # Impact Rockbros USA Affiliate Outreach
 
-## Isolation + Supervisor (MANDATORY)
+## Autonomous Runner Architecture (PRIMARY — used for 20K campaign)
+
+The production workflow uses a standalone Node.js runner + supervisor pair that runs outside Claude:
+
+| File | Location | Role |
+|------|----------|------|
+| `rockbros-runner.mjs` | `~/.claude/skills/impact-rockbros-us-outreach/scripts/` | Main proposal engine |
+| `supervisor.mjs` | `~/.claude/skills/impact-rockbros-us-outreach/scripts/` | Watchdog — restarts runner on stall/crash |
+
+### Launch sequence
+
+```bash
+# 1. Start Chrome with CDP on port 9306
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --remote-debugging-port=9306 \
+  --user-data-dir=/Users/xiaozuo/.claude/browser-profiles/impact-rockbros-us &
+
+# 2. Copy scripts to working dir (first time only)
+cp ~/.claude/skills/impact-rockbros-us-outreach/scripts/rockbros-runner.mjs /tmp/patchright-bypass/
+cp ~/.claude/skills/impact-rockbros-us-outreach/scripts/supervisor.mjs /tmp/patchright-bypass/
+
+# 3. Start supervisor (manages runner automatically)
+cd /tmp/patchright-bypass
+OUTREACH_COUNT=20000 node supervisor.mjs >> /tmp/rockbros-supervisor.log 2>&1 &
+
+# 4. Monitor
+tail -f /tmp/rockbros-runner.log
+```
+
+### Key runtime facts
+
+- **Chrome lifespan**: ~6hr before WebSocket exhaustion → restart Chrome, runner auto-reconnects
+- **CDP warm-up**: Fresh session starts cold (0% data capture), warms to 40-60% after ~3hr
+- **Fresh-tab fallback**: When CDP API not cached, runner opens a fresh tab to capture data
+- **Dedup**: `partner_id`-based via regex `impact-50132\|(\d+)` on ledger
+- **Batch report**: Every 10 sends, logs `📊 BATCH REPORT` block to `/tmp/rockbros-runner.log`
+- **Supervisor**: Kills + restarts runner after 5-min silence; watch mode (no exit) after pool exhaustion
+
+### Chrome restart procedure (every ~6hr)
+
+```bash
+pkill -f "Google Chrome"
+# wait 3 sec
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+  --remote-debugging-port=9306 \
+  --user-data-dir=/Users/xiaozuo/.claude/browser-profiles/impact-rockbros-us &
+# runner auto-reconnects within 30s; may need Cloudflare manual click
+```
+
+### Cloudflare challenge recovery
+
+After Chrome restart, Impact.com may show CF Turnstile. User must click the checkbox manually in Chrome, then reply "done" to resume monitoring.
+
+### Stale PID file fix
+
+```bash
+rm -f /tmp/rockbros-runner.pid
+```
+
+### Log monitoring commands
+
+```bash
+# Latest batch report
+LINE=$(grep -n 'BATCH REPORT' /tmp/rockbros-runner.log | tail -1 | cut -d: -f1)
+sed -n "${LINE},$((LINE+55))p" /tmp/rockbros-runner.log
+
+# Ledger row count
+grep -c 'impact-50132' ~/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
+
+# Runner health
+ps aux | grep rockbros-runner | grep -v grep
+
+# Live log tail
+tail -f /tmp/rockbros-runner.log
+```
+
+## Isolation + Supervisor (Legacy MCP-based approach)
 
 **Browser profile**: `~/.claude/browser-profiles/impact-rockbros-us`
 **MCP server**: `playwright-impact-rockbros-us` (port 9306)
@@ -17,13 +93,7 @@ Setup must run first:
 bash ~/.claude/scripts/outreach/init-workflow.sh impact-rockbros-us playwright-impact-rockbros-us 9306
 ```
 
-If the MCP server is not registered, the script prints the JSON block to add to `~/.claude.json`. Do not degrade to the shared `mcp__playwright__` server.
-
-**Opus supervisor**: At the start of the setup command, spawn a background Opus Agent using the prompt at `~/.claude/skills/_shared/outreach-supervisor-prompt.md`. The supervisor reviews `/tmp/outreach-impact-rockbros-us-checkpoint.json` after every 10 proposals.
-
-See `~/.claude/skills/_shared/outreach-isolation.md` for the full registry.
-
-## Architecture
+## Architecture (Legacy MCP)
 
 Two commands, two models + Opus supervisor:
 - `/impact-rockbros-us-setup` (Sonnet) — login, navigate to discover page, set filters, verify card count.
@@ -40,9 +110,9 @@ Two commands, two models + Opus supervisor:
 | BRAND | Rockbros |
 | REGION | US |
 | TEMPLATE_TERM | Rockbros USA Performance |
-| LEDGER | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md` |
-| REPORT | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Report-[DATE].md` |
-| OBSIDIAN_WORKFLOW | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach.md` |
+| LEDGER | `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md` |
+| REPORT | `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Report-[DATE].md` |
+| OBSIDIAN_WORKFLOW | `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach.md` |
 | CONTRACT_DATE | Dynamic: `new Date(Date.now()+86400000).toISOString().slice(0,10)` (always tomorrow) |
 | MSG | "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample." |
 
@@ -224,7 +294,7 @@ Details tab (click to activate):
 
 ## Bulk Proposal Script
 
-Script location: `/Users/xiaozuo/.claude/skills/impact-rockbros-us-outreach/scripts/bulk-proposal.js`
+Script location: `$HOME/.claude/skills/impact-rockbros-us-outreach/scripts/bulk-proposal.js`
 
 Run via `mcp__playwright-impact-rockbros-us__browser_run_code` (NOT evaluate). Placeholders replaced before execution:
 
@@ -240,7 +310,7 @@ Returns: `{total, errorCount, publishers: [{name, email, termVerified, termText,
 
 ## Ledger Format
 
-File: `/Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md`
+File: `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md`
 
 ```
 publisher_name|email|date|impact-50132
@@ -265,7 +335,7 @@ Agent({
 
 ## Obsidian Sync (on workflow complete)
 
-Append to `/Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach.md`:
+Append to `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach.md`:
 ```markdown
 ## Session [YYYY-MM-DD]
 - Proposals sent: N | Emails captured: N/N | Term verified: N% | Date verified: N%
