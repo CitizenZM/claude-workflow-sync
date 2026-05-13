@@ -21,8 +21,8 @@ min_part    : 5
 target_pp   : 25
 login       : affiliate@celldigital.co / Celldigital2024*
 scripts     : ~/.claude/skills/awin-publisher-outreach/scripts/
-ledger      : ~/Documents/Obsidian/01-Projects/Awin-Outreach-Ledger.md
-report      : ~/Documents/Obsidian/01-Projects/Awin-Rockbros-Publisher-Outreach.md
+ledger      : ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/01-Projects/Awin-Outreach-Ledger.md
+report      : ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/01-Projects/Awin-Rockbros-Publisher-Outreach.md
 msg         : "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10-20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample."
 ```
 

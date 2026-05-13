@@ -12,8 +12,8 @@ model: haiku
 merchant_id=122456 | filters=25,15,22 | count=500 | commission=20.0 | min_partnerships=50 | target_per_page=25
 login: affiliate@celldigital.co / Celldigital2024*
 scripts: ~/.claude/skills/awin-rockbros-eu-outreach/scripts/
-ledger: $HOME/Documents/Obsidian/01-Projects/Awin-Rockbros-EU-Outreach-Ledger.md
-report: $HOME/Documents/Obsidian/01-Projects/Awin-Rockbros-EU-Outreach-Report-2026-04-15.md
+ledger: /Volumes/workssd/ObsidianVault/01-Projects/Awin-Rockbros-EU-Outreach-Ledger.md
+report: /Volumes/workssd/ObsidianVault/01-Projects/Awin-Rockbros-EU-Outreach-Report-2026-04-15.md
 msg: "Hallo, hier ist Bob Zabel von Rockbros – der Nr. 1 Sportmarke, die Sie unbedingt kennen sollten. Wir bieten eine besonders hohe Provision von 10–20 % im Rahmen eines zeitlich begrenzten Angebots. Antworten Sie hier oder schreiben Sie an affiliate@celldigital.co, um Details zu besprechen und ein Muster zu erhalten. Dieses Angebot gilt nur für Top-Performer unter den Publishern. JETZT ANTWORTEN."
 
 ## Step 0: Browser Check (START HERE)

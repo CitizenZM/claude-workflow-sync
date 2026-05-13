@@ -35,10 +35,10 @@ If not on wellfound.com or session expired: run `/wellfound-setup` first silentl
 2. Substitute {{COMPANY}}, {{ROLE}}, {{LOCATION}}, {{COMP}}, {{JD_TEXT}}
 3. Generate resume content (all bullets must mirror JD requirements)
 4. Run `python3 ~/.claude/skills/greenhouse-apply/scripts/generate-resume.py` with generated content
-   - Save to `$HOME/Downloads/resumeandcoverletter/Barron_Zuo_{Company}_{Role}_Resume.docx`
-5. Verify file exists: `ls $HOME/Downloads/resumeandcoverletter/Barron_Zuo_{Company}_{Role}_Resume.docx`
+   - Save to `/Users/xiaozuo/Downloads/resumeandcoverletter/Barron_Zuo_{Company}_{Role}_Resume.docx`
+5. Verify file exists: `ls /Users/xiaozuo/Downloads/resumeandcoverletter/Barron_Zuo_{Company}_{Role}_Resume.docx`
 6. Generate cover letter using `~/.claude/skills/wellfound-apply/templates/cover-letter-prompt.md`
-7. Save to `$HOME/Downloads/resumeandcoverletter/Barron_Zuo_{Company}_{Role}_Cover_Letter.docx`
+7. Save to `/Users/xiaozuo/Downloads/resumeandcoverletter/Barron_Zuo_{Company}_{Role}_Cover_Letter.docx`
 
 ### Phase D — Open Application
 1. Navigate to job URL, find Apply button
@@ -66,7 +66,7 @@ If not on wellfound.com or session expired: run `/wellfound-setup` first silentl
 4. If validation error: read error messages, fix fields, retry once
 
 ### Phase H — Log to Ledger
-Append to `$HOME/Documents/Obsidian/Wellfound-Application-Ledger.md`:
+Append to `/Users/xiaozuo/Library/Mobile Documents/iCloud~md~obsidian/Documents/Openclaw/Wellfound-Application-Ledger.md`:
 ```
 | {date} | {company} | {role} | {location} | {job_url} | {comp} | submitted | {resume_file} | {cover_letter_file} | {notes} |
 ```

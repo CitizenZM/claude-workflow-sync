@@ -48,7 +48,7 @@ For each job in the queue:
 - If salary is not listed, KEEP the job (we'll check on detail page)
 
 ## Step 7: Dedup Against Ledger
-1. Read `$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md`
+1. Read `/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md`
 2. Parse existing entries into a Set of `company|job_title` keys
 3. Filter out jobs that have already been applied to
 

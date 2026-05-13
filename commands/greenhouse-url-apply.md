@@ -16,8 +16,8 @@ You apply to jobs from any ATS platform using a direct URL list. Resume/CL gener
 
 1. Read `~/.claude/skills/greenhouse-apply/SKILL.md` for config, selectors, personal info
 2. Read `~/.claude/skills/greenhouse-apply/data/answer-bank.md` for form answers
-3. Read `$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md` for dedup
-4. Also read `$HOME/Documents/Obsidian/01-Projects/Ashby-Application-Ledger.md` for dedup
+3. Read `/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md` for dedup
+4. Also read `/Volumes/workssd/ObsidianVault/01-Projects/Ashby-Application-Ledger.md` for dedup
 5. Parse `$ARGUMENTS`:
    - If `--file <path>` → read URLs one-per-line from that file
    - Otherwise treat each whitespace-separated token as a URL
@@ -132,12 +132,12 @@ python3 ~/.claude/skills/greenhouse-apply/scripts/generate-resume.py \
 
 After any successful submission, append to the appropriate ledger:
 
-**Greenhouse ledger** (`$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md`):
+**Greenhouse ledger** (`/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md`):
 ```
 {company}|{job_title}|{job_id_or_platform-uuid}|{YYYY-MM-DD}|submitted|{resume_file}|{cover_letter_file}
 ```
 
-**Ashby ledger** (`$HOME/Documents/Obsidian/01-Projects/Ashby-Application-Ledger.md`):
+**Ashby ledger** (`/Volumes/workssd/ObsidianVault/01-Projects/Ashby-Application-Ledger.md`):
 Same format, use UUID as job_id field.
 
 For non-Greenhouse/Ashby platforms, also append to Greenhouse ledger with prefix:
@@ -203,7 +203,7 @@ btn.click(); // ✅ then browser_file_upload
 
 **Submit:** Use snapshot ref `browser_click` on "Submit Application" button. If still on same page after 4s, re-snapshot and retry.
 
-**Dedup ledger:** `$HOME/Documents/Obsidian/01-Projects/Ashby-Application-Ledger.md`
+**Dedup ledger:** `/Volumes/workssd/ObsidianVault/01-Projects/Ashby-Application-Ledger.md`
 
 ---
 

@@ -40,9 +40,9 @@ Two commands, two models + Opus supervisor:
 | BRAND | TCL |
 | REGION | US |
 | TEMPLATE_TERM | TCL US Standard Term 8% |
-| LEDGER | `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Ledger.md` |
-| REPORT | `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Report-[DATE].md` |
-| OBSIDIAN_WORKFLOW | `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach.md` |
+| LEDGER | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Ledger.md` |
+| REPORT | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Report-[DATE].md` |
+| OBSIDIAN_WORKFLOW | `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach.md` |
 | CONTRACT_DATE | Dynamic: `new Date(Date.now()+86400000).toISOString().slice(0,10)` (always tomorrow) |
 | MSG | "Welcome! TCL is a global top-NO.1 TV brand and one of the fastest-growing names in smartphones, tablets, and smart home. Our program on Impact (Program ID: 48321) offers an 8% CPA commission on all sales, dedicated affiliate manager support, a full creative library, product data feeds, and exclusive promotional offers for our partners. REPLY for limited time offer!" |
 
@@ -202,7 +202,7 @@ const freshCard = cards.find(c => c.name === name);
 
 ## Bulk Proposal Script
 
-Script location: `$HOME/.claude/skills/impact-tcl-us-outreach/scripts/bulk-proposal.js`
+Script location: `/Users/xiaozuo/.claude/skills/impact-tcl-us-outreach/scripts/bulk-proposal.js`
 
 Run via `mcp__playwright-impact-tcl-us__browser_run_code` (NOT evaluate). Placeholders replaced before execution:
 
@@ -218,7 +218,7 @@ Returns: `{total, errorCount, publishers: [{name, email, termVerified, termText,
 
 ## Ledger Format
 
-File: `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Ledger.md`
+File: `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Ledger.md`
 
 ```
 publisher_name|email|date|impact-48321
@@ -243,7 +243,7 @@ Agent({
 
 ## Obsidian Sync (on workflow complete)
 
-Append to `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach.md`:
+Append to `/Volumes/workssd/ObsidianVault/01-Projects/Impact-TCL-US-Outreach.md`:
 ```markdown
 ## Session [YYYY-MM-DD]
 - Proposals sent: N | Emails captured: N/N | Term verified: N% | Date verified: N%

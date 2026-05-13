@@ -547,8 +547,6 @@ def render_charts(data):
 
     chans = [r[0] for r in data["channel_breakdown"]]
     pcts = [_parse_pct(r[2]) for r in data["channel_breakdown"]]
-    if sum(pcts) <= 0:
-        pcts = [1.0] * len(chans)  # uniform fallback to avoid NaN in pie chart
     chart_channel_donut(region, chans, pcts,
                         str(CHART_DIR / f"{code}_channel_donut.png"))
 
@@ -563,14 +561,7 @@ def render_charts(data):
                          str(CHART_DIR / f"{code}_top_pub.png"))
 
     stages = [r[0] for r in data["lifecycle"]]
-    def _safe_int(v):
-        try:
-            return int(str(v).replace(",", "").strip())
-        except (ValueError, TypeError):
-            return 0
-    counts = [_safe_int(r[1]) for r in data["lifecycle"]]
-    if sum(counts) <= 0:
-        counts = [1] * len(stages)
+    counts = [int(str(r[1]).replace(",", "")) for r in data["lifecycle"]]
     chart_funnel(region, stages, counts, str(CHART_DIR / f"{code}_funnel.png"))
 
     chart_concentration_gauge(region, data["top3_concentration_pct"],

@@ -62,9 +62,9 @@ Python scripts:
 | TRANSGENDER | `NO` |
 | DISABILITY | `NO` |
 | VETERAN | `NO` |
-| RESUME_DIR | `$HOME/Downloads/resumeandcoverletter/` |
+| RESUME_DIR | `/Users/xiaozuo/Downloads/resumeandcoverletter/` |
 | RESUME_TEMPLATE | `Barron_Zuo_Growth_Final_Resume.docx` |
-| OBSIDIAN_PATH | `$HOME/Documents/Obsidian/` |
+| OBSIDIAN_PATH | `/Users/xiaozuo/Library/Mobile Documents/iCloud~md~obsidian/Documents/Openclaw/` |
 | LEDGER_FILE | `Wellfound-Application-Ledger.md` |
 | CAREER_DB | `~/.claude/skills/wellfound-apply/data/career-db.json` |
 
@@ -125,15 +125,15 @@ For EACH job application, generate tailored resume and cover letter:
 
 | File | Naming Convention | Save Path |
 |------|-------------------|-----------|
-| Resume | `Barron_Zuo_{Company}_{JobTitle}_Resume.docx` | `$HOME/Downloads/resumeandcoverletter/` |
-| Cover Letter | `Barron_Zuo_{Company}_{JobTitle}_Cover_Letter.docx` | `$HOME/Downloads/resumeandcoverletter/` |
+| Resume | `Barron_Zuo_{Company}_{JobTitle}_Resume.docx` | `/Users/xiaozuo/Downloads/resumeandcoverletter/` |
+| Cover Letter | `Barron_Zuo_{Company}_{JobTitle}_Cover_Letter.docx` | `/Users/xiaozuo/Downloads/resumeandcoverletter/` |
 
 - NEVER upload directly from memory — always write to disk first
 - Verify file exists before uploading
 
 ## Dedup Ledger
 
-File: `$HOME/Documents/Obsidian/Wellfound-Application-Ledger.md`
+File: `/Users/xiaozuo/Library/Mobile Documents/iCloud~md~obsidian/Documents/Openclaw/Wellfound-Application-Ledger.md`
 
 Format (pipe-delimited markdown table):
 ```

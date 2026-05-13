@@ -10,7 +10,7 @@ Apply to Ashby jobs from a direct URL list. Identical resume/CL generation logic
 1. Read `~/.claude/skills/ashby-apply/SKILL.md` for config and selectors
 2. Read `~/.claude/skills/greenhouse-apply/data/answer-bank.md` for form answers
 3. Read `~/.claude/skills/greenhouse-apply/data/barron-experience-bank.md` for resume content
-4. Read `$HOME/Documents/Obsidian/01-Projects/Ashby-Application-Ledger.md` for dedup (create if missing)
+4. Read `/Volumes/workssd/ObsidianVault/01-Projects/Ashby-Application-Ledger.md` for dedup (create if missing)
 5. Parse ``:
    - If `--file <path>` → read URLs one-per-line
    - Otherwise treat each whitespace-separated token as a URL
@@ -100,7 +100,7 @@ await page.waitForTimeout(8000);
 ```
 
 ### Step 11: Record to Ledger
-Append to `$HOME/Documents/Obsidian/01-Projects/Ashby-Application-Ledger.md`:
+Append to `/Volumes/workssd/ObsidianVault/01-Projects/Ashby-Application-Ledger.md`:
 ```
 {company}|{job_title}|{uuid}|{YYYY-MM-DD}|submitted|{resume_filename}|{cover_letter_filename}
 ```

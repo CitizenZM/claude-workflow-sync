@@ -14,10 +14,10 @@ model: haiku
 program_id=50132 | count=500 | target_per_page=20
 login: affiliate@celldigital.co / Celldigital2024*
 scripts: ~/.claude/skills/impact-rockbros-us-outreach/scripts/
-ledger: $HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
-intel_db: $HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
-report: $HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
-obsidian_workflow: $HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach.md
+ledger: /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
+intel_db: /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
+report: /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
+obsidian_workflow: /Volumes/workssd/ObsidianVault/01-Projects/Impact-Rockbros-US-Outreach.md
 template_term: Rockbros USA Performance (highest-commission term available)
 contract_date: DYNAMIC — always use tomorrow's date: `new Date(Date.now()+86400000).toISOString().slice(0,10)`
 msg: "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample."

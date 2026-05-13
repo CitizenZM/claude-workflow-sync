@@ -12,7 +12,7 @@ Generate a comprehensive report from the Greenhouse Application Ledger.
 
 ## Steps
 
-1. Read `$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md`
+1. Read `/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md`
 2. Parse all entries: `company|job_title|job_id|date|status|resume_file|cover_letter_file`
 
 3. Generate report with:
@@ -22,7 +22,7 @@ Generate a comprehensive report from the Greenhouse Application Ledger.
    - **By Role**: Role types/titles
    - **Files Generated**: List of resume and cover letter .docx files
 
-4. Write report to `$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Report-{YYYY-MM-DD}.md`
+4. Write report to `/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Report-{YYYY-MM-DD}.md`
 
 ## Report Format
 

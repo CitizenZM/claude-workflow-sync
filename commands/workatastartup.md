@@ -16,10 +16,10 @@ model: sonnet
 ## CONSTANTS
 ```
 COUNT      = args[0] || 50
-SCRIPTS    = $HOME/Projects/workatastartup-apply/scripts
-PROFILE    = $HOME/Projects/workatastartup-apply/data/barron-profile.md
-OBSIDIAN   = $HOME/Documents/Obsidian/01-Projects/Workatastartup
-LEDGER     = $HOME/Documents/Obsidian/01-Projects/Workatastartup/_Ledger.md
+SCRIPTS    = /Users/xiaozuo/Projects/workatastartup-apply/scripts
+PROFILE    = /Users/xiaozuo/Projects/workatastartup-apply/data/barron-profile.md
+OBSIDIAN   = /Volumes/workssd/ObsidianVault/01-Projects/Workatastartup
+LEDGER     = /Volumes/workssd/ObsidianVault/01-Projects/Workatastartup/_Ledger.md
 CHECKPOINT = /tmp/workatastartup-checkpoint.json
 JD_TEMP    = /tmp/watas-jd.txt
 TODAY      = new Date().toISOString().slice(0,10)  [calculate once, reuse]
@@ -33,7 +33,7 @@ TODAY      = new Date().toISOString().slice(0,10)  [calculate once, reuse]
 
 **0b. Mount check**:
 ```bash
-ls $HOME/Documents/Obsidian/01-Projects/Workatastartup/ 2>/dev/null && echo "OK" || echo "FAIL"
+ls /Volumes/workssd/ObsidianVault/01-Projects/Workatastartup/ 2>/dev/null && echo "OK" || echo "FAIL"
 ```
 If FAIL → print `⛔ Obsidian SSD not mounted` and STOP.
 
@@ -81,7 +81,7 @@ test -f /tmp/watas-queue-remaining.json && echo "QUEUE_EXISTS" || echo "NO_QUEUE
 
 **If NO_QUEUE**: Scrape fresh via browser_run_code:
 ```
-1. Read $HOME/Projects/workatastartup-apply/scripts/scrape-queue.js
+1. Read /Users/xiaozuo/Projects/workatastartup-apply/scripts/scrape-queue.js
 2. Pass content to mcp__playwright__browser_run_code
 3. Receive result: { jobs: [...], total: N }
 4. Immediately DISCARD the script content from context after the call
@@ -239,7 +239,7 @@ Print final:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Done  Applied:{applied}  Skipped:{skipped}  Errors:{errors.length}
-   Notes: $HOME/Documents/Obsidian/01-Projects/Workatastartup/
+   Notes: /Volumes/workssd/ObsidianVault/01-Projects/Workatastartup/
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

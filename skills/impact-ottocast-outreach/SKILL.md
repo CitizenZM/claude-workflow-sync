@@ -40,8 +40,8 @@ Or unified: `/impact-ottocast` — full workflow on Haiku.
 | TEMPLATE_TERM | Public Term |
 | MESSAGE | See below |
 | CONTRACT_DATE | Today (dynamic: `new Date().getDate()`) |
-| LEDGER | `$HOME/Documents/Obsidian/01-Projects/impact-ottocast-ledger.md` |
-| OBSIDIAN TRACKER | `$HOME/Documents/Obsidian/06-Publishers/impact-ottocast-tracker.md` |
+| LEDGER | `/Users/xiaozuo/impact-ottocast-ledger.md` |
+| OBSIDIAN TRACKER | `/Volumes/workssd/ObsidianVault/06-Publishers/impact-ottocast-tracker.md` |
 | SESSION LIMIT | 300 proposals |
 
 ## Proposal Message
@@ -89,7 +89,7 @@ The per-tab loop simply checks `btns.includes('Send Proposal')`. If false, incre
 - It was redundant with the DOM state — Impact ALREADY hides "Send Proposal" for publishers we've contacted
 - It did nothing for true in-session duplicates (same publisher across two tabs) — the DOM handles that too, because once a proposal is sent the card's button state changes
 
-**Remaining dedup source of truth**: the ledger file at `$HOME/Documents/Obsidian/01-Projects/impact-ottocast-ledger.md`. It is append-only. Duplicates across sessions are prevented by Impact's own state (next session's DOM will show "Review Terms" on those cards).
+**Remaining dedup source of truth**: the ledger file at `/Users/xiaozuo/impact-ottocast-ledger.md`. It is append-only. Duplicates across sessions are prevented by Impact's own state (next session's DOM will show "Review Terms" on those cards).
 
 ## Token-Efficient Pattern (ONE evaluate per tab)
 
@@ -337,7 +337,7 @@ Return format: `OK|publisherName|publisherEmail|partnerId`
 
 ## Ledger Format
 
-File: `$HOME/Documents/Obsidian/01-Projects/impact-ottocast-ledger.md`
+File: `/Users/xiaozuo/impact-ottocast-ledger.md`
 
 ```markdown
 | Publisher Name | Email | Partner ID | Date Contacted |

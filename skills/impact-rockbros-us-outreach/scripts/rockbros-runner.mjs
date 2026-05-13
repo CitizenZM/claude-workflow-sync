@@ -1027,6 +1027,23 @@ async function main() {
   // Handles: Cloudflare, impact.com homepage, app.impact.com login, Google OAuth, Rockbros account selector
   const { execSync: execSyncLogin } = await import('child_process');
 
+  // Shared CF wait helper — polls up to maxSecs, throws if never clears
+  async function waitForCFClear(maxSecs = 120) {
+    const isCF = async () => {
+      const t = await page.title().catch(() => '');
+      return t.includes('moment') || t.includes('请稍候') || t.includes('Checking');
+    };
+    if (!(await isCF())) return; // already clear
+    log(`CF challenge detected — waiting up to ${maxSecs}s (manual click if needed)...`);
+    const steps = Math.ceil(maxSecs / 5);
+    for (let i = 0; i < steps; i++) {
+      await page.waitForTimeout(5000);
+      if (!(await isCF())) { log(`CF cleared after ${(i+1)*5}s ✅`); return; }
+      log(`  CF still active (${(i+1)*5}s)...`);
+    }
+    throw new Error(`CF_TIMEOUT: Cloudflare not cleared after ${maxSecs}s — needs manual checkbox click`);
+  }
+
   async function performImpactLogin() {
     const curUrl = page.url();
     const curTitle = await page.title().catch(() => '');
@@ -1038,62 +1055,31 @@ async function main() {
       return true;
     }
 
-    // STEP 1: If Cloudflare challenge — wait up to 30s for it to auto-pass
-    if (curTitle.includes('moment') || curTitle.includes('请稍候') || curTitle.includes('Checking')) {
-      log('Cloudflare challenge detected — waiting up to 30s for auto-pass...');
-      for (let i = 0; i < 6; i++) {
-        await page.waitForTimeout(5000);
-        const t = await page.title().catch(() => '');
-        if (!t.includes('moment') && !t.includes('请稍候') && !t.includes('Checking')) { log('CF passed'); break; }
-        log(`  CF still active (${(i+1)*5}s)...`);
-      }
+    // STEP 1: Clear any CF challenge on current page (up to 120s)
+    await waitForCFClear(120);
+
+    // STEP 2: Navigate directly to app.impact.com login (most reliable path)
+    log('Navigating to app.impact.com/login.user...');
+    await page.goto('https://app.impact.com/login.user', { waitUntil: 'domcontentloaded', timeout: 20000 }).catch(()=>{});
+    await page.waitForTimeout(3000);
+
+    // STEP 2b: Clear any CF on login page
+    await waitForCFClear(120);
+
+    // STEP 3: Check what appeared — could be login form, Google, or already logged in
+    const urlAfterNav = page.url();
+    log('URL after nav:', urlAfterNav.substring(0,80));
+
+    // If redirected straight to marketplace (cookie still valid)
+    if (urlAfterNav.includes('secure/advertiser')) {
+      log('Already logged in via cookie ✅');
+      return true;
     }
 
-    // STEP 2: Navigate via impact.com Sign In if not on login page
-    const urlNow = page.url();
-    if (!urlNow.includes('login') && !urlNow.includes('secure/advertiser')) {
-      log('Navigating via impact.com Sign In...');
-      await page.goto('https://impact.com/', { waitUntil: 'domcontentloaded', timeout: 20000 }).catch(()=>{});
-      await page.waitForTimeout(3000);
-      // Click Sign In link
-      const signInClicked = await page.evaluate(() => {
-        const els = Array.from(document.querySelectorAll('a, button, [role="button"]'));
-        const signIn = els.find(e => /^sign\s*in$/i.test(e.textContent.trim()) && e.offsetWidth > 0);
-        if (signIn) { signIn.click(); return true; }
-        return false;
-      });
-      log('Sign In clicked:', signInClicked);
-      await page.waitForTimeout(4000);
-    }
-
-    // STEP 3: Check what appeared — could be modal, redirect to app.impact.com, or Google
-    const urlAfterClick = page.url();
-    log('URL after Sign In:', urlAfterClick.substring(0,80));
-
-    // If redirected to app.impact.com login form
-    if (urlAfterClick.includes('app.impact.com') || urlAfterClick.includes('login.user')) {
-      await fillImpactDirectLogin();
-      // Don't return yet — check if Google OAuth kicked in
-    } else {
-      // If still on impact.com (modal might have opened, or navigate directly)
-      await page.goto('https://app.impact.com/login.user', { waitUntil: 'domcontentloaded', timeout: 15000 }).catch(()=>{});
-      await page.waitForTimeout(3000);
-    }
-
-    // STEP 4: Check if we need to fill the form again (only for the else/navigate branch)
+    // STEP 4: Check if we need to fill the login form
     const loginTitleNow = await page.title().catch(() => '');
     const loginUrlNow = page.url();
     log('Current page:', loginTitleNow.substring(0,40), '|', loginUrlNow.substring(0,60));
-
-    // CF on app.impact.com
-    if (loginTitleNow.includes('moment') || loginTitleNow.includes('请稍候')) {
-      log('CF on app.impact.com — waiting 30s...');
-      for (let i = 0; i < 6; i++) {
-        await page.waitForTimeout(5000);
-        const t = await page.title().catch(()=>'');
-        if (!t.includes('moment') && !t.includes('请稍候')) break;
-      }
-    }
 
     // Only fill login form if we're on the login page (not already on Google or secure pages)
     const urlCheck = page.url();

@@ -13,7 +13,7 @@ You are applying to jobs on Greenhouse.io with tailored resumes and cover letter
 ## Pre-Loop Setup
 1. Read `~/.claude/skills/greenhouse-apply/SKILL.md` for config, selectors, personal info
 2. Read `~/.claude/skills/greenhouse-apply/data/answer-bank.md` for form answers
-3. Read `$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md` for dedup
+3. Read `/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md` for dedup
 4. Parse $ARGUMENTS for max_applications (default: 5)
 
 ## For Each Job in Queue:
@@ -100,7 +100,7 @@ python3 ~/.claude/skills/greenhouse-apply/scripts/generate-resume.py \
 3. If submission succeeds, capture confirmation
 
 ### Step 11: Record to Ledger
-Append to `$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md`:
+Append to `/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md`:
 ```
 {company}|{job_title}|{job_id}|{YYYY-MM-DD}|submitted|{resume_filename}|{cover_letter_filename}
 ```
