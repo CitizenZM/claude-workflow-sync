@@ -22,7 +22,7 @@ BASE_URL          : https://my.greenhouse.io
 SEARCH_KEYWORDS   : ["marketing", "growth"]   (use $ARGUMENTS if provided)
 MIN_SALARY        : 160000
 MAX_PER_RUN       : 2
-LEDGER            : /Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md
+LEDGER            : $HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md
 RESUME_DIR        : ~/Downloads/resumeandcoverletter/
 RESUME_TEMPLATE   : Barron_Zuo_Resume_Dialpad_HeadOfGrowth.docx
 SCRIPTS           : ~/.claude/skills/greenhouse-apply/scripts/

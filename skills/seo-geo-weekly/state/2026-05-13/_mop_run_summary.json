@@ -1,0 +1,29 @@
+{
+  "modules": {
+    "M4": {
+      "status": "ok",
+      "rows": 38
+    },
+    "M5": {
+      "status": "ok",
+      "path": "/Users/xiaozuo/.claude/skills/seo-geo-weekly/state/2026-05-13/klaviyo_signup.py"
+    },
+    "M2": {
+      "status": "ok",
+      "count": 20,
+      "ok": 4
+    },
+    "M3": {
+      "status": "ok"
+    },
+    "M6": {
+      "status": "ok"
+    },
+    "M1": {
+      "status": "ok",
+      "added": 2,
+      "failed": 11
+    }
+  },
+  "completed_at": 1778703618.959518
+}

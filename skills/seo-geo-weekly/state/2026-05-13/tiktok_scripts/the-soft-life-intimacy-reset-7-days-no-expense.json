@@ -1,0 +1,36 @@
+{
+  "hook_3s": "Think intimacy costs a fortune? Think again. This 7-day reset is free.",
+  "script_voiceover": "Think intimacy costs a fortune? Think again. This 7-day reset is free. The Soft Life isn't just luxury; it's intentional connection. Day one: share a silent, candlelit meal. Day three: write a heartfelt note. Day five: spend an hour just holding hands, no distractions. These small, mindful acts deepen your bond without spending a dime. Ready to reclaim your connection? Share this and start tonight. True intimacy is built on presence, not price tags.",
+  "b_roll_shots": [
+    "Hands gently placing a lit candle on a table (0-3s)",
+    "Soft fabric (silk scarf) being draped slowly (3-6s)",
+    "Close-up of hands holding a warm, elegant mug (glassware) (6-9s)",
+    "Hands slowly writing a note on beautiful paper (9-12s)",
+    "Two sets of hands clasped gently and mindfully (12-15s)",
+    "Close-up of a single candle flame flickering softly (15-18s)",
+    "Subtle light reflecting on a water glass or decanter (18-21s)",
+    "A hand slowly turning a page in a journal (21-24s)"
+  ],
+  "on_screen_text": [
+    "Intimacy Reset",
+    "No Expense",
+    "Soft Life Focus",
+    "Candlelit Moments",
+    "Heartfelt Notes",
+    "Just Hold Hands",
+    "Deepen Your Bond",
+    "Start Tonight"
+  ],
+  "cta": "Ready to reclaim your connection? Share this and start tonight.",
+  "caption": "Ready for a deeper connection without breaking the bank? This 7-day soft life intimacy reset focuses on mindful presence. [AIGC Label]",
+  "aigc_label": "AI-generated voice via TTS",
+  "duration_estimate_s": 23,
+  "hashtags": [
+    "#SoftLifeIntimacy",
+    "#RelationshipTok",
+    "#WellnessTok",
+    "#CouplesTok",
+    "#IntimacyEducation"
+  ],
+  "topic_seed": "The soft life intimacy reset (7 days, no expense)"
+}

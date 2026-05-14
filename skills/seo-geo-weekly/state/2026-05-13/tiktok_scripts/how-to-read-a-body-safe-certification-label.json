@@ -1,0 +1,36 @@
+{
+  "hook_3s": "Many 'body-safe' labels can be misleading. Here's how to truly understand them.",
+  "script_voiceover": "Many 'body-safe' labels can be misleading. Here's how to truly understand them. When choosing wellness products, look for terms like 'medical-grade silicone' or 'FDA-grade silicone' to ensure non-porosity and safety. Avoid products labeled only as 'jelly' or 'TPR,' as these often contain phthalates and can harbor bacteria. Always check for 'phthalate-free' certification. Your well-being is paramount. For a deeper dive into body-safe materials, explore our guide linked in bio. Share your thoughts on labels in the comments!",
+  "b_roll_shots": [
+    "Close-up: Hands gently holding a product with a blurred label, soft lighting (3s)",
+    "Shot: Soft focus on a flickering candle, blurred background (3s)",
+    "Close-up: Fingers tracing text on a clean, white fabric (3s)",
+    "Shot: A hand pointing to a 'medical-grade' symbol or text on an informational card (3s)",
+    "Shot: Pouring water into a clear glass, slow motion, clean aesthetic (3s)",
+    "Close-up: Hands turning a small, smooth, unidentifiable object, soft glow (3s)",
+    "Shot: A blurred page of a comprehensive guide, inviting curiosity (3s)",
+    "Shot: Hands gesturing towards the screen as if inviting interaction (3s)"
+  ],
+  "on_screen_text": [
+    "Misleading Labels?",
+    "Medical-Grade Silicone",
+    "FDA-Grade Approved",
+    "Phthalate-Free",
+    "Avoid 'Jelly' & 'TPR'",
+    "Your Well-being Matters",
+    "Guide in Bio",
+    "Share Your Insights"
+  ],
+  "cta": "For a deeper dive into body-safe materials, explore our guide linked in bio. Share your thoughts on labels in the comments!",
+  "caption": "Understanding body-safe labels is crucial for your wellness journey. Learn what to look for to ensure your products are truly safe. #SoftLifeIntimacy #RelationshipTok #WellnessTok #BodySafe #IntimacyEducation (AI-generated voice via TTS)",
+  "aigc_label": "AI-generated voice via TTS",
+  "duration_estimate_s": 25,
+  "hashtags": [
+    "#SoftLifeIntimacy",
+    "#RelationshipTok",
+    "#WellnessTok",
+    "#BodySafe",
+    "#IntimacyEducation"
+  ],
+  "topic_seed": "How to read a body-safe certification label"
+}

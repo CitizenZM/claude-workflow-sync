@@ -1,0 +1,128 @@
+{
+  "plan": [
+    {
+      "day": 8,
+      "post_idx": 1,
+      "sub": "r/sextoys",
+      "url": "https://reddit.com/r/SexToys/comments/1tbtbdc/any_recommendations_for_a_butt_plug_that_fits/",
+      "rationale": "Non-risk post with 0 comments, prioritized for early placement in Week 2 as preferred to maximize impact."
+    },
+    {
+      "day": 9,
+      "post_idx": 3,
+      "sub": "r/sextoys",
+      "url": "https://reddit.com/r/SexToys/comments/1tbs9ca/any_advice_about_an_anal_dildo_long_and_wide/",
+      "rationale": "Non-risk post with 0 comments, prioritized for early placement in Week 2 as preferred to maximize impact."
+    },
+    {
+      "day": 10,
+      "post_idx": 9,
+      "sub": "r/sextoys",
+      "url": "...",
+      "rationale": "Non-risk post with 0 comments, placed in Week 2."
+    },
+    {
+      "day": 11,
+      "post_idx": 12,
+      "sub": "r/sextoys",
+      "url": "...",
+      "rationale": "Non-risk post with 0 comments, placed in Week 2."
+    },
+    {
+      "day": 12,
+      "post_idx": 15,
+      "sub": "r/sextoys",
+      "url": "...",
+      "rationale": "Non-risk post with 0 comments, placed in Week 2."
+    },
+    {
+      "day": 13,
+      "post_idx": 18,
+      "sub": "r/sextoys",
+      "url": "...",
+      "rationale": "Non-risk post with 0 comments, placed in Week 2."
+    },
+    {
+      "day": 14,
+      "post_idx": 2,
+      "sub": "r/sextoys",
+      "url": "https://reddit.com/r/SexToys/comments/1tbsfya/do_you_prefer_a_firm_core_or_a_softer_one_that/",
+      "rationale": "Non-risk post with 1 comment, placed at the end of Week 2."
+    },
+    {
+      "day": 22,
+      "post_idx": 4,
+      "sub": "r/BDSMcommunity",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 22,
+      "post_idx": 5,
+      "sub": "r/DeadBedrooms",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 23,
+      "post_idx": 7,
+      "sub": "r/BDSMcommunity",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 23,
+      "post_idx": 8,
+      "sub": "r/DeadBedrooms",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 24,
+      "post_idx": 10,
+      "sub": "r/BDSMcommunity",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 25,
+      "post_idx": 11,
+      "sub": "r/DeadBedrooms",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 25,
+      "post_idx": 13,
+      "sub": "r/BDSMcommunity",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 26,
+      "post_idx": 14,
+      "sub": "r/DeadBedrooms",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 27,
+      "post_idx": 16,
+      "sub": "r/BDSMcommunity",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    },
+    {
+      "day": 28,
+      "post_idx": 17,
+      "sub": "r/DeadBedrooms",
+      "url": "...",
+      "rationale": "Risk-flagged post, scheduled in Week 4 as required."
+    }
+  ],
+  "weekly_summary": {
+    "week_2": "All 7 non-risk r/sextoys posts (1, 2, 3, 9, 12, 15, 18) are scheduled across Days 8-14, with 0-reply posts prioritized for earlier placement to maximize impact. This results in 1 comment per day from the provided list, which is below the target of 2-3 comments/day for overall account activity. Additional comments on other posts would be needed to meet the daily target.",
+    "week_3": "No posts from the provided list are scheduled for Days 15-21. All non-risk posts were placed in Week 2, and risk-flagged posts are reserved for Week 4. This means the account would need to engage with other posts to meet the target of 3-5 comments/day during this week.",
+    "week_4": "All 10 risk-flagged posts (4, 5, 7, 8, 10, 11, 13, 14, 16, 17) are scheduled across Days 22-28, adhering strictly to the 'Week 4 only' constraint. Posts are distributed to average 1-2 comments per day from this list. This is below the target of 3-5 comments/day for overall account activity, suggesting additional engagement would be necessary."
+  }
+}

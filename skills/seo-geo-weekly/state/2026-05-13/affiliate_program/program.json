@@ -1,0 +1,149 @@
+{
+  "commission_tiers": [
+    {
+      "tier_name": "Trial",
+      "commission_pct": 15,
+      "minimum_30d_revenue": 0,
+      "perks": [
+        "15% commission on all net sales",
+        "30-day cookie duration",
+        "Personal 10% discount code for own purchases",
+        "Access to our creative asset library"
+      ]
+    },
+    {
+      "tier_name": "Standard",
+      "commission_pct": 20,
+      "minimum_30d_revenue": 500,
+      "perks": [
+        "20% commission on all net sales",
+        "45-day cookie duration",
+        "Personal 15% discount code",
+        "One complimentary gifted kit (up to $150 value)",
+        "Early access to new product launches"
+      ]
+    },
+    {
+      "tier_name": "Elite",
+      "commission_pct": 25,
+      "minimum_30d_revenue": 2500,
+      "perks": [
+        "25% commission on all net sales",
+        "60-day cookie duration",
+        "Personal 20% discount code",
+        "Quarterly gifted kits (up to $250 value each)",
+        "Priority support from a dedicated affiliate manager",
+        "Potential for custom product collaborations and featured content"
+      ]
+    }
+  ],
+  "utm_convention": "https://bdsmpub.com/?ref={{creator_handle}}&utm_source=collabs&utm_medium=affiliate&utm_campaign={{creator_handle}}",
+  "landing_page": {
+    "url_slug": "/pages/affiliate-program",
+    "hero_headline": "Educate. Empower. Earn.",
+    "hero_subhead": "Partner with Dark Fantasy to guide your audience in the art of conscious kink. We champion education, consent, and exceptional quality. Join our collective of trusted voices.",
+    "why_join": [
+      "Generous Commissions: Earn up to 25% on every sale you refer. Our high-quality, high-value items mean significant earning potential.",
+      "Promote with Pride: We are an ethics-first brand dedicated to safety, education, and beautiful design. Our products are made from body-safe materials you can stand behind.",
+      "Grow With Us: Receive gifted products, get early access to new collections, and collaborate with a brand that values your expertise and voice."
+    ],
+    "what_we_offer": [
+      "Competitive tiered commission structure (15-25%)",
+      "A generous 30 to 60-day cookie window",
+      "Complimentary product kits to create authentic content",
+      "A dedicated affiliate manager for support and strategy",
+      "Access to a library of high-resolution images, banners, and brand assets",
+      "Customizable discount codes for your audience"
+    ],
+    "who_we_want": "We are seeking passionate educators, creators, and community leaders who are dedicated to promoting safe, sane, and consensual exploration. If you are a sex educator, therapist, writer, podcaster, or creator with an engaged audience interested in BDSM, kink, and intentional intimacy, we want to collaborate. We particularly value partners who prioritize education on consent, safety, and communication alongside product recommendations.",
+    "application_form_fields": [
+      "full_name",
+      "email_address",
+      "primary_platform_url",
+      "username_handle",
+      "secondary_platforms",
+      "audience_size_followers",
+      "audience_demographics_summary",
+      "content_niche",
+      "why_you_want_to_partner_with_us",
+      "paypal_email_for_payouts"
+    ],
+    "cta_button": "Apply to Join the Collective",
+    "faq": [
+      {
+        "q": "How do I get paid?",
+        "a": "Payouts are made via PayPal on the 1st of each month for the previous month's commissions. A minimum balance of $50 is required for payout."
+      },
+      {
+        "q": "What is the cookie duration?",
+        "a": "Our cookie duration ranges from 30 to 60 days, depending on your affiliate tier. If a customer clicks your link and makes a purchase within that window, you get credit for the sale."
+      },
+      {
+        "q": "Can I get free products to review?",
+        "a": "Yes! Approved partners in our Standard and Elite tiers are eligible for complimentary gifted kits to help create authentic, high-quality content."
+      },
+      {
+        "q": "Are there any restrictions on how I can promote?",
+        "a": "We prohibit promotion on coupon-only sites, paid search campaigns targeting our brand name, and any content that promotes non-consensual activities. We encourage authentic, educational content."
+      },
+      {
+        "q": "How do I track my sales?",
+        "a": "You will have access to a personalized dashboard through our affiliate platform (Refersion) to track your clicks, sales, and commissions in real-time."
+      },
+      {
+        "q": "Do I have to be in the US to join?",
+        "a": "Not at all! We welcome international partners. Please note that all commissions are paid out in USD."
+      }
+    ]
+  },
+  "outreach_templates": [
+    {
+      "archetype": "Reddit ALU sex-positive educator",
+      "channel": "Reddit DM",
+      "subject": "A question about your work & a potential partnership",
+      "body": "Hi [Username],\n\nMy name is [Your Name] and I manage partnerships for Dark Fantasy (bdsmpub.com). I've been following your contributions in [r/SubredditName] for a while, and I deeply respect the knowledge and nuance you bring to your comments\u2014it's clear why you have the ALU flair. Your focus on [mention a specific topic they cover, e.g., 'negotiation and aftercare'] is exactly what the community needs.\n\nOur brand is built on the same principles of education, consent, and high-quality, body-safe materials. We're looking to partner with genuine experts like you, not just influencers. We run an affiliate program that's designed to be a true partnership, with generous commissions (starting at 15%), gifted products for you to evaluate, and no pressure to post.\n\nWe believe our collection would resonate with an audience that values your level of expertise. If you're open to it, I'd love to share more details. No corporate stuff, just a conversation to see if it's a good fit.\n\nThanks for the work you do.",
+      "follow_up_3_days": "Hi [Username], just wanted to gently follow up on my last message. No pressure at all, but if you're curious to learn more about our program for educators, the details are here: [Link to affiliate landing page]. Either way, keep up the great work in the community."
+    },
+    {
+      "archetype": "TikTok faceless educator 25-50K",
+      "channel": "TikTok DM / email",
+      "subject": "Dark Fantasy Collab - Love your aesthetic!",
+      "body": "Hey [Username]! Obsessed with your TikToks, especially the [mention specific video style, e.g., 'ASMR unboxing' or 'educational voiceover'] one. Your aesthetic is stunning and your educational approach is so needed.\n\nI'm with Dark Fantasy, we create high-end, body-safe BDSM gear. We think our pieces would look incredible in your videos and align with the safe, educational vibe you've built.\n\nWe'd love to send you a complimentary kit (our treat, ~$150 value) to see what you think. If you like it and want to share, we have a great affiliate program with a 20% commission. No strings attached.\n\nInterested? Let me know the best email/address to send details to!",
+      "follow_up_3_days": "Hey! Just checking if you saw my message. Would love to get a Dark Fantasy kit in your hands. Let me know if you're open to it!"
+    },
+    {
+      "archetype": "Instagram couples-wellness 10-50K",
+      "channel": "IG DM",
+      "subject": "Partnership Idea: Dark Fantasy x [Username]",
+      "body": "Hi [Username], I love how you help couples deepen their intimacy and communication. Your post on [mention a specific post topic] was beautiful.\n\nI'm reaching out from Dark Fantasy. We design luxury tools that help partners explore intimacy and desire in a safe, consensual way. It's less about 'hardcore' BDSM and more about connection and sensation.\n\nWe think your audience would appreciate our focus on quality and aesthetics. We'd love to gift you a curated set of our products. If it feels like a genuine fit for your brand, we can discuss a partnership (we offer a 15-20% affiliate commission).\n\nWould you be open to exploring this?",
+      "follow_up_3_days": "Hi [Username], circling back on this. If you're curious, you can see our collection at bdsmpub.com. Let me know if you'd like us to send a package your way!"
+    },
+    {
+      "archetype": "Sex-positive podcast host",
+      "channel": "email",
+      "subject": "Sponsorship/Affiliate Inquiry for [Podcast Name]",
+      "body": "Hi [Host Name],\n\nMy name is [Your Name] from Dark Fantasy. I'm a regular listener of [Podcast Name] and was particularly impressed by your episode on [mention specific episode topic]. Your ability to discuss complex topics with such clarity and warmth is fantastic.\n\nDark Fantasy (bdsmpub.com) creates high-end, ethically-made gear for BDSM and kink exploration. Our brand ethos is centered on education, consent, and quality\u2014values that I know are shared by you and your listeners.\n\nWe are looking to partner with trusted voices in the community and would be honored to sponsor an episode or establish an affiliate partnership with you. We offer a competitive commission rate (15-25%), a custom discount code for your audience, and can provide products for you to review and discuss authentically.\n\nIf this sounds interesting, I would be happy to provide more information about our program or schedule a brief call to discuss possibilities.\n\nThank you for your time and for the incredible resource you've created for the community.\n\nBest regards,",
+      "follow_up_3_days": "Hi [Host Name],\n\nJust a quick follow-up to my previous email. We'd be thrilled to explore a partnership with [Podcast Name]. If you have a media kit you could share, I'd love to take a look.\n\nThanks again,\n[Your Name]"
+    },
+    {
+      "archetype": "Substack newsletter writer (sex education niche)",
+      "channel": "email",
+      "subject": "A Partnership that Respects Your Readers",
+      "body": "Hello [Writer Name],\n\nI'm [Your Name], and I handle partnerships at Dark Fantasy. I'm also a subscriber to your Substack, and I consistently admire the depth and integrity of your writing. Your recent piece on [mention specific article] was especially insightful.\n\nAt Dark Fantasy (bdsmpub.com), we share your commitment to thoughtful, nuanced sex education. We create beautiful, body-safe tools for kink exploration, but our mission is rooted in promoting consent and safety.\n\nWe are building an affiliate program for discerning educators and writers like yourself. This isn't about just pushing products; it's about providing a resource for your readers who may be looking for high-quality, ethically-made items. We offer a strong commission (15-25%) and are happy to provide products for your personal evaluation.\n\nIf you're planning any gift guides, product roundups, or articles where our collection might be a relevant and valuable addition for your audience, I'd love to connect.\n\nThank you for your incredible work.\n\nSincerely,",
+      "follow_up_3_days": "Hello [Writer Name],\n\nJust wanted to briefly follow up on my email from last week. If you're open to discussing a potential affiliate partnership, please let me know. We believe our brand would be a natural fit for the high standards you set with your content.\n\nBest,\n[Your Name]"
+    }
+  ],
+  "gifted_kit_default": {
+    "skus_recommended": [
+      "One item from our 'Artisan Leather Restraints' collection",
+      "One item from our 'Sensory & Impact Toys' collection",
+      "One bottle of our 'Body-Safe Toy Cleaner & Conditioner'"
+    ],
+    "total_value_usd": 150,
+    "packaging_note": "All orders ship in 100% discreet packaging. The outer box is plain brown with no branding. The luxury experience begins once the box is opened."
+  },
+  "onboarding_email_after_signup": {
+    "subject": "Welcome to the Dark Fantasy Collective! Your affiliate link is inside.",
+    "body_html": "<!DOCTYPE html><html><body><h2>Welcome to the Collective, [Creator Name]!</h2><p>We are absolutely thrilled to have you join the Dark Fantasy affiliate program. We deeply value your voice and expertise, and we can't wait to see what we create together.</p><h3>Getting Started:</h3><ol><li><strong>Your Affiliate Link:</strong><br><a href='https://bdsmpub.com/?ref={{creator_handle}}'>https://bdsmpub.com/?ref={{creator_handle}}</a><br><em>Use this link to ensure all your referrals are tracked correctly.</em></li><li><strong>Your Dashboard:</strong><br><a href='[Link to Refersion Dashboard]'>Click here to log in</a> to track your clicks, sales, and commissions.</li><li><strong>Your Audience Discount:</strong><br>Offer your followers <strong>10% off</strong> their entire order with the code: <strong>{{creator_discount_code}}</strong>.</li></ol><h3>Resources:</h3><ul><li><strong>Creative Assets:</strong> Find high-resolution photos and brand logos in our <a href='[Link to Asset Library]'>asset library</a>.</li><li><strong>Program Guide:</strong> Review our best practices and guidelines <a href='[Link to Program Guide]'>here</a>.</li></ul><p>We've also started preparing your first gifted kit! We'll send a separate email with tracking information once it ships.</p><p>If you have any questions, please don't hesitate to reach out. We're here to support you.</p><p>Warmly,<br>The Dark Fantasy Team</p></body></html>"
+  }
+}

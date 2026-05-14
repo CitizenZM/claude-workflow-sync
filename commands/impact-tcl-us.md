@@ -1,12 +1,12 @@
 ---
-description: "Impact TCL US — Full workflow. Sonnet login+setup+tab-loop → pre-built Haiku per tab (Option A). Usage: /impact-tcl-us [count]"
+description: "Impact TCL US — Full workflow. Auto-selects browser (port 9307 if live, else 9305). Sonnet login+setup+tab-loop → pre-built Haiku per tab (Option A). Usage: /impact-tcl-us [count]"
 model: sonnet
 ---
 
 # Impact TCL US — Unified Outreach Workflow (Option A)
 
 **Harness**: Sonnet owns login + helper inject + tab loop. Fresh Haiku per tab — pre-built script, 1 tool call.
-**MCP**: `mcp__playwright-impact-tcl-us__` for ALL browser calls
+**MCP**: auto-detected — `mcp__playwright-impact-tcl-us-2__` (port 9307) if live, else `mcp__playwright-impact-tcl-us__` (port 9305)
 **Fully autonomous**: no stops, no model-switch prompts, no user questions
 
 ---
@@ -19,18 +19,30 @@ target_per_tab : 20
 template_term  : TCL US Standard Publisher Terms (5%)
 login          : affiliate@celldigital.co / Celldigital2024*
 scripts        : ~/.claude/skills/impact-tcl-us-outreach/scripts/
-ledger         : ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Ledger.md
-report         : ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/01-Projects/Impact-TCL-US-Outreach-Report-2026-04-16.md
+ledger         : ~/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Ledger.md
+report         : ~/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Report-2026-04-16.md
 msg            : "Hi! We're reaching out on behalf of TCL, a leading global brand in consumer electronics — TVs, smartphones, tablets, and soundbars. We'd love to partner with you through our affiliate program (5% commission). If you're interested, please review the proposal and feel free to reach out with any questions. Looking forward to working together!"
 ```
+
+## BROWSER AUTO-DETECT (MANDATORY — before any browser call)
+```bash
+if curl -s --max-time 2 http://localhost:9307/json/version >/dev/null 2>&1; then
+  ACTIVE_MCP="mcp__playwright-impact-tcl-us-2__"
+elif curl -s --max-time 2 http://localhost:9305/json/version >/dev/null 2>&1; then
+  ACTIVE_MCP="mcp__playwright-impact-tcl-us__"
+else
+  echo "ERROR: No TCL browser on 9305 or 9307. Run: bash ~/.claude/scripts/launch-impact-tcl-us-2.sh"; exit 1
+fi
+```
+All browser calls use `${ACTIVE_MCP}` prefix. Print: `"Using browser: ${ACTIVE_MCP} on port {PORT}"`
 
 ---
 
 ## PHASE 1 — SETUP (Sonnet)
 
 ### Step 1: Login
-1. `mcp__playwright-impact-tcl-us__browser_navigate` → `https://app.impact.com`
-2. `mcp__playwright-impact-tcl-us__browser_snapshot` ONCE for login form
+1. `${ACTIVE_MCP}browser_navigate` → `https://app.impact.com`
+2. `${ACTIVE_MCP}browser_snapshot` ONCE for login form
 3. Fill credentials via `browser_evaluate`:
 ```js
 async () => {
@@ -162,12 +174,12 @@ Stop when `session_sent >= COUNT` or all 5 tabs done.
 
 ```
 You are the Impact TCL US per-tab proposal agent (tab {tab_num}).
-MCP: mcp__playwright-impact-tcl-us__
+MCP: {ACTIVE_MCP} (auto-detected — use this exact namespace for the browser_evaluate call below)
 Browser is logged in. window.__tcl_fill and window.__DEDUP are pre-injected.
 
 TASK: Call browser_evaluate EXACTLY ONCE with the function below. Output JSON result. Stop.
 
-Call mcp__playwright-impact-tcl-us__browser_evaluate with:
+Call ${ACTIVE_MCP}browser_evaluate with:
 function: {SCRIPT}
 
 Output the JSON result as your final message:

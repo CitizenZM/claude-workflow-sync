@@ -1,0 +1,35 @@
+{
+  "hook_3s": "Traveling soon? Don't forget to pack for intimate moments.",
+  "script_voiceover": "Traveling soon? Don't forget to pack for intimate moments. Elevate your hotel stays with discreet, TSA-friendly wellness products. Imagine enhancing your romantic getaway with items that fit seamlessly into your luggage and lifestyle. We're talking compact, body-safe essentials that bring comfort and spark joy, wherever your adventures take you. These are chosen for discretion and ease of travel. Discover our curated collection of travel-ready wellness products. Tap the link in bio to explore your next escape!",
+  "b_roll_shots": [
+    "Hands gently placing a small, elegant bottle into a luxurious toiletry bag.",
+    "Close-up of a hand holding a compact, smooth personal massager.",
+    "A soft, folded silk scarf or robe on a hotel bed, with a small product peeking out.",
+    "Candlelight flickering next to a glass of water on a bedside table.",
+    "Hands unpacking a small, travel-sized wellness product from a suitcase.",
+    "Close-up of a hand applying a small amount of lotion to another hand, soft focus.",
+    "A hand holding a hotel room key card, with a subtle, elegant product visible in the background.",
+    "Slow pan over soft hotel linens, with a discreet product partially visible."
+  ],
+  "on_screen_text": [
+    "Pack Smartly",
+    "TSA-Friendly Wellness",
+    "Discreet & Compact",
+    "Elevate Your Stay",
+    "Body-Safe Essentials",
+    "Soft Life Intimacy",
+    "Link in Bio!"
+  ],
+  "cta": "Discover our curated collection of travel-ready wellness products. Tap the link in bio to explore your next escape!",
+  "caption": "Enhance your travel experiences with our selection of discreet, TSA-friendly wellness products designed for soft life intimacy. AI-generated voice via TTS.",
+  "aigc_label": "AI-generated voice via TTS",
+  "duration_estimate_s": 27,
+  "hashtags": [
+    "#SoftLifeIntimacy",
+    "#RelationshipTok",
+    "#WellnessTok",
+    "#CouplesTok",
+    "#BodySafe"
+  ],
+  "topic_seed": "Hotel-friendly intimacy products (TSA-tested)"
+}

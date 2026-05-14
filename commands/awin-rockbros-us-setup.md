@@ -42,7 +42,7 @@ Call the Agent tool:
 - `prompt`: Contents of `~/.claude/skills/_shared/outreach-supervisor-prompt.md` with bindings filled in:
   - workflow: `awin-rockbros-us`
   - target_total: (from $ARGUMENTS or default 2000)
-  - ledger_path: `/Volumes/workssd/ObsidianVault/01-Projects/Awin-Rockbros-US-Outreach-Ledger.md`
+  - ledger_path: `$HOME/Documents/Obsidian/01-Projects/Awin-Rockbros-US-Outreach-Ledger.md`
   - checkpoint_path: `/tmp/outreach-awin-rockbros-us-checkpoint.json`
   - mcp_namespace: `mcp__playwright-awin-rockbros-us__`
 

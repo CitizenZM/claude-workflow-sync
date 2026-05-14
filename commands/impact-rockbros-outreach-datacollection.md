@@ -19,10 +19,10 @@ target_per_tab : COUNT (full count per tab, not capped at 20)
 mcp            : mcp__playwright-impact-rockbros-us__
 login          : affiliate@celldigital.co / Celldigital2024*
 scripts_dir    : ~/.claude/skills/impact-rockbros-us-outreach/scripts/
-ledger         : ~/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
-intel_db       : ~/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
-report         : ~/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
-obsidian       : ~/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Outreach.md
+ledger         : ~/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md
+intel_db       : ~/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Publisher-Intel.md
+report         : ~/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Report-DYNAMIC_DATE.md
+obsidian       : ~/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach.md
 msg            : "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample."
 contract_date  : DYNAMIC — new Date(Date.now()+86400000).toISOString().slice(0,10)
 ```
@@ -123,7 +123,7 @@ Replace all placeholders:
 - `%%TARGET%%` → `COUNT - session_sent` (remaining target, not capped)
 - `%%DISCOVER_URL%%` → DISCOVER_URL
 
-Write result to `/Users/xiaozuo/.claude/skills/impact-rockbros-us-outreach/scripts/tab_current.js`
+Write result to `$HOME/.claude/skills/impact-rockbros-us-outreach/scripts/tab_current.js`
 
 Verify no remaining `%%` placeholders:
 ```bash
@@ -190,7 +190,7 @@ Target: {remaining} proposals this tab.
 TASK: Read the script file, then call browser_run_code ONCE. Return the full JSON. Stop.
 
 Step 1 — Read the script:
-Read file: /Users/xiaozuo/.claude/skills/impact-rockbros-us-outreach/scripts/tab_current.js
+Read file: $HOME/.claude/skills/impact-rockbros-us-outreach/scripts/tab_current.js
 
 Step 2 — Call browser_run_code:
 mcp__playwright-impact-rockbros-us__browser_run_code with:

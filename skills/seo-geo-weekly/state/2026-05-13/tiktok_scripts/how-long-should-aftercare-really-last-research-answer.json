@@ -1,0 +1,35 @@
+{
+  "hook_3s": "Ever wondered how long aftercare truly needs to be?",
+  "script_voiceover": "Ever wondered how long aftercare truly needs to be? Research suggests that meaningful aftercare should ideally extend for several hours, not just a few minutes. This isn't about rushing; it's about nurturing connection and emotional well-being. Think gentle touch, shared quiet moments, or even preparing a warm drink together. These moments help regulate emotions and deepen intimacy. Want more insights on building stronger, softer connections? Follow @darkfantasy.studio for daily wellness tips. Prioritize this time to truly unwind and reconnect.",
+  "b_roll_shots": [
+    "Soft focus shot of hands gently holding a warm ceramic mug (3s)",
+    "Close-up of flickering candlelight on a textured, soft fabric surface (3s)",
+    "Hands slowly stroking a plush blanket or cashmere fabric (3s)",
+    "Two hands intertwined gently, resting on a lap or table (3s)",
+    "Pouring warm herbal tea into a delicate glass cup (3s)",
+    "Close-up of a hand resting on an open book or journal with soft lighting (3s)",
+    "A small, elegant plant or flower arrangement in soft focus (3s)",
+    "Hands slowly stirring a drink in a mug, steam gently rising (3s)"
+  ],
+  "on_screen_text": [
+    "Aftercare Duration?",
+    "Research Says:",
+    "Hours, Not Minutes",
+    "Nurturing Connection",
+    "Emotional Well-being",
+    "Gentle Touch",
+    "Prioritize This Time"
+  ],
+  "cta": "Want more insights on building stronger, softer connections? Follow @darkfantasy.studio for daily wellness tips.",
+  "caption": "Ever wondered about the true duration of aftercare? Research suggests it's more extensive than you might think, crucial for deepening connection and emotional well-being. #AIgenerated",
+  "aigc_label": "AI-generated voice via TTS",
+  "duration_estimate_s": 24,
+  "hashtags": [
+    "#SoftLifeIntimacy",
+    "#RelationshipTok",
+    "#WellnessTok",
+    "#CouplesTok",
+    "#IntimacyEducation"
+  ],
+  "topic_seed": "How long should aftercare really last? (research answer)"
+}

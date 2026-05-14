@@ -80,10 +80,10 @@
     }
   ],
   "files": {
-    "resume_default": "/Users/xiaozuo/Downloads/resumeandcoverletter/Barron_Zuo_Growth_Final_Resume.docx",
+    "resume_default": "~/Downloads/resumeandcoverletter/Barron_Zuo_Growth_Final_Resume.docx",
     "cover_letter_default": null,
-    "resume_directory": "/Users/xiaozuo/Downloads/resumeandcoverletter/",
-    "generate_script": "/Users/xiaozuo/.claude/skills/greenhouse-apply/scripts/generate-resume.py"
+    "resume_directory": "~/Downloads/resumeandcoverletter/",
+    "generate_script": "~/.claude/skills/greenhouse-apply/scripts/generate-resume.py"
   },
   "open_ended_answers": {
     "salary_expectations": "$160,000 - $200,000 base, flexible on total compensation",

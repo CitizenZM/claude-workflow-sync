@@ -36,4 +36,4 @@ Generate a 1-page cover letter for Barron Zuo. Dense, specific, zero filler.
 - NEVER use clichés: "passionate about", "team player", "detail-oriented"
 - ALWAYS use first-person, active voice, present tense for current state
 - NO China locations, NO Zhejiang University
-- Save to: `/Users/xiaozuo/Downloads/resumeandcoverletter/Barron_Zuo_{{COMPANY_SLUG}}_{{ROLE_SLUG}}_Cover_Letter.docx`
+- Save to: `$HOME/Downloads/resumeandcoverletter/Barron_Zuo_{{COMPANY_SLUG}}_{{ROLE_SLUG}}_Cover_Letter.docx`

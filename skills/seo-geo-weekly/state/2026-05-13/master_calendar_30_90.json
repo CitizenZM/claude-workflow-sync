@@ -1,0 +1,316 @@
+{
+  "executive_summary": "The first 30 days focus on establishing a foundational social and content presence while executing two initial sales promotions. Key priorities include warming up community channels like Reddit, deploying all necessary e-commerce pages on Shopify, and launching core email automation flows. Success will be measured by initial audience growth, email list acquisition, and revenue from the Memorial Day and Pride campaigns.",
+  "week_by_week": [
+    {
+      "week": 1,
+      "dates": "2026-05-13 to 2026-05-19",
+      "theme": "Foundation & Content Production",
+      "must_ship": [
+        "Deploy bdsmpub.com pillar, bundle, and affiliate pages on Shopify",
+        "Finalize and film 30 TikTok scripts",
+        "Build and activate Klaviyo 5-email welcome flow and quiz capture",
+        "Prepare Material Safety Data Sheet (MSDS) for affiliate outreach"
+      ],
+      "channel_actions": {
+        "pinterest": "Frontload and schedule 14 pins for @curated.intimacy.",
+        "reddit": "Begin 28-day karma warmup for u/No_Register151. Post/comment 3-5x daily in relevant, non-promo subreddits.",
+        "tiktok": "Rebrand @barronzuo to @darkfantasy.studio. Film 30 scripts. Post first 3 videos.",
+        "instagram": "Post 2 carousels introducing the brand's new direction and aesthetic.",
+        "email": "Go live with the on-site quiz for email capture. Test welcome flow.",
+        "shopify": "Deploy all core landing pages. Ensure product data is accurate for upcoming promos.",
+        "affiliate": "Finalize MSDS documentation. Compile target list of 5 reviewers."
+      },
+      "kpi_targets": {
+        "sessions": 500,
+        "emails_captured": 25,
+        "bundle_revenue_usd": 0
+      }
+    },
+    {
+      "week": 2,
+      "dates": "2026-05-20 to 2026-05-26",
+      "theme": "Launch: Memorial Day Reset Promo",
+      "must_ship": [
+        "Launch Memorial Day Reset bundle promo (20% off)",
+        "Deploy Memorial Day email campaign to initial list",
+        "Publish all social content promoting the Memorial Day bundle"
+      ],
+      "channel_actions": {
+        "pinterest": "Publish 12 pins, with 5 focused on the Memorial Day theme.",
+        "reddit": "Continue karma warmup. No links or brand mentions.",
+        "tiktok": "Post 4 videos, including 2 related to the 'reset' theme of the promo.",
+        "instagram": "Post 3 carousels, with 2 directly promoting the Memorial Day bundle.",
+        "email": "Send 2 emails for the Memorial Day promo. Build abandoned cart flow.",
+        "shopify": "Activate Memorial Day discount code. Monitor site for issues.",
+        "affiliate": "Begin drafting personalized outreach DMs for reviewers."
+      },
+      "kpi_targets": {
+        "sessions": 1500,
+        "emails_captured": 75,
+        "bundle_revenue_usd": 500
+      }
+    },
+    {
+      "week": 3,
+      "dates": "2026-05-27 to 2026-06-02",
+      "theme": "Transition: Pride Box Launch",
+      "must_ship": [
+        "End Memorial Day promo on May 27",
+        "Launch Pride Box 2026 promo (20% off + 5% donation) on May 30",
+        "Deploy Pride Box email campaign"
+      ],
+      "channel_actions": {
+        "pinterest": "Publish 12 pins, with 6 focused on Pride themes and colors.",
+        "reddit": "Continue karma warmup. Engage in Pride-related subreddits authentically.",
+        "tiktok": "Post 4 videos, transitioning from 'reset' to Pride celebration themes.",
+        "instagram": "Post 3 carousels. Announce end of Memorial promo, then launch and promote Pride Box.",
+        "email": "Send 'Last Chance' email for Memorial Day. Send 2 launch emails for Pride Box.",
+        "shopify": "Deactivate Memorial Day code. Activate Pride Box code and donation tracking.",
+        "affiliate": "Send initial outreach DMs to 5 targeted Reddit reviewers."
+      },
+      "kpi_targets": {
+        "sessions": 2000,
+        "emails_captured": 100,
+        "bundle_revenue_usd": 1200
+      }
+    },
+    {
+      "week": 4,
+      "dates": "2026-06-03 to 2026-06-09",
+      "theme": "Sustain: Pride & Anniversary Prep",
+      "must_ship": [
+        "End Pride Box promo on June 5",
+        "Launch Anniversary Luxury Set (20% off) on June 8",
+        "Complete 28-day Reddit karma warmup"
+      ],
+      "channel_actions": {
+        "pinterest": "Publish 12 pins, transitioning from Pride to luxury/anniversary themes.",
+        "reddit": "Final week of karma warmup. Prepare for first soft-mention posts next week.",
+        "tiktok": "Post 5 videos, including behind-the-scenes of the Anniversary Set.",
+        "instagram": "Post 3 carousels. 'Last chance' for Pride Box, then launch Anniversary Set.",
+        "email": "Send 'Last Chance' email for Pride. Send 2 launch emails for Anniversary Set.",
+        "shopify": "Deactivate Pride Box code. Activate Anniversary Set code.",
+        "affiliate": "Follow up with any reviewers who have not responded."
+      },
+      "kpi_targets": {
+        "sessions": 2200,
+        "emails_captured": 120,
+        "bundle_revenue_usd": 2000
+      }
+    },
+    {
+      "week": 5,
+      "dates": "2026-06-10 to 2026-06-16",
+      "theme": "Execute: Anniversary & Father's Day Prep",
+      "must_ship": [
+        "End Anniversary Luxury Set promo on June 14",
+        "Launch Father's Day Couples Gift Pack (20% off) on June 15",
+        "Create all assets for Father's Day campaign"
+      ],
+      "channel_actions": {
+        "pinterest": "Post 10 pins with a focus on gifting, couples, and luxury.",
+        "reddit": "Begin Phase 2. Make first brand-relevant, non-linking posts (e.g., asking for opinions on product types).",
+        "tiktok": "Post 4 videos, focusing on the Anniversary Set and teasing the Father's Day pack.",
+        "instagram": "Post 2 carousels. Promote Anniversary Set, then launch Father's Day pack.",
+        "email": "Send 'Last Chance' for Anniversary. Send 2 launch emails for Father's Day.",
+        "shopify": "Deactivate Anniversary code. Activate Father's Day code.",
+        "affiliate": "Engage with reviewers who replied. Offer product for review."
+      },
+      "kpi_targets": {
+        "sessions": 2500,
+        "emails_captured": 150,
+        "bundle_revenue_usd": 2800
+      }
+    },
+    {
+      "week": 6,
+      "dates": "2026-06-17 to 2026-06-23",
+      "theme": "Execute: Father's Day & Travel Prep",
+      "must_ship": [
+        "End Father's Day promo on June 21",
+        "Launch Travel Discreet Kit (20% off) on June 22",
+        "Analyze performance of first 4 campaigns"
+      ],
+      "channel_actions": {
+        "pinterest": "Post 10 pins with a focus on travel, discretion, and portability.",
+        "reddit": "Continue soft engagement. Share a link to a helpful blog post (not a product page) if organic to the conversation.",
+        "tiktok": "Post 4 videos, focusing on the Father's Day pack and then launching the Travel Kit.",
+        "instagram": "Post 3 carousels. 'Last chance' for Father's Day, then launch Travel Kit.",
+        "email": "Send 'Last Chance' for Father's Day. Send 2 launch emails for Travel Kit.",
+        "shopify": "Deactivate Father's Day code. Activate Travel Kit code.",
+        "affiliate": "Ship products to reviewers who agreed to test."
+      },
+      "kpi_targets": {
+        "sessions": 2800,
+        "emails_captured": 180,
+        "bundle_revenue_usd": 3500
+      }
+    },
+    {
+      "week": 7,
+      "dates": "2026-06-24 to 2026-06-30",
+      "theme": "Sustain: Travel Kit & Mid-Quarter Review",
+      "must_ship": [
+        "End Travel Discreet Kit promo on June 28",
+        "Compile 30-day performance report",
+        "Plan July content calendar based on winning themes"
+      ],
+      "channel_actions": {
+        "pinterest": "Post 10 pins. Focus on evergreen educational content.",
+        "reddit": "Engage in conversations where the Travel Kit is a relevant solution, potentially dropping a direct link for the first time.",
+        "tiktok": "Post 4 videos. Focus on use-cases for the Travel Kit and evergreen brand content.",
+        "instagram": "Post 2 carousels. 'Last chance' for Travel Kit, then switch to evergreen content.",
+        "email": "Send 'Last Chance' for Travel Kit. Send a non-promotional, value-add newsletter.",
+        "shopify": "Deactivate Travel Kit code. Optimize top-visited pages based on analytics.",
+        "affiliate": "Check in with reviewers on shipping status and answer any questions."
+      },
+      "kpi_targets": {
+        "sessions": 3000,
+        "emails_captured": 200,
+        "bundle_revenue_usd": 4200
+      }
+    },
+    {
+      "week": 8,
+      "dates": "2026-07-01 to 2026-07-07",
+      "theme": "Evergreen & Community Engagement",
+      "must_ship": [
+        "Publish one new pillar blog post on bdsmpub.com",
+        "Launch an Instagram Q&A or 'Ask Me Anything' session",
+        "Identify 3 top-performing organic posts to repurpose"
+      ],
+      "channel_actions": {
+        "pinterest": "Post 10 pins linking to the new pillar blog post.",
+        "reddit": "Create a high-value post summarizing learnings or a guide, subtly mentioning the brand.",
+        "tiktok": "Post 4 videos, including one answering a community question.",
+        "instagram": "Post 2 carousels. Promote the new blog post and host a Q&A in Stories.",
+        "email": "Send newsletter promoting the new pillar content.",
+        "shopify": "Add internal links from existing blogs to the new pillar page.",
+        "affiliate": "Monitor for any reviews being posted. Prepare to engage and share."
+      },
+      "kpi_targets": {
+        "sessions": 3200,
+        "emails_captured": 220,
+        "bundle_revenue_usd": 4500
+      }
+    },
+    {
+      "week": 9,
+      "dates": "2026-07-08 to 2026-07-14",
+      "theme": "Affiliate & UGC Amplification",
+      "must_ship": [
+        "First affiliate review goes live",
+        "Launch a User-Generated Content (UGC) campaign with a clear hashtag",
+        "Create a dedicated highlight on Instagram for UGC"
+      ],
+      "channel_actions": {
+        "pinterest": "Post 10 pins, including repinning affiliate content.",
+        "reddit": "Share the affiliate review in a relevant subreddit with proper disclosure.",
+        "tiktok": "Post 5 videos, launching the UGC campaign and showing examples.",
+        "instagram": "Post 3 carousels. Announce UGC campaign and share the first affiliate review.",
+        "email": "Email the list about the UGC campaign and share the affiliate review.",
+        "shopify": "Add a UGC gallery section to relevant product pages.",
+        "affiliate": "Amplify affiliate review across all channels. Pay out any agreed commission."
+      },
+      "kpi_targets": {
+        "sessions": 4000,
+        "emails_captured": 250,
+        "bundle_revenue_usd": 5500
+      }
+    },
+    {
+      "week": 10,
+      "dates": "2026-07-15 to 2026-07-21",
+      "theme": "Optimization & Content Refresh",
+      "must_ship": [
+        "A/B test welcome series email subject lines",
+        "Refresh top 10 Pinterest pins with new descriptions",
+        "Script and plan next batch of 30 TikToks based on performance data"
+      ],
+      "channel_actions": {
+        "pinterest": "Refresh 10 old pins and publish 5 new ones.",
+        "reddit": "Identify a new set of 3-5 subreddits for engagement.",
+        "tiktok": "Post 4 videos. Experiment with one new format (e.g., duet, stitch).",
+        "instagram": "Post 2 carousels. Repurpose a top-performing TikTok video as a Reel.",
+        "email": "Analyze A/B test results from welcome flow. Plan next test for abandoned cart flow.",
+        "shopify": "Review heatmaps on key pages and identify optimization opportunities.",
+        "affiliate": "Identify 5 new potential affiliates to target for next outreach wave."
+      },
+      "kpi_targets": {
+        "sessions": 4200,
+        "emails_captured": 280,
+        "bundle_revenue_usd": 6000
+      }
+    },
+    {
+      "week": 11,
+      "dates": "2026-07-22 to 2026-07-28",
+      "theme": "Future-State Planning",
+      "must_ship": [
+        "Outline promotional calendar for August-October 2026",
+        "Develop concept for one major new product bundle",
+        "Survey email list for feedback and future product ideas"
+      ],
+      "channel_actions": {
+        "pinterest": "Post 10 pins aligned with upcoming seasonal trends (e.g., back to school, fall).",
+        "reddit": "Post a poll or question related to the new product bundle concept to gauge interest.",
+        "tiktok": "Post 4 videos, subtly testing themes for the upcoming promotional calendar.",
+        "instagram": "Post 2 carousels. Use Instagram Stories' poll/quiz features to gather audience feedback.",
+        "email": "Send survey to the full email list with an incentive for completion.",
+        "shopify": "Create draft product pages for the new bundle concept.",
+        "affiliate": "Send a thank you and a small bonus product to initial affiliate partners."
+      },
+      "kpi_targets": {
+        "sessions": 4500,
+        "emails_captured": 320,
+        "bundle_revenue_usd": 6500
+      }
+    },
+    {
+      "week": 12,
+      "dates": "2026-07-29 to 2026-08-04",
+      "theme": "90-Day Review & Scaling",
+      "must_ship": [
+        "Complete 90-day performance analysis report",
+        "Finalize Q3/Q4 promotional calendar and budget",
+        "Identify top 2 acquisition channels to double-down on"
+      ],
+      "channel_actions": {
+        "pinterest": "Post 10 pins. Archive bottom 10% performing pins.",
+        "reddit": "Compile a 'Best Of' list of brand mentions and community feedback from the last 90 days.",
+        "tiktok": "Post 4 videos, including a 'top 3 moments' or 'top 3 products' recap from the launch period.",
+        "instagram": "Post 3 carousels, including a thank you to the community for the first 90 days.",
+        "email": "Segment list based on engagement and purchase history. Send targeted campaigns.",
+        "shopify": "Implement one major CRO improvement based on Week 10's heatmap analysis.",
+        "affiliate": "Begin outreach to the second wave of 5 potential affiliates."
+      },
+      "kpi_targets": {
+        "sessions": 5000,
+        "emails_captured": 350,
+        "bundle_revenue_usd": 7500
+      }
+    }
+  ],
+  "day_30_milestones": [
+    "Successfully executed 2 major promotional campaigns (Memorial Day, Pride).",
+    "Completed 28-day Reddit karma warmup, account is ready for active marketing.",
+    "All foundational e-commerce pages and email flows are live and tested.",
+    "Established a consistent posting cadence on TikTok (3-5 posts/wk) and Instagram (2-3 posts/wk).",
+    "Secured initial engagement from at least 2 of 5 targeted affiliate reviewers.",
+    "Captured over 120 qualified emails via the on-site quiz."
+  ],
+  "day_90_milestones": [
+    "Successfully executed and analyzed 5 promotional campaigns, identifying top-performing offers.",
+    "Generated first affiliate-driven sales from a published review.",
+    "Grown email list to over 350 subscribers with segmentation in place.",
+    "Launched a successful UGC campaign, generating at least 10 pieces of content.",
+    "Achieved a cumulative revenue of over $7,500 from targeted bundles.",
+    "Finalized a data-driven content and promotional plan for the following quarter."
+  ],
+  "critical_dependencies": [
+    "Completion of MSDS documentation is required before any affiliate outreach can begin.",
+    "Deployment of Shopify pillar and bundle pages must happen in Week 1 to support all promotional campaigns.",
+    "Filming of the initial 30 TikToks must be completed by the end of Week 1 to maintain posting cadence.",
+    "Functionality of the Klaviyo quiz capture and welcome flow is critical for early list growth and must be live in Week 1."
+  ]
+}

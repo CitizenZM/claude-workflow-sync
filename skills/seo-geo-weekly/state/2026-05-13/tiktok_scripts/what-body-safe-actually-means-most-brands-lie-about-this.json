@@ -1,0 +1,34 @@
+{
+  "hook_3s": "Did you know most brands lie about 'body-safe' claims?",
+  "script_voiceover": "Did you know most brands lie about 'body-safe' claims? Many wellness products marketed as safe aren't truly body-safe. The truth is, 'body-safe' means non-porous materials like medical-grade silicone or glass, free from phthalates, parabens, and other harmful chemicals. Porous materials can harbor bacteria, even after cleaning, posing real risks. Don't fall for vague marketing. Always check the material and ingredients list. For a deeper dive into true intimacy wellness, follow us for more insights.",
+  "b_roll_shots": [
+    "Soft focus shot of hands gently holding a smooth, polished stone (3s)",
+    "Close-up of delicate silk fabric draped over a hand (3s)",
+    "Hands pouring a clear, serum-like liquid into a small, elegant glass bottle (3s)",
+    "Gentle candlelight flickering in a dimly lit, serene room (3s)",
+    "Close-up of hands carefully examining a product label, text blurred (3s)",
+    "A hand slowly running fingers over a smooth, matte ceramic surface (3s)",
+    "Soft focus shot of hands holding a small, unlit pillar candle (3s)"
+  ],
+  "on_screen_text": [
+    "Most brands lie.",
+    "What 'body-safe' really means:",
+    "Non-porous materials only",
+    "Medical-grade silicone, glass",
+    "No phthalates, parabens",
+    "Check ingredients carefully",
+    "Your wellness matters."
+  ],
+  "cta": "For a deeper dive into true intimacy wellness, follow us for more insights.",
+  "caption": "Uncover the truth about 'body-safe' claims in wellness products. Your well-being deserves transparency and genuine care. AI-generated voice via TTS.",
+  "aigc_label": "AI-generated voice via TTS",
+  "duration_estimate_s": 25,
+  "hashtags": [
+    "#SoftLifeIntimacy",
+    "#RelationshipTok",
+    "#WellnessTok",
+    "#BodySafe",
+    "#IntimacyEducation"
+  ],
+  "topic_seed": "What 'body-safe' actually means (most brands lie about this)"
+}

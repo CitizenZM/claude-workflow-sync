@@ -1,0 +1,19 @@
+{
+  "sitemap_url": "https://bdsmpub.com/sitemap.xml",
+  "pages_crawled": 0,
+  "robots_present": false,
+  "robots_body_len": 0,
+  "llms_txt_present": false,
+  "issues": {
+    "missing_title": [],
+    "title_too_short": [],
+    "title_too_long": [],
+    "missing_meta_desc": [],
+    "missing_h1": [],
+    "multiple_h1": [],
+    "broken": [],
+    "alt_text_missing": [],
+    "no_jsonld": []
+  },
+  "pages": []
+}

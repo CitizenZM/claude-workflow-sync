@@ -10,7 +10,7 @@ Apply to Lever jobs from a direct URL list. Same resume/CL generation as greenho
 1. Read `~/.claude/skills/lever-apply/SKILL.md`
 2. Read `~/.claude/skills/greenhouse-apply/data/answer-bank.md`
 3. Read `~/.claude/skills/greenhouse-apply/data/barron-experience-bank.md`
-4. Read `/Volumes/workssd/ObsidianVault/01-Projects/Lever-Application-Ledger.md` for dedup
+4. Read `$HOME/Documents/Obsidian/01-Projects/Lever-Application-Ledger.md` for dedup
 5. Parse ``: same rules as `/ashby-url-apply` — whitespace-separated tokens or `--file`
 
 ## URL Normalization

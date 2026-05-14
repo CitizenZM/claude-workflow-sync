@@ -25,7 +25,7 @@ If exit code 2, STOP and show the printed JSON for `~/.claude.json`.
 Call Agent with `subagent_type: general-purpose`, `model: opus`, `run_in_background: true`. Load prompt from `~/.claude/skills/_shared/outreach-supervisor-prompt.md` with bindings:
 - workflow: `awin-oufer-us`
 - target_total: (from $ARGUMENTS or default 2000)
-- ledger_path: `/Volumes/workssd/ObsidianVault/01-Projects/Awin-Oufer-US-Outreach-Ledger.md`
+- ledger_path: `$HOME/Documents/Obsidian/01-Projects/Awin-Oufer-US-Outreach-Ledger.md`
 - checkpoint_path: `/tmp/outreach-awin-oufer-us-checkpoint.json`
 - mcp_namespace: `mcp__playwright-awin-oufer-us__`
 

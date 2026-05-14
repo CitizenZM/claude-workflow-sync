@@ -21,8 +21,8 @@ min_part    : 5
 target_pp   : 25
 login       : affiliate@celldigital.co / Celldigital2024*
 scripts     : ~/.claude/skills/awin-rockbros-eu-outreach/scripts/
-ledger      : ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/01-Projects/Awin-Rockbros-EU-Outreach-Ledger.md
-report      : ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/ObsidianVault/01-Projects/Awin-Rockbros-EU-Outreach-Report-2026-04-15.md
+ledger      : ~/Documents/Obsidian/01-Projects/Awin-Rockbros-EU-Outreach-Ledger.md
+report      : ~/Documents/Obsidian/01-Projects/Awin-Rockbros-EU-Outreach-Report-2026-04-15.md
 msg         : "Hallo, hier ist Bob Zabel von Rockbros – der Nr. 1 Sportmarke, die Sie unbedingt kennen sollten. Wir bieten eine besonders hohe Provision von 10–20 % im Rahmen eines zeitlich begrenzten Angebots. Antworten Sie hier oder schreiben Sie an affiliate@celldigital.co, um Details zu besprechen und ein Muster zu erhalten."
 ```
 

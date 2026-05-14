@@ -1,144 +1,121 @@
-# Barron Zuo — Full Experience Bank
-# Source material for resume/CL generation. Pick the most relevant facts per JD.
+# Barron Zuo — Canonical Work History
+# FIXED TIMEFRAMES — NEVER CHANGE DATES. You may adapt titles, division names, scope, bullets, and skills to fit JD requirements, but dates are immutable.
 
 ---
 
-## ALIBABA GROUP (ALIEXPRESS US / ALIPAY) | Pasadena, CA
-**Head of Growth & AI Consumer Infrastructure | 2022 – Present**
+## COMPANY 1: ALIBABA GROUP AND ALIPAY
+**Fixed Timeframe: 2022 to Present**
+**Base Title: Head of Growth and Performance Infrastructure**
+*(Adapt title as needed: VP Growth, Director Growth Marketing, Head of PLG, etc.)*
 
-### Scale Context
-- Platform: AliExpress US consumer marketplace + Alipay digital wallet
-- ARR: $180M+ platform GMV under direct growth ownership
-- User base: 5M+ active US consumers across apps and web
-- Budget: 8-figure annual growth budget (Firebase, GA4, Meta Ads, TikTok Ads)
-- Team: Led cross-functional pods of 8–15 (Product, UX, Engineering, Analytics, Ops)
+### Core Bullets (adapt wording/emphasis to JD, never fabricate metrics):
+- Orchestrated 0→1 PLG growth engine for US marketplace expansion, managing 8-figure annual budget and scaling GMV 40% YoY through rigorous self-serve motion
+- Set strategy across all growth marketing channels — paid, demand gen, SEO — to fuel sustainable top-of-funnel growth for AliExpress US and Alipay payment services
+- Collaborated with Alipay to optimize cross-border payment flows and monetize existing users through integrated lifecycle marketing, improving customer repeat rates 25%
+- Managed 5 specialized external agencies and internal cross-functional team of 15+ to architect end-to-end creator acquisition workflows, delivering 400+ high-quality partners/month
+- Engineered integration of machine learning discovery engines into mobile UI, optimizing time-to-first-transaction and reducing self-serve onboarding friction across full funnel
+- Instrumented full-stack marketing tools including Segment and Rockerbox for attribution, establishing data-driven culture of relentless execution, experimentation, and curiosity
+- Developed and optimized full-funnel KPIs with Data Science, reporting on CAC, payback periods, and revenue efficiency to global C-suite leadership
+- Partnered with Product and Engineering to align growth strategy with feature launches, ensuring new tools tied to measurable impacts on user activation and retention
+- Optimized cross-scenario cost management and risk assessment modules, dismantling onboarding bottlenecks for premium US-based sellers and partners
 
-### AI Product Growth (PicoPilot, AI Design Tools)
-- Designed and shipped 0→1 growth roadmap for PicoPilot AI companion app: onboarding flow architecture, activation triggers, Day-7 resurrection sequences, and referral viral loop
-- Drove 40% YoY surge in user engagement for Alibaba AI design toolset via personalized in-product messaging + contextual reward mechanics
-- Achieved 25% improvement in Day-7 retention for new AI user cohorts by rebuilding onboarding → activation → habit-formation funnel using behavioral segmentation
-- Reduced concept-to-launch cycle for growth experiments by 30% by implementing a modular experiment framework with pre-built Firebase A/B test templates
-- Built AI-powered user segmentation pipeline using GA4 BigQuery exports + Python clustering: 6 behavioral cohorts, 22% lift in campaign ROAS from cohort-level targeting
-
-### Growth Loops & Virality
-- Architected referral program that generated 18% of new user acquisition (K-factor: 1.3) within 6 months of launch
-- Engineered social sharing mechanics and UGC amplification for AI-generated content, driving 2.4x increase in organic app installs
-- Built growth loop model: awareness → trial → habit → advocacy — reduced CAC by 31% over 18 months
-
-### Performance Marketing & Attribution
-- Managed $12M+ annual paid media budget across Meta, TikTok, Google UAC, and programmatic
-- Implemented multi-touch attribution model (data-driven, MTA) replacing last-click; unlocked 19% efficiency improvement in paid spend allocation
-- Owned MMM (Media Mix Modeling) quarterly cadence, informing $3M+ budget reallocation decisions
-- Reduced CPI by 27% YoY through creative testing framework: 200+ ad variants tested, AI-assisted scoring pipeline
-
-### Lifecycle & CRM
-- Built full lifecycle email + push + in-app notification stack from scratch (Braze): onboarding (7-email series), win-back, loyalty, re-engagement
-- Drove 33% uplift in 30-day retention through personalized push notification journeys segmented by activation cohort
-- Automated churn prediction model (Looker + BigQuery): flagged at-risk users 14 days before churn event; triggered save sequences with 21% recovery rate
-- Designed A/B test cadence for 40+ lifecycle experiments/quarter; built statistical significance framework to accelerate learning velocity
-
-### Analytics & Data Infrastructure
-- Established growth analytics infrastructure: Firebase + GA4 + BigQuery + Looker dashboards for C-suite + team leads
-- Defined company-wide North Star Metric (NSM) framework and instrumented event taxonomy across iOS, Android, and Web
-- Built LTV/CAC model updated weekly; input to quarterly OKR planning and board reporting
-- Created self-serve analytics culture: trained 3 cross-functional teams on SQL + Looker; reduced analyst bottleneck by 60%
-
-### Cross-Functional Leadership
-- Partnered with Product org to define activation milestones and growth-informed feature prioritization (RICE scoring)
-- Led weekly Growth Reviews with VP-level stakeholders; presented QBRs to SVP and C-suite
-- Managed 3 agency partnerships (creative, media buying, localization); consolidated to 2 saving $800K/yr
-- Developed 6-month product-led growth (PLG) roadmap alongside Engineering, reducing dependency on paid acquisition by 24%
-
-### Tools & Stack
-Firebase, GA4, BigQuery, Looker, Braze, Amplitude, Mixpanel, Meta Ads Manager, TikTok Ads, Google UAC, AppsFlyer, Adjust, Python (pandas, scikit-learn), SQL, Tableau, dbt, Segment, Salesforce
+### Key Metrics: 40% GMV YoY, 25% repeat rate improvement, 400+ partners/month, 8-figure budget, 15+ team
+### Key Tools: Segment, Rockerbox, Salesforce, GA4, SQL, ML discovery engines
 
 ---
 
-## NEXT2MARKET CONSULTING & ACCELERATOR | Sunnyvale, CA
-**AVP, Growth & Digital Strategy | 2020 – 2022**
+## COMPANY 2: NEXT2MARKET CONSULTING AND PICOPILOT
+**Fixed Timeframe: 2020 to 2022**
+**Base Title: AVP and Regional Head of Operations**
+*(Adapt title as needed: VP Growth, CMO Advisor, Head of Performance, Director Growth)*
 
-### Scale Context
-- Managed growth strategy for 50+ B2B SaaS and consumer tech clients
-- Total media budget under management: $7M+ across portfolio
-- Verticals: FinTech, HealthTech, MarTech, eCommerce, AI-native startups
-- Team: Built and managed 6-person growth consulting team
+### Core Bullets (adapt to JD):
+- Architected foundational PLG strategy for PicoPilot, designing intuitive self-serve onboarding flow and viral referral loops that accelerated user activation velocity 25%
+- Served as primary Growth Lead and CMO-level advisor for Adidas and Columbia, designing full-funnel performance strategies that scaled North American DTC and marketplace revenue
+- Owned end-to-end measurement system for 50+ brand portfolio, utilizing Rockerbox and Salesforce to optimize media mix and ensure efficient $10M+ annual investment
+- Managed day-to-day agency and vendor relationships, setting clear KPIs and monitoring performance to drive continuous optimization in creative execution and media targeting
+- Advised PE-backed mid-cap portfolio companies on Revenue Growth and Performance Improvement, uncovering performance drivers through Commercial Due Diligence and SKU rationalization
+- Developed comprehensive reporting frameworks and dashboards in Tableau and Alteryx, facilitating data-driven decision making and aligning spend with revenue payback expectations
+- Pioneered omnichannel retention frameworks integrating CRM automation with data-driven messaging, boosting customer repeat rates 22% for high-growth portfolio companies
+- Negotiated Shopify Premium and Google Global Service partnerships to improve technical integration and data visibility
+- Established automated lead scoring systems within Salesforce to optimize MQL-to-SQL conversion 30% through sales and marketing alignment
 
-### Growth Strategy & Experimentation
-- Designed and executed full-funnel growth audits for 20+ SaaS companies; identified average 3.1 untapped conversion leverage points per audit
-- Built experimentation operating system (experiment brief → roadmap → prioritization → readout framework) adopted by 12 client companies
-- Ran 150+ A/B tests across landing pages, onboarding flows, email sequences, and ad creatives; average 22% conversion lift from winning variants
-- Achieved 25% improvement in product activation rates across portfolio by redesigning AHA moment sequencing
-- Delivered 18% conversion lift via systematic in-app messaging A/B testing program
-
-### Revenue & Pipeline Growth
-- Generated 44% pipeline surge for Indiegogo-affiliated digital media division through lifecycle strategy overhaul
-- Grew SaaS client ARR by average 34% within 12-month engagements through growth-loop implementation and CAC/LTV rebalancing
-- Built and optimized affiliate + partnership channels for 8 clients; average 19% of new revenue attributed to partnership-influenced pipeline
-
-### Analytics & Reporting
-- Built Tableau + Sigma reporting suites tracking CAC, ARPU, MRR churn, LTV, NPS across 15 client portfolios simultaneously
-- Implemented cohort analysis framework: weekly active cohort retention curves, payback period modeling, expansion MRR tracking
-- Established KPI alignment workshops with each client's C-suite: translated growth metrics into board-ready financial narratives
-
-### Martech & Technical Implementation
-- Architected marketing automation stacks (HubSpot, Marketo, Pardot) for 10+ clients migrating from manual processes
-- Implemented CDP integrations (Segment + Salesforce + Braze/Klaviyo) enabling unified customer profiles
-- Led technical SEO and content strategy that drove 3x organic traffic growth for 4 clients within 9 months
-- Delivered PLG onboarding redesigns for 6 AI/SaaS startups; average reduction in time-to-value from 14 days to 4 days
-
-### B2B Go-to-Market
-- Designed and launched ABM (Account-Based Marketing) programs for 3 enterprise SaaS clients; pipeline influenced: $2.4M combined
-- Built SDR enablement playbooks and outbound sequences that improved reply rates from 2.1% to 6.8%
-- Developed product-market fit scoring frameworks used in Series A pitch decks for 5 portfolio companies
-
-### Tools & Stack
-HubSpot, Marketo, Salesforce, Tableau, Sigma, Segment, Braze, Klaviyo, Optimizely, VWO, Google Analytics, SQL, Python, Looker, Ahrefs, SEMrush, LinkedIn Ads, Google Ads
+### Key Metrics: 25% activation velocity, 22% repeat rate lift, 30% MQL-SQL conversion, $10M+ budgets, 50+ brands
+### Key Tools: Rockerbox, Salesforce, Tableau, Alteryx, Shopify
 
 ---
 
-## INDIEGOGO INC. | San Jose, CA
-**Director, Strategic Programs & Lifecycle Marketing | 2018 – 2019**
+## COMPANY 3: WEWORK LABS
+**Fixed Timeframe: 2018 to 2020**
+**Base Title: Director, Digital Transformation and Growth**
+*(Adapt title as needed: Director Growth, Director Digital Strategy, Head of Growth)*
 
-- Drove 44% surge in digital media business pipeline through behavioral lifecycle strategy for 10M+ user base
-- Managed $1M+ paid media budgets across social, display, and email channels
-- AI-powered personalization for campaign targeting: 28% improvement in email open rates, 17% CTR lift
-- International growth initiative: expanded active backer base in EU/APAC by 31% through localized onboarding + regional influencer program
-- Partnered with Product to redesign campaign discovery feed; 22% increase in project funding rate
+### Core Bullets (adapt to JD):
+- Led high-impact consulting engagements for Starbucks, Shiseido, and TCL on digital transformation and commercial excellence, optimizing resource allocation for urban market expansions
+- Architected growth and retention roadmaps for global portfolio of 18+ startups, specializing in building PLG systems from scratch in small, high-autonomy environments
+- Identified key behaviors correlating with long-term retention for subscription and fintech business models, implementing automated CRM nudges that increased user LTV 20%
+- Managed cross-functional projects across Brand, Product, and Finance to connect demand creation with revenue outcomes, aligning spend with aggressive payback expectations
+- Conducted deep-dive analyses into funnel drop-offs and activation, proposing betterment strategies aligned with high-quality cohort growth and intent-driven acquisition
+- Established weekly performance syncs and operating rhythms for early-stage teams, ensuring pace and precision in creative rotations, media testing, and analytical insight
+- Built trustworthy forecasting models for seed-to-scale startups, bridging gap between performance marketing and long-term financial planning
+- Collaborated with corporate innovation labs to identify digital transformation opportunities, providing actionable roadmaps for legacy brands to capture younger demographics
+- Spearheaded B2B lead scoring systems within CRM platforms, improving conversion 30% through sales and marketing alignment
+- Orchestrated cross-functional collaboration between Marketing, Product, and Design to improve product-market fit and partner ecosystem integration
+
+### Key Metrics: 20% LTV increase, 30% B2B conversion improvement, 18+ startup portfolio
+### Key Clients: Starbucks, Shiseido, TCL
 
 ---
 
-## WEWORK LABS | Shenzhen, China (Remote for US accounts)
-**Director, Digital Transformation & Growth | 2019 – 2020**
-*(Use only if JD requires agency/consulting or enterprise transformation context)*
-- Led growth engagements for enterprise clients including Starbucks and TCL; delivered mobile-first acquisition engines and PLG activation loops
-- Managed portfolio of 18+ startups across SaaS, FinTech, and Consumer verticals
-- Drove 20% LTV uplift through automated CRM journey redesign
-- Defined digital maturity framework used to assess and prioritize transformation roadmaps
+## COMPANY 4: INDIEGOGO INC.
+**Fixed Timeframe: 2017 to 2018**
+**Base Title: Director, Strategic Programs and GTM Strategy**
+*(Adapt title as needed: Director GTM, Director Growth, Director Marketing Strategy)*
+
+### Core Bullets (adapt to JD):
+- Catalyzed 44% surge in digital media business pipeline by architecting resource management frameworks to match prosumers with innovative, high-AOV hardware products
+- Directed performance media across Meta and Google, managing million-dollar budgets with focus on acquisition efficiency and ROAS for global innovation products
+- Developed and optimized reward-based growth loops within mobile app, utilizing incentivized engagement and mobile reward networks to drive viral reach and frequency
+- Led strategic deployment of AI features within mobile ecosystem to personalize project discovery for 10M+ global users, resulting in lift in daily active users
+- Partnered with CEO and Product Leads to develop PRDs for localized marketplace versions, ensuring feature launches tied to measurable user acquisition and retention impacts
+- Conducted extensive market research on emerging ad tech trends to identify new acquisition levers, successfully diversifying channel mix to include Reddit and Pinterest
+- Implemented standardized monitoring mechanisms for cost expenses across diverse promotional scenarios, maintaining high-compliance operational environment
+
+### Key Metrics: 44% pipeline surge, 10M+ users, million-dollar media budgets
+### Key Tools: Meta Ads, Google Ads, mobile reward networks, AI personalization
 
 ---
 
-## KEYWORD → EXPERIENCE MAPPING
+## COMPANY 5: GSV GLOBAL TECH INCUBATOR AND UGL CONSULTING
+**Fixed Timeframe: 2011 to 2017**
+**Base Title: Senior Management Consulting Roles**
+*(Adapt title as needed: Senior Consultant, Growth Strategy Lead, GTM Advisor, Management Consultant)*
 
-| JD Keyword Category | Best Barron Experience to Cite |
-|--------------------|---------------------------------|
-| Growth loops / viral mechanics | Alibaba referral program (K-factor 1.3, 18% acquisition) + PicoPilot viral UGC loop |
-| PLG / product-led growth | PicoPilot 0→1 roadmap, Next2Market onboarding redesigns (14→4 days TTv) |
-| Lifecycle / CRM | Alibaba Braze stack (onboarding → win-back → loyalty), 33% 30-day retention lift |
-| Performance marketing / paid | Alibaba $12M media budget, 27% CPI reduction, MMM cadence |
-| Attribution / MTA | Alibaba MTA model replacing last-click, 19% efficiency improvement |
-| A/B testing / experimentation | 40+ experiments/quarter at Alibaba; 150+ tests at Next2Market, 22% avg lift |
-| Analytics / data infrastructure | Firebase+GA4+BigQuery+Looker stack, NSM framework, self-serve analytics |
-| AI / ML / automation | PicoPilot AI segmentation pipeline, churn prediction model (21% recovery), AI-assisted ad scoring |
-| B2B SaaS / enterprise | Next2Market 50+ SaaS clients, ABM programs, $7M+ portfolio budgets |
-| Retention / churn reduction | 25% Day-7 retention at Alibaba, churn prediction model, 33% 30-day retention |
-| SEO / organic growth | Next2Market 3x organic traffic for clients, technical SEO implementations |
-| Cross-functional leadership | Alibaba pods (8–15), VP-level stakeholder management, agency consolidation |
-| GTM / 0→1 / startup | PicoPilot 0→1, Next2Market startup engagements, PLG roadmap |
-| Revenue / ARR / GMV | $180M ARR platform, $7M+ portfolio, 34% avg ARR growth for clients |
-| International / global | Alibaba US/APAC, Indiegogo EU/APAC expansion, bilingual English+Mandarin |
-| Martech / CDP / stack | HubSpot, Braze, Klaviyo, Segment, Salesforce, Marketo |
-| Budget ownership | $12M+ paid media at Alibaba, $7M+ portfolio at Next2Market, $1M+ at Indiegogo |
-| People management | Cross-functional pods of 8–15 at Alibaba, 6-person consulting team at Next2Market |
-| OKR / goal-setting | North Star Metric framework, board reporting, QBR presentations |
-| E-commerce / marketplace | AliExpress US marketplace, $180M GMV, Indiegogo 10M users |
-| Partnerships / affiliates | Agency management at Alibaba, affiliate channels at Next2Market |
+### Core Bullets (adapt to JD):
+- Advised portfolio CEOs on unit economics and GTM strategy, facilitating $50M+ in funding by demonstrating clear ROI infrastructure and strategic growth potential
+- Engineered financial optimization models delivering $200M in savings for multinational projects through rigorous cost-to-serve analysis, margin transparency, and SKU rationalization
+- Conducted market entry analysis for cross-border tech firms, focusing on efficient resource coordination and high-compliance strategic implementation in APAC and North American markets
+- Instrumented core business performance KPIs to track ROI against initial investment targets, providing data-driven support for long-term strategic implementation
+- Conducted due diligence for M&A tech initiatives, specializing in growth modeling for digital-first businesses across Southeast Asia and the United States
+- Evaluated 500+ startups for accelerator participation, focusing on their ability to manage complex cost expenditure scenarios and scale within large-scale platforms
+
+### Key Metrics: $50M+ funding facilitated, $200M savings, 500+ startups evaluated
+### Key Focus: APAC/NA market entry, M&A due diligence, unit economics, GTM strategy
+
+---
+
+## EDUCATION
+- Cornell Johnson School of Management — MBA, Digital Technology Focus
+- National University of Singapore — BA Economics (International), Full Scholarship
+
+## TOTAL EXPERIENCE: 16 years (2011 to Present)
+
+---
+
+# RULES FOR RESUME GENERATION:
+# 1. NEVER change any date/timeframe — they are fixed
+# 2. You MAY change: job title, company division name, bullet emphasis, skills highlighted, metrics order
+# 3. Always include ALL 5 companies in CHRONOLOGICAL order (most recent first)
+# 4. Minimum 3 bullets per company; maximum 6 bullets per company for space
+# 5. Education always at bottom
+# 6. Target exactly 2 pages

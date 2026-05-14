@@ -1,0 +1,4383 @@
+{
+  "shop": {
+    "shop": {
+      "name": "Dark Fantasy",
+      "myshopifyDomain": "1a049t-cy.myshopify.com",
+      "primaryDomain": {
+        "url": "https://bdsmpub.com",
+        "host": "bdsmpub.com"
+      },
+      "currencyCode": "USD",
+      "plan": {
+        "displayName": "Basic"
+      }
+    }
+  },
+  "products": [
+    {
+      "id": "gid://shopify/Product/8989919576241",
+      "handle": "lush-4-wearable-vibrator",
+      "title": "Lush 4 \u2014 Wearable G-Spot Vibrator",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Lush 4 | Premium Intimate | Dark Fantasy",
+        "description": "Lush 4. Wearable G-Spot Vibrator. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/lush-4-wearable-vibrator",
+      "tags": [
+        "app-controlled",
+        "bestseller",
+        "couples",
+        "g-spot",
+        "gift-eligible",
+        "ldr",
+        "new",
+        "waterproof",
+        "wearable"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:03Z",
+      "updatedAt": "2026-05-08T22:22:10Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Lush 4 - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/lush4-gspot-vibrator.png?v=1778008032"
+          },
+          {
+            "altText": "Lush 4 - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/lush4-gspot-vibrator_78341937-7b5c-4aed-8c78-edc9a28cbaa0.png?v=1778008097"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712882856113",
+            "sku": "LV-LUSH4-ROS",
+            "price": "129.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46712882888881",
+            "sku": "LV-LUSH4-MID",
+            "price": "129.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919609009",
+      "handle": "ferri-magnetic-panty-vibrator",
+      "title": "Ferri \u2014 Magnetic Wearable Panty Vibrator",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Ferri | Premium Intimate | Dark Fantasy",
+        "description": "Ferri. Magnetic Wearable Panty Vibrator. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/ferri-magnetic-panty-vibrator",
+      "tags": [
+        "app-controlled",
+        "bestseller",
+        "clitoral",
+        "couples",
+        "discreet",
+        "magnetic",
+        "public-play",
+        "wearable"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:06Z",
+      "updatedAt": "2026-05-08T22:22:10Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Ferri - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/ferri-panty-vibrator.png?v=1778008025"
+          },
+          {
+            "altText": "Ferri - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/ferri-panty-vibrator_3ab0da75-a60b-490f-9020-0767f215fb95.png?v=1778008090"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712882921649",
+            "sku": "LV-FERRI-BLA",
+            "price": "99.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919641777",
+      "handle": "nora-rabbit-vibrator",
+      "title": "Nora \u2014 Rabbit Vibrator (App-Controlled)",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Nora | Premium Intimate | Dark Fantasy",
+        "description": "Nora. Rabbit Vibrator (App-Controlled). Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/nora-rabbit-vibrator",
+      "tags": [
+        "app-controlled",
+        "bestseller",
+        "couples",
+        "dual-stimulation",
+        "g-spot",
+        "ldr",
+        "rabbit",
+        "teledildonics"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:09Z",
+      "updatedAt": "2026-05-08T22:22:10Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Nora - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/nora-rabbit-vibrator.png?v=1778010100"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712882954417",
+            "sku": "LV-NORA-PIN",
+            "price": "129.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46712882987185",
+            "sku": "LV-NORA-RED",
+            "price": "129.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919674545",
+      "handle": "max-2-male-masturbator",
+      "title": "Max 2 \u2014 Male Masturbator (App-Controlled)",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Max 2 | Premium Intimate | Dark Fantasy",
+        "description": "Max 2. Male Masturbator (App-Controlled). Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/max-2-male-masturbator",
+      "tags": [
+        "app-controlled",
+        "bestseller",
+        "couples",
+        "ldr",
+        "male",
+        "teledildonics"
+      ],
+      "productType": "Male Toys",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:11Z",
+      "updatedAt": "2026-05-08T22:22:10Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Max 2 - intimate wellness by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/max2-male-masturbator.png?v=1778010091"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712883019953",
+            "sku": "LV-MAX2-WHI",
+            "price": "99.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919707313",
+      "handle": "solace-pro-ai-masturbator",
+      "title": "Solace Pro \u2014 AI-Powered Male Masturbator",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Solace Pro | Premium Intimate | Dark Fantasy",
+        "description": "Solace Pro. AI-Powered Male Masturbator. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/solace-pro-ai-masturbator",
+      "tags": [
+        "ai",
+        "app-controlled",
+        "ces-2025",
+        "male",
+        "new",
+        "premium",
+        "technology"
+      ],
+      "productType": "Male Toys",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:14Z",
+      "updatedAt": "2026-05-08T22:22:10Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Solace Pro - intimate wellness by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/solace-pro-ai-masturbator-main.png?v=1778044621"
+          },
+          {
+            "altText": "Solace Pro - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/solace-pro-ai-masturbator-detail.png?v=1778044624"
+          },
+          {
+            "altText": "Solace Pro - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/solace-pro-ai-masturbator-lifestyle.png?v=1778044626"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712883052721",
+            "sku": "LV-SOLACE-PRO-WHI",
+            "price": "199.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919740081",
+      "handle": "tenera-2-clitoral-stimulator",
+      "title": "Tenera 2 \u2014 Clitoral Air-Pulse Stimulator",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Tenera 2 | Premium Intimate | Dark Fantasy",
+        "description": "Tenera 2. Clitoral Air-Pulse Stimulator. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/tenera-2-clitoral-stimulator",
+      "tags": [
+        "air-pulse",
+        "app-controlled",
+        "beginner",
+        "clitoral",
+        "female",
+        "new",
+        "solo"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:16Z",
+      "updatedAt": "2026-05-08T22:22:11Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Tenera 2 - intimate wellness by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/tenera-2-clitoral-stimulator-main.png?v=1778044697"
+          },
+          {
+            "altText": "Tenera 2 - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/tenera-2-clitoral-stimulator-detail.png?v=1778044701"
+          },
+          {
+            "altText": "Tenera 2 - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/tenera-2-clitoral-stimulator-lifestyle.png?v=1778044705"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712883085489",
+            "sku": "LV-TENERA2-LAV",
+            "price": "99.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46712883118257",
+            "sku": "LV-TENERA2-ROS",
+            "price": "99.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919772849",
+      "handle": "osci-3-oscillating-vibrator",
+      "title": "Osci 3 \u2014 G-Spot Oscillating Vibrator",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Osci 3 | Premium Intimate | Dark Fantasy",
+        "description": "Osci 3. G-Spot Oscillating Vibrator. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/osci-3-oscillating-vibrator",
+      "tags": [
+        "app-controlled",
+        "female",
+        "g-spot",
+        "oscillating",
+        "precision",
+        "solo"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:19Z",
+      "updatedAt": "2026-05-08T22:22:11Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Osci 3 - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/osci3-oscillating-vibrator.png?v=1778010107"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712883151025",
+            "sku": "LV-OSCI3-PIN",
+            "price": "119.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919805617",
+      "handle": "edge-2-prostate-massager",
+      "title": "Edge 2 \u2014 Prostate Massager (App-Controlled)",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Edge 2 | Premium Intimate | Dark Fantasy",
+        "description": "Edge 2. Prostate Massager (App-Controlled). Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/edge-2-prostate-massager",
+      "tags": [
+        "adjustable",
+        "anal",
+        "app-controlled",
+        "couples",
+        "ldr",
+        "male",
+        "prostate"
+      ],
+      "productType": "Anal Toys",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:21Z",
+      "updatedAt": "2026-05-08T22:22:11Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Edge 2 - prostate massager by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/edge2-prostate-massager.png?v=1778008020"
+          },
+          {
+            "altText": "Edge 2 - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/edge2-prostate-massager_da981c12-2f2d-43ad-8f5a-7d96f6bf408c.png?v=1778008067"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712883183793",
+            "sku": "LV-EDGE2-BLA",
+            "price": "129.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919838385",
+      "handle": "lover-set-couples-bundle",
+      "title": "Lover Set \u2014 Ultimate Couples Bundle",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Lover Set | Premium Intimate | Dark Fantasy",
+        "description": "Lover Set. Ultimate Couples Bundle. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/lover-set-couples-bundle",
+      "tags": [
+        "anniversary",
+        "app-controlled",
+        "bestseller",
+        "bundle",
+        "couples",
+        "gift",
+        "gift-eligible",
+        "ldr",
+        "premium",
+        "valentines"
+      ],
+      "productType": "Bundles",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:24Z",
+      "updatedAt": "2026-05-08T22:22:11Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Lover Set - intimate gift set by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/lover-couples-bundle.png?v=1778008030"
+          },
+          {
+            "altText": "Lover Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/lover-couples-bundle_76105cac-0d1d-4cf0-97bd-f54126e6dc5d.png?v=1778008094"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712883216561",
+            "sku": "LV-LOVER-SET-LUS",
+            "price": "229.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46712883249329",
+            "sku": "LV-LOVER-SET-LUS",
+            "price": "229.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8989919871153",
+      "handle": "personal-lubricant-water-based",
+      "title": "Premium Water-Based Lubricant",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Premium Water-Based Lubricant | Dark Fantasy",
+        "description": "Premium Water-Based Lubricant. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/personal-lubricant-water-based",
+      "tags": [
+        "accessories",
+        "add-on",
+        "essential",
+        "gift-eligible",
+        "lubricant"
+      ],
+      "productType": "Accessories",
+      "vendor": "Lovense",
+      "createdAt": "2026-03-16T03:37:26Z",
+      "updatedAt": "2026-05-08T22:22:11Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Premium Water-Based Lubricant - intimate wellness by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/water-based-lubricant.png?v=1778010119"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46712883282097",
+            "sku": "LV-LUBE-4OZ",
+            "price": "18.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46712883314865",
+            "sku": "LV-LUBE-8OZ",
+            "price": "28.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991066980529",
+      "handle": "midnight-leather-wrist-cuffs",
+      "title": "Midnight Leather Wrist Cuffs",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Midnight Leather Wrist Cuffs | Dark Fantasy",
+        "description": "Midnight Leather Wrist Cuffs. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/midnight-leather-wrist-cuffs",
+      "tags": [
+        "beginner",
+        "bestseller",
+        "couples",
+        "cuffs",
+        "gift-eligible",
+        "leather",
+        "restraints"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:52:47Z",
+      "updatedAt": "2026-05-08T22:22:11Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Midnight Leather Wrist Cuffs - bondage restraints by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-leather-wrist-cuffs.png?v=1778010095"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714155827377",
+            "sku": "DF-WRIST-ONE",
+            "price": "89.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991067570353",
+      "handle": "obsidian-ankle-cuffs",
+      "title": "Obsidian Ankle Cuffs",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Obsidian Ankle Cuffs | Premium Intimate | Dark Fantasy",
+        "description": "Obsidian Ankle Cuffs. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/obsidian-ankle-cuffs",
+      "tags": [
+        "bestseller",
+        "couples",
+        "cuffs",
+        "gift-eligible",
+        "leather",
+        "restraints"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:52:49Z",
+      "updatedAt": "2026-05-08T22:22:11Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Obsidian Ankle Cuffs - bondage restraints by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/obsidian-ankle-cuffs.png?v=1778010103"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714156417201",
+            "sku": "DF-ANKLE-ONE",
+            "price": "89.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991068258481",
+      "handle": "velvet-noir-blindfold",
+      "title": "Velvet Noir Blindfold",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Velvet Noir Blindfold | Premium Intimate | Dark Fantasy",
+        "description": "Velvet Noir Blindfold. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/velvet-noir-blindfold",
+      "tags": [
+        "beginner",
+        "bestseller",
+        "blindfold",
+        "gift-eligible",
+        "sensory",
+        "velvet"
+      ],
+      "productType": "Sensory",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:52:51Z",
+      "updatedAt": "2026-05-08T22:22:12Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Velvet Noir Blindfold - sensory play by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/velvet-noir-blindfold-main.png?v=1778044745"
+          },
+          {
+            "altText": "Velvet Noir Blindfold - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/velvet-noir-blindfold-detail.png?v=1778044749"
+          },
+          {
+            "altText": "Velvet Noir Blindfold - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/velvet-noir-blindfold-lifestyle.png?v=1778044753"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714157105329",
+            "sku": "DF-BLIND-BLA",
+            "price": "39.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714157138097",
+            "sku": "DF-BLIND-MID",
+            "price": "39.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991068913841",
+      "handle": "noir-leather-paddle",
+      "title": "Noir Leather Paddle",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Noir Leather Paddle | Premium Intimate | Dark Fantasy",
+        "description": "Noir Leather Paddle. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/noir-leather-paddle",
+      "tags": [
+        "bestseller",
+        "gift-eligible",
+        "impact",
+        "leather",
+        "paddle"
+      ],
+      "productType": "Impact",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:52:54Z",
+      "updatedAt": "2026-05-08T22:22:12Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Noir Leather Paddle - impact play toy by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/noir-leather-paddle.png?v=1778010098"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714157793457",
+            "sku": "DF-PADDLE-CLA",
+            "price": "79.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714157826225",
+            "sku": "DF-PADDLE-PER",
+            "price": "89.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991069634737",
+      "handle": "raven-riding-crop",
+      "title": "Raven Riding Crop",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Raven Riding Crop | Premium Intimate | Dark Fantasy",
+        "description": "Raven Riding Crop. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/raven-riding-crop",
+      "tags": [
+        "crop",
+        "gift-eligible",
+        "impact",
+        "leather",
+        "slim"
+      ],
+      "productType": "Impact",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:52:56Z",
+      "updatedAt": "2026-05-08T22:22:12Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Raven Riding Crop - impact play toy by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/raven-riding-crop-main.png?v=1778044598"
+          },
+          {
+            "altText": "Raven Riding Crop - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/raven-riding-crop-detail.png?v=1778044601"
+          },
+          {
+            "altText": "Raven Riding Crop - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/raven-riding-crop-lifestyle.png?v=1778044603"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714158547121",
+            "sku": "DF-CROP-BLA",
+            "price": "59.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714158579889",
+            "sku": "DF-CROP-OXB",
+            "price": "59.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991070257329",
+      "handle": "phantom-suede-flogger",
+      "title": "Phantom Suede Flogger",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Phantom Suede Flogger | Premium Intimate | Dark Fantasy",
+        "description": "Phantom Suede Flogger. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/phantom-suede-flogger",
+      "tags": [
+        "couples",
+        "flogger",
+        "gift-eligible",
+        "impact",
+        "suede"
+      ],
+      "productType": "Impact",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:52:59Z",
+      "updatedAt": "2026-05-08T22:22:12Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Phantom Suede Flogger - impact play toy by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/phantom-suede-flogger.png?v=1778010110"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714159202481",
+            "sku": "DF-FLOG-BLA",
+            "price": "99.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714159235249",
+            "sku": "DF-FLOG-BUR",
+            "price": "99.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991070912689",
+      "handle": "obsidian-steel-collar",
+      "title": "Obsidian Steel Collar",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Obsidian Steel Collar | Premium Intimate | Dark Fantasy",
+        "description": "Obsidian Steel Collar. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/obsidian-steel-collar",
+      "tags": [
+        "bestseller",
+        "collar",
+        "gift-eligible",
+        "metal",
+        "statement",
+        "steel"
+      ],
+      "productType": "Collars",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:01Z",
+      "updatedAt": "2026-05-08T22:22:12Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Obsidian Steel Collar - BDSM collar by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/obsidian-steel-collar.png?v=1778010105"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714159890609",
+            "sku": "DF-SCOLL-SMA",
+            "price": "119.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714159923377",
+            "sku": "DF-SCOLL-MED",
+            "price": "119.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991071469745",
+      "handle": "signature-leather-collar",
+      "title": "Signature Leather Collar",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Signature Leather Collar | Premium Intimate | Dark Fantasy",
+        "description": "Signature Leather Collar. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/signature-leather-collar",
+      "tags": [
+        "bestseller",
+        "classic",
+        "collar",
+        "couples",
+        "gift-eligible",
+        "leather"
+      ],
+      "productType": "Collars",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:03Z",
+      "updatedAt": "2026-05-08T22:22:12Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Signature Leather Collar - BDSM collar by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/signature-leather-collar-main.png?v=1778044614"
+          },
+          {
+            "altText": "Signature Leather Collar - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/signature-leather-collar-detail.png?v=1778044617"
+          },
+          {
+            "altText": "Signature Leather Collar - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/signature-leather-collar-lifestyle.png?v=1778044619"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714160480433",
+            "sku": "DF-LCOLL-BLA",
+            "price": "79.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714160513201",
+            "sku": "DF-LCOLL-TAN",
+            "price": "79.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991072157873",
+      "handle": "under-bed-restraint-system",
+      "title": "Under-Bed Restraint System",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Under-Bed Restraint System | Premium Intimate | Dark Fantasy",
+        "description": "Under-Bed Restraint System. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/under-bed-restraint-system",
+      "tags": [
+        "beginner",
+        "bestseller",
+        "couples",
+        "discreet",
+        "gift-eligible",
+        "restraints",
+        "system"
+      ],
+      "productType": "Restraint Systems",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:06Z",
+      "updatedAt": "2026-05-08T22:22:12Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Under-Bed Restraint System - premium bondage by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/under-bed-restraint-system-main.png?v=1778044731"
+          },
+          {
+            "altText": "Under-Bed Restraint System - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/under-bed-restraint-system-detail.png?v=1778044736"
+          },
+          {
+            "altText": "Under-Bed Restraint System - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/under-bed-restraint-system-lifestyle.png?v=1778044741"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714161201329",
+            "sku": "DF-UBRS-STA",
+            "price": "129.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991072813233",
+      "handle": "feather-sensation-teaser",
+      "title": "Feather Sensation Teaser",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Feather Sensation Teaser | Premium Intimate | Dark Fantasy",
+        "description": "Feather Sensation Teaser. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/feather-sensation-teaser",
+      "tags": [
+        "add-on",
+        "beginner",
+        "feather",
+        "gift-eligible",
+        "sensory"
+      ],
+      "productType": "Sensory",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:08Z",
+      "updatedAt": "2026-05-08T22:22:13Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Feather Sensation Teaser - sensory play by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/feather-sensation-teaser.png?v=1778008023"
+          },
+          {
+            "altText": "Feather Sensation Teaser - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/feather-sensation-teaser_1e719d83-825a-4590-a4a0-40bc3208f8e0.png?v=1778008087"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714161889457",
+            "sku": "DF-FEATH-BLA",
+            "price": "29.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714161922225",
+            "sku": "DF-FEATH-WHI",
+            "price": "29.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991073468593",
+      "handle": "temperature-play-metal-wand",
+      "title": "Temperature Play Metal Wand",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Temperature Play Metal Wand | Dark Fantasy",
+        "description": "Temperature Play Metal Wand. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/temperature-play-metal-wand",
+      "tags": [
+        "gift-eligible",
+        "metal",
+        "minimal",
+        "sensory",
+        "temperature"
+      ],
+      "productType": "Sensory",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:11Z",
+      "updatedAt": "2026-05-08T22:22:13Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Temperature Play Metal Wand - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/temperature-play-metal-wand-main.png?v=1778044629"
+          },
+          {
+            "altText": "Temperature Play Metal Wand - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/temperature-play-metal-wand-detail.png?v=1778044631"
+          },
+          {
+            "altText": "Temperature Play Metal Wand - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/temperature-play-metal-wand-lifestyle.png?v=1778044633"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714162544817",
+            "sku": "DF-WAND-SIN",
+            "price": "49.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714162577585",
+            "sku": "DF-WAND-DOU",
+            "price": "59.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991074189489",
+      "handle": "midnight-leather-body-harness",
+      "title": "Midnight Leather Body Harness",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Midnight Leather Body Harness | Dark Fantasy",
+        "description": "Midnight Leather Body Harness. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/midnight-leather-body-harness",
+      "tags": [
+        "couples",
+        "editorial",
+        "gift-eligible",
+        "harness",
+        "leather",
+        "statement"
+      ],
+      "productType": "Harnesses",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:13Z",
+      "updatedAt": "2026-05-08T22:22:13Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Midnight Leather Body Harness - BDSM fashion by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-leather-body-harness.png?v=1778010093"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714163265713",
+            "sku": "DF-HARN-SM",
+            "price": "179.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714163298481",
+            "sku": "DF-HARN-LX",
+            "price": "179.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991074779313",
+      "handle": "premium-leather-gloves",
+      "title": "Premium Leather Gloves",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Premium Leather Gloves | Premium Intimate | Dark Fantasy",
+        "description": "Premium Leather Gloves. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/premium-leather-gloves",
+      "tags": [
+        "accessories",
+        "gift-eligible",
+        "gloves",
+        "leather",
+        "styling"
+      ],
+      "productType": "Accessories",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:15Z",
+      "updatedAt": "2026-05-08T22:22:13Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Premium Leather Gloves - intimate wellness by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/premium-leather-gloves.png?v=1778010117"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714163921073",
+            "sku": "DF-GLOVE-S",
+            "price": "69.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714163953841",
+            "sku": "DF-GLOVE-M",
+            "price": "69.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714163986609",
+            "sku": "DF-GLOVE-L",
+            "price": "69.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991075434673",
+      "handle": "polished-chain-leash",
+      "title": "Polished Chain Leash",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Polished Chain Leash | Premium Intimate | Dark Fantasy",
+        "description": "Polished Chain Leash. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/polished-chain-leash",
+      "tags": [
+        "accessories",
+        "chain",
+        "collar-pair",
+        "gift-eligible",
+        "leash",
+        "metal"
+      ],
+      "productType": "Leashes",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:17Z",
+      "updatedAt": "2026-05-08T22:22:13Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Polished Chain Leash - BDSM collar by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/polished-chain-leash.png?v=1778010113"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714164641969",
+            "sku": "DF-LEASH-60C",
+            "price": "59.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714164674737",
+            "sku": "DF-LEASH-90C",
+            "price": "69.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991075991729",
+      "handle": "satin-restraint-rope-set",
+      "title": "Satin Restraint Rope Set",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Satin Restraint Rope Set | Premium Intimate | Dark Fantasy",
+        "description": "Satin Restraint Rope Set. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/satin-restraint-rope-set",
+      "tags": [
+        "beginner",
+        "gift-eligible",
+        "restraints",
+        "rope",
+        "satin",
+        "shibari",
+        "soft"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:20Z",
+      "updatedAt": "2026-05-08T22:22:13Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Satin Restraint Rope Set - premium bondage by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/satin-restraint-rope-set-main.png?v=1778044606"
+          },
+          {
+            "altText": "Satin Restraint Rope Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/satin-restraint-rope-set-detail.png?v=1778044608"
+          },
+          {
+            "altText": "Satin Restraint Rope Set - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/satin-restraint-rope-set-lifestyle.png?v=1778044611"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714165231793",
+            "sku": "DF-ROPE-BLA",
+            "price": "49.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714165264561",
+            "sku": "DF-ROPE-DEE",
+            "price": "49.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991076548785",
+      "handle": "luxury-velvet-storage-pouch",
+      "title": "Luxury Velvet Storage Pouch",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Luxury Velvet Storage Pouch | Dark Fantasy",
+        "description": "Luxury Velvet Storage Pouch. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/luxury-velvet-storage-pouch",
+      "tags": [
+        "accessories",
+        "add-on",
+        "gift-eligible",
+        "storage",
+        "velvet"
+      ],
+      "productType": "Accessories",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:22Z",
+      "updatedAt": "2026-05-08T22:22:14Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Luxury Velvet Storage Pouch - intimate wellness by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/velvet-storage-pouch.png?v=1778008035"
+          },
+          {
+            "altText": "Luxury Velvet Storage Pouch - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/velvet-storage-pouch_efee52eb-980e-4a3e-9eab-d068ceaf0cab.png?v=1778008099"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714165821617",
+            "sku": "DF-POUCH-MED",
+            "price": "24.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714165854385",
+            "sku": "DF-POUCH-LAR",
+            "price": "34.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991077138609",
+      "handle": "leather-care-kit",
+      "title": "Leather Care Kit",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Leather Care Kit | Premium Intimate | Dark Fantasy",
+        "description": "Leather Care Kit. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/leather-care-kit",
+      "tags": [
+        "accessories",
+        "add-on",
+        "care",
+        "leather",
+        "maintenance"
+      ],
+      "productType": "Accessories",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:25Z",
+      "updatedAt": "2026-05-08T22:22:14Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Leather Care Kit - intimate gift set by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/leather-care-kit.png?v=1778008028"
+          },
+          {
+            "altText": "Leather Care Kit - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/leather-care-kit_30248a4b-edc9-4ae1-88a3-0a88c88a00aa.png?v=1778008092"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714166444209",
+            "sku": "DF-CARE-STA",
+            "price": "34.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991077630129",
+      "handle": "premium-black-gift-box",
+      "title": "Premium Black Gift Box",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Premium Black Gift Box | Premium Intimate | Dark Fantasy",
+        "description": "Premium Black Gift Box. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/premium-black-gift-box",
+      "tags": [
+        "add-on",
+        "gift",
+        "gift-eligible",
+        "packaging",
+        "unboxing"
+      ],
+      "productType": "Packaging",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:27Z",
+      "updatedAt": "2026-05-08T22:22:14Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Premium Black Gift Box - intimate gift set by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/premium-black-gift-box.png?v=1778010115"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714166935729",
+            "sku": "DF-GBOX-STA",
+            "price": "19.00"
+          },
+          {
+            "id": "gid://shopify/ProductVariant/46714166968497",
+            "sku": "DF-GBOX-LAR",
+            "price": "27.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991078154417",
+      "handle": "midnight-starter-set",
+      "title": "The Midnight Starter Set",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "The Midnight Starter Set | Premium Intimate | Dark Fantasy",
+        "description": "The Midnight Starter Set. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/midnight-starter-set",
+      "tags": [
+        "beginner",
+        "bestseller",
+        "bundle",
+        "couples",
+        "gift-eligible",
+        "starter"
+      ],
+      "productType": "Bundles",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:29Z",
+      "updatedAt": "2026-05-08T22:22:14Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "The Midnight Starter Set - intimate gift set by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-starter-set-detail.png?v=1778044656"
+          },
+          {
+            "altText": "The Midnight Starter Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-starter-set-lifestyle_565a6e7e-baf4-49b6-a8fa-4d41b2a31d50.png?v=1778044758"
+          },
+          {
+            "altText": "The Midnight Starter Set - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-starter-set-lifestyle.png?v=1778044709"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714167492785",
+            "sku": "DF-START-DEF",
+            "price": "129.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991078678705",
+      "handle": "signature-dark-fantasy-set",
+      "title": "The Signature Dark Fantasy Set",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "The Signature Dark Fantasy Set | Dark Fantasy",
+        "description": "The Signature Dark Fantasy Set. premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/signature-dark-fantasy-set",
+      "tags": [
+        "anniversary",
+        "bundle",
+        "couples",
+        "gift-eligible",
+        "premium",
+        "signature"
+      ],
+      "productType": "Bundles",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-16T06:53:32Z",
+      "updatedAt": "2026-05-08T22:22:14Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "The Signature Dark Fantasy Set - intimate gift set by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/signature-dark-fantasy-set-main.png?v=1778044713"
+          },
+          {
+            "altText": "The Signature Dark Fantasy Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/signature-dark-fantasy-set-detail.png?v=1778044721"
+          },
+          {
+            "altText": "The Signature Dark Fantasy Set - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/signature-dark-fantasy-set-lifestyle.png?v=1778044726"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46714168017073",
+            "sku": "DF-SIG-HIS",
+            "price": "299.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899287729",
+      "handle": "midnight-restraint-set-wrist-ankle",
+      "title": "The Midnight Restraint Set \u2014 Wrist & Ankle Cuffs",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "The Midnight Restraint Set | Premium Intimate | Dark Fantasy",
+        "description": "The Midnight Restraint Set. Wrist & Ankle Cuffs. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/midnight-restraint-set-wrist-ankle",
+      "tags": [
+        "best-seller",
+        "couples",
+        "gift",
+        "intermediate",
+        "leather",
+        "restraints"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:01Z",
+      "updatedAt": "2026-05-08T22:22:14Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Midnight Restraint Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-restraint-set-wrist-ankle-1.png?v=1773735549"
+          },
+          {
+            "altText": "Midnight Restraint Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-restraint-set-wrist-ankle-2.png?v=1773735551"
+          },
+          {
+            "altText": "Midnight Restraint Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-restraint-set-wrist-ankle-3.png?v=1773735548"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715856552113",
+            "sku": "DF-A011",
+            "price": "159.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899320497",
+      "handle": "noir-leather-spanking-paddle",
+      "title": "Noir Leather Spanking Paddle \u2014 Double-Sided",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Noir Leather Spanking Paddle | Dark Fantasy",
+        "description": "Noir Leather Spanking Paddle. Double-Sided. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/noir-leather-spanking-paddle",
+      "tags": [
+        "couples",
+        "impact-play",
+        "intermediate",
+        "leather",
+        "paddle"
+      ],
+      "productType": "Impact Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:04Z",
+      "updatedAt": "2026-05-08T22:22:14Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Noir Leather Paddle \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/noir-leather-spanking-paddle-1.png?v=1773735560"
+          },
+          {
+            "altText": "Noir Leather Paddle \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/noir-leather-spanking-paddle-2.png?v=1773735558"
+          },
+          {
+            "altText": "Noir Leather Paddle \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/noir-leather-spanking-paddle-3.png?v=1773735559"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715856715953",
+            "sku": "DF-B001",
+            "price": "79.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899353265",
+      "handle": "phantom-suede-flogger-24-tail",
+      "title": "Phantom Suede Flogger \u2014 24-Tail",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Phantom Suede Flogger | Premium Intimate | Dark Fantasy",
+        "description": "Phantom Suede Flogger. 24-Tail. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/phantom-suede-flogger-24-tail",
+      "tags": [
+        "flogger",
+        "impact-play",
+        "intermediate",
+        "sensation",
+        "suede"
+      ],
+      "productType": "Impact Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:06Z",
+      "updatedAt": "2026-05-08T22:22:15Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Phantom Suede Flogger \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/phantom-suede-flogger-24-tail-1.png?v=1773735570"
+          },
+          {
+            "altText": "Phantom Suede Flogger \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/phantom-suede-flogger-24-tail-2.png?v=1773735567"
+          },
+          {
+            "altText": "Phantom Suede Flogger \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/phantom-suede-flogger-24-tail-3.png?v=1773735568"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715856847025",
+            "sku": "DF-B009",
+            "price": "99.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899386033",
+      "handle": "leather-collar-leash-set-matched",
+      "title": "Leather Collar & Leash Set \u2014 Matched Hardware",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Leather Collar & Leash Set | Premium Intimate | Dark Fantasy",
+        "description": "Leather Collar & Leash Set. Matched Hardware. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/leather-collar-leash-set-matched",
+      "tags": [
+        "beginner",
+        "collar",
+        "couples",
+        "gift",
+        "leash",
+        "leather"
+      ],
+      "productType": "Collars & Leashes",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:10Z",
+      "updatedAt": "2026-05-08T22:22:15Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Leather Collar & Leash Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/leather-collar-leash-set-matched-1.png?v=1773735577"
+          },
+          {
+            "altText": "Leather Collar & Leash Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/leather-collar-leash-set-matched-2.png?v=1773735579"
+          },
+          {
+            "altText": "Leather Collar & Leash Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/leather-collar-leash-set-matched-3.png?v=1773735578"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715857010865",
+            "sku": "DF-C010",
+            "price": "109.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899418801",
+      "handle": "velvet-noir-blindfold-deep-blackout",
+      "title": "Velvet Noir Blindfold \u2014 Deep Blackout",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Velvet Noir Blindfold | Premium Intimate | Dark Fantasy",
+        "description": "Velvet Noir Blindfold. Deep Blackout. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/velvet-noir-blindfold-deep-blackout",
+      "tags": [
+        "beginner",
+        "blindfold",
+        "couples",
+        "sensory",
+        "starter-kit",
+        "velvet"
+      ],
+      "productType": "Sensory Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:12Z",
+      "updatedAt": "2026-05-08T22:22:15Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Velvet Noir Blindfold \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/velvet-noir-blindfold-deep-blackout-1.png?v=1773735586"
+          },
+          {
+            "altText": "Velvet Noir Blindfold \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/velvet-noir-blindfold-deep-blackout-2.png?v=1773735587"
+          },
+          {
+            "altText": "Velvet Noir Blindfold \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/velvet-noir-blindfold-deep-blackout-3.png?v=1773735589"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715857141937",
+            "sku": "DF-D001",
+            "price": "39.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899451569",
+      "handle": "feather-leather-dual-sensation-teaser",
+      "title": "Feather & Leather Dual-End Sensation Teaser",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Feather & Leather Dual-End Sensation ... | Dark Fantasy",
+        "description": "Feather & Leather Dual-End Sensation .... premium intimate product. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/feather-leather-dual-sensation-teaser",
+      "tags": [
+        "beginner",
+        "feather",
+        "sensory",
+        "starter-kit",
+        "tickler"
+      ],
+      "productType": "Sensory Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:15Z",
+      "updatedAt": "2026-05-08T22:22:15Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Feather & Leather Teaser \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/feather-leather-dual-sensation-teaser-1.png?v=1773735595"
+          },
+          {
+            "altText": "Feather & Leather Teaser \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/feather-leather-dual-sensation-teaser-2.png?v=1773735598"
+          },
+          {
+            "altText": "Feather & Leather Teaser \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/feather-leather-dual-sensation-teaser-3.png?v=1773735596"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715857273009",
+            "sku": "DF-D008",
+            "price": "29.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899484337",
+      "handle": "adjustable-silicone-ball-gag",
+      "title": "Adjustable Silicone Ball Gag \u2014 Quick Release",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Adjustable Silicone Ball Gag | Dark Fantasy",
+        "description": "Adjustable Silicone Ball Gag. Quick Release. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/adjustable-silicone-ball-gag",
+      "tags": [
+        "gag",
+        "intermediate",
+        "sensory",
+        "silicone"
+      ],
+      "productType": "Sensory Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:18Z",
+      "updatedAt": "2026-05-08T22:22:15Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Adjustable Silicone Prop \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-silicone-ball-gag-1.png?v=1773735606"
+          },
+          {
+            "altText": "Adjustable Silicone Prop \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-silicone-ball-gag-2.png?v=1773735605"
+          },
+          {
+            "altText": "Adjustable Silicone Prop \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-silicone-ball-gag-3.png?v=1773735607"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715857371313",
+            "sku": "DF-D015",
+            "price": "49.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899517105",
+      "handle": "adjustable-nipple-clamps-tweezer-chain",
+      "title": "Adjustable Nipple Clamps \u2014 Tweezer Style with Chain",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Adjustable Nipple Clamps | Premium Intimate | Dark Fantasy",
+        "description": "Adjustable Nipple Clamps. Tweezer Style with Chain. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/adjustable-nipple-clamps-tweezer-chain",
+      "tags": [
+        "couples",
+        "intermediate",
+        "nipple-clamps",
+        "sensory"
+      ],
+      "productType": "Sensory Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:20Z",
+      "updatedAt": "2026-05-08T22:22:16Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Adjustable Nipple Clamps Tweezer Chain \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-nipple-clamps-tweezer-chain-1.png?v=1773735871"
+          },
+          {
+            "altText": "Adjustable Tweezer Clamps \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-nipple-clamps-tweezer-chain-3.png?v=1773735613"
+          },
+          {
+            "altText": "Adjustable Tweezer Clamps \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-nipple-clamps-tweezer-chain-2.png?v=1773735614"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715857502385",
+            "sku": "DF-D019",
+            "price": "39.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899549873",
+      "handle": "midnight-leather-body-harness-adjustable",
+      "title": "Midnight Leather Body Harness \u2014 Adjustable",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Midnight Leather Body Harness | Dark Fantasy",
+        "description": "Midnight Leather Body Harness. Adjustable. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/midnight-leather-body-harness-adjustable",
+      "tags": [
+        "apparel",
+        "gift",
+        "harness",
+        "intermediate",
+        "leather",
+        "luxury"
+      ],
+      "productType": "Apparel",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:23Z",
+      "updatedAt": "2026-05-08T22:22:16Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Midnight Leather Body Harness \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-leather-body-harness-adjustable-1.png?v=1773735635"
+          },
+          {
+            "altText": "Midnight Leather Body Harness \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-leather-body-harness-adjustable-2.png?v=1773735634"
+          },
+          {
+            "altText": "Midnight Leather Body Harness \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/midnight-leather-body-harness-adjustable-3.png?v=1773735636"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715857633457",
+            "sku": "DF-E001",
+            "price": "179.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899582641",
+      "handle": "black-bondage-tape-self-adhesive-set",
+      "title": "Black Bondage Tape \u2014 Self-Adhesive 3-Roll Set",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Black Bondage Tape | Premium Intimate | Dark Fantasy",
+        "description": "Black Bondage Tape. Self-Adhesive 3-Roll Set. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/black-bondage-tape-self-adhesive-set",
+      "tags": [
+        "beginner",
+        "bondage-tape",
+        "restraints",
+        "sensory",
+        "starter-kit"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:26Z",
+      "updatedAt": "2026-05-08T22:22:16Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Black Self-Adhesive Tape Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/black-bondage-tape-self-adhesive-set-1.png?v=1773735643"
+          },
+          {
+            "altText": "Black Self-Adhesive Tape Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/black-bondage-tape-self-adhesive-set-2.png?v=1773735645"
+          },
+          {
+            "altText": "Black Self-Adhesive Tape Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/black-bondage-tape-self-adhesive-set-3.png?v=1773735644"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715857797297",
+            "sku": "DF-A019",
+            "price": "39.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899648177",
+      "handle": "japanese-jute-shibari-rope-8m",
+      "title": "Japanese Jute Shibari Rope \u2014 8m Natural",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Japanese Jute Shibari Rope | Premium Intimate | Dark Fantasy",
+        "description": "Japanese Jute Shibari Rope. 8m Natural. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/japanese-jute-shibari-rope-8m",
+      "tags": [
+        "artistic",
+        "intermediate",
+        "jute",
+        "rope",
+        "shibari"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:29Z",
+      "updatedAt": "2026-05-08T22:22:16Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Japanese Jute Shibari Rope \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/japanese-jute-shibari-rope-8m-1.png?v=1773735657"
+          },
+          {
+            "altText": "Japanese Jute Shibari Rope \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/japanese-jute-shibari-rope-8m-3.png?v=1773735655"
+          },
+          {
+            "altText": "Japanese Jute Shibari Rope \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/japanese-jute-shibari-rope-8m-2.png?v=1773735656"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715857961137",
+            "sku": "DF-A022",
+            "price": "49.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899680945",
+      "handle": "temperature-play-metal-wand-dual",
+      "title": "Temperature Play Metal Wand \u2014 Dual-Ended",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Temperature Play Metal Wand | Dark Fantasy",
+        "description": "Temperature Play Metal Wand. Dual-Ended. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/temperature-play-metal-wand-dual",
+      "tags": [
+        "beginner",
+        "couples",
+        "metal",
+        "sensory",
+        "temperature"
+      ],
+      "productType": "Sensory Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:32Z",
+      "updatedAt": "2026-05-08T22:22:16Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Temperature Play Metal Wand \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/temperature-play-metal-wand-dual-1.png?v=1773735663"
+          },
+          {
+            "altText": "Temperature Play Metal Wand \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/temperature-play-metal-wand-dual-2.png?v=1773735664"
+          },
+          {
+            "altText": "Temperature Play Metal Wand \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/temperature-play-metal-wand-dual-3.png?v=1773735680"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715858092209",
+            "sku": "DF-D011",
+            "price": "49.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899713713",
+      "handle": "adjustable-metal-spreader-bar-cuffs",
+      "title": "Adjustable Metal Spreader Bar \u2014 18\"\u201336\" with Cuffs",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Adjustable Metal Spreader Bar | Dark Fantasy",
+        "description": "Adjustable Metal Spreader Bar. 18\"\u201336\" with Cuffs. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/adjustable-metal-spreader-bar-cuffs",
+      "tags": [
+        "couples",
+        "intermediate",
+        "metal",
+        "restraints",
+        "spreader-bar"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:34Z",
+      "updatedAt": "2026-05-08T22:22:16Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Adjustable Metal Bar Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-metal-spreader-bar-cuffs-1.png?v=1773735686"
+          },
+          {
+            "altText": "Adjustable Metal Bar Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-metal-spreader-bar-cuffs-2.png?v=1773735688"
+          },
+          {
+            "altText": "Adjustable Metal Bar Set \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/adjustable-metal-spreader-bar-cuffs-3.png?v=1773735687"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715858256049",
+            "sku": "DF-A016",
+            "price": "119.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899746481",
+      "handle": "low-melt-massage-candles-3-pack",
+      "title": "Low-Melt Massage Candles \u2014 Sensation Play 3-Pack",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Low-Melt Massage Candles | Premium Intimate | Dark Fantasy",
+        "description": "Low-Melt Massage Candles. Sensation Play 3-Pack. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/low-melt-massage-candles-3-pack",
+      "tags": [
+        "beginner",
+        "candles",
+        "gift",
+        "sensory",
+        "temperature"
+      ],
+      "productType": "Sensory Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:37Z",
+      "updatedAt": "2026-05-08T22:22:17Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Massage Candles 3-Pack \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/low-melt-massage-candles-3-pack-1.png?v=1773735696"
+          },
+          {
+            "altText": "Massage Candles 3-Pack \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/low-melt-massage-candles-3-pack-2.png?v=1773735697"
+          },
+          {
+            "altText": "Massage Candles 3-Pack \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/low-melt-massage-candles-3-pack-3.png?v=1773735694"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715858387121",
+            "sku": "DF-D012",
+            "price": "45.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899779249",
+      "handle": "obsidian-steel-locking-collar-polished",
+      "title": "Obsidian Steel Locking Collar \u2014 Polished",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Obsidian Steel Locking Collar | Dark Fantasy",
+        "description": "Obsidian Steel Locking Collar. Polished. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/obsidian-steel-locking-collar-polished",
+      "tags": [
+        "collar",
+        "gift",
+        "intermediate",
+        "locking",
+        "luxury",
+        "steel"
+      ],
+      "productType": "Collars & Leashes",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:40Z",
+      "updatedAt": "2026-05-08T22:22:17Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Obsidian Steel Locking Collar \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/obsidian-steel-locking-collar-polished-1.png?v=1773735705"
+          },
+          {
+            "altText": "Obsidian Steel Locking Collar \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/obsidian-steel-locking-collar-polished-2.png?v=1773735704"
+          },
+          {
+            "altText": "Obsidian Steel Locking Collar \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/obsidian-steel-locking-collar-polished-3.png?v=1773735707"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715858518193",
+            "sku": "DF-C002",
+            "price": "119.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899812017",
+      "handle": "wartenberg-pinwheel-surgical-stainless",
+      "title": "Wartenberg Pinwheel \u2014 Surgical Stainless",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Wartenberg Pinwheel | Premium Intimate | Dark Fantasy",
+        "description": "Wartenberg Pinwheel. Surgical Stainless. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/wartenberg-pinwheel-surgical-stainless",
+      "tags": [
+        "beginner",
+        "pinwheel",
+        "sensation",
+        "sensory",
+        "wartenberg"
+      ],
+      "productType": "Sensory Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:43Z",
+      "updatedAt": "2026-05-08T22:22:17Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Wartenberg Pinwheel \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/wartenberg-pinwheel-surgical-stainless-1.png?v=1773735713"
+          },
+          {
+            "altText": "Wartenberg Pinwheel \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/wartenberg-pinwheel-surgical-stainless-2.png?v=1773735714"
+          },
+          {
+            "altText": "Wartenberg Pinwheel \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/wartenberg-pinwheel-surgical-stainless-3.png?v=1773735716"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715858682033",
+            "sku": "DF-B020",
+            "price": "39.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899844785",
+      "handle": "over-door-bondage-cuffs-hanging",
+      "title": "Over-Door Bondage Cuffs \u2014 Hanging System",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Over-Door Bondage Cuffs | Premium Intimate | Dark Fantasy",
+        "description": "Over-Door Bondage Cuffs. Hanging System. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/over-door-bondage-cuffs-hanging",
+      "tags": [
+        "beginner",
+        "couples",
+        "door",
+        "hanging",
+        "restraints"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:46Z",
+      "updatedAt": "2026-05-08T22:22:17Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Over Door Bondage Cuffs Hanging \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/over-door-bondage-cuffs-hanging-1.png?v=1773735894"
+          },
+          {
+            "altText": "Over-Door Leather Cuffs \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/over-door-bondage-cuffs-hanging-2.png?v=1773735738"
+          },
+          {
+            "altText": "Over-Door Leather Cuffs \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/over-door-bondage-cuffs-hanging-3.png?v=1773735740"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715858813105",
+            "sku": "DF-A029",
+            "price": "69.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899943089",
+      "handle": "scene-safety-shears-emt",
+      "title": "Scene Safety Shears \u2014 EMT Blunt-Tip",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Scene Safety Shears | Premium Intimate | Dark Fantasy",
+        "description": "Scene Safety Shears. EMT Blunt-Tip. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/scene-safety-shears-emt",
+      "tags": [
+        "all-levels",
+        "education",
+        "essential",
+        "safety",
+        "starter-kit"
+      ],
+      "productType": "Safety & Education",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:49Z",
+      "updatedAt": "2026-05-08T22:22:17Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Scene Safety Shears \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/scene-safety-shears-emt-1.png?v=1773735763"
+          },
+          {
+            "altText": "Scene Safety Shears \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/scene-safety-shears-emt-2.png?v=1773735766"
+          },
+          {
+            "altText": "Scene Safety Shears \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/scene-safety-shears-emt-3.png?v=1773735764"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715859009713",
+            "sku": "DF-F010",
+            "price": "25.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991899975857",
+      "handle": "premium-water-based-lubricant-150ml",
+      "title": "Premium Water-Based Lubricant \u2014 150ml",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Premium Water-Based Lubricant | Dark Fantasy",
+        "description": "Premium Water-Based Lubricant. 150ml. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/premium-water-based-lubricant-150ml",
+      "tags": [
+        "beginner",
+        "couples",
+        "lubricant",
+        "starter-kit",
+        "water-based",
+        "wellness"
+      ],
+      "productType": "Lubricants & Wellness",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:51Z",
+      "updatedAt": "2026-05-08T22:22:17Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Premium Water-Based Lubricant \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/premium-water-based-lubricant-150ml-1.png?v=1773735792"
+          },
+          {
+            "altText": "Premium Water-Based Lubricant \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/premium-water-based-lubricant-150ml-2.png?v=1773735789"
+          },
+          {
+            "altText": "Premium Water-Based Lubricant \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/premium-water-based-lubricant-150ml-3.png?v=1773735790"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715859304625",
+            "sku": "DF-H001",
+            "price": "18.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/8991900008625",
+      "handle": "couples-first-night-bundle",
+      "title": "Couples' First Night Bundle \u2014 Dark Fantasy",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Couples' First Night Bundle | Dark Fantasy",
+        "description": "Couples' First Night Bundle. Dark Fantasy. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/couples-first-night-bundle",
+      "tags": [
+        "beginner",
+        "bestseller",
+        "bundle",
+        "couples",
+        "gift",
+        "starter-kit"
+      ],
+      "productType": "Bundles",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-03-17T00:22:54Z",
+      "updatedAt": "2026-05-08T22:22:17Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Couples First Night Bundle \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/couples-first-night-bundle-1.png?v=1773735814"
+          },
+          {
+            "altText": "Couples First Night Bundle \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/couples-first-night-bundle-2.png?v=1773735816"
+          },
+          {
+            "altText": "Couples First Night Bundle \u2014 Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/couples-first-night-bundle-3.png?v=1773735817"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/46715859435697",
+            "sku": "DF-J004",
+            "price": "99.00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658183345",
+      "handle": "360-rotating-wand-massager-rechargeable-deep-tissue",
+      "title": "360\u00b0 Rotating Wand Massager \u2014 Rechargeable Deep Tissue",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "360\u00b0 Rotating Wand Massager | Dark Fantasy",
+        "description": "360\u00b0 Rotating Wand Massager. Rechargeable Deep Tissue. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/360-rotating-wand-massager-rechargeable-deep-tissue",
+      "tags": [
+        "beginner",
+        "bestseller",
+        "couples",
+        "gift-eligible",
+        "new",
+        "rechargeable",
+        "solo",
+        "vibrators",
+        "wand",
+        "waterproof"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:02:12Z",
+      "updatedAt": "2026-05-08T22:22:18Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "360\u00b0 Rotating Wand Massager - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/01-wand-massager.png?v=1777959910"
+          },
+          {
+            "altText": "360\u00b0 Rotating Wand Massager - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/9jl4xx.png?v=1777963342"
+          },
+          {
+            "altText": "360\u00b0 Rotating Wand Massager - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/9jl4xx_82770089-eb2e-4e76-8af1-3f9e09e1cb05.png?v=1777963366"
+          },
+          {
+            "altText": "360\u00b0 Rotating Wand Massager - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/7t5t2s.png?v=1777963417"
+          },
+          {
+            "altText": "360\u00b0 Rotating Wand Massager - close-up view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/3ias2o.png?v=1777963419"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257574867121",
+            "sku": "DF-WAND-001",
+            "price": "18.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658216113",
+      "handle": "bdsm-bondage-kit-11-piece-complete-beginner-set",
+      "title": "BDSM Bondage Kit 11-Piece \u2014 Complete Beginner Set",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "BDSM Bondage Kit 11-Piece | Premium Intimate | Dark Fantasy",
+        "description": "BDSM Bondage Kit 11-Piece. Complete Beginner Set. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/bdsm-bondage-kit-11-piece-complete-beginner-set",
+      "tags": [
+        "bdsm",
+        "beginner",
+        "bestseller",
+        "bundle",
+        "couples",
+        "gift-eligible",
+        "leather",
+        "new",
+        "restraints",
+        "starter-kit"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:02:13Z",
+      "updatedAt": "2026-05-08T22:22:18Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "BDSM Bondage Kit 11-Piece - premium bondage by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/02-bdsm-kit-11pc.png?v=1777959912"
+          },
+          {
+            "altText": "BDSM Bondage Kit 11-Piece - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/z44oqf.png?v=1777963415"
+          },
+          {
+            "altText": "BDSM Bondage Kit 11-Piece - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/b472df.png?v=1777963417"
+          },
+          {
+            "altText": "BDSM Bondage Kit 11-Piece - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/jynb73.png?v=1777963420"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257574932657",
+            "sku": "DF-BDSM-011",
+            "price": "29.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658248881",
+      "handle": "bed-restraint-system-under-mattress-hogtie-cross-kit",
+      "title": "Bed Restraint System \u2014 Under-Mattress Hogtie Cross Kit",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Bed Restraint System | Premium Intimate | Dark Fantasy",
+        "description": "Bed Restraint System. Under-Mattress Hogtie Cross Kit. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/bed-restraint-system-under-mattress-hogtie-cross-kit",
+      "tags": [
+        "adjustable",
+        "bed-restraint",
+        "beginner",
+        "bestseller",
+        "couples",
+        "gift-eligible",
+        "new",
+        "restraints"
+      ],
+      "productType": "Restraint Systems",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:02:14Z",
+      "updatedAt": "2026-05-08T22:22:18Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Bed Restraint System - premium bondage by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/03-bed-restraint.png?v=1777959915"
+          },
+          {
+            "altText": "Bed Restraint System - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/0xbik7.png?v=1777963415"
+          },
+          {
+            "altText": "Bed Restraint System - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/rvw50d.png?v=1777963417"
+          },
+          {
+            "altText": "Bed Restraint System - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/5575t8.png?v=1777963421"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257574965425",
+            "sku": "DF-REST-BED",
+            "price": "29.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658281649",
+      "handle": "prostate-massager-butt-plug-set-3-piece-graduated",
+      "title": "Prostate Massager & Butt Plug Set \u2014 3-Piece Graduated",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Prostate Massager & Butt Plug Set | Dark Fantasy",
+        "description": "Prostate Massager & Butt Plug Set. 3-Piece Graduated. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/prostate-massager-butt-plug-set-3-piece-graduated",
+      "tags": [
+        "anal",
+        "beginner",
+        "bestseller",
+        "couples",
+        "gift-eligible",
+        "new",
+        "prostate",
+        "silicone",
+        "solo",
+        "waterproof"
+      ],
+      "productType": "Anal Toys",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:02:14Z",
+      "updatedAt": "2026-05-08T22:22:18Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Prostate Massager & Butt Plug Set - prostate massager by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/04-prostate-set.png?v=1777959917"
+          },
+          {
+            "altText": "Prostate Massager & Butt Plug Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/rv1jjz.png?v=1777963415"
+          },
+          {
+            "altText": "Prostate Massager & Butt Plug Set - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/p9jefu.png?v=1777963417"
+          },
+          {
+            "altText": "Prostate Massager & Butt Plug Set - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/cgw52h.png?v=1777963419"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257574998193",
+            "sku": "DF-PLUG-3PC",
+            "price": "29.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658379953",
+      "handle": "bondage-leather-kit-23-piece-premium-sm-collection",
+      "title": "Bondage Leather Kit 23-Piece \u2014 Premium SM Collection",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Bondage Leather Kit 23-Piece | Dark Fantasy",
+        "description": "Bondage Leather Kit 23-Piece. Premium SM Collection. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/bondage-leather-kit-23-piece-premium-sm-collection",
+      "tags": [
+        "bdsm",
+        "bundle",
+        "couples",
+        "gift-eligible",
+        "intermediate",
+        "leather",
+        "new",
+        "premium",
+        "restraints"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:03:02Z",
+      "updatedAt": "2026-05-08T22:22:18Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Bondage Leather Kit 23-Piece - premium bondage by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/05-bondage-23pc.png?v=1777959920"
+          },
+          {
+            "altText": "Bondage Leather Kit 23-Piece - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/c9h7z5.png?v=1777963419"
+          },
+          {
+            "altText": "Bondage Leather Kit 23-Piece - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/93tk68.png?v=1777963447"
+          },
+          {
+            "altText": "Bondage Leather Kit 23-Piece - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/gj63xi.png?v=1777963450"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257575555249",
+            "sku": "DF-BDSM-023",
+            "price": "49.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658412721",
+      "handle": "remote-control-vibrating-couples-ring-rechargeable",
+      "title": "Remote Control Vibrating Couples Ring \u2014 Rechargeable",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Remote Control Vibrating Couples Ring | Dark Fantasy",
+        "description": "Remote Control Vibrating Couples Ring. Rechargeable. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/remote-control-vibrating-couples-ring-rechargeable",
+      "tags": [
+        "beginner",
+        "couples",
+        "gift-eligible",
+        "new",
+        "rechargeable",
+        "remote-control",
+        "ring",
+        "vibrators",
+        "waterproof"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:03:03Z",
+      "updatedAt": "2026-05-08T22:22:18Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Remote Control Vibrating Couples Ring - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/06-couples-ring.png?v=1777959922"
+          },
+          {
+            "altText": "Remote Control Vibrating Couples Ring - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/axa0f4.png?v=1777963415"
+          },
+          {
+            "altText": "Remote Control Vibrating Couples Ring - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/p11eyq.png?v=1777963417"
+          },
+          {
+            "altText": "Remote Control Vibrating Couples Ring - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/rdlriy.png?v=1777963419"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257575588017",
+            "sku": "DF-RING-RC1",
+            "price": "24.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658445489",
+      "handle": "lingerie-garter-belt-choker-set-dark-lace",
+      "title": "Lingerie Garter Belt & Choker Set \u2014 Dark Lace",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Lingerie Garter Belt & Choker Set | Dark Fantasy",
+        "description": "Lingerie Garter Belt & Choker Set. Dark Lace. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/lingerie-garter-belt-choker-set-dark-lace",
+      "tags": [
+        "adjustable",
+        "apparel",
+        "beginner",
+        "couples",
+        "gift-eligible",
+        "lace",
+        "lingerie",
+        "new"
+      ],
+      "productType": "Apparel",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:03:04Z",
+      "updatedAt": "2026-05-08T22:22:19Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Lingerie Garter Belt & Choker Set - BDSM fashion by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/07-lingerie-garter.png?v=1777959925"
+          },
+          {
+            "altText": "Lingerie Garter Belt & Choker Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/0i9em0.png?v=1777963417"
+          },
+          {
+            "altText": "Lingerie Garter Belt & Choker Set - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/ba7dke.png?v=1777963419"
+          },
+          {
+            "altText": "Lingerie Garter Belt & Choker Set - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/li9lco.png?v=1777963477"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257575686321",
+            "sku": "DF-LING-GCK",
+            "price": "29.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658511025",
+      "handle": "bdsm-sensation-kit-paddle-tickler-blindfold",
+      "title": "BDSM Sensation Kit \u2014 Paddle, Tickler & Blindfold",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "BDSM Sensation Kit | Premium Intimate | Dark Fantasy",
+        "description": "BDSM Sensation Kit. Paddle, Tickler & Blindfold. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/bdsm-sensation-kit-paddle-tickler-blindfold",
+      "tags": [
+        "beginner",
+        "bestseller",
+        "couples",
+        "feather",
+        "gift-eligible",
+        "impact",
+        "leather",
+        "new",
+        "sensory",
+        "starter-kit"
+      ],
+      "productType": "Sensory Play",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:03:05Z",
+      "updatedAt": "2026-05-08T22:22:19Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "BDSM Sensation Kit - premium bondage by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/08-sensation-kit.png?v=1777959927"
+          },
+          {
+            "altText": "BDSM Sensation Kit - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/h4u6c7.png?v=1777963415"
+          },
+          {
+            "altText": "BDSM Sensation Kit - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/t1h5fy.png?v=1777963417"
+          },
+          {
+            "altText": "BDSM Sensation Kit - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/dqycmj.png?v=1777963447"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257575751857",
+            "sku": "DF-SENS-KIT",
+            "price": "34.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658805937",
+      "handle": "swarovski-crystal-kegel-balls-premium-weighted-set",
+      "title": "Swarovski Crystal Kegel Balls \u2014 Premium Weighted Set",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Swarovski Crystal Kegel Balls | Dark Fantasy",
+        "description": "Swarovski Crystal Kegel Balls. Premium Weighted Set. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/swarovski-crystal-kegel-balls-premium-weighted-set",
+      "tags": [
+        "bestseller",
+        "couples",
+        "gift-eligible",
+        "kegel",
+        "luxury",
+        "new",
+        "premium",
+        "silicone",
+        "solo",
+        "wellness"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:04:16Z",
+      "updatedAt": "2026-05-08T22:22:19Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Swarovski Crystal Kegel Balls - kegel exercise balls by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/09-swarovski-kegel.png?v=1777959930"
+          },
+          {
+            "altText": "Swarovski Crystal Kegel Balls - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/r3q75k.png?v=1777963415"
+          },
+          {
+            "altText": "Swarovski Crystal Kegel Balls - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/brgnkm.png?v=1777963417"
+          },
+          {
+            "altText": "Swarovski Crystal Kegel Balls - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/lmwv52.png?v=1777963420"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257585483953",
+            "sku": "DF-KEG-SWAR",
+            "price": "59.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658838705",
+      "handle": "kegel-exercise-system-6-piece-progressive-training-kit",
+      "title": "Kegel Exercise System \u2014 6-Piece Progressive Training Kit",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Kegel Exercise System | Premium Intimate | Dark Fantasy",
+        "description": "Kegel Exercise System. 6-Piece Progressive Training Kit. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/kegel-exercise-system-6-piece-progressive-training-kit",
+      "tags": [
+        "beginner",
+        "gift-eligible",
+        "kegel",
+        "new",
+        "silicone",
+        "solo",
+        "waterproof",
+        "wellness"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:04:17Z",
+      "updatedAt": "2026-05-08T22:22:19Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Kegel Exercise System - kegel exercise balls by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/10-kegel-6pc.png?v=1777959932"
+          },
+          {
+            "altText": "Kegel Exercise System - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/pzg4rd.png?v=1777963447"
+          },
+          {
+            "altText": "Kegel Exercise System - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/keyao2.png?v=1777963449"
+          },
+          {
+            "altText": "Kegel Exercise System - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/k3gx2c.png?v=1777963451"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257585582257",
+            "sku": "DF-KEG-6PC",
+            "price": "24.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658871473",
+      "handle": "customizable-kegel-balls-3-metal-weights-interchangeable",
+      "title": "Customizable Kegel Balls \u2014 3 Metal Weights Interchangeable",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Customizable Kegel Balls | Premium Intimate | Dark Fantasy",
+        "description": "Customizable Kegel Balls. 3 Metal Weights Interchangeable. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/customizable-kegel-balls-3-metal-weights-interchangeable",
+      "tags": [
+        "beginner",
+        "gift-eligible",
+        "kegel",
+        "metal",
+        "new",
+        "silicone",
+        "solo",
+        "waterproof",
+        "wellness"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:04:18Z",
+      "updatedAt": "2026-05-08T22:22:19Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Customizable Kegel Balls - kegel exercise balls by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/11-kegel-3wt.png?v=1777959961"
+          },
+          {
+            "altText": "Customizable Kegel Balls - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/k7pwmd.png?v=1777963447"
+          },
+          {
+            "altText": "Customizable Kegel Balls - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/hyelqk.png?v=1777963450"
+          },
+          {
+            "altText": "Customizable Kegel Balls - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/hwb0ir.png?v=1777963452"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257585615025",
+            "sku": "DF-KEG-3WT",
+            "price": "29.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658904241",
+      "handle": "app-controlled-rabbit-vibrator-10-speed-dual-stimulation",
+      "title": "App-Controlled Rabbit Vibrator \u2014 10-Speed Dual Stimulation",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "App-Controlled Rabbit Vibrator | Dark Fantasy",
+        "description": "App-Controlled Rabbit Vibrator. 10-Speed Dual Stimulation. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/app-controlled-rabbit-vibrator-10-speed-dual-stimulation",
+      "tags": [
+        "app-controlled",
+        "couples",
+        "g-spot",
+        "gift-eligible",
+        "ldr",
+        "new",
+        "premium",
+        "rabbit",
+        "rechargeable",
+        "solo",
+        "vibrators",
+        "waterproof"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:04:19Z",
+      "updatedAt": "2026-05-08T22:22:19Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "App-Controlled Rabbit Vibrator - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/12-rabbit-app.png?v=1777959941"
+          },
+          {
+            "altText": "App-Controlled Rabbit Vibrator - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/xm757n.png?v=1777963447"
+          },
+          {
+            "altText": "App-Controlled Rabbit Vibrator - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/np4asj.png?v=1777963451"
+          },
+          {
+            "altText": "App-Controlled Rabbit Vibrator - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/6ak7ag.png?v=1777963477"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257585647793",
+            "sku": "DF-VIB-RAB1",
+            "price": "44.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658937009",
+      "handle": "luxury-rabbit-vibrator-clitoral-suction-g-spot",
+      "title": "Luxury Rabbit Vibrator \u2014 Clitoral Suction + G-Spot",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Luxury Rabbit Vibrator | Premium Intimate | Dark Fantasy",
+        "description": "Luxury Rabbit Vibrator. Clitoral Suction + G-Spot. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/luxury-rabbit-vibrator-clitoral-suction-g-spot",
+      "tags": [
+        "g-spot",
+        "gift-eligible",
+        "luxury",
+        "new",
+        "premium",
+        "rabbit",
+        "rechargeable",
+        "solo",
+        "suction",
+        "vibrators",
+        "waterproof"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:04:19Z",
+      "updatedAt": "2026-05-08T22:22:19Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Luxury Rabbit Vibrator - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/13-rabbit-luxury.png?v=1777959963"
+          },
+          {
+            "altText": "Luxury Rabbit Vibrator - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/kkl8p1.png?v=1777963447"
+          },
+          {
+            "altText": "Luxury Rabbit Vibrator - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/d1eu0t.png?v=1777963450"
+          },
+          {
+            "altText": "Luxury Rabbit Vibrator - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/3trlc7.png?v=1777963452"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257585680561",
+            "sku": "DF-VIB-LUXR",
+            "price": "54.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022658969777",
+      "handle": "pretty-love-usb-rabbit-vibrator-app-controlled-premium",
+      "title": "Pretty Love USB Rabbit Vibrator \u2014 App-Controlled Premium",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Pretty Love USB Rabbit Vibrator | Dark Fantasy",
+        "description": "Pretty Love USB Rabbit Vibrator. App-Controlled Premium. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/pretty-love-usb-rabbit-vibrator-app-controlled-premium",
+      "tags": [
+        "app-controlled",
+        "couples",
+        "g-spot",
+        "gift-eligible",
+        "ldr",
+        "new",
+        "premium",
+        "rabbit",
+        "rechargeable",
+        "solo",
+        "vibrators",
+        "waterproof"
+      ],
+      "productType": "Vibrators",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:04:20Z",
+      "updatedAt": "2026-05-08T22:22:20Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Pretty Love USB Rabbit Vibrator - intimate vibrator by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/14-rabbit-pretty.png?v=1777959966"
+          },
+          {
+            "altText": "Pretty Love USB Rabbit Vibrator - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/t5ju3i.png?v=1777963447"
+          },
+          {
+            "altText": "Pretty Love USB Rabbit Vibrator - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/iiohhn.png?v=1777963451"
+          },
+          {
+            "altText": "Pretty Love USB Rabbit Vibrator - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/b82eqe.png?v=1777963454"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257585713329",
+            "sku": "DF-VIB-PLRB",
+            "price": "44.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022659166385",
+      "handle": "dare-or-truth-couples-card-game-52-cards",
+      "title": "Dare or Truth \u2014 Couples Card Game (52 Cards)",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Dare or Truth | Premium Intimate | Dark Fantasy",
+        "description": "Dare or Truth. Couples Card Game (52 Cards). Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/dare-or-truth-couples-card-game-52-cards",
+      "tags": [
+        "add-on",
+        "beginner",
+        "couples",
+        "date-night",
+        "games",
+        "gift-eligible",
+        "new"
+      ],
+      "productType": "Accessories",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:05:31Z",
+      "updatedAt": "2026-05-08T22:22:20Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Dare or Truth - couples intimacy game by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/15-dare-truth-cards.png?v=1777959971"
+          },
+          {
+            "altText": "Dare or Truth - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/4rzhou.png?v=1777963446"
+          },
+          {
+            "altText": "Dare or Truth - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/xcrj8y.png?v=1777963450"
+          },
+          {
+            "altText": "Dare or Truth - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/1flf85.png?v=1777963452"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257586630833",
+            "sku": "DF-GAME-DOT",
+            "price": "14.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022659199153",
+      "handle": "scratch-off-sex-games-cards-36-steamy-challenges",
+      "title": "Scratch-Off Sex Games Cards \u2014 36 Steamy Challenges",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Scratch-Off Sex Games Cards | Dark Fantasy",
+        "description": "Scratch-Off Sex Games Cards. 36 Steamy Challenges. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/scratch-off-sex-games-cards-36-steamy-challenges",
+      "tags": [
+        "add-on",
+        "beginner",
+        "couples",
+        "date-night",
+        "games",
+        "gift-eligible",
+        "new"
+      ],
+      "productType": "Accessories",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:05:32Z",
+      "updatedAt": "2026-05-08T22:22:20Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Scratch-Off Sex Games Cards - couples intimacy game by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/16-scratch-off-cards.png?v=1777959973"
+          },
+          {
+            "altText": "Scratch-Off Sex Games Cards - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/qwdq27.png?v=1777963447"
+          },
+          {
+            "altText": "Scratch-Off Sex Games Cards - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/3lm3fx.png?v=1777963449"
+          },
+          {
+            "altText": "Scratch-Off Sex Games Cards - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/dgt8lk.png?v=1777963477"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257586663601",
+            "sku": "DF-GAME-SCR",
+            "price": "14.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022659231921",
+      "handle": "erotic-dice-set-glow-in-the-dark-6-dice",
+      "title": "Erotic Dice Set \u2014 Glow-in-the-Dark (6 Dice)",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Erotic Dice Set | Premium Intimate | Dark Fantasy",
+        "description": "Erotic Dice Set. Glow-in-the-Dark (6 Dice). Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/erotic-dice-set-glow-in-the-dark-6-dice",
+      "tags": [
+        "add-on",
+        "beginner",
+        "couples",
+        "date-night",
+        "games",
+        "gift-eligible",
+        "glow",
+        "new"
+      ],
+      "productType": "Accessories",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:05:32Z",
+      "updatedAt": "2026-05-08T22:22:20Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Erotic Dice Set - couples intimacy game by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/17-glow-dice.png?v=1777959975"
+          },
+          {
+            "altText": "Erotic Dice Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/8fyn1r.png?v=1777963447"
+          },
+          {
+            "altText": "Erotic Dice Set - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/w3ivxt.png?v=1777963450"
+          },
+          {
+            "altText": "Erotic Dice Set - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/3vba3m.png?v=1777963452"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257586696369",
+            "sku": "DF-DICE-GLO",
+            "price": "9.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022659297457",
+      "handle": "wooden-dice-set-romantic-fun-games-for-couples",
+      "title": "Wooden Dice Set \u2014 Romantic Fun Games for Couples",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Wooden Dice Set | Premium Intimate | Dark Fantasy",
+        "description": "Wooden Dice Set. Romantic Fun Games for Couples. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/wooden-dice-set-romantic-fun-games-for-couples",
+      "tags": [
+        "add-on",
+        "beginner",
+        "couples",
+        "date-night",
+        "games",
+        "gift-eligible",
+        "new"
+      ],
+      "productType": "Accessories",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:05:33Z",
+      "updatedAt": "2026-05-08T22:22:20Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Wooden Dice Set - couples intimacy game by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/18-wooden-dice.png?v=1777959980"
+          },
+          {
+            "altText": "Wooden Dice Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/54ymwa.png?v=1777963477"
+          },
+          {
+            "altText": "Wooden Dice Set - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/h7enj6.png?v=1777963480"
+          },
+          {
+            "altText": "Wooden Dice Set - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/e8y8j4.png?v=1777963482"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257586761905",
+            "sku": "DF-DICE-WOD",
+            "price": "9.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022659330225",
+      "handle": "50-piece-couples-flirting-card-set-date-night-edition",
+      "title": "50-Piece Couples Flirting Card Set \u2014 Date Night Edition",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "50-Piece Couples Flirting Card Set | Dark Fantasy",
+        "description": "50-Piece Couples Flirting Card Set. Date Night Edition. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/50-piece-couples-flirting-card-set-date-night-edition",
+      "tags": [
+        "add-on",
+        "beginner",
+        "couples",
+        "date-night",
+        "games",
+        "gift-eligible",
+        "new",
+        "premium"
+      ],
+      "productType": "Accessories",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:05:34Z",
+      "updatedAt": "2026-05-08T22:22:20Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "50-Piece Couples Flirting Card Set - couples intimacy game by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/19-flirting-cards-50.png?v=1777960008"
+          },
+          {
+            "altText": "50-Piece Couples Flirting Card Set - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/ksq86i.png?v=1777963477"
+          },
+          {
+            "altText": "50-Piece Couples Flirting Card Set - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/2jwq7d.png?v=1777963479"
+          },
+          {
+            "altText": "50-Piece Couples Flirting Card Set - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/4vv7fn.png?v=1777963485"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257586860209",
+            "sku": "DF-GAME-50F",
+            "price": "14.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022659362993",
+      "handle": "adjustable-leg-straps-bdsm-kit-restraint-spreader",
+      "title": "Adjustable Leg Straps BDSM Kit \u2014 Restraint Spreader",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "Adjustable Leg Straps BDSM Kit | Dark Fantasy",
+        "description": "Adjustable Leg Straps BDSM Kit. Restraint Spreader. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/adjustable-leg-straps-bdsm-kit-restraint-spreader",
+      "tags": [
+        "add-on",
+        "adjustable",
+        "beginner",
+        "couples",
+        "gift-eligible",
+        "new",
+        "restraints"
+      ],
+      "productType": "Restraints",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:05:35Z",
+      "updatedAt": "2026-05-08T22:22:21Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "Adjustable Leg Straps BDSM Kit - premium bondage by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/20-leg-straps.png?v=1777959988"
+          },
+          {
+            "altText": "Adjustable Leg Straps BDSM Kit - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/3tbxiw.png?v=1777963477"
+          },
+          {
+            "altText": "Adjustable Leg Straps BDSM Kit - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/lgmrss.png?v=1777963479"
+          },
+          {
+            "altText": "Adjustable Leg Straps BDSM Kit - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/qv41d8.png?v=1777963482"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257586892977",
+            "sku": "DF-STRAP-LG",
+            "price": "19.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022660935857",
+      "handle": "the-romantic-evening-couples-gift-set",
+      "title": "The Romantic Evening \u2014 Couples Gift Set",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "The Romantic Evening | Premium Intimate | Dark Fantasy",
+        "description": "The Romantic Evening. Couples Gift Set. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/the-romantic-evening-couples-gift-set",
+      "tags": [
+        "beginner",
+        "bestseller",
+        "bundle",
+        "couples",
+        "date-night",
+        "gift",
+        "gift-eligible",
+        "new",
+        "sensory",
+        "starter-kit"
+      ],
+      "productType": "Bundles",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:18:18Z",
+      "updatedAt": "2026-05-08T22:22:21Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "The Romantic Evening - intimate gift set by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/21-bundle-romantic.png?v=1777959991"
+          },
+          {
+            "altText": "The Romantic Evening - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/agfvc3.png?v=1777963477"
+          },
+          {
+            "altText": "The Romantic Evening - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/vmru6v.png?v=1777963479"
+          },
+          {
+            "altText": "The Romantic Evening - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/6uv5nf.png?v=1777963482"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257595904177",
+            "sku": "DF-BUN-ROMAN",
+            "price": "59.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022660968625",
+      "handle": "the-bdsm-beginner-starter-kit-gift-set",
+      "title": "The BDSM Beginner \u2014 Starter Kit Gift Set",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "The BDSM Beginner | Premium Intimate | Dark Fantasy",
+        "description": "The BDSM Beginner. Starter Kit Gift Set. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/the-bdsm-beginner-starter-kit-gift-set",
+      "tags": [
+        "bdsm",
+        "beginner",
+        "bestseller",
+        "bundle",
+        "couples",
+        "gift",
+        "gift-eligible",
+        "new",
+        "restraints",
+        "starter-kit"
+      ],
+      "productType": "Bundles",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:18:19Z",
+      "updatedAt": "2026-05-08T22:22:21Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "The BDSM Beginner - premium bondage by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/22-bundle-bdsm.png?v=1777959993"
+          },
+          {
+            "altText": "The BDSM Beginner - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/bmab2q.png?v=1777963477"
+          },
+          {
+            "altText": "The BDSM Beginner - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/a6uy2o.png?v=1777963479"
+          },
+          {
+            "altText": "The BDSM Beginner - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/frvh2k.png?v=1777963482"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257595936945",
+            "sku": "DF-BUN-BDSM",
+            "price": "79.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022661001393",
+      "handle": "the-couples-date-night-game-play-collection",
+      "title": "The Couples' Date Night \u2014 Game & Play Collection",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "The Couples' Date Night | Premium Intimate | Dark Fantasy",
+        "description": "The Couples' Date Night. Game & Play Collection. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/the-couples-date-night-game-play-collection",
+      "tags": [
+        "beginner",
+        "bundle",
+        "couples",
+        "date-night",
+        "games",
+        "gift",
+        "gift-eligible",
+        "new"
+      ],
+      "productType": "Bundles",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:18:20Z",
+      "updatedAt": "2026-05-08T22:22:21Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "The Couples' Date Night - couples intimacy game by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/23-bundle-datenight.png?v=1777959996"
+          },
+          {
+            "altText": "The Couples' Date Night - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/frthod.png?v=1777963477"
+          },
+          {
+            "altText": "The Couples' Date Night - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/yp4nnr.png?v=1777963479"
+          },
+          {
+            "altText": "The Couples' Date Night - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/8kor6t.png?v=1777963482"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257596002481",
+            "sku": "DF-BUN-DATE",
+            "price": "49.99"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gid://shopify/Product/9022661034161",
+      "handle": "the-50-shades-experience-luxury-gift-collection",
+      "title": "The 50 Shades Experience \u2014 Luxury Gift Collection",
+      "status": "ACTIVE",
+      "seo": {
+        "title": "The 50 Shades Experience | Premium Intimate | Dark Fantasy",
+        "description": "The 50 Shades Experience. Luxury Gift Collection. Body-safe materials. Free discreet shipping on orders $99+. Shop Dark Fantasy."
+      },
+      "onlineStoreUrl": "https://bdsmpub.com/products/the-50-shades-experience-luxury-gift-collection",
+      "tags": [
+        "anniversary",
+        "bestseller",
+        "bundle",
+        "couples",
+        "gift",
+        "gift-eligible",
+        "kegel",
+        "luxury",
+        "new",
+        "premium",
+        "sensory"
+      ],
+      "productType": "Bundles",
+      "vendor": "Dark Fantasy",
+      "createdAt": "2026-05-05T05:18:21Z",
+      "updatedAt": "2026-05-08T22:22:21Z",
+      "images": {
+        "nodes": [
+          {
+            "altText": "The 50 Shades Experience - intimate gift set by Dark Fantasy",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/24-bundle-50shades.png?v=1777959998"
+          },
+          {
+            "altText": "The 50 Shades Experience - front view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/o9b98m.png?v=1777963477"
+          },
+          {
+            "altText": "The 50 Shades Experience - side view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/8pt3fy.png?v=1777963479"
+          },
+          {
+            "altText": "The 50 Shades Experience - detail view",
+            "url": "https://cdn.shopify.com/s/files/1/0728/2740/4465/files/u202jh.png?v=1777963482"
+          }
+        ]
+      },
+      "variants": {
+        "nodes": [
+          {
+            "id": "gid://shopify/ProductVariant/47257596035249",
+            "sku": "DF-BUN-50SH",
+            "price": "99.99"
+          }
+        ]
+      }
+    }
+  ],
+  "collections": [
+    {
+      "id": "gid://shopify/Collection/348392161457",
+      "handle": "frontpage",
+      "title": "Home page",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/350116184241",
+      "handle": "tv",
+      "title": "TV",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/350116217009",
+      "handle": "collections",
+      "title": "Collections",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351113019569",
+      "handle": "best-sellers",
+      "title": "Best Sellers",
+      "seo": {
+        "title": "Best Sellers | Premium Intimate Wellness | Dark Fantasy",
+        "description": "Shop our most popular intimate wellness products. Curated best sellers with body-safe materials, discreet shipping, and 30-day returns."
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351113052337",
+      "handle": "for-couples",
+      "title": "For Couples",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351113085105",
+      "handle": "for-her",
+      "title": "For Her",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351113117873",
+      "handle": "for-him",
+      "title": "For Him",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351113150641",
+      "handle": "long-distance",
+      "title": "Long Distance",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351113183409",
+      "handle": "gift-sets",
+      "title": "Gift Sets",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351113216177",
+      "handle": "new-arrivals",
+      "title": "New Arrivals",
+      "seo": {
+        "title": "New Arrivals | Latest Intimate Wellness Products | Dark Fantasy",
+        "description": "Discover the newest additions to our curated intimate wellness collection. Premium products with discreet shipping on orders $99+."
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351113248945",
+      "handle": "sale",
+      "title": "Sale",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351114297521",
+      "handle": "impact-play",
+      "title": "Impact Play",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351114330289",
+      "handle": "restraints-bondage",
+      "title": "Restraints & Bondage",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351114363057",
+      "handle": "collars-leashes",
+      "title": "Collars & Leashes",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:10Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351114395825",
+      "handle": "sensory-play",
+      "title": "Sensory Play",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:11Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351114428593",
+      "handle": "bdsm-fashion",
+      "title": "BDSM Fashion",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:11Z"
+    },
+    {
+      "id": "gid://shopify/Collection/351114461361",
+      "handle": "bundles-sets",
+      "title": "Bundles & Sets",
+      "seo": {
+        "title": null,
+        "description": null
+      },
+      "updatedAt": "2026-05-08T22:22:11Z"
+    }
+  ],
+  "pages": [
+    {
+      "id": "gid://shopify/Page/114478874801",
+      "handle": "contact",
+      "title": "Contact",
+      "createdAt": "2026-01-16T18:38:10Z",
+      "updatedAt": "2026-01-16T18:38:10Z"
+    },
+    {
+      "id": "gid://shopify/Page/114478907569",
+      "handle": "data-sharing-opt-out",
+      "title": "Your Privacy Choices",
+      "createdAt": "2026-01-16T18:38:17Z",
+      "updatedAt": "2026-01-28T17:11:13Z"
+    },
+    {
+      "id": "gid://shopify/Page/114479923377",
+      "handle": "home",
+      "title": "Home",
+      "createdAt": "2026-01-16T20:36:16Z",
+      "updatedAt": "2026-01-16T20:36:16Z"
+    },
+    {
+      "id": "gid://shopify/Page/115118047409",
+      "handle": "about-us",
+      "title": "About Us",
+      "createdAt": "2026-02-25T08:45:38Z",
+      "updatedAt": "2026-02-25T08:45:38Z"
+    },
+    {
+      "id": "gid://shopify/Page/115118080177",
+      "handle": "tv",
+      "title": "TV",
+      "createdAt": "2026-02-25T08:45:58Z",
+      "updatedAt": "2026-02-25T08:45:58Z"
+    },
+    {
+      "id": "gid://shopify/Page/115401949361",
+      "handle": "about",
+      "title": "About Dark Fantasy",
+      "createdAt": "2026-03-16T03:38:07Z",
+      "updatedAt": "2026-05-05T18:28:39Z"
+    },
+    {
+      "id": "gid://shopify/Page/115401982129",
+      "handle": "shipping",
+      "title": "Shipping & Delivery",
+      "createdAt": "2026-03-16T03:38:08Z",
+      "updatedAt": "2026-03-16T03:38:08Z"
+    },
+    {
+      "id": "gid://shopify/Page/115402014897",
+      "handle": "returns",
+      "title": "Returns & Exchanges",
+      "createdAt": "2026-03-16T03:38:09Z",
+      "updatedAt": "2026-03-16T03:38:10Z"
+    },
+    {
+      "id": "gid://shopify/Page/115402047665",
+      "handle": "privacy",
+      "title": "Privacy Policy",
+      "createdAt": "2026-03-16T03:38:11Z",
+      "updatedAt": "2026-03-16T03:38:11Z"
+    },
+    {
+      "id": "gid://shopify/Page/115402080433",
+      "handle": "faq",
+      "title": "FAQ",
+      "createdAt": "2026-03-16T03:38:12Z",
+      "updatedAt": "2026-03-16T03:38:12Z"
+    },
+    {
+      "id": "gid://shopify/Page/115402113201",
+      "handle": "ldr-guide",
+      "title": "The Distance Guide \u2014 LDR Resources",
+      "createdAt": "2026-03-16T03:38:15Z",
+      "updatedAt": "2026-03-16T03:38:15Z"
+    },
+    {
+      "id": "gid://shopify/Page/115402178737",
+      "handle": "contact-us",
+      "title": "Contact Us",
+      "createdAt": "2026-03-16T03:39:35Z",
+      "updatedAt": "2026-03-16T03:39:35Z"
+    },
+    {
+      "id": "gid://shopify/Page/115404570801",
+      "handle": "beginners-guide",
+      "title": "Beginner's Guide to BDSM",
+      "createdAt": "2026-03-16T06:54:04Z",
+      "updatedAt": "2026-03-16T06:54:04Z"
+    },
+    {
+      "id": "gid://shopify/Page/115404603569",
+      "handle": "product-care",
+      "title": "Product Care Guide",
+      "createdAt": "2026-03-16T06:54:05Z",
+      "updatedAt": "2026-03-16T06:54:06Z"
+    },
+    {
+      "id": "gid://shopify/Page/115404636337",
+      "handle": "size-guide",
+      "title": "Size & Fit Guide",
+      "createdAt": "2026-03-16T06:54:07Z",
+      "updatedAt": "2026-03-16T06:54:07Z"
+    },
+    {
+      "id": "gid://shopify/Page/115404669105",
+      "handle": "gift-guide",
+      "title": "Gift Guide",
+      "createdAt": "2026-03-16T06:54:08Z",
+      "updatedAt": "2026-03-16T06:54:08Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424264369",
+      "handle": "ai-adjustable-metal-spreader-bar-cuffs",
+      "title": "Adjustable Metal Spreader Bar \u2014 18\"\u201336\" with Cuffs \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:35Z",
+      "updatedAt": "2026-03-17T15:17:43Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424297137",
+      "handle": "ai-adjustable-nipple-clamps-tweezer-chain",
+      "title": "Adjustable Nipple Clamps \u2014 Tweezer Style with Chain \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:36Z",
+      "updatedAt": "2026-03-17T15:17:45Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424329905",
+      "handle": "ai-adjustable-silicone-ball-gag",
+      "title": "Adjustable Silicone Ball Gag \u2014 Quick Release \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:37Z",
+      "updatedAt": "2026-03-17T15:17:46Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424362673",
+      "handle": "ai-black-bondage-tape-self-adhesive-set",
+      "title": "Black Bondage Tape Self Adhesive Set \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:37Z",
+      "updatedAt": "2026-03-17T15:22:23Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424395441",
+      "handle": "ai-couples-first-night-bundle",
+      "title": "Couples' First Night Bundle \u2014 Dark Fantasy \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:38Z",
+      "updatedAt": "2026-03-17T15:18:18Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424428209",
+      "handle": "ai-edge-2-prostate-massager",
+      "title": "Edge 2 \u2014 Prostate Massager (App-Controlled) \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:38Z",
+      "updatedAt": "2026-03-17T15:18:19Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424460977",
+      "handle": "ai-feather-leather-dual-sensation-teaser",
+      "title": "Feather & Leather Dual-End Sensation Teaser \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:42Z",
+      "updatedAt": "2026-03-17T15:18:20Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424493745",
+      "handle": "ai-feather-sensation-teaser",
+      "title": "Feather Sensation Teaser \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:43Z",
+      "updatedAt": "2026-03-17T15:18:21Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424526513",
+      "handle": "ai-ferri-magnetic-panty-vibrator",
+      "title": "Ferri \u2014 Magnetic Wearable Panty Vibrator \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:44Z",
+      "updatedAt": "2026-03-17T15:18:22Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424559281",
+      "handle": "ai-japanese-jute-shibari-rope-8m",
+      "title": "Japanese Jute Shibari Rope \u2014 8m Natural \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:45Z",
+      "updatedAt": "2026-03-17T15:18:24Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424592049",
+      "handle": "ai-leather-care-kit",
+      "title": "Leather Care Kit \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:46Z",
+      "updatedAt": "2026-03-17T15:18:25Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424624817",
+      "handle": "ai-leather-collar-leash-set-matched",
+      "title": "Leather Collar & Leash Set \u2014 Matched Hardware \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:47Z",
+      "updatedAt": "2026-03-17T15:18:26Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424657585",
+      "handle": "ai-lover-set-couples-bundle",
+      "title": "Lover Set Couples Bundle \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:47Z",
+      "updatedAt": "2026-03-17T15:22:27Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424690353",
+      "handle": "ai-low-melt-massage-candles-3-pack",
+      "title": "Low-Melt Massage Candles \u2014 Sensation Play 3-Pack \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:48Z",
+      "updatedAt": "2026-03-17T15:18:58Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424723121",
+      "handle": "ai-lush-4-wearable-vibrator",
+      "title": "Lush 4 \u2014 Wearable G-Spot Vibrator \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:49Z",
+      "updatedAt": "2026-03-17T15:19:00Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424755889",
+      "handle": "ai-luxury-velvet-storage-pouch",
+      "title": "Luxury Velvet Storage Pouch \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:49Z",
+      "updatedAt": "2026-03-17T15:19:01Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424788657",
+      "handle": "ai-max-2-male-masturbator",
+      "title": "Max 2 \u2014 Male Masturbator (App-Controlled) \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:50Z",
+      "updatedAt": "2026-03-17T15:19:02Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424821425",
+      "handle": "ai-midnight-leather-body-harness",
+      "title": "Midnight Leather Body Harness \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:50Z",
+      "updatedAt": "2026-03-17T15:19:03Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424854193",
+      "handle": "ai-midnight-leather-body-harness-adjustable",
+      "title": "Midnight Leather Body Harness \u2014 Adjustable \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:51Z",
+      "updatedAt": "2026-03-17T15:19:04Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424886961",
+      "handle": "ai-midnight-leather-wrist-cuffs",
+      "title": "Midnight Leather Wrist Cuffs \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:52Z",
+      "updatedAt": "2026-03-17T15:19:05Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424919729",
+      "handle": "ai-noir-leather-paddle",
+      "title": "Noir Leather Paddle \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:52Z",
+      "updatedAt": "2026-03-17T15:19:06Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424952497",
+      "handle": "ai-noir-leather-spanking-paddle",
+      "title": "Noir Leather Spanking Paddle \u2014 Double-Sided \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:53Z",
+      "updatedAt": "2026-03-17T15:19:37Z"
+    },
+    {
+      "id": "gid://shopify/Page/115424985265",
+      "handle": "ai-nora-rabbit-vibrator",
+      "title": "Nora \u2014 Rabbit Vibrator (App-Controlled) \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:53Z",
+      "updatedAt": "2026-03-17T15:19:38Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425018033",
+      "handle": "ai-obsidian-ankle-cuffs",
+      "title": "Obsidian Ankle Cuffs \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:54Z",
+      "updatedAt": "2026-03-17T15:19:40Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425050801",
+      "handle": "ai-obsidian-steel-collar",
+      "title": "Obsidian Steel Collar \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:55Z",
+      "updatedAt": "2026-03-17T15:22:28Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425083569",
+      "handle": "ai-obsidian-steel-locking-collar-polished",
+      "title": "Obsidian Steel Locking Collar \u2014 Polished \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:55Z",
+      "updatedAt": "2026-03-17T15:19:41Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425116337",
+      "handle": "ai-osci-3-oscillating-vibrator",
+      "title": "Osci 3 \u2014 G-Spot Oscillating Vibrator \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:56Z",
+      "updatedAt": "2026-03-17T15:20:11Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425149105",
+      "handle": "ai-over-door-bondage-cuffs-hanging",
+      "title": "Over-Door Bondage Cuffs \u2014 Hanging System \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:56Z",
+      "updatedAt": "2026-03-17T15:20:22Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425181873",
+      "handle": "ai-phantom-suede-flogger",
+      "title": "Phantom Suede Flogger \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:57Z",
+      "updatedAt": "2026-03-17T15:20:23Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425214641",
+      "handle": "ai-phantom-suede-flogger-24-tail",
+      "title": "Phantom Suede Flogger \u2014 24-Tail \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:57Z",
+      "updatedAt": "2026-03-17T15:20:24Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425247409",
+      "handle": "ai-polished-chain-leash",
+      "title": "Polished Chain Leash \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:58Z",
+      "updatedAt": "2026-03-17T15:20:25Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425280177",
+      "handle": "ai-premium-black-gift-box",
+      "title": "Premium Black Gift Box \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:59Z",
+      "updatedAt": "2026-03-17T15:22:29Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425312945",
+      "handle": "ai-premium-leather-gloves",
+      "title": "Premium Leather Gloves \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:03:59Z",
+      "updatedAt": "2026-03-17T15:20:57Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425345713",
+      "handle": "ai-personal-lubricant-water-based",
+      "title": "Premium Water-Based Lubricant \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:00Z",
+      "updatedAt": "2026-03-17T15:20:59Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425378481",
+      "handle": "ai-premium-water-based-lubricant-150ml",
+      "title": "Premium Water-Based Lubricant \u2014 150ml \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:01Z",
+      "updatedAt": "2026-03-17T15:21:00Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425411249",
+      "handle": "ai-raven-riding-crop",
+      "title": "Raven Riding Crop \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:01Z",
+      "updatedAt": "2026-03-17T15:21:01Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425444017",
+      "handle": "ai-satin-restraint-rope-set",
+      "title": "Satin Restraint Rope Set \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:02Z",
+      "updatedAt": "2026-03-17T15:21:02Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425476785",
+      "handle": "ai-scene-safety-shears-emt",
+      "title": "Scene Safety Shears \u2014 EMT Blunt-Tip \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:02Z",
+      "updatedAt": "2026-03-17T15:21:04Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425509553",
+      "handle": "ai-signature-leather-collar",
+      "title": "Signature Leather Collar \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:03Z",
+      "updatedAt": "2026-03-17T15:21:05Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425542321",
+      "handle": "ai-solace-pro-ai-masturbator",
+      "title": "Solace Pro \u2014 AI-Powered Male Masturbator \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:04Z",
+      "updatedAt": "2026-03-17T15:21:06Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425575089",
+      "handle": "ai-temperature-play-metal-wand",
+      "title": "Temperature Play Metal Wand \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:04Z",
+      "updatedAt": "2026-03-17T15:21:07Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425607857",
+      "handle": "ai-temperature-play-metal-wand-dual",
+      "title": "Temperature Play Metal Wand \u2014 Dual-Ended \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:05Z",
+      "updatedAt": "2026-03-17T15:21:08Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425640625",
+      "handle": "ai-tenera-2-clitoral-stimulator",
+      "title": "Tenera 2 \u2014 Clitoral Air-Pulse Stimulator \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:06Z",
+      "updatedAt": "2026-03-17T15:21:09Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425673393",
+      "handle": "ai-midnight-restraint-set-wrist-ankle",
+      "title": "The Midnight Restraint Set \u2014 Wrist & Ankle Cuffs \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:06Z",
+      "updatedAt": "2026-03-17T15:21:10Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425706161",
+      "handle": "ai-midnight-starter-set",
+      "title": "The Midnight Starter Set \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:07Z",
+      "updatedAt": "2026-03-17T15:21:24Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425738929",
+      "handle": "ai-signature-dark-fantasy-set",
+      "title": "The Signature Dark Fantasy Set \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:07Z",
+      "updatedAt": "2026-03-17T15:21:55Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425771697",
+      "handle": "ai-under-bed-restraint-system",
+      "title": "Under-Bed Restraint System \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:08Z",
+      "updatedAt": "2026-03-17T15:21:56Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425804465",
+      "handle": "ai-velvet-noir-blindfold",
+      "title": "Velvet Noir Blindfold \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:08Z",
+      "updatedAt": "2026-03-17T15:21:57Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425837233",
+      "handle": "ai-velvet-noir-blindfold-deep-blackout",
+      "title": "Velvet Noir Blindfold \u2014 Deep Blackout \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:09Z",
+      "updatedAt": "2026-03-17T15:21:58Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425870001",
+      "handle": "ai-wartenberg-pinwheel-surgical-stainless",
+      "title": "Wartenberg Pinwheel \u2014 Surgical Stainless \u2014 AI Mirror | Dark Fantasy",
+      "createdAt": "2026-03-17T15:04:10Z",
+      "updatedAt": "2026-03-17T15:21:59Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425935537",
+      "handle": "llms-txt",
+      "title": "Dark Fantasy \u2014 AI Site Index (llms.txt)",
+      "createdAt": "2026-03-17T15:05:47Z",
+      "updatedAt": "2026-03-17T15:05:47Z"
+    },
+    {
+      "id": "gid://shopify/Page/115425968305",
+      "handle": "llms-full-txt",
+      "title": "Dark Fantasy \u2014 Full AI Catalog (llms-full.txt)",
+      "createdAt": "2026-03-17T15:05:49Z",
+      "updatedAt": "2026-03-17T15:05:49Z"
+    },
+    {
+      "id": "gid://shopify/Page/115426001073",
+      "handle": "ai-about-dark-fantasy",
+      "title": "About Dark Fantasy \u2014 AI Index",
+      "createdAt": "2026-03-17T15:05:50Z",
+      "updatedAt": "2026-03-17T15:05:50Z"
+    },
+    {
+      "id": "gid://shopify/Page/115426033841",
+      "handle": "ai-safety-guide",
+      "title": "Safety & Consent Guide \u2014 AI Index",
+      "createdAt": "2026-03-17T15:05:52Z",
+      "updatedAt": "2026-03-17T15:05:52Z"
+    },
+    {
+      "id": "gid://shopify/Page/115426066609",
+      "handle": "ai-buying-guide",
+      "title": "Buying Guide \u2014 AI Index",
+      "createdAt": "2026-03-17T15:05:53Z",
+      "updatedAt": "2026-03-17T15:05:53Z"
+    },
+    {
+      "id": "gid://shopify/Page/116162461873",
+      "handle": "privacy-policy",
+      "title": "Privacy Policy",
+      "createdAt": "2026-05-05T17:53:50Z",
+      "updatedAt": "2026-05-05T17:53:50Z"
+    }
+  ]
+}

@@ -60,7 +60,7 @@ Python scripts:
 | VETERAN | `NO` |
 | RESUME_DIR | `~/Downloads/resumeandcoverletter/` |
 | RESUME_TEMPLATE | `Barron_Zuo_Resume_Dialpad_HeadOfGrowth.docx` |
-| OBSIDIAN_PATH | `/Volumes/workssd/ObsidianVault/01-Projects/` |
+| OBSIDIAN_PATH | `$HOME/Documents/Obsidian/01-Projects/` |
 | LEDGER_FILE | `Greenhouse-Application-Ledger.md` |
 
 ## DOM Selectors (to be mapped on first run)
@@ -124,7 +124,7 @@ For EACH job application, generate tailored resume and cover letter:
 - All locations must be US or international (non-China)
 
 ### Step 4: Output
-- Save as `.docx` to `RESUME_DIR` (`/Users/xiaozuo/Downloads/resumeandcoverletter/`)
+- Save as `.docx` to `RESUME_DIR` (`$HOME/Downloads/resumeandcoverletter/`)
 
 ## File Output Rules (MANDATORY)
 
@@ -132,8 +132,8 @@ All generated resume and cover letter files MUST be saved as `.docx` to the loca
 
 | File | Naming Convention | Save Path |
 |------|-------------------|-----------|
-| Resume | `Barron_Zuo_{Company}_{JobTitle}_Resume.docx` | `/Users/xiaozuo/Downloads/resumeandcoverletter/` |
-| Cover Letter | `Barron_Zuo_{Company}_{JobTitle}_Cover_Letter.docx` | `/Users/xiaozuo/Downloads/resumeandcoverletter/` |
+| Resume | `Barron_Zuo_{Company}_{JobTitle}_Resume.docx` | `$HOME/Downloads/resumeandcoverletter/` |
+| Cover Letter | `Barron_Zuo_{Company}_{JobTitle}_Cover_Letter.docx` | `$HOME/Downloads/resumeandcoverletter/` |
 
 - **Company**: PascalCase, no spaces (e.g., `Duolingo`, `ZoomInfo`, `SharkNinja`)
 - **JobTitle**: PascalCase, abbreviated if long (e.g., `Growth_Marketing_Lead`, `VP_Marketing`, `Head_Perf_Marketing`)
@@ -143,7 +143,7 @@ All generated resume and cover letter files MUST be saved as `.docx` to the loca
 
 ## Dedup Ledger
 
-File: `/Volumes/workssd/ObsidianVault/01-Projects/Greenhouse-Application-Ledger.md`
+File: `$HOME/Documents/Obsidian/01-Projects/Greenhouse-Application-Ledger.md`
 Format: `company|job_title|job_id|YYYY-MM-DD|status|resume_file|cover_letter_file`
 
 Read before applying. Append after each submission.
@@ -170,6 +170,26 @@ Read before applying. Append after each submission.
 - **No confirmation loops**: Execute every step (navigate, fill, upload, submit) without pausing.
 - **Auto-recovery with Opus**: When stuck, blocked, or encountering an error that fails after 2 retries at Sonnet level, automatically switch to Opus model to diagnose and fix the issue, then switch back to Sonnet and continue the workflow.
 - **Never stop for user input** unless CAPTCHA requires manual human interaction.
+
+## Cost-saving LLM mode (optional, opt-in)
+
+For bulk runs (>5 jobs), use the `free-openrouter` adapter to avoid burning Anthropic credits on resume + cover-letter generation. Sonnet-quality output verified 2026-05-14 on Trinity Large Thinking (262K ctx, ~8s/call).
+
+```python
+import sys
+sys.path.insert(0, '/Users/xiaozuo/.claude/skills/free-openrouter/adapters')
+from greenhouse_adapter import generate_resume, generate_cover_letter
+
+resume = generate_resume(jd_text=JD, company=COMPANY, role_title=ROLE)
+cl = generate_cover_letter(jd_text=JD, company=COMPANY, role_title=ROLE,
+                           key_metrics=resume.get('phase1_analysis'))
+```
+
+- **Per-job cost:** $0.00 (vs ~$0.06 Sonnet 4.6) — saves ~$1.80/mo at 5 jobs/day, ~$36/mo at 20 jobs/day
+- **Daily ceiling:** 500 jobs/day (1,000 free reqs ÷ 2/job)
+- **Throughput:** ~225 jobs/hour at 16s avg latency
+- **Quality:** validated to produce JSON matching the same schema, with JD keywords embedded, real metrics from experience bank
+- **Fallback:** if free models 429 the entire chain, adapter raises `GreenhouseAdapterError` — orchestrator catches and falls back to native Sonnet
 
 ## Error Recovery
 

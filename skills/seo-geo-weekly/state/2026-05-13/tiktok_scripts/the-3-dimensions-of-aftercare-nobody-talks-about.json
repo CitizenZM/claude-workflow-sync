@@ -1,0 +1,35 @@
+{
+  "hook_3s": "You've heard of aftercare, but not like this.",
+  "script_voiceover": "You've heard of aftercare, but not like this. There are three dimensions essential for true soft life intimacy. First, the emotional: gentle reassurance, active listening, and space for processing feelings. Second, the physical: warmth, a comforting touch, and simple hydration to nourish the body. And third, the often-forgotten logistical: tidying the space, preparing a warm drink, or planning quiet time. True connection thrives when all three are considered. Want to deepen your bond? Follow for more mindful intimacy.",
+  "b_roll_shots": [
+    "Gentle hands stirring tea in a delicate ceramic cup (3s)",
+    "Soft, flowing fabric (silk or velvet) being caressed by fingertips (3s)",
+    "One hand gently resting on another, perhaps intertwined (3s)",
+    "Pouring sparkling water into a crystal glass, condensation visible (3s)",
+    "A lit candle flickering softly on a polished surface (3s)",
+    "Hands smoothing a plush throw blanket on a sofa or bed (3s)",
+    "Two hands cradling a warm, ceramic mug (3s)",
+    "Close-up of a small, elegant journal open with a pen beside it (3s)"
+  ],
+  "on_screen_text": [
+    "Aftercare's Hidden Depths",
+    "Emotional Reassurance",
+    "Physical Comfort",
+    "Logistical Support",
+    "Three Dimensions",
+    "Deepen Your Bond",
+    "Mindful Intimacy"
+  ],
+  "cta": "Want to deepen your bond? Follow for more mindful intimacy.",
+  "caption": "Aftercare isn't just one thing; it's a beautiful dance of emotional, physical, and logistical care. Discover how embracing all three can truly transform your connection. (AI-generated voice via TTS)",
+  "aigc_label": "AI-generated voice via TTS",
+  "duration_estimate_s": 24,
+  "hashtags": [
+    "#SoftLifeIntimacy",
+    "#RelationshipTok",
+    "#WellnessTok",
+    "#CouplesTok",
+    "#IntimacyEducation"
+  ],
+  "topic_seed": "The 3 dimensions of aftercare nobody talks about"
+}

@@ -49,7 +49,7 @@ Read `~/.claude/skills/wellfound-apply/SKILL.md` first for all config and select
 4. Apply salary gate: if comp shown and max < $160,000 → skip
 
 ## Step 7: Dedup Against Ledger
-1. Read `/Users/xiaozuo/Library/Mobile Documents/iCloud~md~obsidian/Documents/Openclaw/Wellfound-Application-Ledger.md` (if exists)
+1. Read `$HOME/Documents/Obsidian/Wellfound-Application-Ledger.md` (if exists)
 2. Filter out jobs already in ledger with status = submitted/confirmed/already_applied
 
 ## Step 8: Save Jobs (click bookmark on each)

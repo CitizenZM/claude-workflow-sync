@@ -14,8 +14,8 @@ The previous Haiku-per-tab architecture broke because the Agent tool cannot pass
 ## Pre-flight assumptions
 
 - Browser session `mcp__playwright-impact-rockbros-us__` is logged in.
-- Pre-built tab scripts exist at `/Users/xiaozuo/.claude/skills/impact-rockbros-us-outreach/scripts/tab{1..6}_ready.js`. They have all `%%` tokens already substituted.
-- Ledger lives at `/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md`.
+- Pre-built tab scripts exist at `$HOME/.claude/skills/impact-rockbros-us-outreach/scripts/tab{1..6}_ready.js`. They have all `%%` tokens already substituted.
+- Ledger lives at `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md`.
 
 ## Tab map
 
@@ -34,7 +34,7 @@ For tab N starting from `$ARGUMENTS` (default 1) through 6:
 
 ### Step 1 — Read the tab script as a STRING
 
-Use the Read tool on `/Users/xiaozuo/.claude/skills/impact-rockbros-us-outreach/scripts/tab{N}_ready.js`. Capture the full file content.
+Use the Read tool on `$HOME/.claude/skills/impact-rockbros-us-outreach/scripts/tab{N}_ready.js`. Capture the full file content.
 
 ### Step 2 — Invoke browser_run_code with INLINE code
 
@@ -64,7 +64,7 @@ Repeat steps 1–4 for tab N+1 until tab 6 done OR cumulative `sent` count this 
 
 After every 50 cumulative `sent` proposals across tabs in this session, spawn `Agent(model:"opus")` with this brief:
 
-> Review the last 50 proposals appended to `/Users/xiaozuo/Documents/Obsidian Vault/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md`. Spot-check 5 entries: confirm partner_id is non-empty, contact_email looks valid (or empty), term is "Public Terms" or similar, sent_at is today. Flag duplicates, malformed rows, or systematic errors. Return a one-paragraph health check.
+> Review the last 50 proposals appended to `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Ledger.md`. Spot-check 5 entries: confirm partner_id is non-empty, contact_email looks valid (or empty), term is "Public Terms" or similar, sent_at is today. Flag duplicates, malformed rows, or systematic errors. Return a one-paragraph health check.
 
 Wait for the supervisor reply before continuing. If supervisor flags a problem, STOP and surface to the user.
 

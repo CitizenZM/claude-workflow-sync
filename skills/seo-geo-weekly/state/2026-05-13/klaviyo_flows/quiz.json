@@ -1,0 +1,313 @@
+{
+  "quiz_title": "Discover Your Dark Fantasy Archetype",
+  "quiz_subtitle": "Unveil the shadows within to unlock personalized gear and guidance.",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Which role calls to you most powerfully?",
+      "type": "single_select",
+      "options": [
+        {
+          "label": "To command and control.",
+          "value": "dominant",
+          "segment_tag": "Role_Dominant"
+        },
+        {
+          "label": "To surrender and serve.",
+          "value": "submissive",
+          "segment_tag": "Role_Submissive"
+        },
+        {
+          "label": "To explore both sides.",
+          "value": "switch",
+          "segment_tag": "Role_Switch"
+        },
+        {
+          "label": "I'm still discovering my path.",
+          "value": "curious",
+          "segment_tag": "Role_Curious"
+        }
+      ],
+      "rationale": "This core question establishes the user's primary dynamic preference, which is the foundation for all product and content recommendations."
+    },
+    {
+      "id": 2,
+      "text": "How would you describe your journey so far?",
+      "type": "single_select",
+      "options": [
+        {
+          "label": "I'm just beginning to explore.",
+          "value": "beginner",
+          "segment_tag": "Experience_Beginner"
+        },
+        {
+          "label": "I'm comfortable and seeking to deepen my practice.",
+          "value": "intermediate",
+          "segment_tag": "Experience_Intermediate"
+        },
+        {
+          "label": "I am an experienced practitioner.",
+          "value": "advanced",
+          "segment_tag": "Experience_Advanced"
+        }
+      ],
+      "rationale": "Segmenting by experience level allows for tailored educational content, from '101' guides for beginners to advanced technique articles for experts."
+    },
+    {
+      "id": 3,
+      "text": "What is the primary motivation behind your fantasy?",
+      "type": "single_select",
+      "options": [
+        {
+          "label": "The psychological dance of power.",
+          "value": "power_exchange",
+          "segment_tag": "Motivation_Power"
+        },
+        {
+          "label": "The intensity of physical sensation.",
+          "value": "sensation",
+          "segment_tag": "Motivation_Sensation"
+        },
+        {
+          "label": "The beauty and artistry of the aesthetic.",
+          "value": "aesthetics",
+          "segment_tag": "Motivation_Aesthetic"
+        },
+        {
+          "label": "The profound emotional connection.",
+          "value": "connection",
+          "segment_tag": "Motivation_Connection"
+        }
+      ],
+      "rationale": "Understanding the user's 'why' helps tailor the marketing angle\u2014focusing on control, feeling, beauty, or intimacy."
+    },
+    {
+      "id": 4,
+      "text": "Choose the aesthetic that best captures your imagination.",
+      "type": "single_select",
+      "options": [
+        {
+          "label": "Gothic & Ornate: Velvet, intricate leather, dark lace.",
+          "value": "gothic",
+          "segment_tag": "Aesthetic_Gothic"
+        },
+        {
+          "label": "Modern & Minimalist: Sleek lines, steel, functional design.",
+          "value": "minimalist",
+          "segment_tag": "Aesthetic_Minimalist"
+        },
+        {
+          "label": "Primal & Raw: Heavy leather, rope, forged metal.",
+          "value": "primal",
+          "segment_tag": "Aesthetic_Primal"
+        },
+        {
+          "label": "Luxurious & Opulent: Silk, gold hardware, bespoke pieces.",
+          "value": "luxury",
+          "segment_tag": "Aesthetic_Luxury"
+        }
+      ],
+      "rationale": "Visual preference is a key driver for high-ticket purchases. This question directly informs which product collections to showcase."
+    },
+    {
+      "id": 5,
+      "text": "Which tools of the trade intrigue you most? (Choose up to two)",
+      "type": "multi_select",
+      "options": [
+        {
+          "label": "Restraints: Cuffs, rope, bondage sets.",
+          "value": "restraint",
+          "segment_tag": "Interest_Restraint"
+        },
+        {
+          "label": "Impact: Paddles, floggers, whips.",
+          "value": "impact",
+          "segment_tag": "Interest_Impact"
+        },
+        {
+          "label": "Sensory: Blindfolds, gags, temperature play.",
+          "value": "sensory",
+          "segment_tag": "Interest_Sensory"
+        },
+        {
+          "label": "Apparel: Corsets, harnesses, fetishwear.",
+          "value": "apparel",
+          "segment_tag": "Interest_Apparel"
+        }
+      ],
+      "rationale": "This question provides direct insight into product categories the user is actively interested in, creating opportunities for targeted campaigns."
+    },
+    {
+      "id": 6,
+      "text": "What level of intensity are you drawn to?",
+      "type": "single_select",
+      "options": [
+        {
+          "label": "Gentle, sensual, and teasing.",
+          "value": "gentle",
+          "segment_tag": "Intensity_Gentle"
+        },
+        {
+          "label": "Firm, disciplined, and structured.",
+          "value": "firm",
+          "segment_tag": "Intensity_Firm"
+        },
+        {
+          "label": "Hard, intense, and cathartic.",
+          "value": "intense",
+          "segment_tag": "Intensity_Intense"
+        },
+        {
+          "label": "Psychological and ritualistic.",
+          "value": "psychological",
+          "segment_tag": "Intensity_Psychological"
+        }
+      ],
+      "rationale": "Gauges the user's play style to recommend appropriate gear, from soft leather to heavy-duty implements, and relevant safety content."
+    },
+    {
+      "id": 7,
+      "text": "How do you approach acquiring new pieces for your collection?",
+      "type": "single_select",
+      "options": [
+        {
+          "label": "I'm building a foundation with essential, quality basics.",
+          "value": "essentials",
+          "segment_tag": "Budget_Essentials"
+        },
+        {
+          "label": "I invest in 'forever pieces' that are both art and tool.",
+          "value": "investment",
+          "segment_tag": "Budget_Investment"
+        },
+        {
+          "label": "I'm looking for unique, experimental items to try.",
+          "value": "experimental",
+          "segment_tag": "Budget_Experimental"
+        },
+        {
+          "label": "I seek the most luxurious, high-end craftsmanship.",
+          "value": "luxury_buyer",
+          "segment_tag": "Budget_Luxury"
+        }
+      ],
+      "rationale": "This question segments users by purchasing intent and potential lifetime value, separating bargain hunters from high-end investors."
+    },
+    {
+      "id": 8,
+      "text": "How do you prefer to learn and be inspired?",
+      "type": "single_select",
+      "options": [
+        {
+          "label": "Through detailed guides and how-to articles.",
+          "value": "guides",
+          "segment_tag": "Content_Guides"
+        },
+        {
+          "label": "Through evocative stories and fictional scenes.",
+          "value": "stories",
+          "segment_tag": "Content_Stories"
+        },
+        {
+          "label": "Through stunning visuals and product showcases.",
+          "value": "visuals",
+          "segment_tag": "Content_Visuals"
+        },
+        {
+          "label": "Through community discussions and expert interviews.",
+          "value": "community",
+          "segment_tag": "Content_Community"
+        }
+      ],
+      "rationale": "Determines the optimal content format for the welcome flow and ongoing marketing to maximize engagement."
+    }
+  ],
+  "segments": [
+    {
+      "name": "The Sovereign",
+      "tags_required": [
+        "Role_Dominant",
+        "Experience_Advanced",
+        "Budget_Luxury"
+      ],
+      "description": "An experienced Dominant who commands with authority and invests in the finest, most opulent gear to reflect their status.",
+      "welcome_flow": "luxury"
+    },
+    {
+      "name": "The Devotee",
+      "tags_required": [
+        "Role_Submissive",
+        "Motivation_Connection",
+        "Intensity_Psychological"
+      ],
+      "description": "A thoughtful submissive who finds beauty in surrender, seeking deep emotional connection and ritualistic play.",
+      "welcome_flow": "wellness"
+    },
+    {
+      "name": "The Neophyte",
+      "tags_required": [
+        "Experience_Beginner",
+        "Role_Curious"
+      ],
+      "description": "New and curious, you are eager to learn the fundamentals and are looking for guidance and foundational gear to start your journey safely.",
+      "welcome_flow": "beginner"
+    },
+    {
+      "name": "The Artisan",
+      "tags_required": [
+        "Role_Switch",
+        "Motivation_Sensation",
+        "Budget_Experimental"
+      ],
+      "description": "A creative explorer of both roles, you are driven by the discovery of new sensations and enjoy experimenting with a variety of tools.",
+      "welcome_flow": "default"
+    },
+    {
+      "name": "The Aestheticist",
+      "tags_required": [
+        "Motivation_Aesthetic",
+        "Aesthetic_Gothic",
+        "Interest_Apparel"
+      ],
+      "description": "For you, the visual is paramount. You curate a collection of beautiful, statement-making apparel and gear that is an extension of your identity.",
+      "welcome_flow": "luxury"
+    },
+    {
+      "name": "The Primalist",
+      "tags_required": [
+        "Intensity_Intense",
+        "Aesthetic_Primal",
+        "Interest_Impact"
+      ],
+      "description": "You are drawn to the raw, visceral, and cathartic aspects of play, preferring heavy-duty, durable gear for intense scenes.",
+      "welcome_flow": "default"
+    },
+    {
+      "name": "The Scholar",
+      "tags_required": [
+        "Experience_Beginner",
+        "Content_Guides",
+        "Motivation_Power"
+      ],
+      "description": "You approach your interest from an intellectual perspective, seeking to understand the psychology, safety, and techniques before you practice.",
+      "welcome_flow": "beginner"
+    },
+    {
+      "name": "The Sensualist",
+      "tags_required": [
+        "Intensity_Gentle",
+        "Interest_Sensory",
+        "Motivation_Connection"
+      ],
+      "description": "Your focus is on heightened sensory experiences and intimate connection, preferring soft materials, blindfolds, and gentle teasing.",
+      "welcome_flow": "wellness"
+    }
+  ],
+  "email_capture_step": {
+    "headline": "Your Archetype is Ready",
+    "subhead": "Enter your email to unlock your personalized results, product recommendations, and exclusive content tailored to your unique fantasy.",
+    "incentive": "Plus, receive 10% OFF your first order and our free guide: 'The 7 Pillars of Dark Fantasy'.",
+    "consent_text": "By entering your email, you agree to receive marketing communications from Dark Fantasy. You may unsubscribe at any time. We honor your privacy and discretion."
+  },
+  "shopify_implementation_notes": "To implement this quiz on Shopify, use a dedicated quiz app like Octane AI, Prehook, or a custom-built solution. Configure the app to pass each selected option's 'segment_tag' as a custom property or tag to the user's Klaviyo profile upon email submission. In Klaviyo, create the eight segments defined above, using the logic 'Profile has tag X AND profile has tag Y'. Finally, create four distinct welcome flow triggers (default, luxury, beginner, wellness) that activate when a user is added to one of the corresponding segments, ensuring each new subscriber receives a hyper-tailored onboarding experience."
+}

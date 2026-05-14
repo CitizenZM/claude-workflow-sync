@@ -1,0 +1,34 @@
+{
+  "hook_3s": "Ever wonder why our Pride Box contains exactly five items?",
+  "script_voiceover": "Ever wonder why our Pride Box contains exactly five items? It\u2019s not arbitrary! We carefully curate five distinct wellness products to support diverse forms of intimacy and exploration. Each item encourages self-discovery, mindful connection, and shared joy within relationships. We believe in providing a holistic experience, from gentle self-care to playful exploration. Discover the thoughtful intention behind each piece. Tap the link in bio to explore the full Pride Box collection and elevate your intimate journey.",
+  "b_roll_shots": [
+    "Hands gently arranging a soft, luxurious fabric.",
+    "Close-up of a beautifully packaged item from the Pride Box, elegant and understated.",
+    "Hands pouring a calming herbal tea into a delicate glass, soft candlelight in the background.",
+    "A hand lightly touching a smooth, elegantly designed wellness product (non-explicit).",
+    "Two hands lightly touching, holding a small, decorative item, emphasizing connection.",
+    "Close-up of a different product, perhaps a luxurious oil or balm, highlighting its texture.",
+    "Hands closing the Pride Box, revealing its elegant design and branding."
+  ],
+  "on_screen_text": [
+    "Why 5 SKUs?",
+    "Intentional Curation",
+    "Diverse Intimacy",
+    "Mindful Connection",
+    "Holistic Experience",
+    "Self-Discovery",
+    "Explore More"
+  ],
+  "cta": "Tap the link in bio to explore the full Pride Box collection and elevate your intimate journey.",
+  "caption": "Curious about the thoughtful curation behind our Pride Box? We believe in intentional design for a fulfilling intimate journey. #SoftLifeIntimacy #RelationshipTok #WellnessTok #CouplesTok #IntimacyEducation (AI-generated voice via TTS)",
+  "aigc_label": "AI-generated voice via TTS",
+  "duration_estimate_s": 28,
+  "hashtags": [
+    "#SoftLifeIntimacy",
+    "#RelationshipTok",
+    "#WellnessTok",
+    "#CouplesTok",
+    "#IntimacyEducation"
+  ],
+  "topic_seed": "Why our Pride Box has 5 SKUs (and the curation logic)"
+}

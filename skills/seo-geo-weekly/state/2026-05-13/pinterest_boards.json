@@ -1,0 +1,174 @@
+{
+  "handle": "@curated.intimacy",
+  "boards": [
+    {
+      "name": "Couples Sanctuary: Bedroom Aesthetics",
+      "slug": "couples-sanctuary-bedroom-aesthetics",
+      "description": "Curate a peaceful and inviting bedroom sanctuary for two. Discover inspiring decor, lighting, and textile ideas to enhance your shared space and foster deeper connection. #SoftLife #CouplesWellness",
+      "cover_pin_concept": "A beautifully styled, serene bedroom featuring soft natural light, plush neutral bedding, a minimalist wooden headboard, and subtle warm lighting from bedside lamps, with a couple's hands gently intertwined on a duvet.",
+      "target_keywords": [
+        "bedroom decor",
+        "couples sanctuary",
+        "aesthetic bedroom",
+        "peaceful retreat",
+        "romantic bedroom ideas"
+      ],
+      "pin_topics": [
+        "minimalist bedroom design",
+        "cozy lighting ideas",
+        "sustainable bedding",
+        "essential oil diffusers for sleep",
+        "calming color palettes",
+        "bedroom organization tips",
+        "creating a restful atmosphere",
+        "couples' reading nooks",
+        "hygge bedroom inspiration",
+        "sound machines for sleep",
+        "natural fiber textiles",
+        "plant decor for bedrooms"
+      ],
+      "primary_audience": "Couples seeking to create a more harmonious, aesthetically pleasing, and intimate environment in their shared living space."
+    },
+    {
+      "name": "Wellness Wisdom: Body-Safe Materials",
+      "slug": "wellness-wisdom-body-safe-materials",
+      "description": "Empower yourself with knowledge about safe and healthy materials for everyday products. Learn what to look for in textiles, skincare, and home goods for a truly holistic wellness approach. #WellnessTok #NervousSystem",
+      "cover_pin_concept": "A flat lay photo featuring various natural, organic materials like cotton fabric swatches, a small wooden bowl, a glass bottle of essential oil, and a smooth stone, all arranged cleanly on a light background.",
+      "target_keywords": [
+        "non-toxic materials",
+        "body safe products",
+        "clean living",
+        "sustainable materials",
+        "healthy home"
+      ],
+      "pin_topics": [
+        "organic cotton benefits",
+        "silicone vs. glass products",
+        "natural rubber safety",
+        "phthalate-free living",
+        "hypoallergenic materials",
+        "sustainable fashion choices",
+        "clean beauty ingredients",
+        "eco-friendly home products",
+        "avoiding endocrine disruptors",
+        "best materials for intimacy products",
+        "understanding product labels",
+        "safe fabric dyes"
+      ],
+      "primary_audience": "Health-conscious individuals and couples interested in making informed choices about the materials they introduce into their bodies and homes."
+    },
+    {
+      "name": "Nurturing Connection: Aftercare Rituals",
+      "slug": "nurturing-connection-aftercare-rituals",
+      "description": "Cultivate deeper bonds and emotional well-being with intentional aftercare practices. Explore soothing rituals, self-care ideas, and mindful moments to enhance connection and recovery. #Aftercare #CouplesRituals #NervousSystem",
+      "cover_pin_concept": "A close-up of two people's hands gently holding mugs of warm tea, with a soft blanket draped over their laps in a cozy, dimly lit setting, conveying comfort and shared peace.",
+      "target_keywords": [
+        "aftercare practices",
+        "emotional wellness",
+        "couples self-care",
+        "nervous system regulation",
+        "relationship recovery"
+      ],
+      "pin_topics": [
+        "post-intimacy comfort",
+        "mindful breathing exercises",
+        "gentle stretching for relaxation",
+        "soothing bath rituals",
+        "shared meditation practices",
+        "journaling for emotional release",
+        "comfort food recipes",
+        "weighted blanket benefits",
+        "creating a safe space",
+        "active listening techniques",
+        "partner massage techniques",
+        "post-stress recovery"
+      ],
+      "primary_audience": "Couples seeking to deepen their emotional connection and support each other's well-being through intentional, nurturing practices after emotionally or physically intense experiences."
+    },
+    {
+      "name": "Thoughtful Gifting: Anniversary & Love",
+      "slug": "thoughtful-gifting-anniversary-love",
+      "description": "Discover unique and meaningful gift ideas to celebrate your love story and special milestones. From personalized tokens to experiential dates, find inspiration to express your affection. #CouplesRituals #RelationshipRituals",
+      "cover_pin_concept": "A beautifully wrapped gift box with a delicate ribbon, surrounded by a scattering of rose petals and a handwritten card, suggesting thoughtfulness and romance.",
+      "target_keywords": [
+        "anniversary gifts",
+        "romantic gestures",
+        "thoughtful presents",
+        "couples experiences",
+        "love celebrations"
+      ],
+      "pin_topics": [
+        "personalized couple gifts",
+        "DIY romantic gestures",
+        "experience-based dates",
+        "luxury date night ideas",
+        "sentimental keepsakes",
+        "subscription boxes for couples",
+        "unique anniversary trips",
+        "handmade love tokens",
+        "romantic dinner recipes",
+        "couple's spa day ideas",
+        "love language gift guide",
+        "memory lane ideas"
+      ],
+      "primary_audience": "Individuals and couples looking for creative, thoughtful, and non-materialistic ways to celebrate their anniversaries and express love through gifting and shared experiences."
+    },
+    {
+      "name": "Soft Life: Gentle Intimacy & Ease",
+      "slug": "soft-life-gentle-intimacy-ease",
+      "description": "Embrace a 'soft life' approach to intimacy, focusing on comfort, ease, and gentle connection. Explore practices that reduce stress and enhance emotional closeness in a relaxed, authentic way. #SoftLife #NervousSystem #CouplesWellness",
+      "cover_pin_concept": "A serene image of a couple lounging comfortably on a sofa, sharing a quiet moment, perhaps reading or simply enjoying each other's presence, bathed in soft, diffused light, emphasizing peace and tranquility.",
+      "target_keywords": [
+        "soft life aesthetic",
+        "gentle intimacy",
+        "relaxed relationships",
+        "emotional ease",
+        "mindful connection"
+      ],
+      "pin_topics": [
+        "slow living for couples",
+        "mindful touch exercises",
+        "low-stress date ideas",
+        "creating a peaceful home",
+        "comfort rituals for two",
+        "gentle communication tips",
+        "emotional regulation techniques",
+        "cozy night-in ideas",
+        "digital detox for couples",
+        "self-compassion practices",
+        "intuitive connection",
+        "building emotional safety"
+      ],
+      "primary_audience": "Younger couples and individuals drawn to the 'soft life' aesthetic, seeking to cultivate a relationship built on ease, comfort, emotional safety, and gentle, low-pressure connection."
+    },
+    {
+      "name": "Connect Deeper: Communication Frameworks",
+      "slug": "connect-deeper-communication-frameworks",
+      "description": "Strengthen your bond through effective communication strategies. Learn practical frameworks for active listening, conflict resolution, and expressing needs to foster deeper understanding. #IntimacyCoach #RelationshipRituals #CouplesWellness",
+      "cover_pin_concept": "An abstract graphic illustration featuring two stylized speech bubbles subtly intertwined, with gentle, flowing lines, suggesting connection and dialogue, set against a calming, muted background.",
+      "target_keywords": [
+        "couples communication",
+        "relationship skills",
+        "conflict resolution",
+        "active listening",
+        "emotional intelligence"
+      ],
+      "pin_topics": [
+        "non-violent communication",
+        "'I' statements practice",
+        "effective apology techniques",
+        "setting healthy boundaries",
+        "understanding love languages",
+        "active listening exercises",
+        "validating emotions",
+        "conflict resolution steps",
+        "expressing needs clearly",
+        "building trust in relationships",
+        "empathy building",
+        "communication games for couples"
+      ],
+      "primary_audience": "Couples looking for practical tools and strategies to improve their communication, navigate disagreements constructively, and deepen their mutual understanding and emotional intimacy."
+    }
+  ],
+  "setup_notes": "To effectively launch these Pinterest boards, begin by establishing the brand's wellness-focused identity. Prioritize creating 'Aftercare & Wellness Rituals' and 'Couples Sanctuary: Bedroom Aesthetics' first, as these are strong anchors for the brand's positioning. Follow with 'Wellness Wisdom: Body-Safe Materials' to underscore the educational and health-conscious approach. Then, introduce 'Soft Life: Gentle Intimacy & Ease' to resonate with a modern, comfort-seeking audience, followed by 'Connect Deeper: Communication Frameworks' for deeper engagement. Conclude with 'Thoughtful Gifting: Anniversary & Love' to capture high-intent searches. For initial pin distribution, aim for 10-15 high-quality, visually appealing pins per board, ensuring a mix of original content and carefully curated third-party pins that align with each board's theme and the overall brand aesthetic. All pin descriptions should be SEO-optimized with relevant keywords and safe hashtags to maximize discoverability."
+}

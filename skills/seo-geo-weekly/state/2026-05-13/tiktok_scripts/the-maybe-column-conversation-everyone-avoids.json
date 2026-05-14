@@ -1,0 +1,34 @@
+{
+  "hook_3s": "What's on your relationship's 'maybe' list? The one you both avoid.",
+  "script_voiceover": "What's on your relationship's 'maybe' list? The one you both avoid. We often focus on clear 'yes' and 'no' boundaries, but true intimacy thrives in the gentle space in between. It's about exploring those unspoken curiosities and comfort zones with care. Talking about your 'maybes' isn't about pressure; it's about deeper understanding and connection. It's permission to gently discover new layers together.",
+  "b_roll_shots": [
+    "Hands gently turning pages of a journal, soft lighting (3s)",
+    "Close-up of soft, textured fabric (e.g., silk or cashmere) being caressed (3s)",
+    "Candlelight flickering softly on a wooden surface (3s)",
+    "Two hands stirring tea in a delicate ceramic teacup (3s)",
+    "A hand tracing patterns on a slightly frosted windowpane (3s)",
+    "Close-up of a warm, knitted blanket being gently folded (3s)",
+    "Subtle steam rising from a mug, hands cupping it for warmth (3s)",
+    "Slow pan over a collection of smooth, natural stones or pebbles (3s)"
+  ],
+  "on_screen_text": [
+    "The 'maybe' column",
+    "Unspoken curiosities",
+    "Gentle exploration",
+    "Deeper understanding",
+    "New layers together",
+    "Share with kindness"
+  ],
+  "cta": "What's on your 'maybe' list? Share with kindness.",
+  "caption": "Ever wondered about the unspoken desires and gentle boundaries in your relationship? Discovering your 'maybe' list can unlock deeper connection. #SoftLifeIntimacy #RelationshipTok #WellnessTok #CouplesTok #IntimacyEducation",
+  "aigc_label": "AI-generated voice via TTS",
+  "duration_estimate_s": 22,
+  "hashtags": [
+    "#SoftLifeIntimacy",
+    "#RelationshipTok",
+    "#WellnessTok",
+    "#CouplesTok",
+    "#IntimacyEducation"
+  ],
+  "topic_seed": "The 'maybe' column conversation everyone avoids"
+}

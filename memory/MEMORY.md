@@ -1,21 +1,20 @@
-# Memory Index
-
-## Feedback
-- [feedback_autonomous_mode.md](feedback_autonomous_mode.md) — User wants fully autonomous execution, no pausing for questions
-- [feedback_impact_hover_method.md](feedback_impact_hover_method.md) — Impact cards: use locator.hover() not mouse.move(); partnerStatuses=1 opens message modal not proposal form
-- [cro_design_framework.md](cro_design_framework.md) — 3D design evaluation framework: user conversion, e-commerce CRO, brand design. 3-pass refinement with bilingual annotation standard
-- [feedback_playwright_token_efficiency.md](feedback_playwright_token_efficiency.md) — Never use browser_snapshot for automation; use browser_evaluate with pre-mapped selectors
-- [feedback_workflow_naming.md](feedback_workflow_naming.md) — All outreach/project workflows must use naming: [Platform] [Brand] [Region] Affiliate Outreach [MonthDDYYYY]
-- [feedback_model_cost_control.md](feedback_model_cost_control.md) — Use Haiku for bulk automation; remind user to switch if on Opus/Sonnet for mechanical tasks
-- [feedback_publisher_email_privacy.md](feedback_publisher_email_privacy.md) — Never expose publisher emails in external Word/PDF/HTML reports; mask or omit
-- [feedback_word_report_layout.md](feedback_word_report_layout.md) — External reports need explicit column widths, landscape for wide tables, no overflow
-
-## Projects
-- [project_stitch_design_workflow.md](project_stitch_design_workflow.md) — 6-phase design system: competitive research → user journey → Stitch generation → annotated CRO analysis → Figma output. Mobile-first, all-pages scope. Trigger with design brief.
-
-## References
-- [reference_encrypted_credentials.md](reference_encrypted_credentials.md) — Master encrypted credentials for Awin, Impact, and affiliates in ~/.claude/credentials.json
-- [reference_project_locations.md](reference_project_locations.md) — All project paths on workssd and ~/Projects with GitHub repo URLs and Obsidian vault location
-- [reference_github_account_tier.md](reference_github_account_tier.md) — CitizenZM is GitHub free tier; private repos OK but Pages on private repos requires Pro
-- [reference_vercel_account_tier.md](reference_vercel_account_tier.md) — Vercel Hobby tier auto-creates 3 PUBLIC vanity aliases on every deploy; must delete them manually for sensitive content
-- [stitch_workflow_credentials.md](stitch_workflow_credentials.md) — Stitch.withgoogle.com: affiliate@xark.io / Celldigital2024*
+- [TCL Price Monitor](project_tcl_price_monitor.md) — Daily price tracking for TCL products across us.tcl.com, Amazon, Best Buy
+- [Always update Obsidian report](feedback_obsidian_report.md) — After every greenhouse batch, save progress/data to Obsidian vault report
+- [All permissions pre-granted](feedback_all_permissions_granted.md) — Never ask for confirmation, all tool calls are pre-allowed via wildcards
+- [Greenhouse rate-limiting](feedback_greenhouse_rate_limit.md) — MyGreenhouse blocks rapid searches; use human-like delays (5-12s), no Google
+- [Autonomous mode](feedback_autonomous_mode.md) — User wants fully autonomous execution, no pausing for questions
+- [Impact hover method](feedback_impact_hover_method.md) — Impact cards: use locator.hover() not mouse.move(); partnerStatuses=1 opens message modal not proposal form
+- [CRO design framework](cro_design_framework.md) — 3D design evaluation framework: user conversion, e-commerce CRO, brand design. 3-pass refinement with bilingual annotation standard
+- [Playwright token efficiency](feedback_playwright_token_efficiency.md) — Never use browser_snapshot for automation; use browser_evaluate with pre-mapped selectors
+- [Workflow naming](feedback_workflow_naming.md) — All outreach/project workflows must use naming: [Platform] [Brand] [Region] Affiliate Outreach [MonthDDYYYY]
+- [Model cost control](feedback_model_cost_control.md) — Use Haiku for bulk automation; remind user to switch if on Opus/Sonnet for mechanical tasks
+- [Publisher email privacy](feedback_publisher_email_privacy.md) — Never expose publisher emails in external Word/PDF/HTML reports; mask or omit
+- [Word report layout](feedback_word_report_layout.md) — External reports need explicit column widths, landscape for wide tables, no overflow
+- [Impact outreach node runner](feedback_impact_outreach_node_runner.md) — Impact outreach uses Node.js runner scripts, not Playwright MCP directly
+- [Model selection](feedback_model_selection.md) — Model selection guidance for different task types
+- [Stitch design workflow](project_stitch_design_workflow.md) — 6-phase design system: competitive research → user journey → Stitch generation → annotated CRO analysis → Figma output
+- [Encrypted credentials](reference_encrypted_credentials.md) — Master encrypted credentials for Awin, Impact, and affiliates in ~/.claude/credentials.json
+- [Project locations](reference_project_locations.md) — All project paths on workssd and ~/Projects with GitHub repo URLs and Obsidian vault location
+- [GitHub account tier](reference_github_account_tier.md) — CitizenZM is GitHub free tier; private repos OK but Pages on private repos requires Pro
+- [Vercel account tier](reference_vercel_account_tier.md) — Vercel Hobby tier auto-creates 3 PUBLIC vanity aliases on every deploy; must delete them manually for sensitive content
+- [Stitch credentials](stitch_workflow_credentials.md) — Stitch.withgoogle.com credentials location

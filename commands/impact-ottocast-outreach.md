@@ -153,7 +153,7 @@ After every batch evaluate:
 
 0. **FIRST check for `{"error":"WRONG_PROGRAM"}`** — if present, STOP ALL BATCHES immediately, discard any rows accumulated in this session (they went to the wrong account), and surface to operator: `active={id} expected=49590 — aborted {N} proposals sent to wrong program`. Do NOT auto-retry.
 1. Parse result: `{ sent, errors_count, skipped_count, rows, error_samples, next_start }`.
-2. **Write rows** to `/Users/xiaozuo/impact-ottocast-ledger.md` (ONE Edit).
+2. **Write rows** to `$HOME/Documents/Obsidian/01-Projects/impact-ottocast-ledger.md` (ONE Edit).
 3. **Add `sent`** to running `session_total` and `tab_sent`.
 4. **Compute local signal** (feed this INTO the checkpoint — do NOT spawn a second agent):
    - HEALTHY: `sent > 0` and `errors_count / max(sent+skipped_count,1) < 0.5` and no `no-term-confirmed` / `submit-not-confirmed` patterns.
@@ -169,7 +169,7 @@ After every batch evaluate:
 
 ## Report (run after all tabs or 300 limit)
 
-### A. Obsidian Tracker — append to `/Volumes/workssd/ObsidianVault/06-Publishers/impact-ottocast-tracker.md`
+### A. Obsidian Tracker — append to `$HOME/Documents/Obsidian/06-Publishers/impact-ottocast-tracker.md`
 
 ```markdown
 ### {YYYY-MM-DD} — Session {N} | Sent: {total} | Model: haiku
@@ -187,7 +187,7 @@ Model:        haiku (setup: sonnet)
 Sent:         {session_total} / 300
 Tabs:         {completed_tabs}
 Ledger total: {grand_total}
-Obsidian:     /Volumes/workssd/ObsidianVault/06-Publishers/impact-ottocast-tracker.md
+Obsidian:     $HOME/Documents/Obsidian/06-Publishers/impact-ottocast-tracker.md
 Next run:     /impact-ottocast-outreach  (ledger deduplicates automatically)
 =================================================
 ```
