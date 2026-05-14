@@ -462,23 +462,33 @@ async function sendOne(page, cardIdx, name) {
 
   // Select term — find "Select" dropdown button (not date/time fields), click, pick Public Term
   const termResult = await (async () => {
-    // Step 1: find the term multi-select button (text="Select", not a date/time/ongoing field)
-    const termCoords = await page.evaluate(() => {
-      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-      const doc = f?.contentDocument; const ifr = f?.getBoundingClientRect();
-      if (!doc || !ifr) return null;
-      // Find term button by text "Select" — may be scrolled off screen (offsetWidth=0) so scroll first
+    // Step 1: scroll term section into view first (2-pass: scroll, wait, then get coords)
+    await page.evaluate(() => {
+      const doc = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]')?.contentDocument;
+      if (!doc) return;
+      // Find all multi-select buttons, scroll the last one (term is below date/time)
       const allBtns = Array.from(doc.querySelectorAll('button.iui-multi-select-input-button'));
-      // Filter: exclude date/time/timezone buttons regardless of visibility
       const termBtns = allBtns.filter(b =>
         !/^\d|AM|PM|GMT|Ongoing|Beijing|UTC|London|Pacific|Mountain|Central|Eastern|\(GMT/i.test(b.innerText?.trim())
         && b.innerText?.trim().length > 0
       );
-      const btn = termBtns[0]; // take first non-date/time button (the term selector)
+      if (termBtns[0]) termBtns[0].scrollIntoView({ block: 'center', behavior: 'instant' });
+    }).catch(() => {});
+    await page.waitForTimeout(400); // wait for layout after scroll
+
+    const termCoords = await page.evaluate(() => {
+      const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
+      const doc = f?.contentDocument; const ifr = f?.getBoundingClientRect();
+      if (!doc || !ifr) return null;
+      const allBtns = Array.from(doc.querySelectorAll('button.iui-multi-select-input-button'));
+      const termBtns = allBtns.filter(b =>
+        !/^\d|AM|PM|GMT|Ongoing|Beijing|UTC|London|Pacific|Mountain|Central|Eastern|\(GMT/i.test(b.innerText?.trim())
+        && b.innerText?.trim().length > 0
+      );
+      const btn = termBtns[0];
       if (!btn) return null;
-      btn.scrollIntoView({ block: 'center', behavior: 'instant' });
-      // Note: layout settles synchronously after instant scroll
       const r = btn.getBoundingClientRect();
+      if (r.width === 0) return null; // still not visible
       return { x: Math.round(ifr.left + r.left + r.width/2), y: Math.round(ifr.top + r.top + r.height/2), txt: btn.innerText?.trim() };
     }).catch(() => null);
 
