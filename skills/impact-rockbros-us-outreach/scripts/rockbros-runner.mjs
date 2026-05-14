@@ -497,30 +497,48 @@ async function sendOne(page, cardIdx, name) {
 
     // Step 2: click the dropdown to open it
     await page.mouse.click(termCoords.x, termCoords.y);
-    await page.waitForTimeout(700);
+    await page.waitForTimeout(1200); // extra time for dropdown options to render
 
-    // Step 3: find "Public Term" in the dropdown list (with 2 retries)
+    // Step 3: find term option — check BOTH iframe contentDocument AND main page DOM (portal overlay)
     for (let i = 0; i < 3; i++) {
       const optCoords = await page.evaluate(() => {
         const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
-        const doc = f?.contentDocument; const ifr = f?.getBoundingClientRect();
-        if (!doc || !ifr) return null;
-        const li = Array.from(doc.querySelectorAll('li, [role="option"]'))
-          .find(l => l.offsetWidth > 0 && /public.?term/i.test(l.innerText || ''));
-        if (!li) return null;
-        li.scrollIntoView({ block: 'nearest' });
-        const r = li.getBoundingClientRect();
-        return { x: Math.round(ifr.left + r.left + r.width/2), y: Math.round(ifr.top + r.top + r.height/2), text: li.innerText?.trim().slice(0,30) };
+        const ifr = f?.getBoundingClientRect();
+        const ifrLeft = ifr?.left || 0; const ifrTop = ifr?.top || 0;
+
+        // Search function: try a document context, return coords relative to viewport
+        const findOpt = (doc, baseX, baseY) => {
+          if (!doc) return null;
+          const allOpts = Array.from(doc.querySelectorAll('li, [role="option"], [class*="option"], [class*="item"]'))
+            .filter(l => l.offsetWidth > 0 && l.innerText?.trim().length > 2
+              && !/^select$/i.test(l.innerText?.trim())  // exclude the button itself
+              && !/^\d|AM|PM|GMT/i.test(l.innerText?.trim())); // exclude date/time fields
+          const li = allOpts.find(l => /public.?term/i.test(l.innerText || ''))
+            || allOpts.find(l => /performance/i.test(l.innerText || ''))
+            || allOpts.find(l => /rockbros/i.test(l.innerText || ''))
+            || allOpts[0];
+          if (!li) return null;
+          li.scrollIntoView({ block: 'nearest' });
+          const r = li.getBoundingClientRect();
+          return { x: Math.round(baseX + r.left + r.width/2), y: Math.round(baseY + r.top + r.height/2), text: li.innerText?.trim().slice(0,40) };
+        };
+
+        // Try iframe contentDocument first
+        const inIframe = findOpt(f?.contentDocument, ifrLeft, ifrTop);
+        if (inIframe) return inIframe;
+
+        // Try main page DOM (portal/overlay rendered outside iframe)
+        return findOpt(document, 0, 0);
       }).catch(() => null);
 
       if (optCoords) {
         await page.mouse.click(optCoords.x, optCoords.y);
-        await page.waitForTimeout(400);
+        await page.waitForTimeout(500);
         return `ok:${optCoords.text}`;
       }
-      await page.waitForTimeout(300);
+      await page.waitForTimeout(500);
     }
-    return 'no-public-term-option';
+    return 'no-term-option';
   })();
 
   step(name, 'term', termResult.startsWith('ok') ? termResult : `warn:${termResult}`);
