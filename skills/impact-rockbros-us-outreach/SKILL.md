@@ -114,7 +114,7 @@ Two commands, two models + Opus supervisor:
 | REPORT | `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach-Report-[DATE].md` |
 | OBSIDIAN_WORKFLOW | `$HOME/Documents/Obsidian/01-Projects/Impact-Rockbros-US-Outreach.md` |
 | CONTRACT_DATE | Dynamic: `new Date(Date.now()+86400000).toISOString().slice(0,10)` (always tomorrow) |
-| MSG | "30% commission for you as a limited-time offer. This is Bob, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10-20% ultra-high commission, 30% with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample." |
+| MSG | "Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10–20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample." |
 
 ## Required Filters (set during /impact-rockbros-us-setup)
 
