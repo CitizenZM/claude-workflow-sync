@@ -27,7 +27,7 @@ report: $HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Report-2026-
 obsidian_workflow: $HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach.md
 template_term: TCL US Standard Term 8%
 contract_date: DYNAMIC — always use tomorrow's date. Calculate at runtime: `new Date(Date.now()+86400000).toISOString().slice(0,10)` (e.g. if today is 2026-04-20, use 2026-04-21)
-msg: "Welcome! TCL is a global top-NO.1 TV brand and one of the fastest-growing names in smartphones, tablets, and smart home. Our program on Impact (Program ID: 48321) offers an 8% CPA commission on all sales, dedicated affiliate manager support, a full creative library, product data feeds, and exclusive promotional offers for our partners. REPLY for limited time offer!"
+msg: "10% CPAi with limited time offer: TCL is a global top-NO.1 TV brand and one of the fastest-growing names in smartphones, tablets, and smart home. Our program on Impact (Program ID: 48321) offers an 8% CPA commission on all sales, dedicated affiliate manager support, a full creative library, product data feeds, and exclusive promotional offers for our partners. REPLY and send email to affiliate@celldigital.co for limited time offer!"
 
 ## Step 0: Browser Check (START HERE)
 `${ACTIVE_MCP}browser_evaluate`: `() => document.title` — confirm on Impact.

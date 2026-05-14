@@ -44,7 +44,7 @@ Two commands, two models + Opus supervisor:
 | REPORT | `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Report-[DATE].md` |
 | OBSIDIAN_WORKFLOW | `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach.md` |
 | CONTRACT_DATE | Dynamic: `new Date(Date.now()+86400000).toISOString().slice(0,10)` (always tomorrow) |
-| MSG | "Welcome! TCL is a global top-NO.1 TV brand and one of the fastest-growing names in smartphones, tablets, and smart home. Our program on Impact (Program ID: 48321) offers an 8% CPA commission on all sales, dedicated affiliate manager support, a full creative library, product data feeds, and exclusive promotional offers for our partners. REPLY for limited time offer!" |
+| MSG | "10% CPAi with limited time offer: TCL is a global top-NO.1 TV brand and one of the fastest-growing names in smartphones, tablets, and smart home. Our program on Impact (Program ID: 48321) offers an 8% CPA commission on all sales, dedicated affiliate manager support, a full creative library, product data feeds, and exclusive promotional offers for our partners. REPLY and send email to affiliate@celldigital.co for limited time offer!" |
 
 ## Required Filters (set during /impact-tcl-us-setup)
 
