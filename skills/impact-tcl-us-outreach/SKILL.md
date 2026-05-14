@@ -39,7 +39,7 @@ Two commands, two models + Opus supervisor:
 | PROGRAM_ID | `48321` |
 | BRAND | TCL |
 | REGION | US |
-| TEMPLATE_TERM | TCL US Standard Term 8% |
+| TEMPLATE_TERM | TCL US Standard Term 10% (fallback: 8%) |
 | LEDGER | `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Ledger.md` |
 | REPORT | `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach-Report-[DATE].md` |
 | OBSIDIAN_WORKFLOW | `$HOME/Documents/Obsidian/01-Projects/Impact-TCL-US-Outreach.md` |
@@ -133,11 +133,11 @@ await page.mouse.click(Math.round(iRect.x + liCoords.x), Math.round(iRect.y + li
 
 Target term: **"TCL US Standard Term 8%"**
 
-Term options in dropdown (order matters — must NOT pick index 0 or 1):
+Term options in dropdown — priority order:
 - `[0]` = "Select" (placeholder, skip)
-- `[1]` = "TCL US - Coupon & Cashback Terms (3%)" — WRONG, do NOT select
-- `[2]` = "TCL US Standard Term 8%" — CORRECT target
-- `[3]` = "TCL US - Standard Publisher Terms (5%)" — old term, do NOT select
+- PRIORITY 1: any term containing "10%" — select first
+- PRIORITY 2: "TCL US Standard Term 8%" — fallback if no 10% found
+- NEVER select: Coupon/Cashback (3%), Standard Publisher (5%), or placeholder
 
 Selection logic (from bulk-proposal.js):
 ```js
@@ -148,13 +148,13 @@ await propFrame.evaluate(() => {
 });
 await sleep(1200);
 
-// Find visible 8% Standard term li
+// Find visible 10% term first, fall back to 8%
 const liCoords = await propFrame.evaluate(() => {
   const isVis = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
-  const li = Array.from(document.querySelectorAll('li[role="option"]'))
-    .find(l => l.textContent.includes('8%') && !l.textContent.toLowerCase().includes('coupon') && isVis(l))
-    || Array.from(document.querySelectorAll('li[role="option"]'))
-      .find(l => l.textContent.toLowerCase().includes('standard') && !l.textContent.toLowerCase().includes('coupon') && !l.textContent.includes('5%') && isVis(l));
+  const lis = Array.from(document.querySelectorAll('li[role="option"]')).filter(isVis);
+  const li = lis.find(l => l.textContent.includes('10%') && !l.textContent.toLowerCase().includes('coupon'))
+    || lis.find(l => l.textContent.includes('8%') && !l.textContent.toLowerCase().includes('coupon'))
+    || lis.find(l => l.textContent.toLowerCase().includes('standard') && !l.textContent.toLowerCase().includes('coupon') && !l.textContent.includes('5%') && !l.textContent.includes('3%'));
   if (!li) return null;
   const r = li.getBoundingClientRect();
   return { x: r.x + r.width / 2, y: r.y + r.height / 2, text: li.textContent.trim() };
