@@ -469,7 +469,8 @@ async function sendOne(page, cardIdx, name) {
       if (!doc || !ifr) return null;
       const btn = Array.from(doc.querySelectorAll('button.iui-multi-select-input-button'))
         .filter(b => b.offsetWidth > 0)
-        .find(b => !/^\d|AM|PM|GMT|Ongoing/i.test(b.innerText?.trim()));
+        // exclude date/time/timezone buttons: digits, AM/PM, GMT, Beijing, UTC, ongoing
+        .find(b => !/^\d|AM|PM|GMT|Ongoing|Beijing|UTC|London|Pacific|Mountain|Central|Eastern|\(GMT/i.test(b.innerText?.trim()));
       if (!btn) return null;
       btn.scrollIntoView({ block: 'center', behavior: 'instant' });
       const r = btn.getBoundingClientRect();
