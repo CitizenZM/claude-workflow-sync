@@ -477,7 +477,7 @@ async function sendOne(page, cardIdx, name) {
       const btn = termBtns[0]; // take first non-date/time button (the term selector)
       if (!btn) return null;
       btn.scrollIntoView({ block: 'center', behavior: 'instant' });
-      await new Promise(r => setTimeout(r, 300)); // let layout settle after scroll
+      // Note: layout settles synchronously after instant scroll
       const r = btn.getBoundingClientRect();
       return { x: Math.round(ifr.left + r.left + r.width/2), y: Math.round(ifr.top + r.top + r.height/2), txt: btn.innerText?.trim() };
     }).catch(() => null);
