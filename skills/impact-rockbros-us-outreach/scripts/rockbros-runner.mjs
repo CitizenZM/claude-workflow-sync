@@ -467,12 +467,17 @@ async function sendOne(page, cardIdx, name) {
       const f = document.querySelector('iframe[src*="send-proposal-new-partner-flow"]');
       const doc = f?.contentDocument; const ifr = f?.getBoundingClientRect();
       if (!doc || !ifr) return null;
-      const btn = Array.from(doc.querySelectorAll('button.iui-multi-select-input-button'))
-        .filter(b => b.offsetWidth > 0)
-        // exclude date/time/timezone buttons: digits, AM/PM, GMT, Beijing, UTC, ongoing
-        .find(b => !/^\d|AM|PM|GMT|Ongoing|Beijing|UTC|London|Pacific|Mountain|Central|Eastern|\(GMT/i.test(b.innerText?.trim()));
+      // Find term button by text "Select" — may be scrolled off screen (offsetWidth=0) so scroll first
+      const allBtns = Array.from(doc.querySelectorAll('button.iui-multi-select-input-button'));
+      // Filter: exclude date/time/timezone buttons regardless of visibility
+      const termBtns = allBtns.filter(b =>
+        !/^\d|AM|PM|GMT|Ongoing|Beijing|UTC|London|Pacific|Mountain|Central|Eastern|\(GMT/i.test(b.innerText?.trim())
+        && b.innerText?.trim().length > 0
+      );
+      const btn = termBtns[0]; // take first non-date/time button (the term selector)
       if (!btn) return null;
       btn.scrollIntoView({ block: 'center', behavior: 'instant' });
+      await new Promise(r => setTimeout(r, 300)); // let layout settle after scroll
       const r = btn.getBoundingClientRect();
       return { x: Math.round(ifr.left + r.left + r.width/2), y: Math.round(ifr.top + r.top + r.height/2), txt: btn.innerText?.trim() };
     }).catch(() => null);
