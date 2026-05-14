@@ -1,0 +1,77 @@
+{
+  "topic": "Travel-friendly kink gear: TSA-tested loadout",
+  "platforms_safe": {
+    "instagram": true,
+    "tiktok": true,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Discreet Kink: Your TSA-Tested Travel Essentials for Intimacy On-the-Go.",
+    "education_slides": [
+      "Silicone sleeves and soft restraints are your best friends. They're flexible, lightweight, and won't trigger security.",
+      "Compact vibrators disguised as lipstick or massage tools are perfect. Ensure they have a lock function to prevent accidental activation.",
+      "Pack lubricants in travel-sized, leak-proof containers within your liquids bag. Stick to water-based for easy cleanup.",
+      "Discreet pouches or jewelry bags can hide smaller items. Mix them with regular toiletries to avoid drawing attention.",
+      "Avoid anything metal, sharp, or overtly weapon-like. Think soft, flexible, and non-threatening materials for peace of mind.",
+      "Always place electronics, like vibrators, in your carry-on luggage. This prevents battery issues and allows for easier inspection."
+    ],
+    "framework_slide": "Travel with confidence: prioritize discreet, body-safe, non-metallic items in carry-on for seamless intimacy on the go.",
+    "cta_slide": "Elevate your travel rituals with luxury essentials from Dark Fantasy. Explore our discreet collection.",
+    "caption": "Unlock intimate adventures wherever you roam. Our guide to TSA-friendly kink gear ensures your passion travels with you, discreetly & safely. #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Planning a trip? Don't leave your passion behind!",
+    "voiceover": "Traveling with your favorite intimate accessories doesn't have to be a challenge. The key is discretion and smart packing. Opt for body-safe silicone toys \u2013 they're flexible, lightweight, and won't raise eyebrows. Think compact vibrators that look like everyday items. Always pack any electronics in your carry-on to avoid issues. And remember, travel-sized lubricants are a must. Pack smart, play safe, and keep the spark alive wherever you go.",
+    "b_roll_shots": [
+      "Overhead shot of a neatly packed carry-on suitcase.",
+      "Close-up of a sleek, discreet vibrator next to a lipstick.",
+      "Hands placing a small, soft silicone item into a travel pouch.",
+      "Various travel-sized lube bottles in a clear liquids bag.",
+      "A hand zipping up a travel bag with a passport visible.",
+      "Shot of a hotel room key card next to a discreet travel item.",
+      "Close-up of a luxurious, soft fabric (e.g., silk blindfold) in a travel case."
+    ],
+    "cta": "Ready for adventure? Explore discreet travel essentials at bdsmpub.com.",
+    "caption": "Traveling with kink doesn't have to be stressful! \u2708\ufe0f Here's how to pack your favorite body-safe gear discreetly for your next getaway. #TravelKink #DiscreetTravel #CouplesWellness #IntimacyTips #BodySafe",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "How do you discreetly pack BDSM toys for a vacation without issues at airport security?",
+    "draft_comment": "Traveling with kink gear can definitely be a concern, but with a bit of planning, it's usually smooth sailing. The main thing is to prioritize discretion and avoid anything that could be misinterpreted as a weapon. Soft, flexible items made of silicone or fabric are generally fine. Think blindfolds, soft restraints, and compact, non-obvious vibrators. Always put electronics like vibrators in your carry-on, just like you would a laptop or tablet, to avoid battery issues or questions in checked luggage. Pack lubricants in your liquids bag in travel-sized containers. The goal is to make everything look like ordinary travel items. A good rule of thumb: if it could be seen as threatening or confusing, leave it at home or ship it ahead. Focus on enjoying your trip!",
+    "value_angle": "Provides practical, actionable advice for discreet and safe travel with intimate items, addressing common anxieties about security."
+  },
+  "blog_post": {
+    "h1": "TSA-Tested: Your Guide to Discreetly Packing Kink Gear for Travel",
+    "meta_description": "Navigate airport security with confidence. Discover essential tips and body-safe gear for discreet, travel-friendly kink, ensuring your intimate adventures continue on the road.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "Introduction: The Joys and Jitters of Travel with Intimate Accessories",
+      "Understanding TSA Guidelines: What You Need to Know (and What They Don't Care About)",
+      "The Discreet Traveler's Kit: Essential Body-Safe Gear for Your Carry-On",
+      "Packing Strategies: Blending In and Avoiding Unwanted Attention",
+      "Liquids, Lotions, and Lubricants: Navigating the 3-1-1 Rule",
+      "Electronics and Batteries: Keeping Your Devices Charged and Safe",
+      "When to Leave It Behind: Items to Avoid for Stress-Free Travel",
+      "Conclusion: Enjoying Intimacy Anywhere, Responsibly and Discreetly"
+    ]
+  },
+  "imagen_safe_prompt": "A neatly packed luxury carry-on suitcase, partially open, revealing a collection of high-end travel toiletries and a few discreet, sleek silicone items in soft, neutral tones. Focus on elegant textures like leather, brushed metal, and smooth silicone. Soft, ambient hotel lighting.",
+  "imagen_evocative_prompt": "A dimly lit luxury hotel room at dusk. On a polished wooden nightstand, a half-open, elegant leather travel case reveals glimpses of soft silk blindfolds, a smooth, dark silicone massager, and a small vial of essential oil. A single flickering candle casts warm, inviting shadows. A partial hand gently rests near the case.",
+  "discoverability_tags": [
+    "Travel Kink",
+    "Discreet BDSM",
+    "TSA Friendly",
+    "Kink Travel",
+    "Body Safe Toys",
+    "Couples Travel",
+    "Intimacy on the Go",
+    "Luxury BDSM",
+    "Travel Essentials",
+    "Packing Kink"
+  ]
+}

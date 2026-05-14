@@ -1,0 +1,261 @@
+{
+  "count": 51,
+  "ok": 9,
+  "results": [
+    {
+      "idx": 0,
+      "status": "ok",
+      "size": 1506877
+    },
+    {
+      "idx": 2,
+      "status": "ok",
+      "size": 2148435
+    },
+    {
+      "idx": 1,
+      "status": "ok",
+      "size": 1085734
+    },
+    {
+      "idx": 4,
+      "status": "fail",
+      "prompt": "Black silk ribbon tied in an artistic knot, single low-angle warm light, minimal"
+    },
+    {
+      "idx": 3,
+      "status": "ok",
+      "size": 1394181
+    },
+    {
+      "idx": 5,
+      "status": "ok",
+      "size": 1068979
+    },
+    {
+      "idx": 6,
+      "status": "ok",
+      "size": 1829528
+    },
+    {
+      "idx": 9,
+      "status": "fail",
+      "prompt": "Leather collar with O-ring on a leather-wrapped display stand, dark library back"
+    },
+    {
+      "idx": 7,
+      "status": "ok",
+      "size": 1792169
+    },
+    {
+      "idx": 11,
+      "status": "fail",
+      "prompt": "Two ceramic mugs on a marble counter beside a folded silk throw, morning light, "
+    },
+    {
+      "idx": 12,
+      "status": "fail",
+      "prompt": "A bath drawn with rose petals and dim candles, no people, evocative wellness"
+    },
+    {
+      "idx": 13,
+      "status": "fail",
+      "prompt": "An open journal with two fountain pens beside a glass tumbler, soft amber lampli"
+    },
+    {
+      "idx": 14,
+      "status": "fail",
+      "prompt": "A pile of crisp white linen towels beside a brass candelabra, spa mood, cinemati"
+    },
+    {
+      "idx": 8,
+      "status": "ok",
+      "size": 1376072
+    },
+    {
+      "idx": 15,
+      "status": "fail",
+      "prompt": "Eye mask, lavender sprigs, and a glass of water arranged on dark wood, soft earl"
+    },
+    {
+      "idx": 16,
+      "status": "fail",
+      "prompt": "A vintage leather suitcase open on a velvet chaise, contents partially visible ("
+    },
+    {
+      "idx": 17,
+      "status": "fail",
+      "prompt": "An array of body-safe materials (silicone, glass, stainless steel) arranged on d"
+    },
+    {
+      "idx": 18,
+      "status": "fail",
+      "prompt": "A handwritten yes/no/maybe checklist on linen paper beside a candle and a founta"
+    },
+    {
+      "idx": 19,
+      "status": "fail",
+      "prompt": "A library shelf with leather-bound books on intimacy, philosophy, psychology \u2014 d"
+    },
+    {
+      "idx": 20,
+      "status": "fail",
+      "prompt": "Natural jute rope coiled in a Japanese-style spiral on tatami, single hanging la"
+    },
+    {
+      "idx": 21,
+      "status": "fail",
+      "prompt": "Macro photograph of rope fibers, dramatic side lighting, texture study"
+    },
+    {
+      "idx": 22,
+      "status": "fail",
+      "prompt": "A finished shibari knot pattern photographed against velvet backdrop, no body, a"
+    },
+    {
+      "idx": 23,
+      "status": "fail",
+      "prompt": "Three different rope diameters arranged in concentric circles, top-down composit"
+    },
+    {
+      "idx": 24,
+      "status": "fail",
+      "prompt": "A velvet chaise lounge in a dark library, single floor lamp, leather and brass a"
+    },
+    {
+      "idx": 25,
+      "status": "fail",
+      "prompt": "Brushed gold chains arranged in a fan on black silk, jewelry catalog mood"
+    },
+    {
+      "idx": 10,
+      "status": "ok",
+      "size": 1252479
+    },
+    {
+      "idx": 26,
+      "status": "fail",
+      "prompt": "A glass decanter half-filled with amber liquid beside crystal tumblers, warm bar"
+    },
+    {
+      "idx": 27,
+      "status": "fail",
+      "prompt": "Hand-stitched velvet jewelry pouches in deep burgundy and forest green, leather "
+    },
+    {
+      "idx": 28,
+      "status": "fail",
+      "prompt": "A wax-sealed envelope on dark wood beside a fountain pen and inkwell, vintage ro"
+    },
+    {
+      "idx": 29,
+      "status": "fail",
+      "prompt": "Heavy gold chain coiled into a circle on black marble, single overhead light, dr"
+    },
+    {
+      "idx": 30,
+      "status": "fail",
+      "prompt": "A small leather travel case open showing folded silk garments and a notebook, ho"
+    },
+    {
+      "idx": 31,
+      "status": "fail",
+      "prompt": "Travel-sized glass bottles on a marble bathroom counter with warm mirror light"
+    },
+    {
+      "idx": 32,
+      "status": "fail",
+      "prompt": "A folded silk scarf and leather passport holder on a wooden tray, morning travel"
+    },
+    {
+      "idx": 33,
+      "status": "fail",
+      "prompt": "A queen chess piece on a velvet board, dramatic single light, contemplative comp"
+    },
+    {
+      "idx": 34,
+      "status": "fail",
+      "prompt": "Two intertwined silk ribbons forming an infinity loop on dark marble"
+    },
+    {
+      "idx": 35,
+      "status": "fail",
+      "prompt": "A vintage hourglass with dark sand mid-pour, single warm light, time as ritual"
+    },
+    {
+      "idx": 36,
+      "status": "fail",
+      "prompt": "An ornate brass key resting on a leather book, single candle, mysterious mood"
+    },
+    {
+      "idx": 37,
+      "status": "fail",
+      "prompt": "A single dripping candle making slow wax pour onto a textured surface, dramatic "
+    },
+    {
+      "idx": 38,
+      "status": "fail",
+      "prompt": "A peacock feather on dark velvet, single overhead spotlight, sensory study"
+    },
+    {
+      "idx": 39,
+      "status": "fail",
+      "prompt": "An ice cube on a polished slate slab, melting slowly, single cool blue light"
+    },
+    {
+      "idx": 40,
+      "status": "fail",
+      "prompt": "A small handwritten note tucked into a leather notebook, candlelight, intimate h"
+    },
+    {
+      "idx": 41,
+      "status": "fail",
+      "prompt": "Two glasses of red wine on a low coffee table, fire glow from off-frame, evening"
+    },
+    {
+      "idx": 42,
+      "status": "fail",
+      "prompt": "A folded piece of paper with handwritten checklist on linen, candlelight"
+    },
+    {
+      "idx": 43,
+      "status": "fail",
+      "prompt": "Dark Fantasy logo concept: gothic serif typography in brushed gold on charcoal v"
+    },
+    {
+      "idx": 45,
+      "status": "fail",
+      "prompt": "An apothecary shelf with glass bottles labeled in vintage handwriting, dim warm "
+    },
+    {
+      "idx": 44,
+      "status": "fail",
+      "prompt": "Black ribbon wrapped around a luxury cardboard packaging box, wax seal in deep r"
+    },
+    {
+      "idx": 47,
+      "status": "fail",
+      "prompt": "A leather chair with a folded silk robe draped over the back, single floor lamp"
+    },
+    {
+      "idx": 46,
+      "status": "fail",
+      "prompt": "Two coffee mugs and a single folded silk pillowcase on a tray, morning light, in"
+    },
+    {
+      "idx": 48,
+      "status": "fail",
+      "prompt": "Two empty wine glasses on a low table, candlelight, conversation atmosphere"
+    },
+    {
+      "idx": 50,
+      "status": "fail",
+      "prompt": "Two folded leather journals stacked, ribbon bookmarks, single candle, scholarly "
+    },
+    {
+      "idx": 49,
+      "status": "fail",
+      "prompt": "A pair of leather slippers beside a sheepskin rug, fireplace glow, cozy intimate"
+    }
+  ]
+}

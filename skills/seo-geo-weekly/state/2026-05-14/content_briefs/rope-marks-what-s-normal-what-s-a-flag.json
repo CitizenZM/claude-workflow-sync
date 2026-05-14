@@ -1,0 +1,78 @@
+{
+  "topic": "Rope marks: what's normal, what's a flag",
+  "platforms_safe": {
+    "instagram": true,
+    "tiktok": true,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Know Your Kink: Safe Rope Play & Aftercare",
+    "education_slides": [
+      "Light red marks are common, often fading within hours. These indicate mild pressure and are usually harmless.",
+      "Bruising can occur, especially with tighter ties. Small, light bruises are often normal but monitor for spread or pain.",
+      "Deep indentations or prolonged numbness are red flags. This suggests restricted circulation and requires immediate release.",
+      "Watch for unusual swelling, intense pain, or discolouration beyond light bruising. These need careful attention.",
+      "Always communicate during and after. Your partner's feedback is crucial for safe and enjoyable rope play.",
+      "Aftercare is vital: gentle massage, warm compresses, and moisturizing can aid recovery and comfort."
+    ],
+    "framework_slide": "Prioritize communication, monitor skin changes, and practice thorough aftercare for safe rope play.",
+    "cta_slide": "Explore body-safe luxury BDSM tools and resources at Dark Fantasy for elevated intimacy.",
+    "caption": "Understanding rope marks is key to safe, consensual BDSM. Learn to distinguish normal after-effects from warning signs to ensure every tie is a joyous experience. Prioritize communication & aftercare! #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Rope marks: normal or a warning sign?",
+    "voiceover": "Ever wonder about those marks after rope play? Light redness and minor indentations are often normal, fading quickly. But deep bruises, numbness, or prolonged pain? Those are red flags. It means circulation might be compromised. Always communicate with your partner, listen to your body, and prioritize safety. Aftercare helps too! Understand the signs for truly safe and pleasurable experiences.",
+    "b_roll_shots": [
+      "Close-up of a soft, clean rope texture.",
+      "Hands gently untying a knot on a neutral fabric.",
+      "A small, soft brush gently caressing skin (no marks visible).",
+      "Warm, steamy towel being placed on an arm (no marks).",
+      "A bottle of body oil being poured into a hand.",
+      "Two hands gently massaging a forearm (no marks).",
+      "A candle flickering softly in the background.",
+      "A cup of tea or warm drink being held."
+    ],
+    "cta": "Stay safe and informed! Follow for more body-safe intimacy tips.",
+    "caption": "Rope safety is paramount! Learn the difference between normal marks and red flags. Your body, your rules. #RopeSafety #KinkEducation #SafeBDSM #AftercareIsKey #ConsensualKink #BodyPositive",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "OP asking about a specific type of mark after rope play, wondering if it's normal or concerning.",
+    "draft_comment": "It's great you're paying attention to after-effects! Generally, light red marks or minor indentations that fade within a few hours are common and usually nothing to worry about. Small, light bruises can also happen, especially with tighter ties, but should resolve relatively quickly. The key is to watch for anything that feels off or lasts too long. Deep indentations, prolonged numbness, significant swelling, intense pain, or dark, spreading bruises are definitely red flags. These could indicate circulation issues or tissue damage, and are reasons to stop immediately and adjust your technique. Always prioritize communication during and after play, and make sure to practice good aftercare like gentle massage or warm compresses. If you're ever truly concerned, don't hesitate to seek medical advice.",
+    "value_angle": "Provides clear, actionable advice on distinguishing normal from concerning rope marks, emphasizing safety, communication, and aftercare without being preachy."
+  },
+  "blog_post": {
+    "h1": "Rope Marks: Understanding Normal vs. Red Flags in BDSM Safety",
+    "meta_description": "Demystify rope marks with our comprehensive guide. Learn to identify normal after-effects, recognize critical warning signs, and ensure safe, pleasurable rope play every time.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "Introduction: The Art and Science of Rope Marks",
+      "The Basics: What Happens When Rope Meets Skin?",
+      "Normal Marks: What to Expect After Safe Rope Play",
+      "Red Flags: When to Pause, Adjust, or Seek Help",
+      "The Crucial Role of Communication and Consent",
+      "Essential Aftercare: Nurturing Your Body Post-Play",
+      "Preventative Measures for Safer Rope Experiences",
+      "Conclusion: Prioritizing Safety for Elevated Kink"
+    ]
+  },
+  "imagen_safe_prompt": "A close-up shot of a coil of soft, natural fiber rope resting on a smooth, dark wooden surface. Gentle, diffused light highlights the texture of the rope and casts subtle shadows. A small, clean, white towel is folded neatly beside it, suggesting aftercare.",
+  "imagen_evocative_prompt": "A sensual still life. A length of silken rope, artfully draped, catches the soft glow of a single flickering candle. Nearby, a partial view of a hand, with elegant fingers, gently touches a smooth, dark leather surface. The atmosphere is intimate, luxurious, and mysterious, hinting at deep connection and care.",
+  "discoverability_tags": [
+    "Rope safety",
+    "BDSM education",
+    "Kink aftercare",
+    "Rope marks",
+    "Safe tying",
+    "Consensual BDSM",
+    "Intimacy wellness",
+    "Couples kink",
+    "Body safe BDSM",
+    "Rope play tips"
+  ]
+}

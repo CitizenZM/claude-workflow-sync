@@ -1,0 +1,78 @@
+{
+  "topic": "Why we use stoplight check-ins outside of scenes too",
+  "platforms_safe": {
+    "instagram": true,
+    "tiktok": true,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Beyond the Scene: Stoplight Check-ins for Everyday Connection",
+    "education_slides": [
+      "Stoplight check-ins (red, yellow, green) are powerful consent tools, often used in BDSM scenes.",
+      "But their value extends far beyond the bedroom. They're a game-changer for daily relationship health.",
+      "Green: I'm good, ready to go! Yellow: Pause, check-in, I need a moment. Red: Stop, I need space/support.",
+      "Using them daily helps partners gauge emotional states, energy levels, and needs without guessing.",
+      "This simple ritual builds continuous trust, prevents small issues from escalating, and fosters understanding.",
+      "It normalizes asking for what you need and respecting boundaries, even in mundane moments.",
+      "Deepen your emotional intimacy and create a constant culture of care and consent in your relationship."
+    ],
+    "framework_slide": "Stoplight check-ins: a powerful tool for continuous consent, communication, and connection in *all* aspects of your relationship.",
+    "cta_slide": "Explore more tools for profound intimacy at Dark Fantasy.",
+    "caption": "Transform your daily relationship dynamics with simple stoplight check-ins. It's not just for scenes; it's for continuous connection and care. \u2728 #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Stoplight check-ins aren't just for BDSM scenes. They're for your whole relationship!",
+    "voiceover": "You know stoplight check-ins for consent in the bedroom, right? But what if I told you they're a game-changer for your *entire* relationship? Green means good to go, yellow means pause and check-in, red means stop. Applying this daily helps you gauge your partner's emotional state, energy levels, and needs without guessing. It builds trust, prevents misunderstandings, and fosters a continuous culture of consent and care. Try it!",
+    "b_roll_shots": [
+      "Hands holding coffee cups, gentle morning light.",
+      "Couple cooking together, laughing (faceless, focus on hands/ingredients).",
+      "Someone writing in a journal, soft focus.",
+      "A cozy living room scene, soft lighting, empty couch.",
+      "Hands gently touching on a tabletop.",
+      "A plant being watered, slow motion.",
+      "A warm, inviting blanket draped over a chair."
+    ],
+    "cta": "Level up your communication. Follow Dark Fantasy for more relationship insights.",
+    "caption": "Daily check-ins, daily connection. Elevate your relationship. #RelationshipGoals #CommunicationTips #ConsentCulture #CouplesWellness #IntimacyHacks",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "How do you maintain consent and communication outside of specific scenes?",
+    "draft_comment": "This is a fantastic question! While stoplight check-ins (red, yellow, green) are widely known for scene negotiation, their power extends far beyond that. We've found them incredibly useful for daily relationship maintenance. Imagine asking your partner, 'What's your color today?' It gives them a simple, low-pressure way to express their current emotional state, energy levels, or needs. Green could mean 'I'm feeling great, ready for anything!' Yellow might mean 'I'm a bit overwhelmed, need some quiet time.' Red is a clear 'I need space or support, not feeling up to much.' It normalizes checking in, prevents assumptions, and builds a continuous culture of consent and understanding. It's a simple ritual that can deepen connection and prevent small issues from escalating.",
+    "value_angle": "Offers a practical, actionable communication tool for daily relationship health, extending a known BDSM concept to general life."
+  },
+  "blog_post": {
+    "h1": "Beyond the Scene: How Stoplight Check-ins Elevate Everyday Relationship Consent",
+    "meta_description": "Discover how applying stoplight check-ins outside of BDSM scenes can transform daily communication, deepen intimacy, and foster continuous consent in your relationship.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "Introduction: The Power of Consent Beyond the Bedroom",
+      "What Are Stoplight Check-ins? A Quick Refresher",
+      "Why Limit Them to Scenes? Challenging the Norm",
+      "The Daily Benefits: Enhanced Communication & Emotional Intelligence",
+      "Practical Application: Integrating Stoplight Check-ins into Your Routine",
+      "Building a Culture of Continuous Consent and Care",
+      "Overcoming Initial Awkwardness & Making it Your Own",
+      "Conclusion: A Simple Tool for Profound Connection"
+    ]
+  },
+  "imagen_safe_prompt": "A serene still life. Three smooth, polished stones, one red, one yellow, one green, arranged on a soft, neutral linen fabric. Gentle, diffused light from a window illuminates them, casting subtle shadows. Focus on texture and peaceful atmosphere, symbolizing communication and emotional states.",
+  "imagen_evocative_prompt": "A close-up of a hand (partial view, no face) gently placing a small, smooth red stone next to a yellow and green one on a dark, rich silk fabric. Soft candlelight flickers in the background, casting warm, intimate shadows. Hints of a delicate, coiled rope or a subtle leather texture in the periphery, suggesting depth and connection, without being explicit.",
+  "discoverability_tags": [
+    "StoplightCheckins",
+    "ConsentCulture",
+    "RelationshipCommunication",
+    "IntimacyBuilding",
+    "CouplesWellness",
+    "BDSMcommunication",
+    "EmotionalIntelligence",
+    "KinkPositive",
+    "DailyRituals",
+    "RelationshipTools"
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "topic": "First-time impact play: where to hit, where to avoid",
+  "platforms_safe": {
+    "instagram": false,
+    "tiktok": false,
+    "pinterest_main": false,
+    "pinterest_sister": false,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Unlock safe impact play: Essential zones for pleasure, not pain.",
+    "education_slides": [
+      "Start with fleshy areas: buttocks, thighs, and palms are often good introductory spots.",
+      "Avoid joints, bones, kidneys, spine, and head \u2013 these areas are highly vulnerable.",
+      "Always prioritize clear, continuous consent and a safe word before and during play.",
+      "Listen to your partner's reactions and body language. Pain tolerance varies greatly.",
+      "Use tools designed for impact, like paddles or floggers, not everyday objects.",
+      "Begin with light taps and gradually increase intensity, always checking in."
+    ],
+    "framework_slide": "Remember: Consent, Communication, Safe Zones (fleshy), Danger Zones (bones/organs), Gradual Intensity.",
+    "cta_slide": "Explore body-safe tools and resources for your BDSM journey at Dark Fantasy.",
+    "caption": "Exploring impact play safely? Understanding safe zones and no-go areas is crucial for a pleasurable, body-safe experience. Prioritize consent and open communication every time. Learn more. #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Want to try impact play? Here's how to stay safe.",
+    "voiceover": "Impact play can be incredibly exhilarating, but safety is paramount. When starting, focus on fleshy areas like the buttocks, thighs, and glutes. These spots can absorb impact well. Absolutely avoid the head, face, spine, kidneys, and major joints \u2013 these are high-risk zones. Always establish clear communication and a safe word. Start gentle, check in often, and prioritize your partner's comfort and boundaries. Safe exploration leads to deeper intimacy.",
+    "b_roll_shots": [
+      "Soft lighting on a luxurious paddle resting on a velvet cushion.",
+      "Close-up of hands gently holding a flogger, not in use.",
+      "A blurred shot of two people's backs, facing away, in a sensual setting.",
+      "A hand pointing to a diagram of a generalized body outline (no nudity), highlighting safe zones.",
+      "A hand gently touching a thigh (clothed, non-sexual).",
+      "A soft, out-of-focus background with a focus on a \"safe word\" card.",
+      "Two hands clasped together, symbolizing consent."
+    ],
+    "cta": "Learn more about body-safe BDSM tools and techniques. Visit Dark Fantasy for resources.",
+    "caption": "Exploring impact play? Safety first! Know your zones. #KinkSafety #BDSMtips #CouplesWellness #SafeExploration #Intimacy",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "New to impact play, where should we start and what should we avoid?",
+    "draft_comment": "Impact play can be a fantastic way to explore sensation and trust! For beginners, focusing on fleshy areas is key. The glutes, thighs, and buttocks are generally considered safe and can offer a lot of sensation without high risk. Always avoid bony areas, the head, face, neck, spine, kidneys, and major joints \u2013 these are highly vulnerable. Communication is your absolute best tool: establish a clear safe word, check in frequently, and start with very light impact to gauge tolerance. Remember, the goal is pleasure and sensation, not injury. Take it slow, listen to your partner's body language, and always prioritize consent.",
+    "value_angle": "Provides practical, actionable safety advice for beginners in impact play, emphasizing consent and communication."
+  },
+  "blog_post": {
+    "h1": "First-Time Impact Play: A Body-Safe Guide to Where to Hit and Avoid",
+    "meta_description": "Navigate your first impact play experience safely. Learn essential body zones for pleasure, critical areas to avoid, and communication tips for a consensual, exhilarating journey.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "Understanding Impact Play: Pleasure, Pain, and Sensation",
+      "The Golden Rule: Consent, Communication, and Safe Words",
+      "Safe Zones: Where to Explore for Maximum Sensation",
+      "Danger Zones: Areas to Absolutely Avoid (and Why)",
+      "Choosing Your Tools: Paddles, Floggers, and Beyond",
+      "Starting Slow: Techniques for First-Timers",
+      "Aftercare: Nurturing Connection Post-Play",
+      "When to Stop: Recognizing Limits and Red Flags"
+    ]
+  },
+  "imagen_safe_prompt": "A soft focus image of a luxurious, dark leather paddle resting on a rich velvet cushion in a dimly lit room. Subtle light highlights intricate stitching. A single, unlit candle in the background. Evokes elegance, luxury, and a hint of mystery, without any explicit elements.",
+  "imagen_evocative_prompt": "A close-up of hands (partial, anonymous) gently arranging a coil of soft, dark rope on a bed of rumpled silk sheets. In the background, a flickering candlelight casts warm shadows. A glimpse of a polished leather paddle rests nearby, suggesting intimacy, exploration, and sensual ritual.",
+  "discoverability_tags": [
+    "Impact Play Safety",
+    "BDSM Beginner Guide",
+    "Kink Education",
+    "Body Safe BDSM",
+    "Couples Kink",
+    "Impact Play Zones",
+    "Consent in BDSM",
+    "Safe Word",
+    "Sensory Play",
+    "BDSM Wellness"
+  ]
+}

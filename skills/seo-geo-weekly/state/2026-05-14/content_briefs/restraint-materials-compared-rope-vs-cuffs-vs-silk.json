@@ -1,0 +1,78 @@
+{
+  "topic": "Restraint materials compared: rope vs cuffs vs silk",
+  "platforms_safe": {
+    "instagram": false,
+    "tiktok": false,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Unlock Intimacy: Rope, Cuffs, or Silk? Which is for you?",
+    "education_slides": [
+      "Rope: Versatile, customizable, and offers a unique aesthetic. Requires skill for safe application. Explore different fibers for varied sensations.",
+      "Cuffs (Leather/Metal): Durable, secure, and offer a powerful aesthetic. Easy to apply and remove. Consider padding for comfort and sensation.",
+      "Cuffs (Fabric): Softer, often plush, and great for beginners. Provides a gentle hold. Focus on comfort and aesthetic appeal.",
+      "Silk: Luxurious, gentle on skin, and visually stunning. Offers a sensual, less restrictive feel. Perfect for light play and aesthetic binds.",
+      "Safety First: Always prioritize safety. Learn proper techniques, use quick-release options, and communicate continuously with your partner.",
+      "Consent & Communication: Essential for all play. Discuss boundaries, desires, and safe words before and during any restraint use."
+    ],
+    "framework_slide": "Choose based on comfort, aesthetic, desired sensation, and skill level. Prioritize safety and consent above all.",
+    "cta_slide": "Explore body-safe luxury essentials for your intimate journey at Dark Fantasy.",
+    "caption": "Comparing restraint materials: rope, cuffs, and silk. Each offers unique sensations and aesthetics for your intimate play. Which is your favorite? #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Rope, Cuffs, or Silk? Decoding restraint materials.",
+    "voiceover": "Exploring restraint materials can elevate your intimate experiences. Rope offers versatility and a classic aesthetic, but requires proper technique for safety. Cuffs, whether leather, metal, or fabric, provide secure yet often easy-to-use options, great for beginners or those wanting a powerful look. And then there's silk \u2013 luxurious, gentle, and perfect for sensual, less restrictive play. Each material offers unique sensations and visual appeal. Always prioritize body safety and open communication.",
+    "b_roll_shots": [
+      "Close-up of different types of rope (jute, cotton, silk blend) artfully coiled.",
+      "Shot of a pair of padded leather cuffs on a dark, textured surface.",
+      "Close-up of a pair of fabric cuffs, perhaps velvet or satin.",
+      "Slow pan over luxurious silk fabric draped elegantly.",
+      "Hands (faceless) gently touching different textures: rope, leather, silk.",
+      "A quick-release mechanism (e.g., a buckle or knot) being demonstrated.",
+      "A cozy, dimly lit bedroom corner with soft fabrics and candles (no people).",
+      "Artful shot of a single, elegant knot tied in a rope."
+    ],
+    "cta": "Ready to explore? Discover body-safe luxury for couples.",
+    "caption": "Which restraint material speaks to you? Explore the sensations of rope, cuffs, and silk. Always prioritize safety and consent. #IntimatePlay #CouplesWellness #SensualJourney #BodySafePlay #ExploreIntimacy",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "New to restraints, what's the difference between rope, cuffs, and silk? Where should I start?",
+    "draft_comment": "That's a great question for anyone exploring restraints! Each material offers a unique experience. Rope is incredibly versatile and can be very aesthetic, but it absolutely requires learning safe tying techniques to prevent injury. There are many types of rope too, from soft cotton to jute, each with a different feel. Cuffs, whether leather, metal, or fabric, are often easier for beginners as they provide a secure hold with less technique required. Fabric cuffs are generally softer and less intimidating, while leather or metal can offer a more intense, secure feeling. Silk, on the other hand, is all about luxury and sensation; it's gentle on the skin and best for lighter, sensual binds. Your choice really depends on the desired sensation, aesthetic, and your comfort level with learning new skills. Always prioritize communication, consent, and safety with your partner, no matter what you choose.",
+    "value_angle": "Provides an objective comparison of materials, highlights safety and skill considerations, and guides beginners without pushing products."
+  },
+  "blog_post": {
+    "h1": "Rope vs. Cuffs vs. Silk: Choosing Your Perfect Restraint Material for Intimate Play",
+    "meta_description": "Explore the unique sensations and aesthetics of rope, cuffs, and silk restraints. Learn about safety, application, and how to choose the best material for your intimate adventures.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "Introduction: The Art of Sensual Restraint",
+      "Rope: Versatility, Artistry, and Safety Considerations",
+      "Cuffs: Secure Holds, Varied Materials (Leather, Metal, Fabric)",
+      "Silk: Luxury, Softness, and Sensual Exploration",
+      "Choosing Your Ideal Restraint: Factors to Consider (Comfort, Sensation, Aesthetic, Skill Level)",
+      "Prioritizing Safety, Consent, and Communication",
+      "Beyond the Material: Enhancing Your Restraint Play",
+      "Conclusion: Embracing Your Intimate Journey"
+    ]
+  },
+  "imagen_safe_prompt": "A still life image featuring artfully coiled natural fiber rope, a pair of elegant, padded fabric cuffs, and luxurious silk fabric draped softly. Focus on rich textures, deep shadows, and warm, inviting ambient lighting. No human elements, no explicit context, just the objects.",
+  "imagen_evocative_prompt": "A close-up, atmospheric still life showcasing the sensual textures of finely woven silk, supple leather cuffs, and intricately coiled rope. Soft, flickering candlelight casts dramatic shadows, highlighting the luxurious materials. A partial, elegant hand gently brushes against the silk, suggesting intimacy and exploration. Dark, rich color palette.",
+  "discoverability_tags": [
+    "Restraints",
+    "BDSM",
+    "Kink",
+    "Rope Play",
+    "Cuffs",
+    "Silk Ties",
+    "Intimacy",
+    "Couples Wellness",
+    "Sensual Play",
+    "Body Safe"
+  ]
+}

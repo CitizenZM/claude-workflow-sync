@@ -1,0 +1,78 @@
+{
+  "topic": "Aftercare playlist: 30 minutes of soft transition",
+  "platforms_safe": {
+    "instagram": true,
+    "tiktok": false,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Seamlessly Transition: Your 30-Minute Aftercare Playlist.",
+    "education_slides": [
+      "Why aftercare? It's crucial for emotional regulation and connection after intense experiences, bringing you gently back to baseline.",
+      "Music's power: Curated sounds can deepen relaxation, reduce anxiety, and enhance bonding, making the transition smoother.",
+      "Setting the mood: Choose ambient, instrumental, or lo-fi tracks. Avoid anything with jarring beats or complex lyrics.",
+      "Mindful listening: Focus on the sensations, your partner's presence, and the calming effect of the music. Breathe deeply.",
+      "Beyond sound: Combine with gentle touch, warm drinks, or quiet conversation for a holistic aftercare experience.",
+      "Personalize it: What calms *you*? Build a playlist that resonates with your unique needs and preferences."
+    ],
+    "framework_slide": "Aftercare playlists: A simple, powerful tool for post-play connection and emotional well-being. Prioritize gentle sounds and shared presence.",
+    "cta_slide": "Explore more relationship rituals and luxury wellness tools at Dark Fantasy.",
+    "caption": "Elevate your aftercare with a curated 30-minute playlist. Gentle transitions deepen connection and calm. Discover the power of sound for post-play bliss. Prioritize your well-being. #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Aftercare Game Changer: The 30-Min Playlist.",
+    "voiceover": "Aftercare is essential for emotional regulation and strengthening bonds. But how do you make that transition smooth and intentional? A carefully curated 30-minute playlist can be your secret weapon. It\u2019s about creating an auditory cocoon that gently guides you back to reality, deepening intimacy and calm after intense experiences. Choose ambient, instrumental, or acoustic tracks. Focus on warmth, safety, and connection.",
+    "b_roll_shots": [
+      "Softly flickering candlelight on a textured surface.",
+      "A steaming mug on a bedside table, out of focus.",
+      "Gentle rain against a windowpane.",
+      "Close-up of a hand gently stroking a soft blanket.",
+      "Slow pan over a stack of calming books.",
+      "Diffuser mist rising, soft light behind it.",
+      "A plant slowly swaying in a gentle breeze.",
+      "Close-up of a record player spinning, out of focus."
+    ],
+    "cta": "Ready to elevate your aftercare ritual? Share your favorite calming tracks below!",
+    "caption": "Transform your aftercare with a 30-minute playlist. Prioritize calm & connection. #Aftercare #WellnessJourney #CouplesWellness #IntimacyTips #SelfCare #RelationshipGoals #DarkFantasy",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "Looking for ways to enhance post-scene connection and relaxation with my partner.",
+    "draft_comment": "Aftercare is such a vital part of BDSM, and a good post-scene routine can make all the difference in emotional regulation and strengthening your bond. One thing I've found incredibly helpful is creating a dedicated 'aftercare playlist.' Think of it as a sonic blanket that gently guides you back to baseline. I usually aim for about 30 minutes of very soft, ambient, or instrumental music \u2013 no jarring beats, no complex lyrics. It helps to keep the focus on each other, on gentle touch, or just quiet contemplation. It's amazing how much a curated soundscape can deepen relaxation, reduce any lingering anxiety, and really cement that feeling of safety and connection. Experiment with what calms both of you most effectively.",
+    "value_angle": "Provides a practical, actionable, and emotionally supportive tip for improving post-BDSM scene aftercare and connection."
+  },
+  "blog_post": {
+    "h1": "Crafting the Perfect Aftercare Playlist: 30 Minutes to Soft Transition and Deeper Connection.",
+    "meta_description": "Discover how a 30-minute aftercare playlist can transform your post-play experience, fostering relaxation, emotional regulation, and deeper intimacy. Learn to curate your perfect soundscape.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "The Unsung Hero of Intimacy: Why Aftercare Matters",
+      "Beyond the Physical: The Emotional Landscape of Post-Play",
+      "The Science of Sound: How Music Shapes Our Mood",
+      "Curating Your Sanctuary: Building the 30-Minute Aftercare Playlist",
+      "Genre Guide: What Kind of Music Works Best?",
+      "Integrating the Ritual: More Than Just Music",
+      "Personalizing Your Peace: Finding Your Unique Sound",
+      "Embracing the Calm: A Path to Deeper Connection"
+    ]
+  },
+  "imagen_safe_prompt": "A dimly lit room with soft, warm ambient light. Focus on textures: a cashmere throw draped over a plush armchair, a smooth ceramic mug on a polished wooden surface, subtle wisps of steam. A record player is visible in the background, out of focus. Emphasize a feeling of peace and quiet luxury.",
+  "imagen_evocative_prompt": "A dimly lit, intimate scene. Soft candlelight casts long shadows on a luxurious silk throw. A delicate, decorative rope (not explicit) is artfully draped near a partially visible hand gently holding a warm, steaming cup. The atmosphere is one of profound tranquility, sensual comfort, and deep connection, with rich textures of leather and dark wood in the background.",
+  "discoverability_tags": [
+    "Aftercare Playlist",
+    "BDSM Aftercare",
+    "Couples Wellness",
+    "Intimacy Rituals",
+    "Emotional Regulation",
+    "Relaxation Music",
+    "Post-Play Connection",
+    "Mindful Intimacy",
+    "Sexual Wellness",
+    "Relationship Goals"
+  ]
+}

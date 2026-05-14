@@ -1,0 +1,78 @@
+{
+  "topic": "Sub frenzy and how to recognize it before a scene",
+  "platforms_safe": {
+    "instagram": true,
+    "tiktok": false,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Spotting Sub Frenzy: Essential for Safe, Consensual Kink.",
+    "education_slides": [
+      "Sub frenzy is an intense, overwhelming desire to submit, where rational thought and self-awareness can be temporarily diminished.",
+      "Signs include rapid agreement, a glazed look, over-eagerness, or difficulty articulating specific desires or limits.",
+      "It's risky because it compromises genuine, enthusiastic consent, potentially leading to regret, discomfort, or even emotional harm.",
+      "To check, ask open-ended questions. Observe body language. Look for genuine presence, not just compliance.",
+      "The dominant's role is to actively listen, prioritize safety, and ensure the sub is truly present and consenting.",
+      "If spotted, pause the scene. Re-evaluate. Offer alternatives. Check in later to ensure emotional well-being."
+    ],
+    "framework_slide": "Sub frenzy is real. Prioritize clear communication, active consent, and emotional safety before every scene for a truly fulfilling experience.",
+    "cta_slide": "Explore resources for deeper connection and safer play at Dark Fantasy.",
+    "caption": "Learn to recognize 'sub frenzy' for safer, more consensual BDSM. Prioritize communication & emotional safety for deeper connections. #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Is your sub *too* eager? Watch out for sub frenzy.",
+    "voiceover": "Ever worried your sub is saying 'yes' but not truly present? That might be sub frenzy. It's an intense, almost overwhelming desire to submit, where rational thought can get sidelined. Signs include rapid agreement without processing, a glassy look, or over-the-top eagerness. This isn't true consent. If you spot it, pause. Ask open-ended questions. Re-evaluate. Prioritize genuine enthusiasm and safety over rushing into a scene.",
+    "b_roll_shots": [
+      "Hand gently placing a blindfold on a pillow",
+      "Close-up of a journal with notes on boundaries",
+      "Hands pouring tea into two cups",
+      "A soft, out-of-focus background of a dimly lit room",
+      "A hand tracing patterns on a velvet texture",
+      "Two hands clasped gently",
+      "A timer counting down",
+      "A pen highlighting text in a book"
+    ],
+    "cta": "Learn more about consent and safe play. Follow Dark Fantasy for kink-positive wellness tips.",
+    "caption": "Spotting sub frenzy is crucial for truly consensual play. Prioritize safety and communication. #KinkEducation #BDSMtips #ConsentIsKey #RelationshipGoals #SafePlay #WellnessJourney",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "Dom/me's of Reddit, how do you ensure your sub is truly consenting, even when they seem super eager?",
+    "draft_comment": "This is a really important question and speaks to 'sub frenzy.' It's that state where a sub is so overwhelmed by the desire to submit that their critical thinking can be impaired, making true, enthusiastic consent difficult. Signs can include rapid-fire \"yes\" answers, a glazed look, or an almost desperate eagerness that feels off. As a top, it's your responsibility to look for these cues. If you suspect it, slow down. Ask open-ended questions like, 'What are you looking forward to most tonight?' or 'What are your limits for this scene?' Reiterate safewords and check-ins. Sometimes, a pause and a re-evaluation of the scene, or even postponing it, is the safest and most respectful choice. It builds trust and ensures genuine engagement.",
+    "value_angle": "Educates on a specific consent challenge, provides actionable advice for tops, and emphasizes safety and genuine connection."
+  },
+  "blog_post": {
+    "h1": "Recognizing Sub Frenzy: Ensuring True Consent in BDSM Play",
+    "meta_description": "Learn to identify 'sub frenzy' in BDSM, a state of intense eagerness that can compromise consent. Discover signs and strategies for ensuring genuine, enthusiastic participation.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "Introduction: The Nuance of Enthusiastic Consent",
+      "What is \"Sub Frenzy\" and Why Does it Matter?",
+      "Key Indicators: Spotting Sub Frenzy Before a Scene",
+      "The Risks: Why Playing Through Sub Frenzy is Dangerous",
+      "Strategies for Tops: How to Pause, Assess, and Re-Engage",
+      "For Subs: Self-Awareness and Communicating Your State",
+      "Building a Culture of Intentional Consent and Connection",
+      "Conclusion: Prioritizing Safety and Trust in Your BDSM Journey"
+    ]
+  },
+  "imagen_safe_prompt": "A soft, diffused light illuminating a velvet cushion, with a single, elegant rope loosely coiled beside it. The atmosphere is calm and contemplative, focusing on texture and gentle shadows, evoking a sense of introspection and safety. No human forms or explicit content.",
+  "imagen_evocative_prompt": "A close-up of a hand gently resting on a luxurious silk scarf, with a subtle hint of a leather strap nearby. Soft candlelight casts warm, flickering shadows across the scene, creating an intimate and thoughtful atmosphere. A partially visible, elegant rope lies coiled on a dark, polished surface, suggesting anticipation and carefully considered connection. Focus on textures, light, and a sense of quiet power.",
+  "discoverability_tags": [
+    "Sub Frenzy",
+    "BDSM Consent",
+    "Kink Safety",
+    "Ethical Kink",
+    "Relationship Dynamics",
+    "Intimacy Education",
+    "Dominant Responsibilities",
+    "Submissive Experience",
+    "Pre-Scene Rituals",
+    "Wellness Kink"
+  ]
+}

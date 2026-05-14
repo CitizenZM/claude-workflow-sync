@@ -1,0 +1,79 @@
+{
+  "topic": "Power exchange beyond the bedroom: tiny rituals that build trust",
+  "platforms_safe": {
+    "instagram": true,
+    "tiktok": true,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Tiny Rituals: Building Power & Trust, One Moment at a Time",
+    "education_slides": [
+      "Start with a morning check-in: 'How can I support your day?' or 'What do you need from me today?'",
+      "Designate a 'power hour' where one partner leads decisions for an activity, like choosing dinner or a movie.",
+      "Practice active listening. When one speaks, the other gives full, undivided attention without interruption.",
+      "Offer a small, unexpected service: making coffee, tidying their space, or running an errand.",
+      "Implement a 'gratitude ritual' \u2013 sharing one thing you appreciate about your partner's presence daily.",
+      "Establish a 'safe word' for non-sexual scenarios to pause or negotiate everyday dynamics.",
+      "Create a weekly 'intention setting' moment for shared goals, allowing one to lead the vision."
+    ],
+    "framework_slide": "Trust in power exchange blossoms through consistent, small, intentional acts of care, communication, and mutual respect, extending far beyond the bedroom.",
+    "cta_slide": "Explore deeper connections and luxurious intimacy tools at Dark Fantasy. Link in bio.",
+    "caption": "Building trust isn't just for the bedroom. These tiny rituals deepen power exchange dynamics in everyday life. Try them! #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Want deeper trust in your power dynamic? It's not just about the bedroom.",
+    "voiceover": "True power exchange thrives on trust, and trust is built in the small moments. Beyond the obvious, tiny, consistent rituals can transform your connection. Imagine a daily check-in: 'How can I serve you today?' Or a designated 'power hour' where one leads all decisions. These aren't grand gestures, but subtle acts of intention that reinforce roles and build profound security. It's about showing up, listening, and creating a safe space for vulnerability. These small acts weave a stronger, more resilient bond, making your power dynamic truly flourish.",
+    "b_roll_shots": [
+      "Close-up of two hands gently holding coffee mugs.",
+      "A notebook with a pen, jotting down a quick note.",
+      "A person setting out two plates for a meal.",
+      "A hand reaching to adjust a blanket over another person on a couch (faceless).",
+      "Candles flickering on a table, soft focus.",
+      "A hand placing a small, thoughtful gift (like a flower) on a desk.",
+      "Two people walking side-by-side, hands not touching, but in sync (from waist down).",
+      "Close-up of a shared calendar with a small, highlighted entry."
+    ],
+    "cta": "Ready to deepen your connection? Start with one tiny ritual today. Follow for more insights!",
+    "caption": "Building trust, one tiny ritual at a time. #PowerExchange #RelationshipGoals #TrustBuilding #CouplesWellness #KinkPositive #IntimacyTips #BeyondTheBedroom",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "How do D/s dynamics extend into daily life, and how do you build trust outside of intense scenes?",
+    "draft_comment": "It's a fantastic question! Power exchange truly flourishes when it's integrated into daily life through small, consistent rituals. Think about non-sexual 'safe words' for daily negotiations, or designating specific times when one partner takes the lead on household decisions. Even simple acts like a morning check-in \u2013 'What do you need from me today?' \u2013 can reinforce dynamics and build immense trust. The key is intentionality and communication. These small gestures, often overlooked, create a bedrock of security and understanding that makes more intense scenes feel even safer and more profound. It\u2019s about building a shared language of care and respect.",
+    "value_angle": "Provides practical, actionable, and non-sexual ways to integrate power exchange and build trust in everyday life, emphasizing communication and safety."
+  },
+  "blog_post": {
+    "h1": "Beyond the Sheets: Tiny Rituals for Profound Trust in Power Exchange",
+    "meta_description": "Discover how small, daily rituals can dramatically deepen trust and enrich your power exchange dynamics, creating a stronger, more secure relationship.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "Introduction: The Unseen Power of Everyday Trust",
+      "Why Trust is the Cornerstone of Healthy Power Exchange",
+      "Defining \"Tiny Rituals\": Intentional Acts, Not Grand Gestures",
+      "Morning & Evening Rituals: Setting the Day's Tone",
+      "Decision-Making Rituals: Shared Power, Defined Roles",
+      "Communication Rituals: Listening, Affirming, and Negotiating",
+      "Service & Appreciation Rituals: Acts of Care and Gratitude",
+      "Conclusion: Weaving a Tapestry of Trust, One Ritual at a Time"
+    ]
+  },
+  "imagen_safe_prompt": "A beautifully composed flat lay featuring a luxurious, smooth silk scarf draped next to a small, elegant teacup. Soft, diffused natural light illuminates the scene, casting gentle shadows. A single, unlit candle in a minimalist holder stands nearby. The color palette is muted and sophisticated, focusing on textures and subtle contrasts. No human presence.",
+  "imagen_evocative_prompt": "A close-up, atmospheric shot of hands, partially visible, gently arranging a length of dark, braided leather cord on a rich, dark velvet surface. Nearby, a single flickering candle casts warm, dancing light, creating deep shadows. A hint of polished metal or a small, intricate key resting beside the cord. The mood is intimate, luxurious, and suggestive of quiet ritual and sophisticated control. Focus on textures and the interplay of light and shadow.",
+  "discoverability_tags": [
+    "Power exchange",
+    "Relationship trust",
+    "BDSM rituals",
+    "Couples intimacy",
+    "Kink positive",
+    "Daily devotion",
+    "Relationship wellness",
+    "Trust building exercises",
+    "Subtle dominance",
+    "Intentional connection"
+  ]
+}

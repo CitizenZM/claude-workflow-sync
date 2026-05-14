@@ -1,0 +1,78 @@
+{
+  "topic": "Petplay basics: not what you think",
+  "platforms_safe": {
+    "instagram": true,
+    "tiktok": true,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Petplay isn't just costumes. It's about consent, roles, and connection.",
+    "education_slides": [
+      "Beyond the obvious: Petplay is about embodying a chosen role, often exploring power dynamics and intimacy.",
+      "Consent is paramount: Both partners define boundaries, desires, and safe words before any play begins.",
+      "Communication is key: Discuss expectations, comfort levels, and what makes the experience fulfilling for everyone.",
+      "It's not always sexual: Many find emotional release, stress reduction, and deep connection through petplay.",
+      "Roles vary widely: From submissive 'pets' to dominant 'handlers,' the dynamic is custom-built by participants.",
+      "Safety first: Ensure physical comfort and emotional security are prioritized throughout the experience."
+    ],
+    "framework_slide": "Petplay explores consensual role-play, focusing on communication, trust, and shared exploration of intimacy.",
+    "cta_slide": "Explore deeper connections and safe intimacy resources at Dark Fantasy.",
+    "caption": "Petplay is often misunderstood. It's a rich, consensual form of role-play centered on communication, trust, and exploring new facets of intimacy. Let's redefine it. #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Petplay: It's NOT what you think.",
+    "voiceover": "Petplay is a deeply misunderstood form of consensual role-play. It's not about animal mimicry, but about exploring power dynamics, trust, and intimacy between partners. Imagine embodying a chosen role, focusing on communication and emotional connection.",
+    "b_roll_shots": [
+      "Soft, textured fabric (e.g., faux fur, velvet) being gently touched.",
+      "Hands gently intertwining or resting on a shoulder (faceless).",
+      "A small, elegant collar (not on a person, maybe on a cushion).",
+      "Candlelight flickering softly in a cozy room.",
+      "A journal with handwritten notes about desires/boundaries.",
+      "Two mugs of tea/coffee, steam rising, on a bedside table.",
+      "A hand reaching out to another, palm-to-palm.",
+      "A close-up of a soft blanket or throw."
+    ],
+    "cta": "Ready to explore safe, consensual role-play? Learn more about intimacy at Dark Fantasy.",
+    "caption": "Petplay is about consensual role-play, trust, and deep connection. It's not what you think. #PetplayExplained #KinkPositive #ConsensualKink #IntimacyJourney #RelationshipGoals",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "My partner mentioned petplay, and I'm a bit intimidated. What should I know?",
+    "draft_comment": "Petplay is a really diverse and often misunderstood form of consensual role-play within BDSM. At its core, it's about embodying a chosen role, often exploring power dynamics, trust, and intimacy. It's not necessarily about mimicking animals, but rather adopting a mindset or persona. The key is always open communication and clear consent. Partners discuss boundaries, desires, and what makes the experience fulfilling for everyone involved. It can be deeply emotional, playful, or even a way to de-stress. It's a spectrum, and what it looks like depends entirely on the people participating. Don't be afraid to talk openly with your partner about what interests them and what you're comfortable with.",
+    "value_angle": "Provides a nuanced, educational, and reassuring perspective on petplay, emphasizing consent and communication for newcomers."
+  },
+  "blog_post": {
+    "h1": "Petplay Beyond Stereotypes: A Guide to Consensual Role-Play and Intimacy",
+    "meta_description": "Demystify petplay with our comprehensive guide. Explore consensual role-play, communication, and deep intimacy, redefining what it means for couples.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "What is Petplay, Really?",
+      "Beyond the Fur: Emotional & Psychological Aspects",
+      "The Pillars of Petplay: Consent, Communication, and Trust",
+      "Exploring Different Petplay Dynamics and Roles",
+      "Getting Started Safely: Tips for Beginners",
+      "Integrating Petplay into Your Relationship Wellness",
+      "Common Misconceptions and How to Address Them",
+      "Resources for Deeper Exploration and Community"
+    ]
+  },
+  "imagen_safe_prompt": "A close-up shot of luxurious, soft faux fur fabric in deep jewel tones, with subtle dappled light creating soft shadows. A delicate, unadorned leather collar rests gently on the fabric, near a small, flickering candle. Focus on texture, warmth, and a sense of quiet intimacy.",
+  "imagen_evocative_prompt": "A dimly lit, opulent boudoir scene. A hand, partially visible, gently strokes a length of rich, dark silk draped over a plush velvet cushion. Nearby, a subtle leather collar with intricate silver detailing catches the glow of several flickering candles. The atmosphere is one of sophisticated mystery, sensual exploration, and deep, consensual connection, with soft focus and warm, inviting tones.",
+  "discoverability_tags": [
+    "Petplay",
+    "BDSM education",
+    "Couples kink",
+    "Role play",
+    "Consensual kink",
+    "Intimacy exploration",
+    "Relationship wellness",
+    "Kink positive",
+    "Body safe BDSM",
+    "Communication in kink"
+  ]
+}

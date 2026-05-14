@@ -1,0 +1,77 @@
+{
+  "topic": "Beginner BDSM scene setup (under $100)",
+  "platforms_safe": {
+    "instagram": false,
+    "tiktok": false,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Unlock Thrilling Beginner BDSM Scenes: Under $100 Guide!",
+    "education_slides": [
+      "Consent is non-negotiable. Always establish clear boundaries and safe words BEFORE starting any scene.",
+      "Communication is key. Discuss desires, limits, and aftercare thoroughly with your partner for a fulfilling experience.",
+      "Start with household items! Scarves for blindfolds/ties, belts for light impact, pillows for comfort, ice cubes for sensation.",
+      "DIY restraints: Soft rope (cotton, jute) from hardware stores is affordable. Learn basic, body-safe knots.",
+      "Sensory play on a budget: Feathers, paintbrushes, ice, or even a blindfold can heighten sensations dramatically.",
+      "Thrift store finds: Look for satin scarves, elegant fabrics, or unique props that can be sanitized and repurposed."
+    ],
+    "framework_slide": "Key Takeaways: Prioritize Consent, Communicate Openly, Get Creative with Budget Items, Ensure Safety, Embrace Aftercare.",
+    "cta_slide": "Explore more body-safe intimacy tools and guides at DarkFantasy.com for deeper connection.",
+    "caption": "Dreaming of exploring BDSM but worried about cost? You can create incredible, safe scenes for under $100! Focus on consent, communication, and creativity. #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "Want to try BDSM but think it's too expensive? Think again!",
+    "voiceover": "Starting BDSM doesn't require a huge budget. You can set up an amazing, safe scene for under $100. First, prioritize consent and clear communication with your partner. Next, get creative with household items! Soft scarves make great blindfolds or gentle ties. A feather or a paintbrush can create incredible sensations. You can find affordable cotton rope at a hardware store for safe, basic restraints \u2013 just learn simple, body-safe knots. Remember, the most important tools are trust and imagination. Have fun exploring!",
+    "b_roll_shots": [
+      "Close-up of two hands gently tying a silk scarf around a wrist (faceless)",
+      "Various household items laid out: a soft scarf, a feather, a paintbrush, a small bowl of ice cubes",
+      "A roll of cotton rope from a hardware store, with hands demonstrating a simple knot (faceless)",
+      "Close-up of a blindfolded mannequin head or pillow, with soft lighting",
+      "A hand gently tracing a feather along an arm (faceless)",
+      "A cozy, dimly lit bedroom corner with candles (safely placed) and soft fabrics",
+      "A small pile of budget-friendly items (e.g., small paddle, rope, blindfold) on a dark surface"
+    ],
+    "cta": "Ready to explore? Check out our profile for more safe kink tips!",
+    "caption": "BDSM on a budget? Absolutely! Here's how to set up a beginner scene for under $100. Consent and communication are always free and essential. #BDSMforBeginners #BudgetKink #CouplesWellness #SafeKink #IntimacyTips #ExploreTogether",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "I'm new to BDSM and on a tight budget. How can I get started without spending a fortune?",
+    "draft_comment": "It's totally possible to explore BDSM on a budget! The most important 'tools' are consent and communication, which are free. For physical items, start with household objects. Soft scarves or ties you already own make great blindfolds or gentle restraints. A belt can be used for light impact, or even ice cubes for sensory play. For actual rope, you can often find cotton or jute rope at hardware stores for very cheap \u2013 just make sure to learn body-safe knots and never tie too tightly. Focus on exploring sensations and dynamics rather than expensive gear. Many couples find that creativity and clear boundaries lead to the most exciting experiences.",
+    "value_angle": "Provides practical, budget-friendly, and safety-conscious advice for beginners, demystifying the entry point into BDSM."
+  },
+  "blog_post": {
+    "h1": "Affordable BDSM: How to Set Up Your First Kink Scene for Under $100",
+    "meta_description": "Discover how to create exciting, body-safe beginner BDSM scenes without breaking the bank. Learn about consent, communication, and budget-friendly essentials.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "Introduction: Demystifying Budget BDSM",
+      "The Unbreakable Foundation: Consent and Communication (Always Free!)",
+      "Household Hacks: Everyday Items for Kinky Fun",
+      "DIY Essentials: Affordable Restraints and Sensory Play",
+      "Smart Shopping: Where to Find Budget-Friendly BDSM Gear",
+      "Safety First: Crucial Tips for Beginner Scenes",
+      "Aftercare: The Essential Post-Scene Ritual",
+      "Conclusion: Your Journey into Affordable, Body-Safe Kink"
+    ]
+  },
+  "imagen_safe_prompt": "A beautifully arranged collection of soft velvet blindfolds, satin scarves, and a feather tickler on a dark, polished wooden surface. Subtle, warm candlelight casts gentle glows, highlighting the luxurious textures and creating an atmosphere of mystery and comfort. No human elements, focus on objects and lighting.",
+  "imagen_evocative_prompt": "A close-up, atmospheric shot of hands (partial view, no faces) gently tying a soft, deep red silk scarf around a wrist. The background is softly blurred with flickering candlelight and deep, sensual shadows. Focus on the textures of silk, smooth skin, and the warm, inviting glow, evoking intimacy, gentle restraint, and sensual exploration.",
+  "discoverability_tags": [
+    "Beginner BDSM",
+    "Kink on a Budget",
+    "Couples Kink",
+    "BDSM for Newbies",
+    "Safe BDSM",
+    "Intimacy Play",
+    "Relationship Wellness",
+    "Budget Kink Gear",
+    "Consent in BDSM",
+    "Home BDSM Setup"
+  ]
+}

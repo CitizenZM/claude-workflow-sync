@@ -1,0 +1,78 @@
+{
+  "topic": "Afterglow rituals: what to do in the 30 minutes after a scene",
+  "platforms_safe": {
+    "instagram": true,
+    "tiktok": true,
+    "pinterest_main": false,
+    "pinterest_sister": true,
+    "reddit": true,
+    "blog": true
+  },
+  "instagram_carousel": {
+    "slide_count": 8,
+    "hook_slide": "Nurture Your Connection: Essential Afterglow Rituals for Couples",
+    "education_slides": [
+      "Hydrate & Nourish: Offer water or a light snack. Replenish energy and show care. Physical comfort is key for emotional grounding.",
+      "Comfort & Cuddle: Physical closeness without pressure. Gentle touch, a warm blanket, or a comforting embrace can deepen connection and security.",
+      "Debrief & Discuss: Check in verbally. Ask 'What was good for you?' or 'How are you feeling?' Open communication strengthens trust.",
+      "Grounding Techniques: Simple breathing exercises or sensory focus (e.g., a comforting scent) can help regulate emotions and bring you back to the present.",
+      "Change of Scenery: Moving to a different room or activity can signal a shift from scene to aftercare, helping to transition back to everyday life.",
+      "Self-Care Moment: Encourage a warm shower, a quiet moment alone, or gentle stretching. Prioritize individual well-being after shared intensity."
+    ],
+    "framework_slide": "Afterglow is vital. Prioritize hydration, comfort, communication, and gentle grounding for deeper connection and well-being post-scene.",
+    "cta_slide": "Elevate your aftercare with luxury essentials. Discover curated comfort at Dark Fantasy.",
+    "caption": "Afterglow isn't just a moment, it's a ritual. These simple steps can transform your post-scene experience into a deeper bond. Prioritize connection, comfort, and communication. #BDSMeducation #CouplesKink #BodySafe #KinkPositive #RelationshipRituals #IntimacyEducation"
+  },
+  "tiktok_script": {
+    "hook_3s": "The most important 30 minutes after your scene?",
+    "voiceover": "After a BDSM scene, the next 30 minutes are crucial for connection and well-being. This is your afterglow ritual. Start by rehydrating and offering a comforting snack. Then, focus on gentle physical closeness\u2014think soft cuddles, a warm blanket, or a quiet embrace. Don't forget to debrief: a simple 'How are you feeling?' opens the door for vital communication. These small acts build trust and deepen intimacy, making every experience more fulfilling. Prioritize your shared comfort.",
+    "b_roll_shots": [
+      "Warm mug of tea/water on a bedside table.",
+      "Soft, luxurious blanket being draped over a sofa.",
+      "Hands gently holding, intertwined (faceless).",
+      "A journal and pen, perhaps with a blurred background.",
+      "Candlelight flickering softly in a cozy room.",
+      "A comforting, plush pillow being fluffed.",
+      "Close-up of a gentle, comforting touch on an arm (faceless).",
+      "Steam rising from a warm bath (blurred background)."
+    ],
+    "cta": "Prioritize your afterglow. Follow Dark Fantasy for more intimacy tips.",
+    "caption": "Aftercare is self-care, together. What's your favorite afterglow ritual? #Aftercare #BDSMAftercare #KinkTok #IntimacyTips #CouplesWellness #RelationshipGoals",
+    "aigc_label_required": true
+  },
+  "reddit_comment_angle": {
+    "best_sub": "r/BDSMcommunity",
+    "trigger_question_archetype": "How do you handle the emotional comedown after an intense scene?",
+    "draft_comment": "Aftercare is truly the unsung hero of BDSM, especially in those crucial 30 minutes post-scene. It's not just about physical comfort, but deeply emotional too. I always recommend starting with rehydration and perhaps a light snack\u2014it helps ground you. Then, focus on gentle physical closeness, like cuddling under a soft blanket, without any pressure. A quick debrief is essential: ask 'How are you feeling?' or 'What was good for you?' This open communication builds immense trust. Don't underestimate the power of a quiet moment together, or even a change of scenery, to help transition back. It's all about nurturing that connection.",
+    "value_angle": "Practical, actionable advice for post-scene emotional and physical well-being, fostering deeper connection."
+  },
+  "blog_post": {
+    "h1": "Mastering the Afterglow: Essential Rituals for Post-Scene Connection & Well-being",
+    "meta_description": "Transform your BDSM afterglow into a powerful ritual for connection and well-being. Discover essential steps for the 30 minutes post-scene to deepen intimacy.",
+    "estimated_word_count": 1200,
+    "outline": [
+      "The Critical 30 Minutes: Why Afterglow Matters",
+      "Physical Nurturing: Hydration, Nourishment, and Comfort",
+      "Emotional Reconnection: The Power of Gentle Touch and Cuddles",
+      "Communication is Key: Debriefing for Deeper Understanding",
+      "Grounding Techniques: Returning to the Present Moment",
+      "Individual Needs: Self-Care Within Shared Aftercare",
+      "Creating Your Custom Afterglow Ritual: Tips for Couples",
+      "Beyond the Scene: Integrating Aftercare into Your Relationship"
+    ]
+  },
+  "imagen_safe_prompt": "Soft, diffused light filtering through sheer curtains into a cozy room. A warm, steaming mug rests on a polished wooden surface next to a stack of plush, folded blankets. Subtle textures of cashmere and linen. A tranquil, comforting atmosphere, emphasizing warmth and gentle care.",
+  "imagen_evocative_prompt": "A close-up of intertwined hands, gently resting on a luxurious silk sheet, bathed in the soft glow of flickering candlelight. A hint of a velvet throw blanket in the background. Subtle textures of leather or a decorative, non-functional rope artfully arranged nearby. The scene evokes deep intimacy, comfort, and a sense of shared peace after intensity.",
+  "discoverability_tags": [
+    "BDSM aftercare",
+    "afterglow rituals",
+    "couples intimacy",
+    "kink wellness",
+    "relationship rituals",
+    "post-scene care",
+    "sexual well-being",
+    "intimacy education",
+    "safe BDSM",
+    "emotional connection"
+  ]
+}
