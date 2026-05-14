@@ -58,6 +58,9 @@ sync_pull() {
     log "skills applied ($(ls "$SYNC_REPO/skills" | wc -l | tr -d ' ') dirs)"
   fi
 
+  # 3b. ~/.mcp.json (MCP server registry)
+  [ -f "$SYNC_REPO/mcp.json" ] && cp "$SYNC_REPO/mcp.json" "$HOME/.mcp.json" && log ".mcp.json applied"
+
   # 4. commands/
   if [ -d "$SYNC_REPO/commands" ]; then
     mkdir -p "$CLAUDE_DIR/commands"
