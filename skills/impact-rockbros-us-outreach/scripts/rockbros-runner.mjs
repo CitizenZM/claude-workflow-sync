@@ -20,7 +20,7 @@ const STEP_LOG = '/tmp/rockbros-step.log';
 const RUN_LOG  = '/tmp/rockbros-runner.log';
 const LOCK     = '/tmp/rockbros-runner.pid';
 const TARGET   = parseInt(process.env.OUTREACH_COUNT || '5000');
-const MSG      = 'Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10-20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample.';
+const MSG      = 'Hi, this is Bob, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10-20% ultra-high commission, 30% for selected publishers as a limited-time offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample.';
 const TODAY    = new Date().toISOString().slice(0, 10);
 const PROGRAM_ID = 50132;
 
