@@ -20,24 +20,29 @@ const STEP_LOG = '/tmp/rockbros-step.log';
 const RUN_LOG  = '/tmp/rockbros-runner.log';
 const LOCK     = '/tmp/rockbros-runner.pid';
 const TARGET   = parseInt(process.env.OUTREACH_COUNT || '5000');
-const MSG      = 'Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10-20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample.';
+const MSG      = '30% commission for you as a limited-time offer. This is Bob, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10-20% ultra-high commission, 30% with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample.';
+const RE_MSG   = 'Special offer for selected publishers: 10% CPAi guaranteed commission — no minimums, instant approval. This is Bob from Rockbros, NO.1 sports accessory brand. We sent you an invite earlier and want to sweeten the deal. Reply here or email affiliate@celldigital.co to activate.';
 const TODAY    = new Date().toISOString().slice(0, 10);
 const PROGRAM_ID = 50132;
 
 const TABS = [
-  // partnerStatuses=2 (New publishers) — full coverage across all business models and sort orders
+  // PRIORITY: Deal/Cashback → Email/Newsletter → Content (new publishers first)
+  { name:'Deals-DESC',        hash:'#businessModels=DEAL_COUPON&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC' },
+  { name:'Deals-ASC',         hash:'#businessModels=DEAL_COUPON&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=ASC' },
+  { name:'Email-DESC',        hash:'#businessModels=EMAIL_NEWSLETTER&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC' },
+  { name:'Email-ASC',         hash:'#businessModels=EMAIL_NEWSLETTER&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=ASC' },
   { name:'Content-DESC',      hash:'#businessModels=CONTENT_REVIEWS&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC' },
   { name:'Content-ASC',       hash:'#businessModels=CONTENT_REVIEWS&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=ASC' },
   { name:'Content-Name-ASC',  hash:'#businessModels=CONTENT_REVIEWS&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=name&sortOrder=ASC' },
   { name:'Content-Name-DESC', hash:'#businessModels=CONTENT_REVIEWS&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=name&sortOrder=DESC' },
-  { name:'Network-DESC',      hash:'#businessModels=NETWORK&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC' },
-  { name:'Network-ASC',       hash:'#businessModels=NETWORK&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=ASC' },
-  { name:'Deals-DESC',        hash:'#businessModels=DEAL_COUPON&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC' },
-  { name:'Deals-ASC',         hash:'#businessModels=DEAL_COUPON&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=ASC' },
   { name:'Loyalty-DESC',      hash:'#businessModels=LOYALTY_REWARDS&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC' },
   { name:'Loyalty-ASC',       hash:'#businessModels=LOYALTY_REWARDS&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=ASC' },
-  { name:'Email-DESC',        hash:'#businessModels=EMAIL_NEWSLETTER&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC' },
-  { name:'Email-ASC',         hash:'#businessModels=EMAIL_NEWSLETTER&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=ASC' },
+  { name:'Network-DESC',      hash:'#businessModels=NETWORK&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC' },
+  { name:'Network-ASC',       hash:'#businessModels=NETWORK&partnerStatuses=2&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=ASC' },
+  // P1 RE-ENGAGEMENT: already-invited publishers — use RE_MSG with 10% CPAi offer
+  { name:'P1-Deals-DESC',     hash:'#businessModels=DEAL_COUPON&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC',    reMsg:true },
+  { name:'P1-Email-DESC',     hash:'#businessModels=EMAIL_NEWSLETTER&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC', reMsg:true },
+  { name:'P1-Content-DESC',   hash:'#businessModels=CONTENT_REVIEWS&partnerStatuses=1&relationshipInclusions=prospecting&sortBy=reachRating&sortOrder=DESC',  reMsg:true },
 ];
 const BASE_URL = 'https://app.impact.com/secure/advertiser/discover/radius/fr/partner_discover.ihtml?page=marketplace&slideout_id_type=partner';
 
@@ -294,7 +299,8 @@ async function collectDataFreshTab(browser, tabHash, publisherName, parseSlideou
 }
 
 // ── SEND MESSAGE (partnerStatuses=1 publishers) ───────────────────────────────
-async function sendMessage(page, cardIdx, name) {
+async function sendMessage(page, cardIdx, name, customMsg) {
+  const ACTIVE_MSG = customMsg || MSG;
   // Hover to reveal Send Message button
   try { await page.locator('.iui-card').nth(cardIdx).hover({ timeout: 4000 }); }
   catch(e) { return { error: 'hover-failed' }; }
@@ -332,10 +338,10 @@ async function sendMessage(page, cardIdx, name) {
       textarea.dispatchEvent(new Event('input', {bubbles: true}));
     }
     return true;
-  }, MSG);
+  }, ACTIVE_MSG);
 
   if (!filled) {
-    await page.keyboard.type(MSG, {delay: 5});
+    await page.keyboard.type(ACTIVE_MSG, {delay: 5});
   }
 
   await page.waitForTimeout(1000);
@@ -645,7 +651,7 @@ async function sendOne(page, cardIdx, name) {
 }
 
 // ── PROCESS ONE TAB ───────────────────────────────────────────────────────────
-async function processTab(page, browser, tabName, tabHash, dedup) {
+async function processTab(page, browser, tabName, tabHash, dedup, isReMsg=false) {
   await closeModal(page);
   await page.unroute('**/api/slideout*').catch(() => {});
 
@@ -747,7 +753,8 @@ async function processTab(page, browser, tabName, tabHash, dedup) {
 
     if (!name) continue;
     const nl = name.toLowerCase();
-    if (dedup.names.has(nl) || seen.has(nl)) continue;
+    if (!isReMsg && dedup.names.has(nl)) continue; // P1 re-engagement bypasses global dedup
+    if (seen.has(nl)) continue;
     seen.add(nl);
 
     // STEP A: Intercept fetch to capture slideout API data, then click card body
@@ -909,7 +916,7 @@ async function processTab(page, browser, tabName, tabHash, dedup) {
         // P1 tabs use Send Message flow; P2 tabs use Send Proposal flow
         const isP1Tab = tabName.startsWith('P1-');
         if (isP1Tab) {
-          r = await sendMessage(page, useIdx, name);
+          r = await sendMessage(page, useIdx, name, RE_MSG);
         } else {
           r = await sendOne(page, useIdx, name);
         }
@@ -1320,6 +1327,7 @@ async function main() {
     log(`\n=== ROUND ${round} | ledger=${ledgerCount()} | need=${need} ===`);
     let roundSent = 0;
     for (const tab of TABS) {
+      const isReMsg = !!tab.reMsg;
       if (ledgerCount() >= TARGET) break;
       const r = await processTab(page, browser, tab.name, tab.hash, dedup);
       roundSent += (r.sent || 0);
