@@ -23,6 +23,31 @@
     "impact-rockbros-us": {
       "mcp": "playwright-impact-rockbros-us",
       "port": "9306"
+    },
+    "wellfound": {
+      "mcp": "playwright-wellfound",
+      "port": "9309"
+    },
+    "greenhouse": {
+      "mcp": "playwright-greenhouse",
+      "port": "9307"
+    },
+    "levanta-ottocast": {
+      "mcp": "playwright-levanta-ottocast",
+      "port": "9310"
     }
+  },
+  "_port_map": {
+    "9300": "default",
+    "9301": "awin-rockbros-us",
+    "9302": "awin-rockbros-eu",
+    "9303": "awin-oufer-us",
+    "9304": "impact-ottocast",
+    "9305": "impact-tcl-us",
+    "9306": "impact-rockbros-us  (LIVE 24/7 LOOP \u2014 do not reassign)",
+    "9307": "greenhouse",
+    "9308": "RESERVED for impact-tcl-us-2 (dual browser)",
+    "9309": "wellfound",
+    "9310": "levanta-ottocast"
   }
 }

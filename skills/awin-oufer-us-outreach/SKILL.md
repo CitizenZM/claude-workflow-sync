@@ -44,7 +44,7 @@ JS scripts live in `~/.claude/skills/awin-oufer-us-outreach/scripts/`:
 | FILTER_IDS | `['25','15','22']` |
 | COMMISSION | `20.0` |
 | MIN_PARTNERSHIPS | `50` |
-| MESSAGE | Hi, this is Bob Zabel, reaching out from Oufer Body Jewelry, the NO.1 Piercing Body Jewelry you MUST see. We are offering 10-20% ultra high commission with limited time deal offer, Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer. |
+| MESSAGE | 30% CPAi for you! reaching out from Oufer Body Jewelry, the NO.1 Piercing Body Jewelry you MUST see. We are offering 10-20% ultra high commission with limited time deal offer, Reply here or to affiliate@celldigital.co to chat in details and get the sample. REPLY now for limited time offer. |
 | OBSIDIAN_PATH | `/Volumes/workssd/ObsidianVault/01-Projects/` |
 | LEDGER_FILE | `Awin-Oufer-US-Outreach-Ledger.md` |
 | REPORT_FILE | `Awin-Oufer-US-Outreach-Report-2026-04-15.md` |

@@ -1,0 +1,16 @@
+URL: https://app.impact.com/login.user
+LABEL: Impact dashboard root
+
+=== BODY (first 8000) ===
+app.impact.com
+Performing security verification
+
+This website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.
+
+Ray ID: 9fbff5782d93163f
+Performance and Security by Cloudflare
+Privacy
+
+=== LINKS ===
+Cloudflare	https://www.cloudflare.com/?utm_source=challenge&utm_campaign=m
+Privacy	https://www.cloudflare.com/privacypolicy/

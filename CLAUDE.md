@@ -54,3 +54,31 @@
 - Publisher tiers: T1 (>1M MAU), T2 (100K-1M), T3 (<100K)
 - Key metrics: GMV, ROAS, AOV, CVR, CPA, EPC
 - Audit framework: GEM (maturity scoring, structure diagnosis, publisher battle plan)
+
+
+# === MASTER ORCHESTRATION PROTOCOL v4.6.1 ===
+
+**MANDATORY LOAD ORDER — read at the start of EVERY Claude Code session, before responding to anything:**
+
+1. Read `~/Documents/Claude/config/skills/mop-master/SKILL.md` in full
+2. Apply §0 Prime Directive + §0.5 Iron Laws to all behavior
+3. For ANY non-trivial task (build/create/develop/research/plan/workflow/report), emit `[MOP T v4.5]` triage block BEFORE other output
+4. Use `/mop` slash command to explicitly activate or re-confirm protocol mid-session
+
+**This is not optional.** MOP is enforced at three layers:
+- `UserPromptSubmit` hook (`mop-triage-hook.sh`) — injects the rule into every prompt
+- This CLAUDE.md block — read at session start
+- `/mop` command — manual reactivation if needed
+
+**MOP enables for every project/task automatically:**
+- Three-tier delegation (Opus PM → Haiku workers → Sonnet fallback)
+- 13-pattern failure recovery (no pauses, no user-ask mid-task)
+- Per-response telemetry → weekly self-improvement via `mop_learn.py`
+- Auto-sync to GitHub (3-change threshold + daily cron at 02:00)
+- Token discipline via the 6 enforced rules in SKILL.md §15
+
+**Supervisor / QA**: PM runs all supervision INSIDE the Opus session. There is no separate process. PM enforces Iron Laws (verification-before-completion, root-cause-before-fix) at module boundaries via two-stage review (SKILL.md §17.7 Pattern B).
+
+**Suppress with**: `--mop-off` (Class S trivial Q&A only).
+
+# === END MOP PATCH ===

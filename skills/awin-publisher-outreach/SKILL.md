@@ -27,7 +27,7 @@ JS scripts live in `~/.claude/skills/awin-publisher-outreach/scripts/`:
 | FILTER_IDS | `['25','15','22']` |
 | COMMISSION | `20.0` |
 | MIN_PARTNERSHIPS | `50` |
-| MESSAGE | Hi, this is Bob Zabel, reaching out from Rockbros, the NO.1 sports accessory you must see. We are offering 10-20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample. |
+| MESSAGE | 30% CPAi for you! reaching out from Rockbros, the NO.1 sports accessory with TOP3 bestseller on Amazon and Shopify. We are offering 10-20% ultra-high commission with a limited-time deal offer. Reply here or email affiliate@celldigital.co to chat in detail and get a sample |
 | OBSIDIAN_PATH | `/Volumes/workssd/ObsidianVault/01-Projects/` |
 | LEDGER_FILE | `Awin-Outreach-Ledger.md` |
 | REPORT_FILE | `Awin-Rockbros-Publisher-Outreach.md` |
