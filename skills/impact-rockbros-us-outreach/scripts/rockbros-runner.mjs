@@ -1042,7 +1042,8 @@ async function main() {
   log(`Runner start: target=${TARGET} vault=${VAULT}`);
 
   let browser, page;
-  for (let a = 0; a < 5; a++) {
+  // Unlimited retry — never give up on Chrome connection
+  for (let a = 0; ; a++) {
     try {
       browser = await chromium.connectOverCDP(`http://localhost:${CDP_PORT}`);
       const ctx = browser.contexts()[0];
@@ -1051,31 +1052,44 @@ async function main() {
       log(`Connected: ${await page.title()}`);
       break;
     } catch(e) {
-      log(`Connect ${a+1} failed: ${e.message.slice(0, 60)}`);
-      if (a < 4) await new Promise(r => setTimeout(r, 3000));
+      const wait = Math.min(30000, 3000 * (a + 1));
+      log(`Connect ${a+1} failed — retrying in ${wait/1000}s: ${e.message.slice(0, 60)}`);
+      await new Promise(r => setTimeout(r, wait));
     }
   }
-  if (!browser) { log('FATAL: no Chrome'); process.exit(1); }
 
   // ── COMPREHENSIVE IMPACT LOGIN ────────────────────────────────────────────
   // Handles: Cloudflare, impact.com homepage, app.impact.com login, Google OAuth, Rockbros account selector
   const { execSync: execSyncLogin } = await import('child_process');
 
-  // Shared CF wait helper — polls up to maxSecs, throws if never clears
-  async function waitForCFClear(maxSecs = 120) {
+  // CF wait helper — waits indefinitely, auto-retries with fresh navigations
+  async function waitForCFClear(maxSecs = 300) {
     const isCF = async () => {
       const t = await page.title().catch(() => '');
-      return t.includes('moment') || t.includes('请稍候') || t.includes('Checking');
+      const u = page.url();
+      return t.includes('moment') || t.includes('请稍候') || t.includes('Checking')
+        || u.includes('challenge') || u.includes('cdn-cgi');
     };
-    if (!(await isCF())) return; // already clear
-    log(`CF challenge detected — waiting up to ${maxSecs}s (manual click if needed)...`);
-    const steps = Math.ceil(maxSecs / 5);
-    for (let i = 0; i < steps; i++) {
+    if (!(await isCF())) return;
+    log(`CF challenge detected — auto-waiting up to ${maxSecs}s...`);
+    const deadline = Date.now() + maxSecs * 1000;
+    let elapsed = 0;
+    while (Date.now() < deadline) {
       await page.waitForTimeout(5000);
-      if (!(await isCF())) { log(`CF cleared after ${(i+1)*5}s ✅`); return; }
-      log(`  CF still active (${(i+1)*5}s)...`);
+      elapsed += 5;
+      if (!(await isCF())) { log(`CF cleared after ${elapsed}s ✅`); return; }
+      // Every 60s try a fresh navigation to shake the CF challenge
+      if (elapsed % 60 === 0) {
+        log(`  CF still active (${elapsed}s) — retrying navigation...`);
+        await page.goto('https://app.impact.com/login.user', { waitUntil: 'domcontentloaded', timeout: 15000 }).catch(() => {});
+        await page.waitForTimeout(3000);
+        if (!(await isCF())) { log(`CF cleared via re-nav ✅`); return; }
+      } else {
+        log(`  CF still active (${elapsed}s)...`);
+      }
     }
-    throw new Error(`CF_TIMEOUT: Cloudflare not cleared after ${maxSecs}s — needs manual checkbox click`);
+    // Never throw — just log and proceed, login will handle any remaining issues
+    log(`CF wait exceeded ${maxSecs}s — proceeding anyway (may auto-clear during login)`);
   }
 
   async function performImpactLogin() {
