@@ -1103,13 +1103,31 @@ async function main() {
         const frames = page.frames();
         for (const f of frames) {
           if (f.url().includes('challenges.cloudflare') || f.url().includes('turnstile')) {
-            log('  Found CF iframe — clicking body...');
+            log('  Found CF Turnstile iframe — using mouse click...');
             try {
-              await f.locator('body').click({ timeout: 2000 });
-              log('  Clicked CF iframe body ✅');
-              await page.waitForTimeout(1500);
-              return true;
-            } catch(ex) { log('  iframe body click: ' + ex.message?.slice(0,40)); }
+              // Get iframe position in main page DOM
+              const iframeRect = await page.evaluate(() => {
+                const iframes = Array.from(document.querySelectorAll('iframe'));
+                const cfIframe = iframes.find(i => i.src && (i.src.includes('challenges.cloudflare') || i.src.includes('turnstile')));
+                if (!cfIframe) return null;
+                const r = cfIframe.getBoundingClientRect();
+                return { x: r.x, y: r.y, w: r.width, h: r.height };
+              }).catch(() => null);
+              if (iframeRect) {
+                // Click the checkbox area (center-left of the iframe where checkbox is)
+                const clickX = iframeRect.x + 25;
+                const clickY = iframeRect.y + (iframeRect.h / 2);
+                log(`  Clicking CF checkbox at (${Math.round(clickX)}, ${Math.round(clickY)})...`);
+                await page.mouse.move(clickX, clickY);
+                await page.waitForTimeout(300);
+                await page.mouse.click(clickX, clickY);
+                log('  CF checkbox mouse click fired ✅');
+                await page.waitForTimeout(2000);
+                return true;
+              }
+              // Fallback: click iframe body
+              await f.locator('body').click({ timeout: 2000 }).catch(()=>{});
+            } catch(ex) { log('  CF click err: ' + ex.message?.slice(0,40)); }
           }
         }
       } catch(e) { log(`  CF click attempt failed: ${e.message?.slice(0,40)}`); }
@@ -1152,46 +1170,57 @@ async function main() {
       log('Already logged in ✅');
       return true;
     }
-    // Try going directly to discover page — may bypass CF if session cookie valid
-    log('Trying direct discover page navigation (session cookie bypass)...');
+
+    // STRATEGY 1: Try direct discover page (session cookie bypass — no login needed)
+    log('Strategy 1: direct discover page (cookie bypass)...');
     await page.goto('https://app.impact.com/secure/advertiser/discover/radius/fr/partner_discover.ihtml?page=marketplace&slideout_id_type=partner', { waitUntil: 'domcontentloaded', timeout: 20000 }).catch(() => {});
-    await page.waitForTimeout(2000);
-    const directUrl = page.url();
-    if (directUrl.includes('secure/advertiser') && !directUrl.includes('login')) {
-      log('Direct discover page works — session cookie valid ✅');
-      return true;
-    }
-
-    // STEP 1: Clear any CF challenge on current page (up to 120s)
-    await waitForCFClear(120);
-
-    // STEP 2: Navigate directly to app.impact.com login (most reliable path)
-    log('Navigating to app.impact.com/login.user...');
-    await page.goto('https://app.impact.com/login.user', { waitUntil: 'domcontentloaded', timeout: 20000 }).catch(()=>{});
     await page.waitForTimeout(3000);
-
-    // STEP 2b: Clear any CF on login page
-    await waitForCFClear(120);
-
-    // STEP 3: Check what appeared — could be login form, Google, or already logged in
-    const urlAfterNav = page.url();
-    log('URL after nav:', urlAfterNav.substring(0,80));
-
-    // If redirected straight to marketplace (cookie still valid)
-    if (urlAfterNav.includes('secure/advertiser')) {
-      log('Already logged in via cookie ✅');
+    if (page.url().includes('secure/advertiser') && !page.url().includes('login')) {
+      log('Cookie bypass worked ✅');
       return true;
     }
 
-    // STEP 4: Check if we need to fill the login form
-    const loginTitleNow = await page.title().catch(() => '');
-    const loginUrlNow = page.url();
-    log('Current page:', loginTitleNow.substring(0,40), '|', loginUrlNow.substring(0,60));
+    // STRATEGY 2: Navigate to login.user, wait for CF to clear, then fill form in-place
+    // Key insight: DON'T re-navigate after CF clears — fill the form immediately on same page
+    log('Strategy 2: login.user with in-place form fill after CF...');
+    await page.goto('https://app.impact.com/login.user', { waitUntil: 'domcontentloaded', timeout: 20000 }).catch(()=>{});
+    await page.waitForTimeout(2000);
 
-    // Only fill login form if we're on the login page (not already on Google or secure pages)
-    const urlCheck = page.url();
-    if (urlCheck.includes('login.user') || urlCheck.includes('app.impact.com/login')) {
+    // Wait for CF to clear WITH auto-click, then immediately fill form without re-navigating
+    const isCF = async () => {
+      const t = await page.title().catch(() => '');
+      return t.includes('moment') || t.includes('Checking') || t.includes('请稍候');
+    };
+
+    let cfWait = 0;
+    while (await isCF() && cfWait < 180) {
+      await page.waitForTimeout(3000); cfWait += 3;
+      // Try iframe click every 3s
+      try {
+        const frames = page.frames();
+        for (const f of frames) {
+          if (f.url().includes('challenges.cloudflare') || f.url().includes('turnstile')) {
+            await f.locator('body').click({ timeout: 2000 }).catch(()=>{});
+          }
+        }
+      } catch(e) {}
+      if (!(await isCF())) { log(`CF cleared after ${cfWait}s — filling form immediately ✅`); break; }
+      if (cfWait % 30 === 0) log(`  CF waiting ${cfWait}s...`);
+    }
+
+    // Now check if form is present (CF cleared) or we're already logged in
+    const urlNow = page.url();
+    if (urlNow.includes('secure/advertiser')) { log('Redirected to marketplace after CF ✅'); return true; }
+
+    // Try filling the login form IN-PLACE (no navigation)
+    const hasForm = await page.evaluate(() => !!document.querySelector('#j_username, input[name="j_username"]')).catch(() => false);
+    if (hasForm) {
+      log('Login form visible — filling credentials...');
       await fillImpactDirectLogin();
+    } else {
+      // CF didn't clear or form not found — try Google OAuth URL directly
+      log('No form found — trying Google OAuth direct URL...');
+      await page.goto('https://accounts.google.com/o/oauth2/auth', { waitUntil: 'domcontentloaded', timeout: 10000 }).catch(()=>{});
     }
 
     // STEP 5: Handle Google OAuth if it appears
