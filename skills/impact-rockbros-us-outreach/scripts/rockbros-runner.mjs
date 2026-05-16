@@ -13,6 +13,7 @@ import path from 'path';
 import os from 'os';
 
 const CDP_PORT = 9306;
+const CDP_PORTS = [9306, 9307]; // fallback ports
 const VAULT    = `/Users/xiaozuo/Documents/Obsidian/01-Projects`;
 const LEDGER   = path.join(VAULT, 'Impact-Rockbros-US-Outreach-Ledger.md');
 const INTEL_DB = path.join(VAULT, 'Impact-Rockbros-US-Publisher-Intel.md');
@@ -1049,18 +1050,19 @@ async function main() {
   log(`Runner start: target=${TARGET} vault=${VAULT}`);
 
   let browser, page;
-  // Unlimited retry — never give up on Chrome connection
+  // Multi-port connect — tries each port, never gives up
   for (let a = 0; ; a++) {
+    const port = CDP_PORTS[a % CDP_PORTS.length];
     try {
-      browser = await chromium.connectOverCDP(`http://localhost:${CDP_PORT}`);
+      browser = await chromium.connectOverCDP(`http://localhost:${port}`);
       const ctx = browser.contexts()[0];
       page = ctx.pages().find(p => p.url().includes('app.impact.com'));
       if (!page) page = await ctx.newPage();
-      log(`Connected: ${await page.title()}`);
+      log(`Connected on port ${port}: ${await page.title()}`);
       break;
     } catch(e) {
-      const wait = Math.min(30000, 3000 * (a + 1));
-      log(`Connect ${a+1} failed — retrying in ${wait/1000}s: ${e.message.slice(0, 60)}`);
+      const wait = Math.min(15000, 3000 * Math.floor(a / CDP_PORTS.length + 1));
+      log(`Port ${port} connect failed — trying next port in ${wait/1000}s: ${e.message.slice(0, 50)}`);
       await new Promise(r => setTimeout(r, wait));
     }
   }
@@ -1101,10 +1103,13 @@ async function main() {
         const frames = page.frames();
         for (const f of frames) {
           if (f.url().includes('challenges.cloudflare') || f.url().includes('turnstile')) {
-            log('  Found CF iframe — attempting click...');
-            const cb = await f.locator('input[type="checkbox"]').first().catch(() => null);
-            if (cb) { await cb.click({ timeout: 3000 }); log('  Clicked iframe checkbox ✅'); return true; }
-            await f.locator('body').click({ timeout: 2000 }).catch(() => {});
+            log('  Found CF iframe — clicking body...');
+            try {
+              await f.locator('body').click({ timeout: 2000 });
+              log('  Clicked CF iframe body ✅');
+              await page.waitForTimeout(1500);
+              return true;
+            } catch(ex) { log('  iframe body click: ' + ex.message?.slice(0,40)); }
           }
         }
       } catch(e) { log(`  CF click attempt failed: ${e.message?.slice(0,40)}`); }
@@ -1145,6 +1150,15 @@ async function main() {
     // Already logged in to marketplace
     if (curUrl.includes('secure/advertiser') && !curUrl.includes('login')) {
       log('Already logged in ✅');
+      return true;
+    }
+    // Try going directly to discover page — may bypass CF if session cookie valid
+    log('Trying direct discover page navigation (session cookie bypass)...');
+    await page.goto('https://app.impact.com/secure/advertiser/discover/radius/fr/partner_discover.ihtml?page=marketplace&slideout_id_type=partner', { waitUntil: 'domcontentloaded', timeout: 20000 }).catch(() => {});
+    await page.waitForTimeout(2000);
+    const directUrl = page.url();
+    if (directUrl.includes('secure/advertiser') && !directUrl.includes('login')) {
+      log('Direct discover page works — session cookie valid ✅');
       return true;
     }
 
