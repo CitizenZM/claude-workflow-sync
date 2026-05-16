@@ -1069,7 +1069,7 @@ async function main() {
   // Handles: Cloudflare, impact.com homepage, app.impact.com login, Google OAuth, Rockbros account selector
   const { execSync: execSyncLogin } = await import('child_process');
 
-  // CF wait helper — waits indefinitely, auto-retries with fresh navigations
+  // CF wait helper — multi-strategy: auto-click Turnstile checkbox + navigation retries
   async function waitForCFClear(maxSecs = 300) {
     const isCF = async () => {
       const t = await page.title().catch(() => '');
@@ -1078,14 +1078,52 @@ async function main() {
         || u.includes('challenge') || u.includes('cdn-cgi');
     };
     if (!(await isCF())) return;
-    log(`CF challenge detected — auto-waiting up to ${maxSecs}s...`);
+    log(`CF challenge detected — trying auto-click strategies...`);
+
+    // Strategy 1: Try clicking the Turnstile checkbox via all context pages
+    const tryClickTurnstile = async () => {
+      try {
+        const ctx = browser.contexts()[0];
+        const allPages = ctx.pages();
+        for (const p of allPages) {
+          const url = p.url();
+          if (url.includes('challenges.cloudflare') || url.includes('turnstile')) {
+            log('  Found CF Turnstile page — attempting auto-click...');
+            const checkbox = await p.locator('input[type="checkbox"]').first().catch(() => null);
+            if (checkbox) { await checkbox.click({ timeout: 3000 }); log('  Clicked CF checkbox ✅'); return true; }
+            // Try clicking the iframe body
+            await p.mouse.click(150, 150).catch(() => {});
+            await p.waitForTimeout(1000);
+            return false;
+          }
+        }
+        // Try finding CF iframe within main page
+        const frames = page.frames();
+        for (const f of frames) {
+          if (f.url().includes('challenges.cloudflare') || f.url().includes('turnstile')) {
+            log('  Found CF iframe — attempting click...');
+            const cb = await f.locator('input[type="checkbox"]').first().catch(() => null);
+            if (cb) { await cb.click({ timeout: 3000 }); log('  Clicked iframe checkbox ✅'); return true; }
+            await f.locator('body').click({ timeout: 2000 }).catch(() => {});
+          }
+        }
+      } catch(e) { log(`  CF click attempt failed: ${e.message?.slice(0,40)}`); }
+      return false;
+    };
+
     const deadline = Date.now() + maxSecs * 1000;
     let elapsed = 0;
     while (Date.now() < deadline) {
       await page.waitForTimeout(5000);
       elapsed += 5;
       if (!(await isCF())) { log(`CF cleared after ${elapsed}s ✅`); return; }
-      // Every 60s try a fresh navigation to shake the CF challenge
+      // Every 10s try clicking the Turnstile
+      if (elapsed % 10 === 0) {
+        await tryClickTurnstile();
+        await page.waitForTimeout(2000);
+        if (!(await isCF())) { log(`CF cleared via auto-click after ${elapsed}s ✅`); return; }
+      }
+      // Every 60s also try a fresh navigation
       if (elapsed % 60 === 0) {
         log(`  CF still active (${elapsed}s) — retrying navigation...`);
         await page.goto('https://app.impact.com/login.user', { waitUntil: 'domcontentloaded', timeout: 15000 }).catch(() => {});
